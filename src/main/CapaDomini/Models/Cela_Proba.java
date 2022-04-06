@@ -4,12 +4,14 @@ import java.awt.*;
 import java.util.AbstractMap;
 
 abstract class Cela_Proba {
-    private AbstractMap<Integer, Integer> id;
-    private String contingut;
-    private Color color_Fons;
-    private Color color_Lletra;
+    protected static AbstractMap<Integer, Integer> id;
+    protected static String contingut;
+    protected static Color color_Fons;
+    protected static Color color_Lletra;
 
 
+    public Cela_Proba(String contingut) {
+    }
 }
 
 

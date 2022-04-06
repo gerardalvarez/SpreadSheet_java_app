@@ -1,17 +1,19 @@
 package main.CapaDomini.Models;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Numero extends Cela_Proba{
     private BigDecimal resultat;
-    private Boolean es_Decimal;
+    private Boolean arrodonit;
     private Integer num_Decimals;
     private Tipus_Numero tipus;
 
     //Constructor
-    public Numero(BigDecimal resultat, Boolean es_Decimal, Integer num_Decimals, Tipus_Numero tipus) {
-        this.resultat = resultat;
-        this.es_Decimal = es_Decimal;
+    public Numero(String contingut, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
+        super(contingut);
+        this.resultat = new BigDecimal(contingut);
+        this.arrodonit = arrodonit;
         this.num_Decimals = num_Decimals;
         this.tipus = tipus;
     }
@@ -21,16 +23,21 @@ public class Numero extends Cela_Proba{
     public void incrementar () {
         this.resultat = this.resultat.add(new BigDecimal(1));
     }
-    public void decrementar () {
+    public void reduir () {
         this.resultat = this.resultat.add(new BigDecimal(-1));
     }
 
-    public void potencia(int exp) {
+    public void potencia(Integer exp) {
         this.resultat = this.resultat.pow(exp);
     }
 
-    public void arrel(int exp) {
-        this.resultat = this.resultat.pow(1/exp);
+    public void setDecimals() {
+        if(this.arrodonit) {
+            this.resultat = this.resultat.setScale(this.num_Decimals, RoundingMode.HALF_UP);
+        }
+        else {
+            this.resultat = this.resultat.setScale(this.num_Decimals, RoundingMode.DOWN);
+        }
     }
 
 
@@ -40,8 +47,8 @@ public class Numero extends Cela_Proba{
         this.resultat = resultat;
     }
 
-    public void setEs_Decimal(Boolean es_Decimal) {
-        this.es_Decimal = es_Decimal;
+    public void setarrodonit(Boolean arrodonit) {
+        this.arrodonit = arrodonit;
     }
 
     public void setNum_Decimals(Integer num_Decimals) {
@@ -58,8 +65,8 @@ public class Numero extends Cela_Proba{
         return resultat;
     }
 
-    public Boolean getEs_Decimal() {
-        return es_Decimal;
+    public Boolean getarrodonit() {
+        return arrodonit;
     }
 
     public Integer getNum_Decimals() {
