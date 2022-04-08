@@ -1,29 +1,37 @@
 package main.CapaDomini.Models;
 
-public class Full {
-    int ID;
-    String nom;
-    int Num_Columnes;
-    int Num_Files;
+import java.util.ArrayList;
 
-    public Full(int id, String n, int nc, int nf) {
+public class Full {
+    private Integer ID;
+    private String nom;
+    private Integer Num_Columnes;
+    private Integer Num_Files;
+    private Cela[] Cela;
+    private ArrayList<ArrayList<Cela>> Celes;
+
+    //Constructor
+    public Full(Integer id, String n, Integer nc, Integer nf) {
         ID = id;
         nom = n;
         Num_Columnes = nc;
         Num_Files = nf;
     };
 
-    public Full(int id, int nc, int nf) {
+    public Full(Integer id, Integer nc, Integer nf) {
         ID = id;
         nom = null;
         Num_Columnes = nc;
         Num_Files = nf;
     };
 
+    //Setters
     public void SetNom(String n){
+
         this.nom= n;
     };
 
+    //Mètodes
     public void Afegir_Fila() {
     };
 
@@ -54,6 +62,18 @@ public class Full {
     public void Retrocedir() {
     };
 
+    //Getters
+    public Integer getID(){
+        return ID;
+    }
+
+    public Integer getNum_Columnes() {
+        return Num_Columnes;
+    }
+
+    public Integer getNum_Files() {
+        return Num_Files;
+    }
 };
 
 
