@@ -1,6 +1,8 @@
 import main.CapaDomini.Models.Numero;
 import main.CapaDomini.Models.Tipus_Numero;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -47,10 +49,26 @@ public class NumeroTest {
     }
 
     @Test
-    public void ConversioTest() {
-        Numero t = new Numero("56.7891", true, 0, Tipus_Numero.m);
-        t.conversio(Tipus_Numero.km);
-        assertEquals(BigDecimal.valueOf(0.0567891),t.getResultat());
+    public void ArrelTest() {
+        Numero t = new Numero("4", true, 2, Tipus_Numero.numero);
+        t.arrel(2.0);
+        assertEquals(BigDecimal.valueOf(2),t.getResultat());
+    }
+
+    @Test
+    public void AbsTest() {
+        Numero t = new Numero("-4", true, 2, Tipus_Numero.numero);
+        t.valor_absolut();
+        assertEquals(BigDecimal.valueOf(4),t.getResultat());
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/ConversioTesting.csv", numLinesToSkip = 1)
+    public void ConversioTest(String contingut, String tipus, String convertit, String expected) {
+        Numero t = new Numero(contingut, true, 2, Tipus_Numero.valueOf(tipus));
+        t.conversio(Tipus_Numero.valueOf(convertit));
+        t.setDecimals();
+        assertEquals(new BigDecimal(expected),t.getResultat());
     }
 
 }

@@ -34,6 +34,16 @@ public class Numero extends Cela_Proba{
         this.resultat = this.resultat.pow(exp);
     }
 
+    public void valor_absolut() {
+        this.resultat = this.resultat.abs();
+    }
+
+    public void arrel (Double exp) {
+        double b = this.resultat.doubleValue();
+        this.resultat = BigDecimal.valueOf(Math.pow(b, 1/exp));
+        this.resultat = this.resultat.stripTrailingZeros();
+    }
+
     //funció a descartar un cop estigui fet el controller
     public void setDecimals() {
         if(this.arrodonit) {
@@ -63,12 +73,13 @@ public class Numero extends Cela_Proba{
                 switch(convertit) {
                     case celsius:
                         this.resultat = this.resultat.add(BigDecimal.valueOf(-32));
-                        this.resultat = this.resultat.multiply(BigDecimal.valueOf(5/9));
+                        this.resultat = this.resultat.multiply(BigDecimal.valueOf((double) 5/9));
+
                         break;
 
                     case kelvin:
                         this.resultat = this.resultat.add(BigDecimal.valueOf(-32));
-                        this.resultat = this.resultat.multiply(BigDecimal.valueOf(5/9));
+                        this.resultat = this.resultat.multiply(BigDecimal.valueOf((double)5/9));
                         this.resultat = this.resultat.add(BigDecimal.valueOf(273.15));
                         break;
                 }
@@ -397,7 +408,7 @@ public class Numero extends Cela_Proba{
 
             case radiants:
                 if (convertit == Tipus_Numero.graus) {
-                    this.resultat = this.resultat.multiply(BigDecimal.valueOf(180/PI));
+                    this.resultat = this.resultat.multiply(BigDecimal.valueOf((double) 180/PI));
                 }
                 break;
         }
