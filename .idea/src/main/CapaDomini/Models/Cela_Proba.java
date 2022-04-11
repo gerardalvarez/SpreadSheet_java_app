@@ -16,6 +16,7 @@ class Cela_Proba {
     public AbstractMap<Integer, Integer> getId(){
         return this.id;
     }
+
     public String getContingut(){
         return this.contingut;
     }

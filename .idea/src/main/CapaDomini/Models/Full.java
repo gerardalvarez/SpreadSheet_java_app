@@ -79,6 +79,7 @@ public class Full {
     };
 
     public void Modifica_bloc_celes(ArrayList<Cela_Proba> celes) {
+
     };
 
     public String Consultar_cela(AbstractMap<Integer, Integer> id) {
