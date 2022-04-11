@@ -1,5 +1,5 @@
 import main.CapaDomini.Models.Cela;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.AbstractMap;
 

@@ -1,6 +1,6 @@
 import main.CapaDomini.Models.DataValidator;
 import main.CapaDomini.Models.DateValidator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
