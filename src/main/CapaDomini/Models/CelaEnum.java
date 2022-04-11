@@ -1,8 +1,8 @@
 package main.CapaDomini.Models;
 
 public enum CelaEnum {
-        Numero,
-        Temperatura,
-        Distancia,
+        Numeric,
+        Temperature,
+        Distance,
         Data
 }
