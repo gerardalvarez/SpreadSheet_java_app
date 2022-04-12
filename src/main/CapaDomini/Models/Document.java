@@ -2,7 +2,7 @@ package main.CapaDomini.Models;
 
 import java.util.Date;
 import java.util.*;
-import java.time.LocalDateTime;
+
 public class Document {
 
     private String nom;
