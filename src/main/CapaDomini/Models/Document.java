@@ -17,41 +17,55 @@ public class Document {
         fulls=new ArrayList<>();
     }
 
-    public Document(String nom){
+    public Document(String nom) {
         this.nom = nom;
         Data_creacio= new Date();
         Data_ultima_mod =new Date();
         fulls=new ArrayList<>();
     }
 
-
-    public void set_nom (String nom){
-        this.nom = nom;
-
+    public String getNom() {
+        return nom;
     }
 
-    public void afegir_full(Full full){
+    public void setNom (String nom) {
+        this.nom = nom;
+    }
+
+
+    public void afegir_full(Full full) {
+
         fulls.add(full);
     }
 
-    public void elimina_full(String nomfull){
-        for (Full full : fulls ){
-            if (full.get_nom().equals(nomfull)) fulls.remove(full);
+    public void elimina_full(String Nomfull) {
+        for (Full full : fulls ) {
+            if (full.get_nom().equals(Nomfull)) fulls.remove(full);
             break;
         }
     }
 
+    public Date getData_ultima_mod(){
+        return Data_ultima_mod;
+    }
+
+    public Date getData_creacio() {
+        return Data_creacio;
+    }
+
     public void setData_ultima_mod(Date data_ultima_mod) {
+
         Data_ultima_mod = data_ultima_mod;
     }
 
     public ArrayList<Full> getFulls() {
+
         return fulls;
     }
 
-    public Full get_full(String nomfull) {
+    public Full get_full(String Nomfull) {
         for (Full full : fulls ) {
-            if (full.get_nom().equals(nomfull)) return full;
+            if (full.get_nom().equals(Nomfull)) return full;
         }
         return null;
     }
