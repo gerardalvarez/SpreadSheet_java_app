@@ -95,14 +95,15 @@ public class Full {
         if (nc < this.Num_Columnes-1) DecrementarIndexCol(nc);
     };
 
-    public void Ordenar_Fulla() {
+    public void Ordenar_Fulla(ArrayList<Cela_Proba> celes, String cond) {
+        //Swaps segons la cond i per contingut de la cela
     };
 
     public void Esborrar_Celes(ArrayList<Cela_Proba> celes) {
         Integer i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
-            this.Celes.remove(idc);
+            this.Celes.get(idc).setContingut(null);
             ++i;
         }
     };
@@ -120,19 +121,19 @@ public class Full {
     };
 
     //Métodes Privats
-    public void IncrementarIndexFila(Integer nf){
+    private void IncrementarIndexFila(Integer nf){
 
     };
 
-    public void IncrementarIndexCol(Integer nc){
+    private void IncrementarIndexCol(Integer nc){
 
     };
 
-    public void DecrementarIndexFila(Integer nf){
+    private void DecrementarIndexFila(Integer nf){
 
     };
 
-    public void DecrementarIndexCol(Integer nc){
+    private void DecrementarIndexCol(Integer nc){
 
     };
 
