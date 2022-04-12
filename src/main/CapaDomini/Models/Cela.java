@@ -5,12 +5,12 @@ import java.util.AbstractMap;
 
 public class Cela {
     //VARIABLES
-    private AbstractMap.SimpleEntry<Integer, Integer> id;
-    private String contingut;
-    private Color colorFons = new Color(255,255,255);
-    private Color colorLletra = new Color(0);
-    private CelaEnum designedType; // En un futur fer enum
-    private String type;
+    protected static AbstractMap.SimpleEntry<Integer, Integer> id;
+    protected static String contingut;
+    protected static Color colorFons = new Color(255,255,255);
+    protected static Color colorLletra = new Color(0);
+    protected static CelaEnum designedType; // En un futur fer enum
+    protected static String type;
 
     //CREADORA
     public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
@@ -64,7 +64,7 @@ public class Cela {
             String dd = strData.substring(0,2);
             String monthText = strData.substring(2,size-4);
 
-            String MM = getMonth(monthText);
+            String MM = PublicFuntions.monthToData(monthText);
             if(MM.equals("null"))return false;
 
             String yyyy = strData.substring(size-4);
@@ -74,34 +74,5 @@ public class Cela {
         }
     }
 
-    private String getMonth(String monthText){
-        switch (monthText) {
-            case " de gener del ":
-                return "01";
-            case " de febrer del ":
-                return "02";
-            case " de març del ":
-                return "03";
-            case " de abril del ":
-                return "04";
-            case " de maig del ":
-                return "05";
-            case " de juny del ":
-                return "06";
-            case " de juliol del ":
-                return "07";
-            case " de agost del ":
-                return "08";
-            case " de setembre del ":
-                return "09";
-            case " de octubre del ":
-                return "10";
-            case " de novembre del ":
-                return "11";
-            case " de desembre del ":
-                return "12";
-        }
-        return "null";
-    }
 }
 
