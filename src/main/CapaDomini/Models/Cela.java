@@ -5,7 +5,7 @@ import java.util.AbstractMap;
 
 public class Cela {
     //VARIABLES
-    protected static AbstractMap.SimpleEntry<Integer, Integer> id;
+    protected static AbstractMap.SimpleEntry<String , Integer> id;
     protected static String contingut;
     protected static Color colorFons = new Color(255,255,255);
     protected static Color colorLletra = new Color(0);
@@ -13,7 +13,7 @@ public class Cela {
     protected static String type;
 
     //CREADORA
-    public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
+    public Cela(AbstractMap.SimpleEntry<String, Integer> id, String contingut) {
         this.id = id;
         this.contingut = contingut;
         this.type = calculaTipus();
@@ -23,8 +23,8 @@ public class Cela {
     //GETTERS AND SETTERS
     public CelaEnum getDesignedType() {return designedType;}
     public void setDesignedType(CelaEnum designedType) {this.designedType = designedType;}
-    public AbstractMap.SimpleEntry<Integer, Integer> getId() {return id;}
-    public void setId(AbstractMap.SimpleEntry<Integer, Integer> id) {this.id = id;}
+    public AbstractMap.SimpleEntry<String, Integer> getId() {return id;}
+    public void setId(AbstractMap.SimpleEntry<String, Integer> id) {this.id = id;}
     public String getContingut() {return contingut;}
     public void setContingut(String contingut) {this.contingut = contingut;}
     public Color getColorFons() {return colorFons;}
