@@ -21,6 +21,7 @@ class Cela_Proba {
     public String getContingut(){
         return this.contingut;
     }
+
     public void setId(AbstractMap.SimpleEntry<Integer, Integer> idc){
         this.id= idc;
     }

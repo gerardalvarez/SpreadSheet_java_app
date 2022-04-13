@@ -10,7 +10,8 @@ public class Full {
     private Integer Num_Columnes;
     private Integer Num_Files;
     private Cela_Proba[] Cela;
-    private HashMap<AbstractMap.SimpleEntry<String,Integer>, Cela_Proba> Celes;
+    private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela_Proba> Celes;
+    private Cela_Proba CelaULT;
 
     //Constructor
     public Full(Integer id, String n, Integer nc, Integer nf) {
@@ -18,14 +19,12 @@ public class Full {
         this.nom = n;
         this.Num_Columnes = nc;
         this.Num_Files = nf;
-        String f= "A";
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
-                AbstractMap.SimpleEntry<String, Integer> idc = new AbstractMap.SimpleEntry<String, Integer>(f, j);
+                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, j);
                 Cela_Proba ce = new Cela_Proba(idc, null);
                 this.Celes.put(idc, ce);
             }
-            f= f+1;
         }
     };
 
@@ -50,6 +49,7 @@ public class Full {
 
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
+        if (nf <= this.Num_Files-1) IncrementarIndexFila(nf);
         ++this.Num_Files;
         Integer i= 0;
         while (i < this.Num_Columnes) {
@@ -58,10 +58,10 @@ public class Full {
             this.Celes.put(idc,ce);
             ++i;
         }
-        if (nf < this.Num_Files-1) IncrementarIndexFila(nf);
     };
 
     public void Afegir_Columna(Integer nc) {
+        if (nc <= this.Num_Columnes-1) IncrementarIndexCol(nc);
         ++this.Num_Columnes;
         Integer i= 0;
         while (i < this.Num_Files) {
@@ -70,10 +70,10 @@ public class Full {
             this.Celes.put(idc,ce);
             ++i;
         }
-        if (nc < this.Num_Columnes-1) IncrementarIndexCol(nc);
     };
 
     public void Eliminar_Fila(Integer nf) {
+        if (nf <= this.Num_Files-1) DecrementarIndexFila(nf);
         --this.Num_Files;
         Integer i= 0;
         while (i < this.Num_Columnes) {
@@ -81,23 +81,34 @@ public class Full {
             this.Celes.remove(idc);
             ++i;
         }
-        if (nf < this.Num_Files-1) DecrementarIndexFila(nf);
     };
 
     public void Eliminar_Columna(Integer nc) {
+        if (nc <= this.Num_Columnes-1) DecrementarIndexCol(nc);
         --this.Num_Columnes;
         Integer i= 0;
-        while (i < this.Num_Columnes) {
+        while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
             this.Celes.remove(idc);
             ++i;
         }
-        if (nc < this.Num_Columnes-1) DecrementarIndexCol(nc);
     };
 
+/*
     public void Ordenar_Fulla(ArrayList<Cela_Proba> celes, String cond) {
         //Swaps segons la cond i per contingut de la cela
+        if (cond == ">"){
+            for (int i=1; i < celes.size(); ++i){
+                if (celes.get(i-1).getContingut() < celes.get(i).getContingut()){
+                    celes.get(i)
+                }
+            }
+        }
+        else if (cond == "<"){
+
+        }
     };
+*/
 
     public void Esborrar_Celes(ArrayList<Cela_Proba> celes) {
         Integer i= 0;
@@ -109,32 +120,70 @@ public class Full {
     };
 
     public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        //Controller
+        this.CelaULT= this.Celes.get(id);
     };
 
     public void Modifica_bloc_celes(ArrayList<Cela_Proba> celes) {
+        //Controller
     };
 
-    public void Consultar_cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public String Consultar_cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return this.Celes.get(id).getContingut();
     };
 
     public void Retrocedir() {
+        AbstractMap.SimpleEntry<Integer, Integer> idc= this.CelaULT.getId();
+        this.Celes.replace(idc, this.CelaULT);
     };
 
     //Métodes Privats
     private void IncrementarIndexFila(Integer nf){
-
+        int i= nf;
+        while (i < this.Num_Files) {
+            for (int j= 0; j < this.Num_Columnes; ++j) {
+                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,j);
+                AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(i+1,j);
+                this.Celes.get(idc).setId(idc2);
+            }
+            ++i;
+        }
     };
 
     private void IncrementarIndexCol(Integer nc){
-
+        int i= nc;
+        while (i < this.Num_Columnes) {
+            for (int j= 0; j < this.Num_Files; ++j) {
+                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(j,i);
+                AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(j,i+1);
+                this.Celes.get(idc).setId(idc2);
+            }
+            ++i;
+        }
     };
 
     private void DecrementarIndexFila(Integer nf){
-
+        int i= nf;
+        while (i < this.Num_Files) {
+            for (int j= 0; j < this.Num_Columnes; ++j) {
+                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,j);
+                AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(i-1,j);
+                this.Celes.get(idc).setId(idc2);
+            }
+            ++i;
+        }
     };
 
     private void DecrementarIndexCol(Integer nc){
-
+        int i= nc;
+        while (i < this.Num_Columnes) {
+            for (int j= 0; j < this.Num_Files; ++j) {
+                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(j,i);
+                AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(j,i-1);
+                this.Celes.get(idc).setId(idc2);
+            }
+            ++i;
+        }
     };
 
     //Getters
