@@ -9,9 +9,9 @@ public class Full {
     private String nom;
     private Integer Num_Columnes;
     private Integer Num_Files;
-    private Cela_Proba[] Cela;
-    private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela_Proba> Celes;
-    private Cela_Proba CelaULT;
+    private Cela[] Cel;
+    private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
+    private Cela CelaULT;
 
     //Constructor
     public Full(Integer id, String n, Integer nc, Integer nf) {
@@ -22,7 +22,7 @@ public class Full {
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, j);
-                Cela_Proba ce = new Cela_Proba(idc, null);
+                Cela ce = new Cela(idc, null);
                 this.Celes.put(idc, ce);
             }
         }
@@ -36,7 +36,7 @@ public class Full {
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, j);
-                Cela_Proba ce = new Cela_Proba(idc, null);
+                Cela ce = new Cela(idc, null);
                 this.Celes.put(idc, ce);
             }
         }
@@ -54,7 +54,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Columnes) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(nf,i);
-            Cela_Proba ce = new Cela_Proba(idc, null);
+            Cela ce = new Cela(idc, null);
             this.Celes.put(idc,ce);
             ++i;
         }
@@ -66,7 +66,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
-            Cela_Proba ce = new Cela_Proba(idc, null);
+            Cela ce = new Cela(idc, null);
             this.Celes.put(idc,ce);
             ++i;
         }
@@ -94,9 +94,8 @@ public class Full {
         }
     };
 
-/*
-    public void Ordenar_Fulla(ArrayList<Cela_Proba> celes, String cond) {
-        //Swaps segons la cond i per contingut de la cela
+    /*
+    public void Ordenar_Fulla(ArrayList<Cela> celes, String cond) {
         if (cond == ">"){
             for (int i=1; i < celes.size(); ++i){
                 if (celes.get(i-1).getContingut() < celes.get(i).getContingut()){
@@ -108,9 +107,8 @@ public class Full {
 
         }
     };
-*/
-
-    public void Esborrar_Celes(ArrayList<Cela_Proba> celes) {
+    */
+    public void Esborrar_Celes(ArrayList<Cela> celes) {
         Integer i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
