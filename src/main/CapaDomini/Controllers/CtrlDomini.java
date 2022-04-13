@@ -13,6 +13,15 @@ public class CtrlDomini {
 
     private HashMap<Integer, Numero> Document;
 
+    private static CtrlDomini singletonObject;
+
+    public static CtrlDomini getInstance() {
+        if (singletonObject == null)
+            singletonObject = new CtrlDomini() {
+            };
+        return singletonObject;
+    }
+
     public CtrlDomini() {
         InicialitzarCtrlDomini();
     }
