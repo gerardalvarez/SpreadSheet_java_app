@@ -11,7 +11,7 @@ public class Full {
     private Integer Num_Files;
     private Cela[] Cel;
     private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
-    private Cela CelaULT;
+    private ArrayList<Cela> CelaULT;
 
     //Constructor
     public Full(Integer id, String n, Integer nc, Integer nf) {
@@ -19,13 +19,15 @@ public class Full {
         this.nom = n;
         this.Num_Columnes = nc;
         this.Num_Files = nf;
+        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> cel= new HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela>();
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, j);
-                Cela ce = new Cela(idc, null);
-                this.Celes.put(idc, ce);
+                Cela ce = new Cela(idc, ".");
+                cel.put(idc, ce);
             }
         }
+        this.Celes= cel;
     };
 
     public Full(Integer id, Integer nc, Integer nf) {
@@ -33,13 +35,15 @@ public class Full {
         this.nom = null;
         this.Num_Columnes = nc;
         this.Num_Files = nf;
+        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> cel= new HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela>();
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, j);
-                Cela ce = new Cela(idc, null);
-                this.Celes.put(idc, ce);
+                Cela ce = new Cela(idc, ".");
+                cel.put(idc, ce);
             }
         }
+        this.Celes= cel;
     };
 
     //Setters
@@ -49,12 +53,12 @@ public class Full {
 
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
-        if (nf <= this.Num_Files-1) IncrementarIndexFila(nf);
+        if (nf <= this.Num_Files-1) //IncrementarIndexFila(nf);
         ++this.Num_Files;
         Integer i= 0;
         while (i < this.Num_Columnes) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(nf,i);
-            Cela ce = new Cela(idc, null);
+            Cela ce = new Cela(idc, ".");
             this.Celes.put(idc,ce);
             ++i;
         }
@@ -66,7 +70,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
-            Cela ce = new Cela(idc, null);
+            Cela ce = new Cela(idc, ".");
             this.Celes.put(idc,ce);
             ++i;
         }
@@ -94,20 +98,10 @@ public class Full {
         }
     };
 
-    /*
     public void Ordenar_Fulla(ArrayList<Cela> celes, String cond) {
-        if (cond == ">"){
-            for (int i=1; i < celes.size(); ++i){
-                if (celes.get(i-1).getContingut() < celes.get(i).getContingut()){
-                    celes.get(i)
-                }
-            }
-        }
-        else if (cond == "<"){
-
-        }
+        //enviar a controller la array + la cond
     };
-    */
+
     public void Esborrar_Celes(ArrayList<Cela> celes) {
         Integer i= 0;
         while (i < celes.size()){
@@ -119,10 +113,12 @@ public class Full {
 
     public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
         //Controller
-        this.CelaULT= this.Celes.get(id);
+
+        Cela c= new Cela(id, this.Celes.get(id).getContingut());
+        this.CelaULT.add(c);
     };
 
-    public void Modifica_bloc_celes(ArrayList<Cela_Proba> celes) {
+    public void Modifica_bloc_celes(ArrayList<Cela> celes) {
         //Controller
     };
 
@@ -130,9 +126,11 @@ public class Full {
         return this.Celes.get(id).getContingut();
     };
 
-    public void Retrocedir() {
-        AbstractMap.SimpleEntry<Integer, Integer> idc= this.CelaULT.getId();
-        this.Celes.replace(idc, this.CelaULT);
+    public void Retrocedir(ArrayList<Cela> celes) {
+        for (int i= 0; i < celes.size(); ++i){
+            this.Celes.remove(celes.get(i).getId());
+            this.Celes.put(celes.get(i).getId(), celes.get(i));
+        }
     };
 
     //Métodes Privats
