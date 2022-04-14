@@ -106,7 +106,7 @@ public class Full {
         Integer i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
-            this.Celes.get(idc).setContingut(null);
+            this.Celes.get(idc).setContingut("nocont");
             ++i;
         }
     };
@@ -122,14 +122,15 @@ public class Full {
         //Controller
     };
 
-    public String Consultar_cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
-        return this.Celes.get(id).getContingut();
+    public Cela Consultar_cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return this.Celes.get(id);
     };
 
     public void Retrocedir(ArrayList<Cela> celes) {
         for (int i= 0; i < celes.size(); ++i){
             this.Celes.remove(celes.get(i).getId());
             this.Celes.put(celes.get(i).getId(), celes.get(i));
+            celes.remove(i);
         }
     };
 

@@ -1,5 +1,9 @@
+import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.Full;
 import org.junit.jupiter.api.Test;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,5 +31,14 @@ public class FullTest {
         Full f= new Full(1, 13,8);
         f.Eliminar_Columna(3);
         assertEquals(12, f.getNum_Columnes());
+    }
+    @Test
+    public void Esborra_cont(){
+        Full f= new Full(1, 13,8);
+        AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(4,5);
+        ArrayList<Cela> c= new ArrayList<Cela>();
+        c.add(f.Consultar_cela(idc));
+        f.Esborrar_Celes(c);
+        assertEquals("nocont", f.Consultar_cela(idc).getContingut());
     }
 }
