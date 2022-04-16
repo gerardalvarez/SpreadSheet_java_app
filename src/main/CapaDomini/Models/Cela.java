@@ -3,14 +3,14 @@ package main.CapaDomini.Models;
 import java.awt.*;
 import java.util.AbstractMap;
 
-public class Cela {
+public abstract class Cela {
     //VARIABLES
-    protected static AbstractMap.SimpleEntry<String , Integer> id;
-    protected static String contingut;
-    protected static Color colorFons = new Color(255,255,255);
-    protected static Color colorLletra = new Color(0);
-    protected static CelaEnum designedType; // En un futur fer enum
-    protected static String type;
+    protected  AbstractMap.SimpleEntry<String , Integer> id;
+    protected  String contingut;
+    protected  Color colorFons = new Color(255,255,255);
+    protected  Color colorLletra = new Color(0);
+    protected  CelaEnum designedType; // En un futur fer enum
+    protected  String type;
 
     //CREADORA
     public Cela(AbstractMap.SimpleEntry<String, Integer> id, String contingut) {
@@ -37,6 +37,7 @@ public class Cela {
     //PUBLIC FUNCTIONS
     public String calculaTipus(){
         String Tipus = "text";
+        if(contingut == null)return Tipus;
         if(isNumerical(contingut))Tipus = "numeric";
         else if(isData(contingut))Tipus = "date";
         return Tipus;
