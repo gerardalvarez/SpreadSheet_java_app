@@ -8,7 +8,7 @@ public class Document {
     private String nom;
     private final Date Data_creacio;
     private Date Data_ultima_mod;
-    private ArrayList<Full> fulls;
+    private final ArrayList<Full> fulls;
 
     public Document(){
         this.nom = "Untiled_doc";
@@ -40,7 +40,7 @@ public class Document {
 
     public void elimina_full(String Nomfull) {
         for (Full full : fulls ) {
-            if (full.get_nom().equals(Nomfull)) fulls.remove(full);
+            if (full.getNom().equals(Nomfull)) fulls.remove(full);
             break;
         }
     }
@@ -65,17 +65,8 @@ public class Document {
 
     public Full get_full(String Nomfull) {
         for (Full full : fulls ) {
-            if (full.get_nom().equals(Nomfull)) return full;
+            if (full.getNom().equals(Nomfull)) return full;
         }
         return null;
-    }
-
-
-    static private class Full {
-        private String nom="x";
-        Full(){}
-        public String get_nom() {
-            return  this.nom;
-        }
     }
 }

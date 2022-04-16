@@ -16,7 +16,7 @@ public abstract class Cela {
     public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
         this.id = id;
         this.contingut = contingut;
-        this.type = calculaTipus();
+        type = calculaTipus();
     }
 
 

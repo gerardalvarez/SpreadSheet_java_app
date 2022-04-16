@@ -1,46 +1,47 @@
 package main.CapaDomini.Models;
 
+import main.CapaPresentacio.inout;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Full {
-    private Integer ID;
+    private final Integer ID;
     private String nom;
     private Integer Num_Columnes;
     private Integer Num_Files;
     private Cela[] Cel;
-    private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
+    private  HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
     private ArrayList<Cela> CelaULT;
 
     //Constructor
     public Full(Integer id, String n, Integer nc, Integer nf) {
+        Celes = new HashMap<>();
         this.ID = id;
         this.nom = n;
         this.Num_Columnes = nc;
         this.Num_Files = nf;
-        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> cel= new HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela>();
+        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> cel= new HashMap<>();
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
-                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, j);
-                Cela ce = new Cela(idc, ".");
-                cel.put(idc, ce);
+                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(i, j);
+                Celes.put(idc, new TextCela(idc, "."));
             }
+
         }
-        this.Celes= cel;
     };
 
     public Full(Integer id, Integer nc, Integer nf) {
         this.ID = id;
-        this.nom = null;
+        this.nom = "Full sense nom";
         this.Num_Columnes = nc;
         this.Num_Files = nf;
-        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> cel= new HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela>();
+        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> cel= new HashMap<>();
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
-                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, j);
-                Cela ce = new Cela(idc, ".");
-                cel.put(idc, ce);
+                AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(i, j);
+                cel.put(idc, new TextCela(idc, "."));
             }
         }
         this.Celes= cel;
@@ -58,8 +59,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Columnes) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(nf,i);
-            Cela ce = new Cela(idc, ".");
-            this.Celes.put(idc,ce);
+            this.Celes.put(idc, new TextCela(idc, "."));
             ++i;
         }
     };
@@ -70,8 +70,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
-            Cela ce = new Cela(idc, ".");
-            this.Celes.put(idc,ce);
+            this.Celes.put(idc, new TextCela(idc, "."));
             ++i;
         }
     };
@@ -103,7 +102,7 @@ public class Full {
     };
 
     public void Esborrar_Celes(ArrayList<Cela> celes) {
-        Integer i= 0;
+        int i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
             this.Celes.get(idc).setContingut("nocont");
@@ -111,12 +110,18 @@ public class Full {
         }
     };
 
-    public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
-        //Controller
+    public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
+        Cela c = this.Celes.get(id);
+        c.setContingut(contingut);
 
-        Cela c= new Cela(id, this.Celes.get(id).getContingut());
-        this.CelaULT.add(c);
+        //S'ha de guardar la cela a algun lloc
     };
+
+    public void Modifica_Tipus_Numeric(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        String contingut = this.Celes.get(id).getContingut();
+        this.Celes.replace(id, new Numero(id, contingut, true, 2, Tipus_Numero.numero));
+        this.Celes.get(id).setType("numeric");
+    }
 
     public void Modifica_bloc_celes(ArrayList<Cela> celes) {
         //Controller
@@ -133,6 +138,10 @@ public class Full {
             celes.remove(i);
         }
     };
+
+    public HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Cela> getCeles() throws Exception {
+        return Celes;
+    }
 
     //Métodes Privats
     private void IncrementarIndexFila(Integer nf){

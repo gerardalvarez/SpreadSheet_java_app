@@ -2,18 +2,19 @@ package main.CapaDomini.Models;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.AbstractMap;
 
 import static java.lang.Math.PI;
 
-public class Numero extends Cela_Proba{
+public class Numero extends Cela{
     private BigDecimal resultat;
     private Boolean arrodonit;
     private Integer num_Decimals;
     private Tipus_Numero tipus;
 
     //Constructor
-    public Numero(String contingut, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
-        super(contingut);
+    public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
+        super(id, contingut);
         this.resultat = new BigDecimal(contingut);
         this.arrodonit = arrodonit;
         this.num_Decimals = num_Decimals;

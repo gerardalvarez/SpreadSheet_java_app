@@ -2,37 +2,50 @@ package main.CapaPresentacio;
 
 import main.CapaDomini.Controllers.CtrlDomini;
 
+
 import java.math.BigDecimal;
+import java.util.AbstractMap;
+import java.util.ArrayList;
 
 public class CtrlPresentacio {
 
-    private final CtrlDomini ControladorDomini;
+    private final CtrlDomini Cd;
     private final VistaTerminal Vp;
     private static inout io;
 
 
 
-    public CtrlPresentacio() {
-        ControladorDomini = new CtrlDomini();
+    public CtrlPresentacio() throws Exception {
+        Cd = new CtrlDomini();
         Vp = new VistaTerminal(this);
         io = new inout();
     }
 
-    public void InsertarNumero() throws Exception {
-
-        String numero = Vp.demanarNumero();
-        Integer decimals = Vp.demanarDecimals();
-        String tipus = Vp.demanarTipus();
-        ControladorDomini.InsertarNumero(numero, decimals, tipus);
-        io.writeln();
+    public ArrayList<String> MostrarLlista() throws Exception {
+        return Cd.Mostrar();
     }
 
-    public void MostrarResultat() throws Exception {
-        Integer numero = Vp.demanarId();
-        BigDecimal b = ControladorDomini.getResultat(numero);
-        String s = b.toString();
-        io.writeln(s);
-        io.writeln();
+    public int GetFiles() {
+        return Cd.getNum_Files();
     }
 
+    public int GetColumnes() {
+        return Cd.getNum_Columnes();
+    }
+
+    public void ModificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
+        Cd.modificarContingutCela(doc, full, id, contingut);
+    }
+
+    public Boolean ComprovarTipusCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.ComprovarTipus(doc, full, id);
+    }
+
+    public String GetTipusCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.GetTipusCela(doc, full, id);
+    }
+
+    public void CanviarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) {
+        Cd.CanviarTipusCela(doc, full, id, nou_type);
+    }
 }
