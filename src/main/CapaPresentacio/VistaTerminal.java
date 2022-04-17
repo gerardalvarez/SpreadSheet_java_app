@@ -1,8 +1,8 @@
 package main.CapaPresentacio;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Iterator;
+import main.CapaDomini.Models.Document;
+
+import java.util.*;
 
 public class VistaTerminal {
 
@@ -38,8 +38,14 @@ public class VistaTerminal {
         switch (s) {
             case 1:
                 String doc = ObtenirNomDocument(); //la id del document de moment
-                MostrarOpcionsDocument();
-                DemanarOpcionsDocument(doc);
+                if(Objects.equals(doc, "null")){
+                    MostrarMenu();
+                    DemanarOpcionsMenu();
+                }
+                else {
+                    MostrarOpcionsDocument();
+                    DemanarOpcionsDocument(doc);
+                }
                 break;
 
             default:
@@ -149,9 +155,26 @@ public class VistaTerminal {
     }
 
     private String ObtenirNomDocument() throws Exception {
-        io.writeln("Indiqui el nom del document sobre el qual vol treballar");
-        io.readnext(); //Introduir la id de moment
-        return io.readline();
+        ArrayList<String> Docs = Cp.GetDocs();
+        if(Docs.size() == 0){
+            io.writeln("ERROR: No hi ha Documents Guardats");
+            return "null";
+        }
+        else{
+            io.writeln("Indiqui el identificador del document sobre el qual vol treballar");
+            for(int i = 0; i < Docs.size(); ++i){
+                io.writeln(Docs.get(i));
+            }
+            io.readnext();
+            String a = io.readline(); //Introduir la id de moment
+            while(!Cp.GetIdDocuments().contains(a)){
+                io.writeln("ERROR: El Document seleccionat no existeix");
+                io.writeln("Introdueix un identificador valid");
+                io.readnext();
+                a =  io.readline();
+            }
+            return a;
+        }
     }
 
     private String ObtenirNomFull() throws Exception {

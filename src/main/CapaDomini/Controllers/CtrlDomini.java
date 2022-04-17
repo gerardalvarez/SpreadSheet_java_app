@@ -9,6 +9,7 @@ import java.math.RoundingMode;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CtrlDomini {
 
@@ -87,5 +88,23 @@ public class CtrlDomini {
         if (nou_type.equals("numeric")) {
             f.Modifica_Tipus_Numeric(id);
         }
+    }
+
+    public ArrayList<String> GetDocuments(){
+        ArrayList<String> temp = new ArrayList<>();
+        for (Map.Entry<Integer, Document> entry : Documents.entrySet()) {
+            String s = ( entry.getKey() + ". " + entry.getValue().getNom());
+            temp.add(s);
+        }
+        return temp;
+    }
+
+    public ArrayList<String> GetIdDoc(){
+        ArrayList<String> temp = new ArrayList<>();
+        for (Map.Entry<Integer, Document> entry : Documents.entrySet()) {
+            String s = (String.valueOf(entry.getKey()));
+            temp.add(s);
+        }
+        return temp;
     }
 }

@@ -51,7 +51,7 @@ public class Full {
     public void SetNom(String n){
         this.nom= n;
     };
-
+    public String getNom(){return this.nom;}
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
         if (nf <= this.Num_Files-1) //IncrementarIndexFila(nf);

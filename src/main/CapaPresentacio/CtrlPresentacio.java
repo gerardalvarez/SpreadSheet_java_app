@@ -1,11 +1,13 @@
 package main.CapaPresentacio;
 
 import main.CapaDomini.Controllers.CtrlDomini;
+import main.CapaDomini.Models.Document;
 
 
 import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CtrlPresentacio {
 
@@ -31,6 +33,14 @@ public class CtrlPresentacio {
 
     public int GetColumnes() {
         return Cd.getNum_Columnes();
+    }
+
+    public ArrayList<String> GetDocs(){
+        return Cd.GetDocuments();
+    }
+
+    public ArrayList<String> GetIdDocuments(){
+        return Cd.GetIdDoc();
     }
 
     public void ModificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
