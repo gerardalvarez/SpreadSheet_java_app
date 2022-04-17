@@ -70,6 +70,7 @@ public class VistaTerminal {
         io.writeln("1. Seleccionar Full");
         io.writeln("2. Afegir Full");
         io.writeln("3. Eliminar Full");
+        io.writeln("4. Canviar Nom Document");
         io.writeln();
     }
 
@@ -102,6 +103,14 @@ public class VistaTerminal {
                 io.writeln("Document Eliminat amb Exit");
                 MostrarOpcionsDocument();
                 DemanarOpcionsDocument(doc);
+                break;
+            case 4:
+                String nouDoc = ObtenirNameDocument(doc);
+                Cp.NouNomDoc(nouDoc, doc);
+                io.writeln("Nom del Document Canviat amb Exit");
+                MostrarOpcionsDocument();
+                DemanarOpcionsDocument(nouDoc);
+                break;
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
                 DemanarOpcionsDocument(doc);
@@ -116,7 +125,8 @@ public class VistaTerminal {
         io.writeln("4. Afegir Columna");
         io.writeln("5. Eliminar Fila");
         io.writeln("6. Veure Full");
-        io.writeln("Esborrar Celes");
+        io.writeln("7. Esborrar Celes");
+        io.writeln("8. Canviar Nom Full");
         io.writeln();
     }
 
@@ -134,6 +144,13 @@ public class VistaTerminal {
                 ImprimirFull(doc, full);
                 MostrarOpcionsFull();
                 DemanarOpcionsFull(doc, full);
+                break;
+            case 8:
+                String nouFull = ObtenirNameFull(doc, full);
+                Cp.NouNomFull (doc, full, nouFull);
+                io.writeln("Nom del Full Canviat amb Exit");
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc , nouFull);
 
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
@@ -409,6 +426,22 @@ public class VistaTerminal {
         }
         return a;
     }
+    private String ObtenirNameDocument(String Doc) throws Exception {
+        ArrayList<String> Docs = Cp.GetDocs();
+        io.writeln("El nom del Document existent es:");
+        io.writeln("1. "+ Doc);
+        io.writeln("Escriu el nom del nou document:");
+
+        io.readnext();
+        String a = io.readline(); //Introduir la id de moment
+        while(Docs.contains(a)){
+            io.writeln("ERROR: El Nom ja pertany a un Document Actual");
+            io.writeln("Introdueix un Nom valid");
+            io.readnext();
+            a =  io.readline();
+        }
+        return a;
+    }
 
     private String ObtenirDocumentEliminar() throws Exception {
         ArrayList<String> Docs = Cp.GetDocs();
@@ -494,8 +527,23 @@ public class VistaTerminal {
             col =  io.readint();
         }
         Columnes = col;
-        return a;    
-        
+        return a;
+    }
+
+    private String ObtenirNameFull(String doc, String full) throws Exception {
+        ArrayList<String> fulls = Cp.GetFulls(doc);
+        io.writeln("El nom del Full existent es:");
+        io.writeln("1. " + full);
+
+        io.writeln("Escriu el nom del nou full:");
+        io.readnext();
+        String a = io.readline(); //Introduir la id de moment
+        while(fulls.contains(a)){
+            io.writeln("ERROR: El Full seleccionat ja existeix. Introdueix un nom valid:");
+            io.readnext();
+            a =  io.readline();
+        }
+        return a;
     }
 
     private String ObtenirFullEliminar(String doc) throws Exception {

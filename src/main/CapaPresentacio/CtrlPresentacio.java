@@ -35,6 +35,10 @@ public class CtrlPresentacio {
         Cd.EliminarDocument(elimDoc);
     }
 
+    public void NouNomDoc(String doc, String antic){
+        Cd.CanviarNomDoc(doc, antic);
+    }
+
     public ArrayList<String> GetFulls(String doc){
         return Cd.GetFullDoc(doc);
     }
@@ -56,6 +60,10 @@ public class CtrlPresentacio {
     }
     public void EliminarFull(String doc, String elimFull){
         Cd.eliminarFull(doc,elimFull);
+    }
+
+    public void NouNomFull(String doc, String antic, String nou){
+        Cd.CanviarNomFull(doc, antic, nou);
     }
     //CELA
     public void ModificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {

@@ -55,11 +55,21 @@ public class CtrlDomini {
         Documents.get(doc).afegir_full(nou);
     }
 
+    public void CanviarNomDoc(String nom, String antic){
+        Document a = Documents.get(antic);
+        a.setNom(nom);
+        Documents.remove(antic);
+        Documents.put(nom, a);
+    }
+
     public void EliminarDocument(String doc){
         Documents.remove(doc);
     }
 
     //FULLS
+    public void CanviarNomFull(String doc, String antic, String nou){
+        Documents.get(doc).get_full(antic).SetNom(nou);
+    }
     public ArrayList<String> GetFullDoc(String doc){
         ArrayList<String> temp = new ArrayList<>();
         ArrayList<Full> fulls = Documents.get(doc).getFulls();
