@@ -13,11 +13,12 @@ import java.util.Map;
 
 public class CtrlDomini {
 
-    private HashMap<Integer, Document> Documents;
+    private HashMap<String, Document> Documents;
     private inout io;
 
     private static CtrlDomini singletonObject;
 
+    //CONTROLADOR
     public static CtrlDomini getInstance() throws Exception {
         if (singletonObject == null)
             singletonObject = new CtrlDomini() {
@@ -31,10 +32,51 @@ public class CtrlDomini {
 
     private void InicialitzarCtrlDomini() throws Exception {
         Documents = new HashMap<>();
-        Documents.put(1,new Document("Doc 1"));
+        Documents.put("Doc 1",new Document("Doc 1"));
         Full nou = new Full(1,"Full 1", 20, 20);
-        Documents.get(1).afegir_full(nou);
+        Documents.get("Doc 1").afegir_full(nou);
         io = new inout();
+    }
+
+    //DOCUMENTS
+    public ArrayList<String> GetDocuments(){
+        ArrayList<String> temp = new ArrayList<>();
+        for (Map.Entry<String, Document> entry : Documents.entrySet()) {
+            String s = (entry.getKey());
+            temp.add(s);
+        }
+        return temp;
+    }
+
+    public void CrearDocument(String doc){
+        Documents.put(doc,new Document(doc));
+        Full nou = new Full(1,"Full 1", 20, 20);
+        Documents.get(doc).afegir_full(nou);
+    }
+
+    public void EliminarDocument(String doc){
+        Documents.remove(doc);
+    }
+
+    //FULLS
+    public ArrayList<String> GetFullDoc(String doc){
+        ArrayList<String> temp = new ArrayList<>();
+        ArrayList<Full> fulls = Documents.get(doc).getFulls();
+        for (int i = 0; i < fulls.size(); i++) {
+            String s = fulls.get(i).getNom();
+            temp.add(s);
+        }
+        return temp;
+    }
+
+    public int getNum_Files() {
+        Full f = Documents.get(1).get_full("Full 1");
+        return f.getNum_Files();
+    }
+
+    public int getNum_Columnes() {
+        Full f = Documents.get(1).get_full("Full 1");
+        return f.getNum_Columnes();
     }
 
     public ArrayList<String> Mostrar() throws Exception { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
@@ -52,16 +94,7 @@ public class CtrlDomini {
         return temp;
     }
 
-    public int getNum_Files() {
-        Full f = Documents.get(1).get_full("Full 1");
-        return f.getNum_Files();
-    }
-
-    public int getNum_Columnes() {
-        Full f = Documents.get(1).get_full("Full 1");
-        return f.getNum_Columnes();
-    }
-
+    //CELA
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
         Integer document = Integer.parseInt(doc);
         Full f = Documents.get(document).get_full(full);
@@ -88,23 +121,5 @@ public class CtrlDomini {
         if (nou_type.equals("numeric")) {
             f.Modifica_Tipus_Numeric(id);
         }
-    }
-
-    public ArrayList<String> GetDocuments(){
-        ArrayList<String> temp = new ArrayList<>();
-        for (Map.Entry<Integer, Document> entry : Documents.entrySet()) {
-            String s = ( entry.getKey() + ". " + entry.getValue().getNom());
-            temp.add(s);
-        }
-        return temp;
-    }
-
-    public ArrayList<String> GetIdDoc(){
-        ArrayList<String> temp = new ArrayList<>();
-        for (Map.Entry<Integer, Document> entry : Documents.entrySet()) {
-            String s = (String.valueOf(entry.getKey()));
-            temp.add(s);
-        }
-        return temp;
     }
 }

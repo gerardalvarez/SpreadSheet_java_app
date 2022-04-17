@@ -39,8 +39,16 @@ public class CtrlPresentacio {
         return Cd.GetDocuments();
     }
 
-    public ArrayList<String> GetIdDocuments(){
-        return Cd.GetIdDoc();
+    public void crearDoc(String doc){
+        Cd.CrearDocument(doc);
+    }
+
+    public void EliminarDoc(String elimDoc){
+        Cd.EliminarDocument(elimDoc);
+    }
+
+    public ArrayList<String> GetFulls(String doc){
+        return Cd.GetFullDoc(doc);
     }
 
     public void ModificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
@@ -58,4 +66,5 @@ public class CtrlPresentacio {
     public void CanviarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) {
         Cd.CanviarTipusCela(doc, full, id, nou_type);
     }
+
 }

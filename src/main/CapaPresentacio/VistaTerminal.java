@@ -28,7 +28,7 @@ public class VistaTerminal {
         io.writeln("1. Obrir Documents");
         io.writeln("2. Nou Document");
         io.writeln("3. Eliminar Document");
-        io.writeln("3. Guardar Document");
+        //io.writeln("3. Guardar Document");
         io.writeln();
     }
 
@@ -47,6 +47,19 @@ public class VistaTerminal {
                     DemanarOpcionsDocument(doc);
                 }
                 break;
+            case 2:
+                String nouDoc = ObtenirNouDocument();
+                CrearNouDoc(nouDoc);
+                io.writeln("Document Afegit amb Exit");
+                MostrarOpcionsDocument();
+                DemanarOpcionsDocument(nouDoc);
+                break;
+            case 3:
+                String elimDoc = ObtenirDocumentEliminar();
+                EliminarDoc(elimDoc);
+                io.writeln("Document Eliminat amb Exit");
+                MostrarMenu();
+                DemanarOpcionsMenu();
 
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
@@ -67,9 +80,15 @@ public class VistaTerminal {
         int s = io.readint();
         switch (s) {
             case 1:
-                String full = ObtenirNomFull();
-                MostrarOpcionsFull();
-                DemanarOpcionsFull(doc, full);
+                String full = ObtenirNomFull(doc);
+                if(Objects.equals(full, "null")){
+                    MostrarOpcionsDocument();
+                    DemanarOpcionsDocument(doc);
+                }
+                else{
+                    MostrarOpcionsFull();
+                    DemanarOpcionsFull(doc, full);
+                }
                 break;
 
             default:
@@ -161,13 +180,13 @@ public class VistaTerminal {
             return "null";
         }
         else{
-            io.writeln("Indiqui el identificador del document sobre el qual vol treballar");
+            io.writeln("Indiqui el nom del document sobre el qual vol treballar");
             for(int i = 0; i < Docs.size(); ++i){
-                io.writeln(Docs.get(i));
+                io.writeln(i+1 + ". " + Docs.get(i));
             }
             io.readnext();
             String a = io.readline(); //Introduir la id de moment
-            while(!Cp.GetIdDocuments().contains(a)){
+            while(!Docs.contains(a)){
                 io.writeln("ERROR: El Document seleccionat no existeix");
                 io.writeln("Introdueix un identificador valid");
                 io.readnext();
@@ -177,10 +196,73 @@ public class VistaTerminal {
         }
     }
 
-    private String ObtenirNomFull() throws Exception {
-        io.writeln("Indiqui el nom del full sobre el qual vol treballar");
+    private String ObtenirNouDocument() throws Exception {
+        ArrayList<String> Docs = Cp.GetDocs();
+        io.writeln("Els noms dels Documents existents son:");
+        for(int i = 0; i < Docs.size(); ++i){
+            io.write(i+1 + ". " +Docs.get(i) + " ");
+            if(i%3 == 0)io.writeln();
+        }
+        io.writeln("Escriu el nom del nou document:");
         io.readnext();
-        return io.readline();
+        String a = io.readline(); //Introduir la id de moment
+        while(Docs.contains(a)){
+            io.writeln("ERROR: El Document seleccionat ja existeix");
+            io.writeln("Introdueix un Nom valid");
+            io.readnext();
+            a =  io.readline();
+        }
+        return a;
+    }
+
+    private String ObtenirDocumentEliminar() throws Exception {
+        ArrayList<String> Docs = Cp.GetDocs();
+        io.writeln("Els noms dels Documents existents son:");
+        for(int i = 0; i < Docs.size(); ++i){
+            io.write(i+1 + ". " +Docs.get(i) + " ");
+            if(i%3 == 0)io.writeln();
+        }
+        io.writeln("Escriu el nom del document a eliminar:");
+        io.readnext();
+        String a = io.readline(); //Introduir la id de moment
+        while(!Docs.contains(a)){
+            io.writeln("ERROR: El Document seleccionat no existeix");
+            io.writeln("Introdueix un Nom valid");
+            io.readnext();
+            a =  io.readline();
+        }
+        return a;
+    }
+
+    public void CrearNouDoc(String nouDoc){
+        Cp.crearDoc(nouDoc);
+    }
+
+    public void EliminarDoc(String nouDoc){
+        Cp.EliminarDoc(nouDoc);
+    }
+
+    private String ObtenirNomFull(String doc) throws Exception {
+        ArrayList<String> fulls = Cp.GetFulls(doc);
+        if(fulls.size() == 0){
+            io.writeln("ERROR: No hi ha Fulls al Document");
+            return "null";
+        }
+        else{
+            io.writeln("Indiqui el Nom del document sobre el qual vol treballar");
+            for(int i = 0; i < fulls.size(); ++i){
+                io.writeln((i+1) + ". " + fulls.get(i));
+            }
+            io.readnext();
+            String a = io.readline(); //Introduir la id de moment
+            while(!fulls.contains(a)){
+                io.writeln("ERROR: El Full seleccionat no existeix");
+                io.writeln("Introdueix un identificador valid");
+                io.readnext();
+                a =  io.readline();
+            }
+            return a;
+        }
     }
 
     private AbstractMap.SimpleEntry<Integer, Integer> ObtenirIdCela() throws Exception {
@@ -218,4 +300,5 @@ public class VistaTerminal {
             io.writeln();
         }
     }
+
 }
