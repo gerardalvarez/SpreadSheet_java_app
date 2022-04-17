@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Full {
-    private final Integer ID;
     private String nom;
     private Integer Num_Columnes;
     private Integer Num_Files;
@@ -16,9 +15,8 @@ public class Full {
     private ArrayList<Cela> CelaULT;
 
     //Constructor
-    public Full(Integer id, String n, Integer nc, Integer nf) {
+    public Full(String n, Integer nc, Integer nf) {
         Celes = new HashMap<>();
-        this.ID = id;
         this.nom = n;
         this.Num_Columnes = nc;
         this.Num_Files = nf;
@@ -32,8 +30,7 @@ public class Full {
         }
     };
 
-    public Full(Integer id, Integer nc, Integer nf) {
-        this.ID = id;
+    public Full(Integer nc, Integer nf) {
         this.nom = "Full sense nom";
         this.Num_Columnes = nc;
         this.Num_Files = nf;
@@ -192,10 +189,6 @@ public class Full {
         }
     };
 
-    //Getters
-    public Integer getID(){
-        return ID;
-    };
 
     public Integer getNum_Columnes() {
 

@@ -90,7 +90,20 @@ public class VistaTerminal {
                     DemanarOpcionsFull(doc, full);
                 }
                 break;
-
+            case 2:
+                Integer files = 1, columnes = 1;
+                String nouFull = ObtenirNouFull(doc, files, columnes);
+                Cp.CrearNouFull(doc, nouFull, files, columnes);
+                io.writeln("Full Afegit amb Exit");
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc,nouFull);
+                break;
+            case 3:
+                String elimFull = ObtenirFullEliminar(doc);
+                Cp.EliminarFull(doc, elimFull);
+                io.writeln("Document Eliminat amb Exit");
+                MostrarOpcionsDocument();
+                DemanarOpcionsDocument(doc);
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
                 DemanarOpcionsDocument(doc);
@@ -263,6 +276,63 @@ public class VistaTerminal {
             }
             return a;
         }
+    }
+
+    private String ObtenirNouFull(String doc, int files, int Columnes) throws Exception {
+        ArrayList<String> fulls = Cp.GetFulls(doc);
+        io.writeln("El nom dels Fulls existents son:");
+        for(int i = 0; i < fulls.size(); ++i){
+            io.write(i+1 + ". " +fulls.get(i) + " ");
+            if(i%3 == 0)io.writeln();
+        }
+        io.writeln("Escriu el nom del nou full:");
+        io.readnext();
+        String a = io.readline(); //Introduir la id de moment
+        while(fulls.contains(a)){
+            io.writeln("ERROR: El Full seleccionat ja existeix");
+            io.writeln("Introdueix un identificador valid");
+            io.readnext();
+            a =  io.readline();
+        }
+        io.writeln("Indica en nombre de files. Recorda: 1-100:");
+        io.readnext();
+        Integer fil =  io.readint();
+        while(fil > 100 || fil <= 0){
+            io.writeln("ERROR: Nombre no valid. Prova un altre cop");
+            io.readnext();
+            fil =  io.readint();
+        }
+        files = fil;
+        io.writeln("Indica en nombre de columnes. Recorda: 1-100:");
+        io.readnext();
+        Integer col =  io.readint();
+        while(col > 100 || col <= 0){
+            io.writeln("ERROR: Nombre no valid. Prova un altre cop");
+            io.readnext();
+            col =  io.readint();
+        }
+        Columnes = col;
+        return a;    
+        
+    }
+
+    private String ObtenirFullEliminar(String doc) throws Exception {
+        ArrayList<String> fulls = Cp.GetFulls(doc);
+        io.writeln("El nom dels Fulls existents son:");
+        for(int i = 0; i < fulls.size(); ++i){
+            io.write(i+1 + ". " +fulls.get(i) + " ");
+            if(i%3 == 0)io.writeln();
+        }
+        io.writeln("Escriu el nom del full a eliminar:");
+        io.readnext();
+        String a = io.readline(); //Introduir la id de moment
+        while(!fulls.contains(a)){
+            io.writeln("ERROR: El Full seleccionat no existeix");
+            io.writeln("Introdueix un identificador valid");
+            io.readnext();
+            a =  io.readline();
+        }
+        return a;
     }
 
     private AbstractMap.SimpleEntry<Integer, Integer> ObtenirIdCela() throws Exception {

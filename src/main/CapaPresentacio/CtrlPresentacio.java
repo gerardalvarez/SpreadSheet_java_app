@@ -22,19 +22,7 @@ public class CtrlPresentacio {
         Vp = new VistaTerminal(this);
         io = new inout();
     }
-
-    public ArrayList<String> MostrarLlista() throws Exception {
-        return Cd.Mostrar();
-    }
-
-    public int GetFiles() {
-        return Cd.getNum_Files();
-    }
-
-    public int GetColumnes() {
-        return Cd.getNum_Columnes();
-    }
-
+    //DOCUMENTS
     public ArrayList<String> GetDocs(){
         return Cd.GetDocuments();
     }
@@ -50,7 +38,26 @@ public class CtrlPresentacio {
     public ArrayList<String> GetFulls(String doc){
         return Cd.GetFullDoc(doc);
     }
+    //FULLS
+    public ArrayList<String> MostrarLlista() throws Exception {
+        return Cd.Mostrar();
+    }
 
+    public int GetFiles() {
+        return Cd.getNum_Files();
+    }
+
+    public int GetColumnes() {
+        return Cd.getNum_Columnes();
+    }
+
+    public void CrearNouFull(String doc, String full, Integer nf, Integer nc){
+        Cd.CrearFull(doc,full,nf,nc);
+    }
+    public void EliminarFull(String doc, String elimFull){
+        Cd.eliminarFull(doc,elimFull);
+    }
+    //CELA
     public void ModificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
         Cd.modificarContingutCela(doc, full, id, contingut);
     }

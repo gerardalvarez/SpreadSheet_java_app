@@ -33,7 +33,7 @@ public class CtrlDomini {
     private void InicialitzarCtrlDomini() throws Exception {
         Documents = new HashMap<>();
         Documents.put("Doc 1",new Document("Doc 1"));
-        Full nou = new Full(1,"Full 1", 20, 20);
+        Full nou = new Full("Full 1", 20, 20);
         Documents.get("Doc 1").afegir_full(nou);
         io = new inout();
     }
@@ -50,7 +50,7 @@ public class CtrlDomini {
 
     public void CrearDocument(String doc){
         Documents.put(doc,new Document(doc));
-        Full nou = new Full(1,"Full 1", 20, 20);
+        Full nou = new Full("Full 1", 20, 20);
         Documents.get(doc).afegir_full(nou);
     }
 
@@ -94,6 +94,13 @@ public class CtrlDomini {
         return temp;
     }
 
+    public void CrearFull(String doc, String Full,Integer nf, Integer nc){
+        Full nou = new Full(Full, nf, nc);
+        Documents.get(doc).afegir_full(nou);
+    }
+    public void eliminarFull(String doc, String full){
+        Documents.get(doc).elimina_full(full);
+    }
     //CELA
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
         Integer document = Integer.parseInt(doc);
