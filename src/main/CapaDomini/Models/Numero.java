@@ -31,8 +31,10 @@ public class Numero extends Cela{
         this.resultat = this.resultat.add(new BigDecimal(-1));
     }
 
-    public void potencia(Integer exp) {
-        this.resultat = this.resultat.pow(exp);
+    public void potencia(Double exp) {
+        double b = this.resultat.doubleValue();
+        this.resultat = BigDecimal.valueOf(Math.pow(b, exp));
+        this.resultat = this.resultat.stripTrailingZeros();
     }
 
     public void valor_absolut() {

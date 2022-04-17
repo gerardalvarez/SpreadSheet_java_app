@@ -1,7 +1,5 @@
 package main.CapaPresentacio;
 
-import main.CapaDomini.Models.Document;
-
 import java.util.*;
 
 public class VistaTerminal {
@@ -111,12 +109,13 @@ public class VistaTerminal {
     }
 
     public void MostrarOpcionsFull() throws Exception {
-        io.writeln("A continuació pot veure quines opcions pot fer dintre d'un document");
+        io.writeln("A continuació pot veure quines opcions pot fer dintre d'un Full");
         io.writeln("1. Gestionar Cel·les");
         io.writeln("2. Afegir Fila");
         io.writeln("3. Eliminar Fila");
         io.writeln("4. Afegir Columna");
         io.writeln("5. Eliminar Fila");
+        io.writeln("6. Veure Full");
         io.writeln("Esborrar Celes");
         io.writeln();
     }
@@ -131,6 +130,11 @@ public class VistaTerminal {
                 DemanarOpcionsCela(doc, full, id);
                 break;
 
+            case 6:
+                ImprimirFull(doc, full);
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
                 DemanarOpcionsFull(doc, full);
@@ -140,10 +144,10 @@ public class VistaTerminal {
 
     public void MostrarOpcionsCela() throws Exception {
         io.writeln("A continuació pot veure quines opcions pot fer sobre una cel·la");
-        io.writeln("1. Modificar contingut Ce·la");
+        io.writeln("1. Modificar contingut Cel·la");
         io.writeln("2. Eliminar contingut Cel·la");
         io.writeln("3. Canviar Tipus Cel·la");
-        io.writeln("4. Funcions de Numero");
+        io.writeln("4. Funcions de Número");
         io.writeln("5. Funcions de Data");
         io.writeln("6. Funcions de Text");
         io.writeln();
@@ -153,11 +157,16 @@ public class VistaTerminal {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
         int s = io.readint();
         switch (s) {
+            case 0:
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
             case 1:
                 String contingut = ObtenirContigut();
                 Cp.ModificarContingutCela(doc, full, id, contingut);
                 io.writeln("Contingut modificat Correctament");
-                ImprimirFull();
+                ImprimirFull(doc, full);
                 MostrarOpcionsFull();
                 DemanarOpcionsFull(doc, full);
                 break;
@@ -171,11 +180,18 @@ public class VistaTerminal {
                 break;
 
             case 4:
-                Boolean b = Cp.ComprovarTipusCela(doc, full, id);
-                if (b) io.writeln("Soc Numero!");
-                else io.writeln("ERROR: No soc Numero!");
-                MostrarOpcionsFull();
-                DemanarOpcionsFull(doc, full);
+                Boolean b = Cp.ComprovarTipusCela(doc, full, id, "numero");
+                if (b) {
+                    MostrarOpcionsNumero();
+                    DemanarOpcionsNumero(doc, full, id);
+                }
+                else {
+                    io.writeln("ERROR: La cel·la seleccionada no és de tipus Número");
+                    io.writeln("Si us plau, seleccioni una Cel·la de tipus Número o canviï el tipus de l'actual");
+                    io.writeln();
+                    MostrarOpcionsCela();
+                    DemanarOpcionsCela(doc, full, id);
+                }
                 break;
 
             default:
@@ -184,6 +200,172 @@ public class VistaTerminal {
                 break;
 
         }
+    }
+
+    private void MostrarOpcionsNumero() throws Exception {
+        io.writeln("A continuació pot veure quines opcions pot fer sobre una cel·la de tipus Número");
+        io.writeln("0. Retrocedir");
+        io.writeln("1. Consultar tipus Cel·la Número");
+        io.writeln("2. Canviar tipus Cel·la Número");
+        io.writeln("3. Incrementar");
+        io.writeln("4. Reduir");
+        io.writeln("5. Potència");
+        io.writeln("6. Arrel");
+        io.writeln("7. Valor Absolut");
+        io.writeln("8. Conversió");
+        io.writeln("9. Seleccionar numero de decimals a mostrar");
+        io.writeln("10. Arrodonir o Truncar");
+        io.writeln();
+    }
+
+    public void DemanarOpcionsNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
+        int s = io.readint();
+        Double exp;
+        switch (s) {
+            case 1:
+                String Tipus = Cp.GetTipusNumero(doc, full, id);
+                io.writeln();
+                io.write("La Cel·la Número es del tipus: ");
+                io.writeln(Tipus);
+                io.writeln();
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 2:
+                MostrarTipusNumero();
+                String type = ObtenirConvertir();
+                if (Cp.TipusValid(type)) {
+                    Cp.CanviarTipusNumero(doc, full, id, type);
+                    MostrarOpcionsNumero();
+                    DemanarOpcionsNumero(doc, full, id);
+                }
+                else {
+                    io.writeln("ERROR: El tipus seleccionat no és vàlid");
+                    io.writeln("Seleccioni un dels tipus vàlids mostrats");
+                    DemanarOpcionsNumero(doc, full, id);
+                }
+
+            case 3:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.CalculaIncrementIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.CalculaIncrement(doc, full, id);
+                }
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 4:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.CalculaReduirIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.CalculaReduir(doc, full, id);
+                }
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 5:
+                exp = ObtenirExponent();
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.CalculaPotenciaIReemplaca(doc, full, id, exp, idRemp);
+                }
+                else {
+                    Cp.CalculaPotencia(doc, full, id, exp);
+                }
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 6:
+                exp = ObtenirExponent();
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.CalculaArrelIReemplaca(doc, full, id, exp, idRemp);
+                }
+                else {
+                    Cp.CalculaArrel(doc, full, id, exp);
+                }
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 7:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.CalculaValorAbsIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.CalculaValorAbs(doc, full, id);
+                }
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 8:
+                String c = ObtenirConvertir();
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.CalculaConversioIReemplaca(doc, full, id, c, idRemp);
+                }
+                else {
+                    Cp.CalculaConversio(doc, full, id, c);
+                }
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 9:
+                Integer dec = ObtenirDecimals();
+                Cp.CanviarDecimals(doc, full, id, dec);
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 10:
+                Boolean arrodonir = ObtenirArrodonit();
+                Cp.CanviarArrodonit(doc, full, id, arrodonir);
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 0:
+                MostrarOpcionsCela();
+                DemanarOpcionsCela(doc, full, id);
+                break;
+
+            default:
+                io.writeln("ERROR: L'opció seleccionada no existeix");
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+        }
+    }
+
+    private void MostrarTipusNumero() throws Exception {
+        io.writeln("A continuació pot veure quins tipus pot ser una cel·la de tipus Número");
+        io.writeln("1. numero (predeterminada)");
+        io.writeln("2. celsius");
+        io.writeln("3. fahrenheit");
+        io.writeln("4. kelvin");
+        io.writeln("5. km");
+        io.writeln("6. m");
+        io.writeln("7. cm");
+        io.writeln("8. mm");
+        io.writeln("9. miles");
+        io.writeln("10. yards");
+        io.writeln("11. feet");
+        io.writeln("12. inches");
+        io.writeln("13. graus");
+        io.writeln("14. radiants");
+        io.writeln();
     }
 
     private String ObtenirNomDocument() throws Exception {
@@ -357,11 +539,11 @@ public class VistaTerminal {
         return nou_type;
     }
 
-    public void ImprimirFull() throws Exception {
-        ArrayList<String> full = Cp.MostrarLlista();
-        int nf = Cp.GetFiles();
-        int nc = Cp.GetColumnes();
-        Iterator <String> iter = full.listIterator();
+    public void ImprimirFull(String doc, String full) throws Exception {
+        ArrayList<String> celes = Cp.MostrarLlista(doc, full);
+        int nf = Cp.GetFiles(doc, full);
+        int nc = Cp.GetColumnes(doc, full);
+        Iterator <String> iter = celes.listIterator();
         for (int i = 0; i < nf; i++) {
             for (int j = 0; j < nc; j++) {
                 io.write(iter.next());
@@ -369,6 +551,46 @@ public class VistaTerminal {
             }
             io.writeln();
         }
+    }
+
+    private boolean PreguntarColocarCelaNova() throws Exception {
+        io.writeln("Vol col·locar el resultat a una altra cel·la?");
+        io.writeln("Contesti yes o no, en cas negatiu es reemplaçarà el contingut de la cel·la actual amb el nou");
+        String s = io.readword();
+        if(s.equals("yes")) return true;
+        else if(s.equals("no")) return false;
+        io.writeln("ERROR: L'opció seleccionada no és vàlida");
+        return PreguntarColocarCelaNova();
+    }
+
+    private Double ObtenirExponent() throws Exception {
+        io.writeln("Escriu l'exponent per fer l'operació seleccionada");
+        return io.readdouble();
+    }
+
+    private String ObtenirConvertir() throws Exception {
+        io.writeln("Escrigui el tipus al que vol convertir, si vol recordar el tipus escrigui 'help' ");
+        String s = io.readword();
+        if(Cp.TipusValid(s)) return s;
+        else if (s.equals("help")) {
+            MostrarTipusNumero();
+        }
+        return ObtenirConvertir();
+    }
+
+    private Integer ObtenirDecimals() throws Exception {
+        io.writeln("Escrigui el numero de decimals que vol que mostri el numero");
+        return io.readint();
+    }
+
+    private Boolean ObtenirArrodonit() throws Exception {
+        io.writeln("Vol que el numero s'arrodoneixi o es trunqui?");
+        io.writeln("Contesti yes o no, per defecte el Número es arrodonit");
+        String s = io.readword();
+        if(s.equals("yes")) return true;
+        else if(s.equals("no")) return false;
+        io.writeln("ERROR: L'opció seleccionada no és vàlida");
+        return ObtenirArrodonit();
     }
 
 }

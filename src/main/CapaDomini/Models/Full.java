@@ -120,6 +120,12 @@ public class Full {
         this.Celes.get(id).setType("numeric");
     }
 
+    public void Modifica_Numero_Tipus(AbstractMap.SimpleEntry<Integer, Integer> id, String Type) {
+        Cela c = this.Celes.get(id);
+        Numero n = (Numero) c;
+        n.setTipus(Tipus_Numero.valueOf(Type));
+    }
+
     public void Modifica_bloc_celes(ArrayList<Cela> celes) {
         //Controller
     };
@@ -127,6 +133,7 @@ public class Full {
     public Cela Consultar_cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
         return this.Celes.get(id);
     };
+
 
     public void Retrocedir(ArrayList<Cela> celes) {
         for (int i= 0; i < celes.size(); ++i){

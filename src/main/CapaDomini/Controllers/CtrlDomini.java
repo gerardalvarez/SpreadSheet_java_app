@@ -2,6 +2,7 @@ package main.CapaDomini.Controllers;
 
 import main.CapaDomini.Models.*;
 import main.CapaPresentacio.inout;
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
@@ -69,26 +70,44 @@ public class CtrlDomini {
         return temp;
     }
 
-    public int getNum_Files() {
-        Full f = Documents.get(1).get_full("Full 1");
+    public int getNum_Files(String doc, String full) {
+        Full f = Documents.get(doc).get_full(full);
         return f.getNum_Files();
     }
 
-    public int getNum_Columnes() {
-        Full f = Documents.get(1).get_full("Full 1");
+    public int getNum_Columnes(String doc, String full) {
+        Full f = Documents.get(doc).get_full(full);
         return f.getNum_Columnes();
     }
 
-    public ArrayList<String> Mostrar() throws Exception { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
+    public ArrayList<String> Mostrar(String doc, String full) throws Exception { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
         ArrayList<String> temp = new ArrayList<>();
-        Full f = Documents.get(1).get_full("Full 1");
+        Full f = Documents.get(doc).get_full(full);
         HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes = f.getCeles();
         Integer nf = f.getNum_Files();
         Integer nc = f.getNum_Columnes();
         for(int i = 0; i < nf; i++) {
             for(int j = 0; j < nc; j++) {
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
-                temp.add(Celes.get(id).getContingut());
+                Cela c = Celes.get(id);
+                if (c instanceof Numero) {
+                    Numero n = (Numero) c;
+                    BigDecimal d = n.getResultat();
+                    Integer Num_Dec = n.getNum_Decimals();
+                    if(n.getArrodonit()) {
+                       d = d.setScale(Num_Dec, RoundingMode.HALF_UP);
+                    }
+                    else {
+                        d = d.setScale(Num_Dec, RoundingMode.DOWN);
+                    }
+                    temp.add(d.toString());
+                }
+                else if (c instanceof Text) {
+                    temp.add(c.getContingut());
+                }
+                else {
+                    temp.add(c.getContingut());
+                }
             }
         }
         return temp;
@@ -103,30 +122,136 @@ public class CtrlDomini {
     }
     //CELA
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
-        Integer document = Integer.parseInt(doc);
-        Full f = Documents.get(document).get_full(full);
+        Full f = Documents.get(doc).get_full(full);
         f.Modifica_Cela(id, contingut);
     }
 
-    public Boolean ComprovarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
-        Integer document = Integer.parseInt(doc);
-        Full f = Documents.get(document).get_full(full);
-        Cela c = f.Consultar_cela(id);
-        return c.getType().equals("numeric");
+    public Boolean ComprovarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
+        String t = GetTipusCela(doc, full, id);
+        return (t.equals(tipus));
     }
 
     public String GetTipusCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
-        Integer document = Integer.parseInt(doc);
-        Full f = Documents.get(document).get_full(full);
+        Full f = Documents.get(doc).get_full(full);
         Cela c = f.Consultar_cela(id);
-        return c.getType();
+        if(c instanceof Numero) {
+            return "numero";
+        }
+        else if (c instanceof DataCela) {
+            return "data";
+        }
+        else return "text";
     }
 
     public void CanviarTipusCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) {
-        Integer document = Integer.parseInt(doc);
-        Full f = Documents.get(document).get_full(full);
-        if (nou_type.equals("numeric")) {
+        Full f = Documents.get(doc).get_full(full);
+        if (nou_type.equals("numero")) {
             f.Modifica_Tipus_Numeric(id);
+        }
+    }
+
+    public String GetTipusNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Numero n = GetNumero(doc, full, id);
+        Tipus_Numero type = n.getTipus();
+        return type.name();
+    }
+
+    public boolean TipusNumeroValid(String s) {
+        for (Tipus_Numero tipus : Tipus_Numero.values()) {
+            if (tipus.name().equals(s)) return true;
+        }
+        return false;
+    }
+
+    public void CanviarTipusNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
+        Numero n = GetNumero(doc, full, id);
+        n.setTipus(Tipus_Numero.valueOf(tipus));
+    }
+
+    public void CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Numero n = GetNumero(doc, full, id);
+        n.incrementar();
+    }
+
+    public void CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+        ReemplacaNum(doc, full, id, idRemp);
+        CalculaIncrement(doc, full, idRemp);
+    }
+
+    public void CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Numero n = GetNumero(doc, full, id);
+        n.reduir();
+    }
+
+    public void CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaNum(doc, full, id, idRemp);
+        CalculaReduir(doc, full, idRemp);
+    }
+
+    public void CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) {
+        Numero n = GetNumero(doc, full, id);
+        n.potencia(exp);
+    }
+
+    public void CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaNum(doc, full, id, idRemp);
+        CalculaPotencia(doc, full, idRemp, exp);
+    }
+
+    public void CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) {
+        Numero n = GetNumero(doc, full, id);
+        n.arrel(exp);
+    }
+
+    public void CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaNum(doc, full, id, idRemp);
+        CalculaArrel(doc, full, idRemp, exp);
+    }
+
+    public void CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Numero n = GetNumero(doc, full, id);
+        n.valor_absolut();
+    }
+
+    public void CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaNum(doc, full, id, idRemp);
+        CalculaValorAbs(doc, full, idRemp);
+    }
+
+    public void CalculaConversio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c) {
+        Numero n = GetNumero(doc, full, id);
+        n.conversio(Tipus_Numero.valueOf(c));
+        CanviarTipusNumero(doc, full, id, c);
+
+    }
+
+    public void CalculaConversioIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaNum(doc, full, id, idRemp);
+        CalculaConversio(doc, full, idRemp, c);
+    }
+
+    public void CanviarDecimals(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) {
+        Numero n = GetNumero(doc, full, id);
+        n.setNum_Decimals(dec);
+    }
+
+    public void CanviarArrodonit(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) {
+        Numero n = GetNumero(doc, full, id);
+        n.setArrodonit(arrodonir);
+    }
+
+    private Numero GetNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        return (Numero) c;
+    }
+
+    private void ReemplacaNum(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        Numero n = GetNumero(doc, full, id);
+        String result = n.getResultat().toString();
+        modificarContingutCela(doc, full, idRemp, result);
+        if (!ComprovarTipus(doc, full, idRemp, "numero")) {
+            CanviarTipusCela(doc, full, idRemp, "numero");
         }
     }
 }

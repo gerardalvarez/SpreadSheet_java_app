@@ -29,14 +29,14 @@ public class NumeroTest {
     @Test
     public void PotenciaTest() {
         Numero t = new Numero(new AbstractMap.SimpleEntry<>(1, 1),"2", true, 2, Tipus_Numero.numero);
-        t.potencia(2);
+        t.potencia(2.0);
         assertEquals(BigDecimal.valueOf(4),t.getResultat());
     }
 
     @Test
     public void PotenciaTresDecimalsTest() {
         Numero t = new Numero(new AbstractMap.SimpleEntry<>(1, 1),"2.563", true, 2, Tipus_Numero.numero);
-        t.potencia(2);
+        t.potencia(2.0);
         t.setDecimals();
         assertEquals(BigDecimal.valueOf(6.57),t.getResultat());
     }
@@ -44,7 +44,7 @@ public class NumeroTest {
     @Test
     public void PotenciaComplicada() {
         Numero t = new Numero(new AbstractMap.SimpleEntry<>(1, 1),"-2.565", true, 3, Tipus_Numero.numero);
-        t.potencia(6);
+        t.potencia(6.0);
         t.setDecimals();
         assertEquals(BigDecimal.valueOf(284.790).setScale(3, RoundingMode.HALF_UP),t.getResultat());
     }
