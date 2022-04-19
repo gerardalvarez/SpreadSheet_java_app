@@ -18,6 +18,7 @@ public class VistaTerminal {
     public void InicialitzaVistaTerminal() throws Exception {
         io.writeln("Benvingut al Full de Càlcul");
         io.writeln("Per defecte s'ha creat un document amb nom 'Doc 1' el qual té un full de 20x20 amb el nom 'Full 1'");
+        io.writeln("ATENCIÓ: per tornar enrere quan et trobis a un menú prem la tecla '0';");
         io.writeln();
     }
 
@@ -78,6 +79,9 @@ public class VistaTerminal {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
         int s = io.readint();
         switch (s) {
+            case 0:
+                MostrarMenu();
+                DemanarOpcionsMenu();
             case 1:
                 String full = ObtenirNomFull(doc);
                 if(Objects.equals(full, "null")){
@@ -134,6 +138,10 @@ public class VistaTerminal {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
         int s = io.readint();
         switch (s) {
+            case 0:
+                MostrarOpcionsDocument();
+                DemanarOpcionsDocument(doc);
+                break;
             case 1:
                 MostrarOpcionsCela();
                 AbstractMap.SimpleEntry<Integer, Integer> id = ObtenirIdCela();

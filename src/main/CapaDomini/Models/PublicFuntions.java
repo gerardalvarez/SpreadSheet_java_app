@@ -60,4 +60,47 @@ public class PublicFuntions {
         }
         return "null";
     }
+
+    public static String calculaTipus(String contingut){
+        String Tipus = "text";
+        if(contingut == null)return Tipus;
+        if(isNumerical(contingut))Tipus = "numeric";
+        else if(isData(contingut))Tipus = "date";
+        return Tipus;
+    }
+
+    //PRIVATE FUNCTIONS
+    private static Boolean isNumerical(String strNum){
+        if (strNum == null) return false;
+
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private static Boolean isData(String strData){
+        DataValidator validator = new DateValidator("dd/MM/yyyy");
+        if(validator.isValid(strData))return true;
+        else{
+            int size = strData.length();
+            if(size < 19)return false;
+
+            String dd = strData.substring(0,2);
+            String monthText = strData.substring(2,size-4);
+
+            String MM = PublicFuntions.monthToData(monthText);
+            if(MM.equals("null"))return false;
+
+            String yyyy = strData.substring(size-4);
+
+            String date = dd+"/"+ MM + "/" + yyyy;
+            return validator.isValid(date);
+        }
+    }
+
 }
+
+
