@@ -5,6 +5,8 @@ import main.CapaPresentacio.inout;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
+import main.CapaDomini.Models.PublicFuntions;
 
 public class Full {
     private String nom;
@@ -108,8 +110,10 @@ public class Full {
     };
 
     public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
-        Cela c = this.Celes.get(id);
-        c.setContingut(contingut);
+        String a = PublicFuntions.calculaTipus(contingut);
+        if(Objects.equals(a, "numeric")) this.Celes.replace(id, new Numero(id, contingut, true, 2, Tipus_Numero.numero));
+        else if(Objects.equals(a, "date"))this.Celes.replace(id, new DataCela(id, contingut));
+        else this.Celes.get(id).setContingut(contingut);
 
         //S'ha de guardar la cela a algun lloc
     };
