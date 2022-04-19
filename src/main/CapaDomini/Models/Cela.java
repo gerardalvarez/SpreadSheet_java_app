@@ -38,12 +38,17 @@ public abstract class Cela {
     public String calculaTipus(){
         String Tipus = "text";
         if(contingut == null)return Tipus;
-        if(isNumerical(contingut))Tipus = "numeric";
+        else if (contingut.substring(0,1) == "=") evaluar_ref();
+        else if(isNumerical(contingut))Tipus = "numeric";
         else if(isData(contingut))Tipus = "date";
         return Tipus;
     }
 
     //PRIVATE FUNCTIONS
+    private void evaluar_ref(){
+        if (contingut.)
+    }
+
     private Boolean isNumerical(String strNum){
         if (strNum == null) return false;
 
