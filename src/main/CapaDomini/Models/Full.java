@@ -96,15 +96,11 @@ public class Full {
         }
     };
 
-    public void Ordenar_Fulla(ArrayList<Cela> celes, String cond) {
-        //enviar a controller la array + la cond
-    };
-
     public void Esborrar_Celes(ArrayList<Cela> celes) {
         int i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
-            this.Celes.get(idc).setContingut("nocont");
+            this.Celes.get(idc).setResultat("nocont");
             ++i;
         }
     };
@@ -113,13 +109,13 @@ public class Full {
         String a = PublicFuntions.calculaTipus(contingut);
         if(Objects.equals(a, "numeric")) this.Celes.replace(id, new Numero(id, contingut, true, 2, Tipus_Numero.numero));
         else if(Objects.equals(a, "date"))this.Celes.replace(id, new DataCela(id, contingut));
-        else this.Celes.get(id).setContingut(contingut);
+        else this.Celes.get(id).setResultat(contingut);
 
         //S'ha de guardar la cela a algun lloc
     };
 
     public void Modifica_Tipus_Numeric(AbstractMap.SimpleEntry<Integer, Integer> id) {
-        String contingut = this.Celes.get(id).getContingut();
+        String contingut = this.Celes.get(id).getResultatFinal();
         this.Celes.replace(id, new Numero(id, contingut, true, 2, Tipus_Numero.numero));
         this.Celes.get(id).setType("numeric");
     }
