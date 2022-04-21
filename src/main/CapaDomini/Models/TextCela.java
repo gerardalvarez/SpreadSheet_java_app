@@ -6,28 +6,28 @@ import java.util.Objects;
 public class TextCela extends Cela{
 
     //CONSTRUCTORA
-    public TextCela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut){
-        super(id, contingut);
+    public TextCela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat){
+        super(id, resultat);
     }
 
     //FUNCIONS PUBLIQUES
     public Boolean buscarElement(String element){
-        return contingut.contains(element);
+        return resultat_final.contains(element);
     }
 
     public void remplacarElement(String element, String change){
-        int index = contingut.indexOf(element);
+        int index = resultat_final.indexOf(element);
         if(index != -1)
         {
-            contingut = contingut.substring(0,index) + change + contingut.substring(index+element.length());
+            resultat_final = resultat_final.substring(0,index) + change + resultat_final.substring(index+element.length());
         }
     }
 
     public void AllMayus(){
-        contingut =  contingut.toUpperCase();
+        resultat_final =  resultat_final.toUpperCase();
     }
 
     public void AllMinus(){
-        contingut =  contingut.toLowerCase();
+        resultat_final =  resultat_final.toLowerCase();
     }
 }
