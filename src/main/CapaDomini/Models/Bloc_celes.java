@@ -1,13 +1,10 @@
 package main.CapaDomini.Models;
 
-import main.CapaDomini.Models.*;
-
 
 import java.util.AbstractMap;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.io.Serializable;
 import java.util.*;
 
 
@@ -18,6 +15,7 @@ public class Bloc_celes {
 
     /////////
     //Funciones de ordenar que devuelven una matriz con nuevas celdas creadas (diferentes ref a las pasadas) ordenadas
+    //
     /////////
 
     public Cela[][] ordena_A_Z_matrix(Cela arr[][],ArrayList<Integer> cols) {
@@ -27,7 +25,7 @@ public class Bloc_celes {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
+                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat().toString(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
@@ -70,7 +68,7 @@ public class Bloc_celes {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
+                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat().toString(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
@@ -117,7 +115,7 @@ public class Bloc_celes {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat()));
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat().toString()));
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
@@ -161,7 +159,7 @@ public class Bloc_celes {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat()));
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat().toString()));
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));

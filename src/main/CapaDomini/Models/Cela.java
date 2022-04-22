@@ -2,6 +2,7 @@ package main.CapaDomini.Models;
 
 import java.awt.*;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 
 public abstract class Cela {
     //VARIABLES
@@ -11,12 +12,14 @@ public abstract class Cela {
     protected  Color colorLletra = new Color(0);
     protected  CelaEnum designedType; // En un futur fer enum
     protected  String type;
+    protected ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors; //Para avisarles si yo cambio
 
     //CREADORA
     public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
         this.id = id;
         this.resultat_final = resultat;
         type = calculaTipus();
+        observadors= new ArrayList<>();
     }
 
 
@@ -33,6 +36,8 @@ public abstract class Cela {
     public void setColorLletra(Color colorLletra) {this.colorLletra = colorLletra;}
     public String getType() {return type;}
     public void setType(String type) {this.type = type;}
+
+    public ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> getObservadors(){ return observadors;}
 
     //PUBLIC FUNCTIONS
     public String calculaTipus(){

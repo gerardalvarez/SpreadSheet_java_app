@@ -113,10 +113,10 @@ public class CtrlDomini {
                     temp.add(d.toString());
                 }
                 else if (c instanceof Text) {
-                    temp.add(c.getResultat());
+                    temp.add(c.getResultatFinal());
                 }
                 else {
-                    temp.add(c.getResultat());
+                    temp.add(c.getResultatFinal());
                 }
             }
         }

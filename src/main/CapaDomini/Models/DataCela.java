@@ -30,6 +30,7 @@ public class DataCela extends Cela {
             int any = Integer.parseInt(TextFormat.substring(size-4));
             date = LocalDate.of(any,mes,dia);
         }
+        resultat_final=date.toString();
 
 
     }
