@@ -13,12 +13,21 @@ public class Numero extends Cela{
     private Tipus_Numero tipus;
 
     //Constructor
+
+
     public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, BigDecimal resultat, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
         super(id, String.valueOf(resultat));
         this.resultat = resultat;
         this.arrodonit = arrodonit;
         this.num_Decimals = num_Decimals;
         this.tipus = tipus;
+        resultat_final=resultat.toString(); //hay que ponerlo bien con los parametros
+    }
+
+    public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, BigDecimal resultat) {
+        super(id, String.valueOf(resultat));
+        this.resultat = resultat;
+        resultat_final=resultat.toString(); //hay que ponerlo bien con los parametros
     }
 
     //Mètodes
