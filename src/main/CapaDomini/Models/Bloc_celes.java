@@ -25,7 +25,7 @@ public class Bloc_celes {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat().toString(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
+                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
@@ -68,7 +68,7 @@ public class Bloc_celes {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat().toString(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
+                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
