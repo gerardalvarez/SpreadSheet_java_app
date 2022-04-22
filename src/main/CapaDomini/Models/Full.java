@@ -108,7 +108,7 @@ public class Full {
 
     public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
         String a = PublicFuntions.calculaTipus(resultat);
-        if(Objects.equals(a, "numeric")) this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), true, 2, Tipus_Numero.numero));
+        if(Objects.equals(a, "numeric")) this.Celes.replace(id, new Numero(id, new BigDecimal(resultat).toString(), true, 2, Tipus_Numero.numero));
         else if(Objects.equals(a, "date"))this.Celes.replace(id, new DataCela(id, resultat));
         else this.Celes.get(id).setResultat(resultat);
 
@@ -117,7 +117,7 @@ public class Full {
 
     public void Modifica_Tipus_Numeric(AbstractMap.SimpleEntry<Integer, Integer> id) {
         String resultat = this.Celes.get(id).getResultatFinal();
-        this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), true, 2, Tipus_Numero.numero));
+        this.Celes.replace(id, new Numero(id, new BigDecimal(resultat).toString(), true, 2, Tipus_Numero.numero));
         this.Celes.get(id).setType("numeric");
     }
 
