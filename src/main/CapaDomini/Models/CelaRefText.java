@@ -5,12 +5,13 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class CelaRefText extends TextCela{
-    private String resultat;
+    private String contingut;
     private ArrayList<TextCela> operadors;
-    private String operacio;
 
 
-    public CelaRefText(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
-        super(id, resultat);
+    public CelaRefText(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut, ArrayList<TextCela> operadors) {
+        super();
+        this.contingut=contingut;
+        Avaluar();
     }
 }

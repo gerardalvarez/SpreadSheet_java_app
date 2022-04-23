@@ -17,10 +17,20 @@ public class CelaRefNum extends Numero{
         this.operadors= operadors;
         this.operacio= operacio;
         Avaluar();
-        super.setResultat(this.resultat);
     }
 
+
+
+
     private void Avaluar() {
+
+        /*switch (this.operacio){
+            case "+":
+                Suma();
+                break;
+
+        }*/
+
         if (this.operacio.equals("+")) Suma();
         else if (this.operacio.equals("-")) Resta();
         else if (this.operacio.equals("*")) Multiplica();
@@ -30,6 +40,7 @@ public class CelaRefNum extends Numero{
         else if (this.operacio.equals("MED")) Mediana();
         else if (this.operacio.equals("VAR")) Variança();
         else Desviació();
+        super.setResultat(this.resultat);
     }
 
     private void Suma(){

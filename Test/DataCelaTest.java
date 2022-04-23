@@ -11,7 +11,7 @@ public class DataCelaTest {
     public void changeText(){
         DataCela c = new DataCela(new AbstractMap.SimpleEntry<>(1, 1),"11/02/2008");
         c.changeToText();
-        assertEquals("11 de febrer del 2008", c.getContingut());
+        assertEquals("11 de febrer del 2008", c.getResultatFinal());
         /*DataCela b = new DataCela(new AbstractMap.SimpleEntry<>(1, 1),"09 de agost del 2018");
         b.changeToText();
         assertEquals("09 de agost del 2018", b.getContingut());*/
@@ -21,10 +21,10 @@ public class DataCelaTest {
     public void changeData(){
         DataCela c = new DataCela(new AbstractMap.SimpleEntry<>(1, 1),"11 de febrer del 2008");
         c.changeToDate();
-        assertEquals("11/02/2008", c.getContingut());
+        assertEquals("11/02/2008", c.getResultatFinal());
         DataCela b = new DataCela(new AbstractMap.SimpleEntry<>(1, 1),"12/03/2028");
         b.changeToDate();
-        assertEquals("12/03/2028", b.getContingut());
+        assertEquals("12/03/2028", b.getResultatFinal());
     }
 
     @Test
