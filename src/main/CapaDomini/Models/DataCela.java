@@ -44,20 +44,20 @@ public class DataCela extends Cela {
     //FUNCTIONS
     public void changeToText(){
         if(!Objects.equals(TextFormat, "null")){
-           contingut = TextFormat;
+           resultat_final = TextFormat;
         }
         else{
-            contingut = dateFormat.substring(0,2) + PublicFuntions.monthToText(dateFormat.substring(3,5))+ dateFormat.substring(6);
+            resultat_final = dateFormat.substring(0,2) + PublicFuntions.monthToText(dateFormat.substring(3,5))+ dateFormat.substring(6);
         }
     }
 
     public void changeToDate(){
         if(!Objects.equals(dateFormat, "null")){
-            contingut = dateFormat;
+            resultat_final = dateFormat;
         }
         else{
             int size = TextFormat.length();
-            contingut = TextFormat.substring(0,2) + "/" + monthToData(TextFormat.substring(2,size-4)) +
+            resultat_final = TextFormat.substring(0,2) + "/" + monthToData(TextFormat.substring(2,size-4)) +
                     "/" + TextFormat.substring(size-4);
         }
     }

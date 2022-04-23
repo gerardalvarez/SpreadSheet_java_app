@@ -257,12 +257,21 @@ public class Bloc_celes {
         double varianza = acMedia2/(n-1) - (acMedia * acMedia) / (n * (n-1));
         return varianza;
 
+    }
 
+    public double maxim(ArrayList<Numero> inputs){
+        double max=-1;
+        for (Cela c : inputs) {
+            double aux=Double.parseDouble(c.getResultatFinal());
+            if(aux>max) max=aux;
+        }
+        return max;
     }
 
     public double calculaDesviació(ArrayList<Numero> inputs) {
         return Math.sqrt(this.calculaVariança(inputs));
     }
+
 
   /*  public void copiar_contingut(Cela org[][], Cela dest[][]) {
         for (int i = 0; i < org.length; i++) {
@@ -292,6 +301,11 @@ public class Bloc_celes {
         }
     }
 
+    public void buscar_y_remplazar(ArrayList<TextCela> inputs,String b,String r ) {
+        for (TextCela c : inputs) {
+            if(c.buscarElement(b)) c.remplacarElement(b,r);
+        }
+    }
 
 
             //UTILS UTILIZADOS EN LAS CLASES

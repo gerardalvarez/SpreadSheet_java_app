@@ -158,17 +158,17 @@ public class CelaRefNum extends Numero{
     private void Average(){
         //Blocs
         Bloc_celes bc= new Bloc_celes();
-        this.resultat= bc.calculaMitjana(this.operadors);
+        this.resultat= BigDecimal.valueOf(bc.calculaMitjana(this.operadors));
     }
     private void Desviació(){
         //Blocs
         Bloc_celes bc= new Bloc_celes();
-        this.resultat= bc.calculaDesviació(this.operadors);
+        this.resultat=BigDecimal.valueOf(bc.calculaDesviació(this.operadors));
     }
     private void Variança() {
         //Blocs
         Bloc_celes bc= new Bloc_celes();
-        this.resultat= bc.calculaVariança(this.operadors);
+        this.resultat= BigDecimal.valueOf(bc.calculaVariança(this.operadors));
     }
     private void Copia(){
         //Blocs
@@ -176,16 +176,16 @@ public class CelaRefNum extends Numero{
     private void Mediana(){
         //Blocs
         Bloc_celes bc= new Bloc_celes();
-        this.resultat= bc.calculaMediana(this.operadors);
+        this.resultat= BigDecimal.valueOf(bc.calculaMediana(this.operadors));
     }
 
     private void Moda(){
         //Blocs
         Bloc_celes bc= new Bloc_celes();
-        this.resultat= bc.calculaModa(this.operadors);
+        this.resultat= BigDecimal.valueOf(bc.calculaModa(this.operadors));
     }
 
-    public BigDecimal getResultatt(){
+    public BigDecimal getResultat(){
         return this.resultat;
     }
 }

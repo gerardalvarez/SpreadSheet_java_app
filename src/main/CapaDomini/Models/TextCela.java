@@ -16,11 +16,7 @@ public class TextCela extends Cela{
     }
 
     public void remplacarElement(String element, String change){
-        int index = resultat_final.indexOf(element);
-        if(index != -1)
-        {
-            resultat_final = resultat_final.substring(0,index) + change + resultat_final.substring(index+element.length());
-        }
+       resultat_final= resultat_final.replaceAll(element,change);
     }
 
     public void AllMayus(){
