@@ -2,21 +2,24 @@ package main.CapaDomini.Models;
 
 import java.awt.*;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 
 public abstract class Cela {
     //VARIABLES
     protected  AbstractMap.SimpleEntry<Integer , Integer> id;
-    protected  String contingut;
+    protected  String resultat_final;
     protected  Color colorFons = new Color(255,255,255);
     protected  Color colorLletra = new Color(0);
     protected  CelaEnum designedType; // En un futur fer enum
     protected  String type;
+    protected ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors; //Para avisarles si yo cambio
 
     //CREADORA
-    public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
+    public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
         this.id = id;
-        this.contingut = contingut;
+        this.resultat_final = resultat;
         type = calculaTipus();
+        observadors= new ArrayList<>();
     }
 
 
@@ -25,8 +28,8 @@ public abstract class Cela {
     public void setDesignedType(CelaEnum designedType) {this.designedType = designedType;}
     public AbstractMap.SimpleEntry<Integer, Integer> getId() {return id;}
     public void setId(AbstractMap.SimpleEntry<Integer, Integer> id) {this.id = id;}
-    public String getContingut() {return contingut;}
-    public void setContingut(String contingut) {this.contingut = contingut;}
+    public String getResultatFinal() {return resultat_final;}
+    public void setResultat(String resultat) {this.resultat_final = resultat;}
     public Color getColorFons() {return colorFons;}
     public void setColorFons(Color colorFons) {this.colorFons = colorFons;}
     public Color getColorLletra() {return colorLletra;}
@@ -34,16 +37,25 @@ public abstract class Cela {
     public String getType() {return type;}
     public void setType(String type) {this.type = type;}
 
+    public ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> getObservadors(){ return observadors;}
+
     //PUBLIC FUNCTIONS
     public String calculaTipus(){
         String Tipus = "text";
-        if(contingut == null)return Tipus;
-        if(isNumerical(contingut))Tipus = "numeric";
-        else if(isData(contingut))Tipus = "date";
+        if(resultat_final == null)return Tipus;
+        //else if (resultat.substring(0,1) == "=") evaluar_ref();
+        else if(isNumerical(resultat_final))Tipus = "numeric";
+        else if(isData(resultat_final))Tipus = "date";
         return Tipus;
     }
 
     //PRIVATE FUNCTIONS
+    /*
+    private void evaluar_ref(){
+        if (contingut.)
+    }
+     */
+
     private Boolean isNumerical(String strNum){
         if (strNum == null) return false;
 

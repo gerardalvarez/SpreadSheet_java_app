@@ -39,6 +39,6 @@ public class FullTest {
         ArrayList<Cela> c= new ArrayList<Cela>();
         c.add(f.Consultar_cela(idc));
         f.Esborrar_Celes(c);
-        assertEquals("nocont", f.Consultar_cela(idc).getContingut());
+        assertEquals("nocont", f.Consultar_cela(idc).getResultatFinal());
     }
 }
