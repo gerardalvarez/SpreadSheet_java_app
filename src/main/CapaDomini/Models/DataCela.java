@@ -17,8 +17,8 @@ public class DataCela extends Cela {
         DataValidator validator = new DateValidator("dd/MM/yyyy");
         if(validator.isValid(contingut)){
             dateFormat = contingut;
-            date = LocalDate.of(Integer.parseInt(dateFormat.substring(0,2)),Integer.parseInt(dateFormat.substring(3,5))
-                    ,Integer.parseInt(dateFormat.substring(6)));
+            date = LocalDate.of(Integer.parseInt(dateFormat.substring(6)),Integer.parseInt(dateFormat.substring(3,5))
+                    ,Integer.parseInt(dateFormat.substring(0,2)));
         }
         else{
             TextFormat = contingut;
