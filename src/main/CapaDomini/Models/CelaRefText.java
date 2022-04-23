@@ -20,7 +20,9 @@ public class CelaRefText extends TextCela{
             Bloc_celes bc= new Bloc_celes();
             bc.remplaçar_minuscules(operadors);
         }
-        else {
+        if(this.contingut.substring(1).equals("#")){
+            resultat_final=operadors.get(0).getResultatFinal();
+        } else {
             Bloc_celes bc= new Bloc_celes();
             bc.remplaçar_majuscules(operadors);
         }
