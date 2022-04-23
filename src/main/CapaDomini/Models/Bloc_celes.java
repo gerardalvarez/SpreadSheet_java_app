@@ -195,39 +195,39 @@ public class Bloc_celes {
     }
 
 
-    public double calculaMitjana(ArrayList<Numero> inputs) {
+    public double calculaMitjana(ArrayList<Cela> inputs) {
         double res=0;
-        for(Numero c : inputs){
-            res+= c.getResultat().doubleValue();
+        for(Cela c : inputs){
+            res+= Double.parseDouble(c.getResultatFinal());
         }
         return res/ inputs.size();
     }
 
-    public double calculaMediana(ArrayList<Numero> inputs) {
+    public double calculaMediana(ArrayList<Cela> inputs) {
         //sort array
-        Collections.sort(inputs, new Comparator<Numero>() {
+        Collections.sort(inputs, new Comparator<Cela>() {
             @Override
-            public int compare(Numero c1, Numero c2) {
-                return c1.getResultat().compareTo(c2.getResultat());
+            public int compare(Cela c1, Cela c2) {
+                return c1.getResultatFinal().compareTo(c2.getResultatFinal());
             }
         });
         double resultat;
         if(inputs.size() % 2 == 0){
-            Double sumaMedios = inputs.get(inputs.size()/2).getResultat().doubleValue() + inputs.get((inputs.size()/2)-1).getResultat().doubleValue();
+            Double sumaMedios = Double.parseDouble(inputs.get(inputs.size()/2).getResultatFinal()) + Double.parseDouble(inputs.get((inputs.size()/2)-1).getResultatFinal());
             resultat = (double)sumaMedios / 2;
         } else {
-            resultat = inputs.get(inputs.size()/2).getResultat().doubleValue();
+            resultat = Double.parseDouble(inputs.get(inputs.size()/2).getResultatFinal());
         }
         return resultat;
     }
 
 
 
-    public double calculaModa(ArrayList<Numero> inputs) {
+    public double calculaModa(ArrayList<Cela> inputs) {
 
         HashMap<Double, Double> mapa = new HashMap<>();
-        for (Numero c : inputs) {
-            Double n = c.getResultat().doubleValue();
+        for (Cela c : inputs) {
+            Double n = Double.parseDouble(c.getResultatFinal());
             if (mapa.containsKey(n)) {
                 mapa.put(n, mapa.get(n) + 1);
             } else {
@@ -245,15 +245,15 @@ public class Bloc_celes {
     }
 
 
-    public double calculaVariança(ArrayList<Numero> inputs) {
-        double media = this.calculaMitjana(inputs);
+    public double calculaVariança(ArrayList<Cela> inputs) {
+        //double media = this.calculaMitjana(inputs);
         double dVar = 0;
         double acMedia = 0, acMedia2 = 0;
         int n = 0;
         // Encuentra la varianza
-        for (Numero c : inputs) {
-            acMedia = acMedia + c.getResultat().doubleValue();
-            acMedia2 = acMedia2 + c.getResultat().doubleValue() * c.getResultat().doubleValue();
+        for (Cela c : inputs) {
+            acMedia = acMedia + Double.parseDouble(c.getResultatFinal());
+            acMedia2 = acMedia2 + Double.parseDouble(c.getResultatFinal()) * Double.parseDouble(c.getResultatFinal());
             n++;
         }
         double varianza = acMedia2/(n-1) - (acMedia * acMedia) / (n * (n-1));
@@ -262,7 +262,7 @@ public class Bloc_celes {
 
     }
 
-    public double calculaDesviació(ArrayList<Numero> inputs) {
+    public double calculaDesviació(ArrayList<Cela> inputs) {
         return Math.sqrt(this.calculaVariança(inputs));
     }
 
