@@ -39,6 +39,7 @@ public class CelaRefNum extends Numero{
         else if (this.operacio.equals("MED")) Mediana();
         else if (this.operacio.equals("VAR")) Variança();
         else if (this.operacio.equals("MOD")) Moda();
+        else if (this.operacio.equals("MAX")) Max();
         else Desviació();
         super.setResultat(this.resultat);
     }
@@ -183,6 +184,13 @@ public class CelaRefNum extends Numero{
         //Blocs
         Bloc_celes bc= new Bloc_celes();
         this.resultat= BigDecimal.valueOf(bc.calculaModa(this.operadors));
+    }
+
+    private void Max(){
+        //Blocs
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat= BigDecimal.valueOf(bc.maxim(this.operadors));
+
     }
 
     public BigDecimal getResultat(){
