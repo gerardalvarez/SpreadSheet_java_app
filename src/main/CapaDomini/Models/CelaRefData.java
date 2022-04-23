@@ -1,10 +1,23 @@
 package main.CapaDomini.Models;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 
 public class CelaRefData extends DataCela{
+    private String contingut;
+    private ArrayList<TextCela> operadors;
 
-    public CelaRefData(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
-        super(id, resultat);
+    public CelaRefData(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
+        super(id, contingut);
+        this.contingut=contingut;
+        Avaluar();
+    }
+
+    private void Avaluar(){
+        if(this.contingut.substring(1).equals("#")){
+            resultat_final=operadors.get(0).getResultatFinal();
+        } else {
+
+        }
     }
 }

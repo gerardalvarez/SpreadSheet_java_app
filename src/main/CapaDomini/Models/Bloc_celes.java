@@ -2,8 +2,6 @@ package main.CapaDomini.Models;
 
 
 import java.util.AbstractMap;
-import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.*;
 
@@ -195,7 +193,7 @@ public class Bloc_celes {
     }
 
 
-    public double calculaMitjana(ArrayList<Cela> inputs) {
+    public double calculaMitjana(ArrayList<Numero> inputs) {
         double res=0;
         for(Cela c : inputs){
             res+= Double.parseDouble(c.getResultatFinal());
@@ -203,7 +201,7 @@ public class Bloc_celes {
         return res/ inputs.size();
     }
 
-    public double calculaMediana(ArrayList<Cela> inputs) {
+    public double calculaMediana(ArrayList<Numero> inputs) {
         //sort array
         Collections.sort(inputs, new Comparator<Cela>() {
             @Override
@@ -223,7 +221,7 @@ public class Bloc_celes {
 
 
 
-    public double calculaModa(ArrayList<Cela> inputs) {
+    public double calculaModa(ArrayList<Numero> inputs) {
 
         HashMap<Double, Double> mapa = new HashMap<>();
         for (Cela c : inputs) {
@@ -245,7 +243,7 @@ public class Bloc_celes {
     }
 
 
-    public double calculaVariança(ArrayList<Cela> inputs) {
+    public double calculaVariança(ArrayList<Numero> inputs) {
         //double media = this.calculaMitjana(inputs);
         double dVar = 0;
         double acMedia = 0, acMedia2 = 0;
@@ -259,12 +257,21 @@ public class Bloc_celes {
         double varianza = acMedia2/(n-1) - (acMedia * acMedia) / (n * (n-1));
         return varianza;
 
-
     }
 
-    public double calculaDesviació(ArrayList<Cela> inputs) {
+    public double maxim(ArrayList<Numero> inputs){
+        double max=-1;
+        for (Cela c : inputs) {
+            double aux=Double.parseDouble(c.getResultatFinal());
+            if(aux>max) max=aux;
+        }
+        return max;
+    }
+
+    public double calculaDesviació(ArrayList<Numero> inputs) {
         return Math.sqrt(this.calculaVariança(inputs));
     }
+
 
   /*  public void copiar_contingut(Cela org[][], Cela dest[][]) {
         for (int i = 0; i < org.length; i++) {
@@ -294,6 +301,11 @@ public class Bloc_celes {
         }
     }
 
+    public void buscar_y_remplazar(ArrayList<TextCela> inputs,String b,String r ) {
+        for (TextCela c : inputs) {
+            if(c.buscarElement(b)) c.remplacarElement(b,r);
+        }
+    }
 
 
             //UTILS UTILIZADOS EN LAS CLASES

@@ -21,7 +21,7 @@ public class RefNumTest {
         operadors.add(n2);
         String operacio= "+";
         CelaRefNum cr= new CelaRefNum(new AbstractMap.SimpleEntry<>(1, 1),true,2, Tipus_Numero.numero, contingut, operadors, operacio);
-        assertEquals(new BigDecimal("20.4"),cr.getResultatt());
+        assertEquals(new BigDecimal("20.4"),cr.getResultat());
     }
 
     public void Test_RestaRef() throws Exception {
@@ -31,7 +31,7 @@ public class RefNumTest {
         operadors.add(n1);
         String operacio= "-";
         CelaRefNum cr= new CelaRefNum(new AbstractMap.SimpleEntry<>(1, 1),true,2, Tipus_Numero.numero, contingut, operadors, operacio);
-        assertEquals(new BigDecimal("6"),cr.getResultatt());
+        assertEquals(new BigDecimal("6"),cr.getResultat());
     }
 
     public void Test_MultRef() throws Exception {
@@ -41,7 +41,7 @@ public class RefNumTest {
         operadors.add(n1);
         String operacio= "-";
         CelaRefNum cr= new CelaRefNum(new AbstractMap.SimpleEntry<>(1, 1),true,2, Tipus_Numero.numero, contingut, operadors, operacio);
-        assertEquals(new BigDecimal("27"),cr.getResultatt());
+        assertEquals(new BigDecimal("27"),cr.getResultat());
     }
 
     public void Test_DivRef() throws Exception {
@@ -51,7 +51,7 @@ public class RefNumTest {
         operadors.add(n1);
         String operacio= "-";
         CelaRefNum cr= new CelaRefNum(new AbstractMap.SimpleEntry<>(1, 1),true,2, Tipus_Numero.numero, contingut, operadors, operacio);
-        assertEquals(new BigDecimal("3"),cr.getResultatt());
+        assertEquals(new BigDecimal("3"),cr.getResultat());
     }
 
 }

@@ -87,10 +87,10 @@ class Bloc_celesTest {
 
         Bloc_celes bloc=new Bloc_celes();
 
-        ArrayList<Cela> list = new ArrayList<>();
-        Cela c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1.3");
-        Cela c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        Cela c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1.4");
+        ArrayList<Numero> list = new ArrayList<>();
+        Numero c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1.3");
+        Numero c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        Numero c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1.4");
         list.add(c);
         list.add(c1);
         list.add(c2);
@@ -101,11 +101,11 @@ class Bloc_celesTest {
     void calculaMediana() {
         Bloc_celes bloc=new Bloc_celes();
 
-        ArrayList<Cela> list = new ArrayList<>();
-        Cela c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
-        Cela c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        Cela c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
-        Cela c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
+        ArrayList<Numero> list = new ArrayList<>();
+        Numero c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
+        Numero c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        Numero c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        Numero c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
         list.add(c);
         list.add(c1);
         list.add(c2);
@@ -120,11 +120,11 @@ class Bloc_celesTest {
 
         Bloc_celes bloc=new Bloc_celes();
 
-        ArrayList<Cela> list = new ArrayList<>();
-        Cela c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
-        Cela c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        Cela c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
-        Cela c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
+        ArrayList<Numero> list = new ArrayList<>();
+        Numero c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
+        Numero c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        Numero c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        Numero c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
         list.add(c);
         list.add(c1);
         list.add(c2);
@@ -137,11 +137,11 @@ class Bloc_celesTest {
     void calculaVariança() {
         Bloc_celes bloc=new Bloc_celes();
 
-        ArrayList<Cela> list = new ArrayList<>();
-        Cela c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
-        Cela c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        Cela c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
-        Cela c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
+        ArrayList<Numero> list = new ArrayList<>();
+        Numero c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
+        Numero c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        Numero c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        Numero c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
         list.add(c);
         list.add(c1);
         list.add(c2);
@@ -153,17 +153,31 @@ class Bloc_celesTest {
     void calculaDesviació() {
         Bloc_celes bloc=new Bloc_celes();
 
-        ArrayList<Cela> list = new ArrayList<>();
-        Cela c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
-        Cela c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        Cela c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
-        Cela c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
+        ArrayList<Numero> list = new ArrayList<>();
+        Numero c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
+        Numero c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        Numero c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        Numero c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
         list.add(c);
         list.add(c1);
         list.add(c2);
         list.add(c3);
-        System.out.println(bloc.calculaDesviació(list));
         assertTrue(bloc.calculaDesviació(list)==(2.872281323269014));
+    }
+    @Test
+    void maxim() {
+        Bloc_celes bloc=new Bloc_celes();
+
+        ArrayList<Numero> list = new ArrayList<>();
+        Numero c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
+        Numero c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        Numero c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        Numero c3 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "7");
+        list.add(c);
+        list.add(c1);
+        list.add(c2);
+        list.add(c3);
+        assertTrue(bloc.maxim(list)==(7.0));
     }
 
     @Test
@@ -200,6 +214,24 @@ class Bloc_celesTest {
         assertTrue(c.getResultatFinal().equals("baaa"));
         assertTrue(c1.getResultatFinal().equals("cssss"));
         assertTrue(c2.getResultatFinal().equals("aaaa"));
+    }
+
+    @Test
+    void buscar_y_remplazar() {
+
+        Bloc_celes bloc=new Bloc_celes();
+        ArrayList<TextCela> list = new ArrayList<>();
+        TextCela c = new TextCela(new AbstractMap.SimpleEntry<>(0, 1), "Carloz");
+        TextCela c1 = new TextCela(new AbstractMap.SimpleEntry<>(1, 1), "zzzAaasz");
+        TextCela c2 = new TextCela(new AbstractMap.SimpleEntry<>(2, 1), "Aaaa");
+        list.add(c);
+        list.add(c1);
+        list.add(c2);
+        bloc.buscar_y_remplazar(list,"z","s");
+
+        assertTrue(c.getResultatFinal().equals("Carlos"));
+        assertTrue(c1.getResultatFinal().equals("sssAaass"));
+        assertTrue(c2.getResultatFinal().equals("Aaaa"));
     }
 }
 

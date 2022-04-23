@@ -3,7 +3,6 @@ package main.CapaDomini.Models;
 import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class CelaRefNum extends Numero{
     private BigDecimal resultat;
@@ -39,6 +38,8 @@ public class CelaRefNum extends Numero{
         else if (this.operacio.equals("=")) Copia();
         else if (this.operacio.equals("MED")) Mediana();
         else if (this.operacio.equals("VAR")) Variança();
+        else if (this.operacio.equals("MOD")) Moda();
+        else if (this.operacio.equals("MAX")) Max();
         else Desviació();
         super.setResultat(this.resultat);
     }
@@ -157,21 +158,42 @@ public class CelaRefNum extends Numero{
 
     private void Average(){
         //Blocs
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat= BigDecimal.valueOf(bc.calculaMitjana(this.operadors));
     }
     private void Desviació(){
         //Blocs
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat=BigDecimal.valueOf(bc.calculaDesviació(this.operadors));
     }
     private void Variança() {
         //Blocs
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat= BigDecimal.valueOf(bc.calculaVariança(this.operadors));
     }
     private void Copia(){
         //Blocs
     }
     private void Mediana(){
         //Blocs
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat= BigDecimal.valueOf(bc.calculaMediana(this.operadors));
     }
 
-    public BigDecimal getResultatt(){
+    private void Moda(){
+        //Blocs
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat= BigDecimal.valueOf(bc.calculaModa(this.operadors));
+    }
+
+    private void Max(){
+        //Blocs
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat= BigDecimal.valueOf(bc.maxim(this.operadors));
+
+    }
+
+    public BigDecimal getResultat(){
         return this.resultat;
     }
 }
