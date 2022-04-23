@@ -149,4 +149,24 @@ public class CtrlPresentacio {
     public void CanviarArrodonit(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) {
         Cd.CanviarArrodonit(doc, full, id, arrodonir);
     }
+
+    public void AllMayus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Cd.AllMayus(doc, full, id);
+    }
+
+    public void AllMayusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        Cd.AllMayusIReemplaca(doc, full, id, idRemp);
+    }
+
+    public void AllMinus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Cd.AllMinus(doc, full, id);
+    }
+
+    public void AllMinusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        Cd.AllMinusIReemplaca(doc, full, id, idRemp);
+    }
+
+    public String getDia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.getDia(doc, full, id);
+    }
 }

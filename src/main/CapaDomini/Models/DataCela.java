@@ -1,7 +1,5 @@
 package main.CapaDomini.Models;
 
-import org.w3c.dom.Text;
-
 import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.Objects;
