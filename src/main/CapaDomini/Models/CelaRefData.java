@@ -4,7 +4,7 @@ import java.util.AbstractMap;
 
 public class CelaRefData extends DataCela{
 
-    public CelaRefData(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
-        super(id, resultat);
+    public CelaRefData(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
+        super(id, contingut);
     }
 }
