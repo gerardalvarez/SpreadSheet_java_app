@@ -11,7 +11,6 @@ import java.util.AbstractMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NumeroTest {
-/*
     @Test
     public void IncrementarTest(){
         Numero t = new Numero(new AbstractMap.SimpleEntry<>(1, 1),"5.4",true,2, Tipus_Numero.numero);
@@ -71,7 +70,5 @@ public class NumeroTest {
         t.setDecimals();
         assertEquals(new BigDecimal(expected),t.getResultat());
     }
-
- */
 
 }

@@ -37,82 +37,111 @@ public class CelaRefNum extends Numero{
         int i= 2;
         BigDecimal res = new BigDecimal(0);
         while (i < contingut.length()){
-            if (contingut.substring(i).equals("#")) {
-                res.add(this.operadors.get(o).getResultat());
+            if (contingut.charAt(i) == '#') {
+                res= res.add(this.operadors.get(o).getResultat());
                 ++o;
-                while ((!contingut.substring(i).equals(",")) && i < contingut.length()) ++i;
-            } else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
+                while (i < contingut.length() && (contingut.charAt(i) != ','))++i;
+            }
+            else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
                 String num= "0";
-                while ((!contingut.substring(i).equals(",")) && i < contingut.length()) {
+                while (i < contingut.length() && (contingut.charAt(i) != ',')) {
                     num = num + contingut.charAt(i);
                     ++i;
                 }
-                System.out.println(num);
-                System.out.println(res);
-                res.add(new BigDecimal("num"));
+                res= res.add(new BigDecimal(num));
             }
             ++i;
         }
+        this.resultat= res;
     }
 
     private void Resta(){
         int o = 0;
+        int i= 2;
         BigDecimal res = new BigDecimal(0);
-        for (int i = 2; i < contingut.length(); ++i) {
-            if (contingut.substring(i).equals("#")) {
-                res.subtract(this.operadors.get(o).getResultat());
+        boolean t= false;
+        while (i < contingut.length()){
+            if (i==2) t= true;
+            if (contingut.charAt(i) == '#') {
+                if (t) {
+                    res= this.operadors.get(o).getResultat();
+                    t= false;
+                }
+                else res= res.subtract(this.operadors.get(o).getResultat());
                 ++o;
-            } else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
-                String num = null;
-                while (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
+                while (i < contingut.length() && (contingut.charAt(i) != ',')) ++i;
+            }
+            else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
+                String num= "0";
+                while (i < contingut.length() && (contingut.charAt(i) != ',')) {
                     num = num + contingut.charAt(i);
                     ++i;
                 }
-                res.subtract(new BigDecimal(num));
+                if (t) {
+                    res = new BigDecimal(num);
+                    t = false;
+                }
+                else res= res.subtract(new BigDecimal(num));
             }
+            ++i;
         }
+        this.resultat= res;
     }
 
     private void Multiplica(){
         int o = 0;
+        int i= 2;
         BigDecimal res = new BigDecimal(1);
-        for (int i = 2; i < contingut.length(); ++i) {
-            if (contingut.substring(i).equals("#")) {
-                res.multiply(this.operadors.get(o).getResultat());
+        while (i < contingut.length()){
+            if (contingut.charAt(i) == '#') {
+                res= res.multiply(this.operadors.get(o).getResultat());
                 ++o;
-            } else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
-                String num = null;
-                while (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
+                while (i < contingut.length() && (contingut.charAt(i) != ','))++i;
+            }
+            else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
+                String num= "0";
+                while (i < contingut.length() && (contingut.charAt(i) != ',')) {
                     num = num + contingut.charAt(i);
                     ++i;
                 }
-                res.multiply(new BigDecimal(num));
+                res= res.multiply(new BigDecimal(num));
             }
+            ++i;
         }
+        this.resultat= res;
     }
 
     private void Divideix(){
         int o = 0;
+        int i= 2;
         BigDecimal res = new BigDecimal(0);
         boolean t= false;
-        for (int i = 2; i < contingut.length(); ++i) {
+        while (i < contingut.length()){
             if (i==2) t= true;
-            if (contingut.substring(i).equals("#")) {
-                if (t) res= this.operadors.get(o).getResultat();
-                else res.divide(this.operadors.get(o).getResultat());
+            if (contingut.charAt(i) == '#') {
+                if (t) {
+                    res= this.operadors.get(o).getResultat();
+                    t= false;
+                }
+                else res= res.divide(this.operadors.get(o).getResultat());
                 ++o;
-                t= false;
-            } else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
-                String num = null;
-                while (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
+                while (i < contingut.length() && (contingut.charAt(i) != ',')) ++i;
+            }
+            else if (contingut.charAt(i) >= '0' && contingut.charAt(i) <= '9') {
+                String num= "0";
+                while (i < contingut.length() && (contingut.charAt(i) != ',')) {
                     num = num + contingut.charAt(i);
                     ++i;
                 }
-                if (t) res= new BigDecimal(num);
-                else res.divide(new BigDecimal(num));
-                t= false;
+                if (t) {
+                    res = new BigDecimal(num);
+                    t = false;
+                }
+                else res= res.divide(new BigDecimal(num));
             }
+            ++i;
         }
+        this.resultat= res;
     }
 
     private void Average(){
