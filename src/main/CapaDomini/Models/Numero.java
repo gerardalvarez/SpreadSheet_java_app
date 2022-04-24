@@ -28,7 +28,7 @@ public class Numero extends Cela{
     public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
         super(id, String.valueOf(resultat));
         this.resultat = new BigDecimal(resultat);
-        resultat_final=resultat.toString(); //hay que ponerlo bien con los parametros
+        resultat_final=resultat.toString();
     }
 
     public Numero(Numero dd,AbstractMap.SimpleEntry<Integer,Integer> id) {

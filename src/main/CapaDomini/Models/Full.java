@@ -22,7 +22,7 @@ public class Full {
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(i, j);
-                Celes.put(idc, new TextCela(idc, "."));
+                Celes.put(idc, new TextCela(idc, ""));
             }
         }
     };
@@ -35,7 +35,7 @@ public class Full {
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(i, j);
-                cel.put(idc, new TextCela(idc, "."));
+                cel.put(idc, new TextCela(idc, ""));
             }
         }
         this.Celes= cel;
@@ -53,7 +53,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Columnes) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(nf,i);
-            this.Celes.put(idc, new TextCela(idc, "."));
+            this.Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
     };
@@ -64,7 +64,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
-            this.Celes.put(idc, new TextCela(idc, "."));
+            this.Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
     };

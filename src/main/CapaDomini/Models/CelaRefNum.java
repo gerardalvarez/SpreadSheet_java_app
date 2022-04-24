@@ -27,7 +27,7 @@ public class CelaRefNum extends Numero{
         this.colorFons=dd.getColorFons();
         this.colorLletra=dd.getColorLletra();
         this.type=dd.getType();
-        this.contingut=dd.getContingut();
+        //this.contingut=dd.getContingut();
         Avaluar();
     }
 
@@ -47,7 +47,7 @@ public class CelaRefNum extends Numero{
         else if (this.operacio.equals("PRO")) Multiplica();
         else if (this.operacio.equals("DIV")) Divideix();
         else if (this.operacio.equals("AVG")) Average();
-        else if (this.operacio.equals("=")) Copia();
+        else if (this.operacio.equals("COP")) Copia();
         else if (this.operacio.equals("MED")) Mediana();
         else if (this.operacio.equals("VAR")) Variança();
         else if (this.operacio.equals("MOD")) Moda();

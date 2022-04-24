@@ -695,7 +695,7 @@ public class VistaTerminal {
 
             case 2:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp();
                     Cp.AllMinusIReemplaca(doc, full, id, idRemp);
                 }
                 else {
@@ -916,6 +916,14 @@ public class VistaTerminal {
         io.writeln("Indiqui l'identificador de la cel·la sobre la qual vol treballar, introdueixi'ls separats per un espai");
         int f = io.readint();
         int c = io.readint();
+        return new AbstractMap.SimpleEntry<>(f - 1,c - 1);
+    }
+
+    private AbstractMap.SimpleEntry<Integer, Integer> ObtenirIdRemp() throws Exception {
+        io.writeln("Indiqui la cela on vol col·locar el contingut");
+        int f = io.readint();
+        int c = io.readint();
+        //Cd.ComprovaCelaNoOcupa(new AbstractMap.SimpleEntry<>(f - 1,c - 1));
         return new AbstractMap.SimpleEntry<>(f - 1,c - 1);
     }
 

@@ -109,8 +109,9 @@ public class CtrlDomini {
                     }
                     temp.add(d.toString());
                 }
-                else if (c instanceof Text) {
-                    temp.add(c.getResultatFinal());
+                else if (c instanceof TextCela) {
+                    if(c.getResultatFinal().isEmpty()) temp.add(".");
+                    else temp.add(c.getResultatFinal());
                 }
                 else {
                     temp.add(c.getResultatFinal());
