@@ -45,7 +45,7 @@ public class FullTest {
     public void ModTipusNum() throws Exception {
         Full f= new Full( 13,8);
         AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(4, 5);
-        f.getCeles().get(idc).setResultat("2");
+        f.getCeles().get(idc).setResultatFinal("2");
         f.Modifica_Tipus_Numeric(idc);
         assertEquals("numeric", f.getCeles().get(idc).getType());
     }
@@ -60,7 +60,7 @@ public class FullTest {
     public void ModTipusData() throws Exception {
         Full f= new Full( 13,8);
         AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(4, 5);
-        f.getCeles().get(idc).setResultat("11 de febrer del 2008");
+        f.getCeles().get(idc).setResultatFinal("11 de febrer del 2008");
         f.Modifica_Tipus_Data(idc);
         assertEquals("data", f.getCeles().get(idc).getType());
     }
