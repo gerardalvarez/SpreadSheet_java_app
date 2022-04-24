@@ -12,6 +12,9 @@ public abstract class Cela {
     protected  Color colorLletra = new Color(0);
     protected  CelaEnum designedType; // En un futur fer enum
     protected  String type;
+
+
+
     protected ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors; //Para avisarles si yo cambio
 
     //CREADORA
@@ -29,13 +32,20 @@ public abstract class Cela {
     public AbstractMap.SimpleEntry<Integer, Integer> getId() {return id;}
     public void setId(AbstractMap.SimpleEntry<Integer, Integer> id) {this.id = id;}
     public String getResultatFinal() {return resultat_final;}
-    public void setResultat(String resultat) {this.resultat_final = resultat;}
+    public void setResultatFinal(String resultat) {this.resultat_final = resultat;}
     public Color getColorFons() {return colorFons;}
     public void setColorFons(Color colorFons) {this.colorFons = colorFons;}
     public Color getColorLletra() {return colorLletra;}
     public void setColorLletra(Color colorLletra) {this.colorLletra = colorLletra;}
     public String getType() {return type;}
     public void setType(String type) {this.type = type;}
+    public void setObservadors(ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors) {
+        this.observadors = observadors;
+    }
+
+    public void newObserver(AbstractMap.SimpleEntry<Integer, Integer> newO){
+        observadors.add(newO);
+    }
 
     public ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> getObservadors(){ return observadors;}
 

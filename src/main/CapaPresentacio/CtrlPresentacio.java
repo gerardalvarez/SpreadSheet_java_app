@@ -197,4 +197,48 @@ public class CtrlPresentacio {
     public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
         Cd.transformaDataIReemplaca(doc, full, id, idRemp);
     }
+
+    public void CalculaMitjana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        Cd.CalculaMitjana(doc, full, id1, id2, idfin);
+    }
+
+    public boolean ComprovaNumeric(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        return Cd.ComprovaNumeric(doc, full, id1, id2);
+    }
+
+    public void CalculaMediana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        Cd.CalculaMediana(doc, full, id1, id2, idfin);
+    }
+
+    public void CalculaModa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        Cd.CalculaModa(doc, full, id1, id2, idfin);
+    }
+
+    public void CalculaVariança(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        Cd.CalculaVariança(doc, full, id1, id2, idfin);
+    }
+
+    public void BuscaMaxim(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        Cd.BuscaMaxim(doc, full, id1, id2, idfin);
+    }
+
+    public void CalculaDesviacio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        Cd.CalculaDesviacio(doc, full, id1, id2, idfin);
+    }
+
+    public boolean ComprovaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        return Cd.ComprovaText(doc, full, id1, id2);
+    }
+
+    public void AllMayusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        Cd.AllMayusBloc(doc, full, id1, id2);
+    }
+
+    public void AllMinusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        Cd.AllMinusBloc(doc, full, id1, id2);
+    }
+
+    public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) {
+        Cd.BuscaRemp(doc, full, id1, id2, buscar, remp);
+    }
 }

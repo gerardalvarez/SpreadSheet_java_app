@@ -1,5 +1,7 @@
 package main.CapaDomini.Models;
 
+import java.util.Objects;
+
 public class PublicFuntions {
     public static String monthToText(String monthNumber){
         switch (monthNumber) {
@@ -99,6 +101,22 @@ public class PublicFuntions {
             String date = dd+"/"+ MM + "/" + yyyy;
             return validator.isValid(date);
         }
+    }
+
+    public static String getOper(String text){
+            if (Objects.equals(text, "SUM")) return "SUM";
+            else if (Objects.equals(text, "RES")) return "RES";
+            else if (Objects.equals(text, "PRO")) return "PRO";
+            else if (Objects.equals(text, "DIV")) return "DIV";
+            else if (Objects.equals(text, "AVG")) return "AVG";
+            else if (Objects.equals(text, "MED")) return "MED";
+            else if (Objects.equals(text, "VAR")) return "VAR";
+            else if (Objects.equals(text, "MOD")) return "MOD";
+            else if (Objects.equals(text, "MAX")) return "MAX";
+            else if (Objects.equals(text, "DEV")) return "DEV";
+            else if (Objects.equals(text, "MAY")) return "MAY";
+            else if (Objects.equals(text, "MIN")) return "MIN";
+            else return "NULL";
     }
 
 }

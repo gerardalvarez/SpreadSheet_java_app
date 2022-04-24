@@ -38,12 +38,18 @@ public class CelaRefNum extends Numero{
 
     private void Avaluar() {
 
-        if (this.operacio.equals("+")) Suma();
-        else if (this.operacio.equals("-")) Resta();
-        else if (this.operacio.equals("*")) Multiplica();
-        else if (this.operacio.equals("/")) Divideix();
+        /*switch (this.operacio){
+            case "+":
+                Suma();
+                break;
+
+        }*/
+
+        if (this.operacio.equals("SUM")) Suma();
+        else if (this.operacio.equals("RES")) Resta();
+        else if (this.operacio.equals("PRO")) Multiplica();
+        else if (this.operacio.equals("DIV")) Divideix();
         else if (this.operacio.equals("AVG")) Average();
-        else if (this.operacio.equals("=")) Copia();
         else if (this.operacio.equals("MED")) Mediana();
         else if (this.operacio.equals("VAR")) Variança();
         else if (this.operacio.equals("MOD")) Moda();
@@ -51,7 +57,6 @@ public class CelaRefNum extends Numero{
         else Desviació();
         super.setResultat(this.resultat);
     }
-
     private void Suma(){
         int o = 0;
         int i= 2;

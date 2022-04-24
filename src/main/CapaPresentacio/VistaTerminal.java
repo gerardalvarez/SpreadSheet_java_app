@@ -34,6 +34,8 @@ public class VistaTerminal {
     private void DemanarOpcionsMenu () throws Exception {
         try {
             io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
+            io.readnext();
+
             int s = io.readint();
             switch (s) {
                 case 1:
@@ -62,11 +64,12 @@ public class VistaTerminal {
 
                 default:
                     io.writeln("ERROR: L'opció seleccionada no existeix");
+
                     DemanarOpcionsMenu();
             }
         }
         catch (Exception e) {
-            io.writeln("Escrigui un numero");
+            io.writeln("ERROR: Escrigui un numero");
             DemanarOpcionsMenu();
         }
     }
@@ -130,13 +133,14 @@ public class VistaTerminal {
         io.writeln("A continuació pot veure quines opcions pot fer dintre d'un Full");
         io.writeln("0. Retrocedir");
         io.writeln("1. Gestionar Cel·les");
-        io.writeln("2. Afegir Fila");
-        io.writeln("3. Eliminar Fila");
-        io.writeln("4. Afegir Columna");
-        io.writeln("5. Eliminar Fila");
-        io.writeln("6. Veure Full");
-        io.writeln("7. Esborrar Celes");
-        io.writeln("8. Canviar Nom Full");
+        io.writeln("2. Gestionat Bloc de Cel·les");
+        io.writeln("3. Afegir Fila");
+        io.writeln("4. Eliminar Fila");
+        io.writeln("5. Afegir Columna");
+        io.writeln("6. Eliminar Fila");
+        io.writeln("7. Veure Full");
+        io.writeln("8. Esborrar Celes");
+        io.writeln("9. Canviar Nom Full");
         io.writeln();
     }
 
@@ -154,12 +158,20 @@ public class VistaTerminal {
                 DemanarOpcionsCela(doc, full, id);
                 break;
 
-            case 6:
+            case 2:
+                MostrarOpcionsBloc();
+                AbstractMap.SimpleEntry<Integer, Integer> id1 = ObtenirIdCela();
+                AbstractMap.SimpleEntry<Integer, Integer> id2 = ObtenirIdCela();
+                DemanarOpcionsBloc(doc, full, id1, id2);
+                break;
+
+            case 7:
                 ImprimirFull(doc, full);
                 MostrarOpcionsFull();
                 DemanarOpcionsFull(doc, full);
                 break;
-            case 8:
+
+            case 9:
                 String nouFull = ObtenirNameFull(doc, full);
                 Cp.NouNomFull (doc, full, nouFull);
                 io.writeln("Nom del Full Canviat amb Exit");
@@ -172,6 +184,7 @@ public class VistaTerminal {
                 break;
         }
     }
+
 
     public void MostrarOpcionsCela() throws Exception {
         io.writeln("A continuació pot veure quines opcions pot fer sobre una cel·la");
@@ -262,6 +275,161 @@ public class VistaTerminal {
                 DemanarOpcionsCela(doc, full, id);
                 break;
 
+        }
+    }
+
+    private void MostrarOpcionsBloc() throws Exception {
+        io.writeln("A continuació pot veure quines opcions pot fer sobre una bloc de cel·les");
+        io.writeln("0. Retrocedir");
+        io.writeln("1. Calcula mitjana");
+        io.writeln("2. Calcula mediana");
+        io.writeln("3. Calcula moda");
+        io.writeln("4. Calcula variança");
+        io.writeln("5. Busca el màxim");
+        io.writeln("6. Passar tot a majúscules");
+        io.writeln("7. Passar tot a minúscules");
+        io.writeln();
+    }
+
+    private void DemanarOpcionsBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) throws Exception {
+        io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
+        int s = io.readint();
+        switch (s) {
+            case 0:
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 1:
+                if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    Cp.CalculaMitjana(doc, full, id1, id2, idfin);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es numero");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 2:
+                if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    Cp.CalculaMediana(doc, full, id1, id2, idfin);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es numero");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 3:
+                if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    Cp.CalculaModa(doc, full, id1, id2, idfin);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es numero");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 4:
+                if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    Cp.CalculaVariança(doc, full, id1, id2, idfin);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es numero");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+
+            case 5:
+                if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    Cp.BuscaMaxim(doc, full, id1, id2, idfin);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es numero");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 6:
+                if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    Cp.CalculaDesviacio(doc, full, id1, id2, idfin);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es numero");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 7:
+                if(Cp.ComprovaText(doc, full, id1, id2)) {
+                    Cp.AllMayusBloc(doc, full, id1, id2);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es text");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 8:
+                if(Cp.ComprovaText(doc, full, id1, id2)) {
+                    Cp.AllMinusBloc(doc, full, id1, id2);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es text");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 9:
+                if(Cp.ComprovaText(doc, full, id1, id2)) {
+                    String buscar = ObtenirBusca();
+                    String remp = ObtenirTextRemp();
+                    Cp.BuscarRemp(doc, full, id1, id2, buscar, remp);
+                    ImprimirFull(doc, full);
+                }
+                else {
+                    io.writeln("ERROR: Algunes de les cel·les seleccionades no es text");
+
+                }
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+
+            default:
+                io.writeln("ERROR: L'opció seleccionada no existeix");
+                DemanarOpcionsBloc(doc, full, id1, id2);
         }
     }
 
@@ -820,4 +988,13 @@ public class VistaTerminal {
         return ObtenirArrodonit();
     }
 
+    private String ObtenirBusca() throws Exception {
+        io.writeln("Escrigui la paraula que vol buscar");
+        return io.readword();
+    }
+
+    private String ObtenirTextRemp() throws Exception {
+        io.writeln("Escrigui la paraula que vol remplaçar");
+        return io.readword();
+    }
 }

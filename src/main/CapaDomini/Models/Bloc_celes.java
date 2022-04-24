@@ -16,7 +16,7 @@ public class Bloc_celes {
     //
     /////////
 
-    public Cela[][] ordena_A_Z_matrix(Cela arr[][],ArrayList<Integer> cols) {
+    public Cela[][] ordena_A_Z_matrix(Cela[][] arr, ArrayList<Integer> cols) {
 
         Cela[][] aux = new Cela[arr.length][arr[0].length];
         AbstractMap.SimpleEntry<Integer,Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];

@@ -26,10 +26,8 @@ public class CelaRefData extends DataCela{
     }
 
     private void Avaluar(){
-        if(this.contingut.substring(1).equals("#")){
+        if(this.contingut.charAt(1) == '#'){
             resultat_final=operadors.get(0).getResultatFinal();
-        } else {
-
         }
     }
 }
