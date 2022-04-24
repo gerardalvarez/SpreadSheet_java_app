@@ -9,9 +9,7 @@ public class Full {
     private String nom;
     private Integer Num_Columnes;
     private Integer Num_Files;
-    private Cela[] Cel;
-    private  HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
-    private ArrayList<Cela> CelaULT;
+    private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
 
     //Constructor
     public Full(String n, Integer nc, Integer nf) {
@@ -47,6 +45,7 @@ public class Full {
         this.nom= n;
     };
     public String getNom(){return this.nom;}
+
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
         if (nf <= this.Num_Files-1) IncrementarIndexFila(nf);
@@ -216,21 +215,8 @@ public class Full {
         n.setTipus(Tipus_Numero.valueOf(Type));
     }
 
-    public void Modifica_bloc_celes(ArrayList<Cela> celes) {
-        //Controller
-    };
-
     public Cela Consultar_cela(AbstractMap.SimpleEntry<Integer, Integer> id) {
         return this.Celes.get(id);
-    };
-
-
-    public void Retrocedir(ArrayList<Cela> celes) {
-        for (int i= 0; i < celes.size(); ++i){
-            this.Celes.remove(celes.get(i).getId());
-            this.Celes.put(celes.get(i).getId(), celes.get(i));
-            celes.remove(i);
-        }
     };
 
     public HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Cela> getCeles() throws Exception {

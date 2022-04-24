@@ -38,13 +38,6 @@ public class CelaRefNum extends Numero{
 
     private void Avaluar() {
 
-        /*switch (this.operacio){
-            case "+":
-                Suma();
-                break;
-
-        }*/
-
         if (this.operacio.equals("SUM")) Suma();
         else if (this.operacio.equals("RES")) Resta();
         else if (this.operacio.equals("PRO")) Multiplica();
@@ -54,12 +47,13 @@ public class CelaRefNum extends Numero{
         else if (this.operacio.equals("VAR")) Variança();
         else if (this.operacio.equals("MOD")) Moda();
         else if (this.operacio.equals("MAX")) Max();
+        else if (this.operacio.equals("PER")) Pearson();
         else Desviació();
-        super.setResultat(this.resultat);
+        resultat_final= String.valueOf(this.resultat);
     }
     private void Suma(){
         int o = 0;
-        int i= 2;
+        int i= 4;
         BigDecimal res = new BigDecimal(0);
         while (i < contingut.length()){
             if (contingut.charAt(i) == '#') {
@@ -82,11 +76,11 @@ public class CelaRefNum extends Numero{
 
     private void Resta(){
         int o = 0;
-        int i= 2;
+        int i= 4;
         BigDecimal res = new BigDecimal(0);
         boolean t= false;
         while (i < contingut.length()){
-            if (i==2) t= true;
+            if (i==4) t= true;
             if (contingut.charAt(i) == '#') {
                 if (t) {
                     res= this.operadors.get(o).getResultat();
@@ -115,7 +109,7 @@ public class CelaRefNum extends Numero{
 
     private void Multiplica(){
         int o = 0;
-        int i= 2;
+        int i= 4;
         BigDecimal res = new BigDecimal(1);
         while (i < contingut.length()){
             if (contingut.charAt(i) == '#') {
@@ -138,11 +132,11 @@ public class CelaRefNum extends Numero{
 
     private void Divideix(){
         int o = 0;
-        int i= 2;
+        int i= 4;
         BigDecimal res = new BigDecimal(0);
         boolean t= false;
         while (i < contingut.length()){
-            if (i==2) t= true;
+            if (i==4) t= true;
             if (contingut.charAt(i) == '#') {
                 if (t) {
                     res= this.operadors.get(o).getResultat();
@@ -185,7 +179,8 @@ public class CelaRefNum extends Numero{
         this.resultat= BigDecimal.valueOf(bc.calculaVariança(this.operadors));
     }
     private void Copia(){
-        //Blocs
+        this.resultat= this.operadors.get(0).getResultat();
+        super.setResultat(this.resultat);
     }
     private void Mediana(){
         //Blocs
@@ -203,7 +198,26 @@ public class CelaRefNum extends Numero{
         //Blocs
         Bloc_celes bc= new Bloc_celes();
         this.resultat= BigDecimal.valueOf(bc.maxim(this.operadors));
+    }
 
+    private void Pearson(){
+        //Blocs
+        ArrayList<Numero> n1= new ArrayList<>();
+        ArrayList<Numero> n2= new ArrayList<>();
+        int o= 0;
+        int i= 4;
+        boolean t= true;
+        while (i < contingut.length()){
+            if (contingut.charAt(i) == ';') t= false;
+            else if (contingut.charAt(i) == '#') {
+                if (t) n1.add(operadors.get(o));
+                else n2.add(operadors.get(o));
+                ++o;
+            }
+            ++i;
+        }
+        Bloc_celes bc= new Bloc_celes();
+        this.resultat= BigDecimal.valueOf(bc.coeficient_Pearson(n1,n2));
     }
 
     public BigDecimal getResultat(){
