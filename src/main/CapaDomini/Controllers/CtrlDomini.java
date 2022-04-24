@@ -127,10 +127,12 @@ public class CtrlDomini {
     public void eliminarFull(String doc, String full){
         Documents.get(doc).elimina_full(full);
     }
+
     //CELA
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
         Full f = Documents.get(doc).get_full(full);
         f.Modifica_Cela(id, contingut);
+
     }
 
     public Boolean ComprovarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
