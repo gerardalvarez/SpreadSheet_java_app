@@ -1,11 +1,8 @@
 package main.CapaDomini.Models;
 
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.util.*;
-
-import static java.lang.Integer.parseInt;
 
 public class Full {
     private String nom;
@@ -25,7 +22,7 @@ public class Full {
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(i, j);
-                Celes.put(idc, new TextCela(idc, "."));
+                Celes.put(idc, new TextCela(idc, ""));
             }
         }
     };
@@ -38,7 +35,7 @@ public class Full {
         for (Integer i=0; i < Num_Files; ++i) {
             for (Integer j = 0; j < Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(i, j);
-                cel.put(idc, new TextCela(idc, "."));
+                cel.put(idc, new TextCela(idc, ""));
             }
         }
         this.Celes= cel;
@@ -51,12 +48,12 @@ public class Full {
     public String getNom(){return this.nom;}
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
-        if (nf <= this.Num_Files-1) //IncrementarIndexFila(nf);
+        if (nf <= this.Num_Files-1) IncrementarIndexFila(nf);
         ++this.Num_Files;
         Integer i= 0;
         while (i < this.Num_Columnes) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(nf,i);
-            this.Celes.put(idc, new TextCela(idc, "."));
+            Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
     };
@@ -67,7 +64,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
-            this.Celes.put(idc, new TextCela(idc, "."));
+            Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
     };
@@ -98,7 +95,7 @@ public class Full {
         int i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
-            this.Celes.get(idc).setResultatFinal("nocont");
+            this.Celes.get(idc).setResultat("");
             ++i;
         }
     };
@@ -366,6 +363,10 @@ public class Full {
             return false;
         }
         return true;
+    }
+
+    public boolean ExisteixId(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return this.Celes.containsKey(id);
     }
 };
 

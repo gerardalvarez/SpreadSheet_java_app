@@ -24,6 +24,7 @@ public class VistaTerminal {
 
     public void MostrarMenu() throws Exception {
         io.writeln("Aquí pot veure les opcions que te disponibles a seleccionar");
+        io.writeln("0. Tancar Programa");
         io.writeln("1. Obrir Documents");
         io.writeln("2. Nou Document");
         io.writeln("3. Eliminar Document");
@@ -32,11 +33,9 @@ public class VistaTerminal {
     }
 
     private void DemanarOpcionsMenu () throws Exception {
-        try {
             io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-            io.readnext();
 
-            int s = io.readint();
+            Integer s = io.readint();
             switch (s) {
                 case 1:
                     String doc = ObtenirNomDocument(); //la id del document de moment
@@ -67,15 +66,11 @@ public class VistaTerminal {
 
                     DemanarOpcionsMenu();
             }
-        }
-        catch (Exception e) {
-            io.writeln("ERROR: Escrigui un numero");
-            DemanarOpcionsMenu();
-        }
     }
 
     public void MostrarOpcionsDocument() throws Exception {
         io.writeln("A continuació pot veure quines opcions pot fer dintre d'un document");
+        io.writeln("0. Retrocedir");
         io.writeln("1. Seleccionar Full");
         io.writeln("2. Afegir Full");
         io.writeln("3. Eliminar Full");
@@ -85,11 +80,14 @@ public class VistaTerminal {
 
     public void DemanarOpcionsDocument(String doc) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
+        Integer s = io.readint();
         switch (s) {
             case 0:
                 MostrarMenu();
                 DemanarOpcionsMenu();
+                break;
+
+
             case 1:
                 String full = ObtenirNomFull(doc);
                 if(Objects.equals(full, "null")){
@@ -101,6 +99,7 @@ public class VistaTerminal {
                     DemanarOpcionsFull(doc, full);
                 }
                 break;
+
             case 2:
                 Integer files = 1, columnes = 1;
                 String nouFull = ObtenirNouFull(doc, files, columnes);
@@ -109,6 +108,7 @@ public class VistaTerminal {
                 MostrarOpcionsFull();
                 DemanarOpcionsFull(doc,nouFull);
                 break;
+
             case 3:
                 String elimFull = ObtenirFullEliminar(doc);
                 Cp.EliminarFull(doc, elimFull);
@@ -116,6 +116,7 @@ public class VistaTerminal {
                 MostrarOpcionsDocument();
                 DemanarOpcionsDocument(doc);
                 break;
+
             case 4:
                 String nouDoc = ObtenirNameDocument(doc);
                 Cp.NouNomDoc(nouDoc, doc);
@@ -123,6 +124,7 @@ public class VistaTerminal {
                 MostrarOpcionsDocument();
                 DemanarOpcionsDocument(nouDoc);
                 break;
+
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
                 DemanarOpcionsDocument(doc);
@@ -135,9 +137,9 @@ public class VistaTerminal {
         io.writeln("1. Gestionar Cel·les");
         io.writeln("2. Gestionat Bloc de Cel·les");
         io.writeln("3. Afegir Fila");
-        io.writeln("4. Eliminar Fila");
-        io.writeln("5. Afegir Columna");
-        io.writeln("6. Eliminar Fila");
+        io.writeln("4. Afegir Columna");
+        io.writeln("5. Eliminar Fila");
+        io.writeln("6. Eliminar Columna");
         io.writeln("7. Veure Full");
         io.writeln("8. Esborrar Celes");
         io.writeln("9. Canviar Nom Full");
@@ -146,23 +148,72 @@ public class VistaTerminal {
 
     private void DemanarOpcionsFull(String doc, String full) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
+        Integer s = io.readint();
         switch (s) {
             case 0:
                 MostrarOpcionsDocument();
                 DemanarOpcionsDocument(doc);
                 break;
+
             case 1:
                 MostrarOpcionsCela();
-                AbstractMap.SimpleEntry<Integer, Integer> id = ObtenirIdCela();
+                AbstractMap.SimpleEntry<Integer, Integer> id = ObtenirIdCela(doc, full);
                 DemanarOpcionsCela(doc, full, id);
                 break;
 
             case 2:
                 MostrarOpcionsBloc();
-                AbstractMap.SimpleEntry<Integer, Integer> id1 = ObtenirIdCela();
-                AbstractMap.SimpleEntry<Integer, Integer> id2 = ObtenirIdCela();
+                AbstractMap.SimpleEntry<Integer, Integer> id1 = ObtenirIdCela(doc, full);
+                AbstractMap.SimpleEntry<Integer, Integer> id2 = ObtenirIdCela(doc, full);
                 DemanarOpcionsBloc(doc, full, id1, id2);
+                break;
+
+            case 3:
+                int files = Cp.GetFiles(doc, full);
+                io.writeln("Actualment té " + files + " files");
+                Integer f = ObtenirFila();
+                Cp.AfegirFila(doc, full, f);
+                ImprimirFull(doc, full);
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 4:
+                int cols = Cp.GetColumnes(doc, full);
+                io.writeln("Actualment té " + cols + " columnes");
+                Integer c = ObtenirColumna();
+                Cp.AfegirCol(doc, full, c);
+                ImprimirFull(doc, full);
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 5:
+                int fila = Cp.GetFiles(doc, full);
+                io.writeln("Actualment té " + fila + " files");
+                Integer fi = ObtenirFila();
+                while(fi < 0 && fi > fila) {
+                    io.writeln("Fila no valida");
+                    fi = ObtenirFila();
+                }
+                Cp.EliminarFila(doc, full, fi);
+                ImprimirFull(doc, full);
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+            case 6:
+                int col = Cp.GetFiles(doc, full);
+                io.writeln("Actualment té " + col + " columnes");
+                Integer co = ObtenirColumna();
+                while(co < 0 && co > col) {
+                    io.writeln("Columna no valida");
+                    co = ObtenirColumna();
+                }
+                Cp.EliminarCol(doc, full, co);
+                ImprimirFull(doc, full);
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
                 break;
 
             case 7:
@@ -177,6 +228,7 @@ public class VistaTerminal {
                 io.writeln("Nom del Full Canviat amb Exit");
                 MostrarOpcionsFull();
                 DemanarOpcionsFull(doc , nouFull);
+                break;
 
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
@@ -188,6 +240,7 @@ public class VistaTerminal {
 
     public void MostrarOpcionsCela() throws Exception {
         io.writeln("A continuació pot veure quines opcions pot fer sobre una cel·la");
+        io.writeln("0. Retrocedir");
         io.writeln("1. Modificar contingut Cel·la");
         io.writeln("2. Eliminar contingut Cel·la");
         io.writeln("3. Canviar Tipus Cel·la");
@@ -199,7 +252,7 @@ public class VistaTerminal {
 
     public void DemanarOpcionsCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
+        Integer s = io.readint();
         Boolean b;
         switch (s) {
             case 0:
@@ -210,16 +263,24 @@ public class VistaTerminal {
             case 1:
                 String contingut = ObtenirContigut();
                 Cp.ModificarContingutCela(doc, full, id, contingut);
-                io.writeln("Contingut modificat Correctament");
                 ImprimirFull(doc, full);
                 MostrarOpcionsFull();
                 DemanarOpcionsFull(doc, full);
                 break;
 
+            case 2:
+                Cp.EliminarCela(doc, full, id);
+                ImprimirFull(doc, full);
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
+
             case 3:
                 String type = Cp.GetTipusCela(doc, full, id);
                 String nou_type = ObtenirTipus(type);
                 Cp.CanviarTipus(doc, full, id, nou_type);
+                ImprimirFull(doc, full);
                 MostrarOpcionsFull();
                 DemanarOpcionsFull(doc, full);
                 break;
@@ -286,14 +347,18 @@ public class VistaTerminal {
         io.writeln("3. Calcula moda");
         io.writeln("4. Calcula variança");
         io.writeln("5. Busca el màxim");
-        io.writeln("6. Passar tot a majúscules");
-        io.writeln("7. Passar tot a minúscules");
+        io.writeln("6. Busca el desviació");
+        io.writeln("7. Passar tot a majúscules");
+        io.writeln("8. Passar tot a minúscules");
+        io.writeln("9. Busca i reemplaçar");
+        io.writeln("10. Copiar contingut");
+        io.writeln("11. Moure contingut");
         io.writeln();
     }
 
     private void DemanarOpcionsBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
+        Integer s = io.readint();
         switch (s) {
             case 0:
                 MostrarOpcionsFull();
@@ -302,7 +367,7 @@ public class VistaTerminal {
 
             case 1:
                 if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela(doc, full);
                     Cp.CalculaMitjana(doc, full, id1, id2, idfin);
                     ImprimirFull(doc, full);
                 }
@@ -316,7 +381,7 @@ public class VistaTerminal {
 
             case 2:
                 if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela(doc, full);
                     Cp.CalculaMediana(doc, full, id1, id2, idfin);
                     ImprimirFull(doc, full);
                 }
@@ -330,7 +395,7 @@ public class VistaTerminal {
 
             case 3:
                 if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela(doc, full);
                     Cp.CalculaModa(doc, full, id1, id2, idfin);
                     ImprimirFull(doc, full);
                 }
@@ -344,7 +409,7 @@ public class VistaTerminal {
 
             case 4:
                 if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela(doc, full);
                     Cp.CalculaVariança(doc, full, id1, id2, idfin);
                     ImprimirFull(doc, full);
                 }
@@ -359,7 +424,7 @@ public class VistaTerminal {
 
             case 5:
                 if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela(doc, full);
                     Cp.BuscaMaxim(doc, full, id1, id2, idfin);
                     ImprimirFull(doc, full);
                 }
@@ -373,7 +438,7 @@ public class VistaTerminal {
 
             case 6:
                 if(Cp.ComprovaNumeric(doc, full, id1, id2)) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idfin = ObtenirIdCela(doc, full);
                     Cp.CalculaDesviacio(doc, full, id1, id2, idfin);
                     ImprimirFull(doc, full);
                 }
@@ -426,6 +491,15 @@ public class VistaTerminal {
                 DemanarOpcionsFull(doc, full);
                 break;
 
+            case 10:
+                AbstractMap.SimpleEntry<Integer, Integer> idfin1 = ObteniridNouBloc(doc, full);
+                AbstractMap.SimpleEntry<Integer, Integer> idfin2 = ObteniridNouBloc(doc, full);
+                Cp.Copiar(doc, full, id1, id2, idfin1, idfin2);
+                ImprimirFull(doc, full);
+                MostrarOpcionsFull();
+                DemanarOpcionsFull(doc, full);
+                break;
+
 
             default:
                 io.writeln("ERROR: L'opció seleccionada no existeix");
@@ -451,7 +525,7 @@ public class VistaTerminal {
 
     public void DemanarOpcionsNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
+        Integer s = io.readint();
         Double exp;
         switch (s) {
             case 1:
@@ -480,24 +554,26 @@ public class VistaTerminal {
 
             case 3:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.CalculaIncrementIReemplaca(doc, full, id, idRemp);
                 }
                 else {
                     Cp.CalculaIncrement(doc, full, id);
                 }
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
 
             case 4:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.CalculaReduirIReemplaca(doc, full, id, idRemp);
                 }
                 else {
                     Cp.CalculaReduir(doc, full, id);
                 }
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
@@ -505,12 +581,13 @@ public class VistaTerminal {
             case 5:
                 exp = ObtenirExponent();
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.CalculaPotenciaIReemplaca(doc, full, id, exp, idRemp);
                 }
                 else {
                     Cp.CalculaPotencia(doc, full, id, exp);
                 }
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
@@ -518,24 +595,26 @@ public class VistaTerminal {
             case 6:
                 exp = ObtenirExponent();
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.CalculaArrelIReemplaca(doc, full, id, exp, idRemp);
                 }
                 else {
                     Cp.CalculaArrel(doc, full, id, exp);
                 }
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
 
             case 7:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.CalculaValorAbsIReemplaca(doc, full, id, idRemp);
                 }
                 else {
                     Cp.CalculaValorAbs(doc, full, id);
                 }
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
@@ -543,12 +622,13 @@ public class VistaTerminal {
             case 8:
                 String c = ObtenirConvertir();
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.CalculaConversioIReemplaca(doc, full, id, c, idRemp);
                 }
                 else {
                     Cp.CalculaConversio(doc, full, id, c);
                 }
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
@@ -556,6 +636,7 @@ public class VistaTerminal {
             case 9:
                 Integer dec = ObtenirDecimals();
                 Cp.CanviarDecimals(doc, full, id, dec);
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
@@ -563,6 +644,7 @@ public class VistaTerminal {
             case 10:
                 Boolean arrodonir = ObtenirArrodonit();
                 Cp.CanviarArrodonit(doc, full, id, arrodonir);
+                ImprimirFull(doc, full);
                 MostrarOpcionsNumero();
                 DemanarOpcionsNumero(doc, full, id);
                 break;
@@ -594,7 +676,7 @@ public class VistaTerminal {
 
     private void DemanarOpcionsData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
+        Integer s = io.readint();
         switch (s) {
             case 0:
                 MostrarOpcionsCela();
@@ -631,7 +713,7 @@ public class VistaTerminal {
 
             case 5:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.transformaTextIReemplaca(doc, full, id, idRemp);
                 }
                 else {
@@ -644,7 +726,7 @@ public class VistaTerminal {
 
             case 6:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.transformaDataIReemplaca(doc, full, id, idRemp);
                 }
                 else {
@@ -673,7 +755,7 @@ public class VistaTerminal {
 
     private void DemanarOpcionsText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
+        Integer s = io.readint();
         switch (s) {
             case 0:
                 MostrarOpcionsCela();
@@ -682,7 +764,7 @@ public class VistaTerminal {
 
             case 1:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.AllMayusIReemplaca(doc, full, id, idRemp);
                 }
                 else {
@@ -695,7 +777,7 @@ public class VistaTerminal {
 
             case 2:
                 if (PreguntarColocarCelaNova()) {
-                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdRemp(doc, full);
                     Cp.AllMinusIReemplaca(doc, full, id, idRemp);
                 }
                 else {
@@ -912,11 +994,41 @@ public class VistaTerminal {
         return a;
     }
 
-    private AbstractMap.SimpleEntry<Integer, Integer> ObtenirIdCela() throws Exception {
+    private AbstractMap.SimpleEntry<Integer, Integer> ObtenirIdCela(String doc, String full) throws Exception {
         io.writeln("Indiqui l'identificador de la cel·la sobre la qual vol treballar, introdueixi'ls separats per un espai");
         int f = io.readint();
         int c = io.readint();
-        return new AbstractMap.SimpleEntry<>(f - 1,c - 1);
+        AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(f - 1,c - 1);
+        if(Cp.ComprovarId(doc, full, id)) {
+            return id;
+        }
+        else {
+            io.writeln("El id seleccionat no existeix, seleccioni un altre");
+            return ObtenirIdRemp(doc, full);
+        }
+    }
+
+    private AbstractMap.SimpleEntry<Integer, Integer> ObtenirIdRemp(String doc, String full) throws Exception {
+        io.writeln("Indiqui la cela on vol col·locar el contingut");
+        int f = io.readint();
+        int c = io.readint();
+        AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(f - 1,c - 1);
+        if(Cp.ComprovarId(doc, full, id)) {
+            if(!Cp.ComprovaCelaNoOcupa(doc, full, id)) {
+                return id;
+            }
+            else {
+                io.writeln("La cela ja te contingut escrit en ella");
+                if(PreguntarColocarCelaNova()) {
+                    return ObtenirIdRemp(doc, full);
+                }
+                else return id;
+            }
+        }
+        else {
+            io.writeln("El id seleccionat no existeix, seleccioni un altre");
+            return ObtenirIdRemp(doc, full);
+        }
     }
 
     private String ObtenirContigut() throws Exception {
@@ -941,7 +1053,7 @@ public class VistaTerminal {
         Iterator <String> iter = celes.listIterator();
         for (int i = 0; i < nf; i++) {
             for (int j = 0; j < nc; j++) {
-                io.write(iter.next());
+                if(iter.hasNext())io.write(iter.next());
                 io.write(" ");
             }
             io.writeln();
@@ -997,4 +1109,30 @@ public class VistaTerminal {
         io.writeln("Escrigui la paraula que vol remplaçar");
         return io.readword();
     }
+
+    private AbstractMap.SimpleEntry<Integer, Integer> ObteniridNouBloc(String doc, String full) throws Exception {
+        io.writeln("Escrigui els identificadors del bloc");
+        int f = io.readint();
+        int c = io.readint();
+        AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(f - 1,c - 1);
+        if(Cp.ComprovarId(doc, full, id)) {
+            return id;
+        }
+        else {
+            io.writeln("El id seleccionat no existeix, seleccioni un altre");
+            return ObtenirIdRemp(doc, full);
+        }
+    }
+
+    private Integer ObtenirFila() throws Exception {
+        io.writeln("Escrigui el numero de la nova fila a insertar");
+        io.readnext();
+        return io.readint();
+    }
+
+    private Integer ObtenirColumna() throws Exception {
+        io.writeln("Escrigui el numero de la nova columna a insertar");
+        return io.readint();
+    }
+
 }

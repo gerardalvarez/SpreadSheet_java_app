@@ -289,7 +289,7 @@ public class Bloc_celes {
     }
 
 
-    public void copiar_contingut(Cela org[][], Cela dest[][]) {
+    public void copiar_contingut(Cela[][] org, Cela[][] dest) {
         for (int i = 0; i < org.length; i++) {
             for (int j = 0; j < org[i].length; j++) {
                 Cela cd = dest[i][j];
@@ -321,25 +321,25 @@ public class Bloc_celes {
                 Cela dd=org[i][j];
                 if(org[i][j] instanceof Numero){
                     cd = new Numero((Numero) dd,cd.getId());
-                    dd= new TextCela(dd.getId(),".");
+                    dd= new TextCela(dd.getId(),"");
                 }
                 else if(org[i][j] instanceof TextCela){
                     cd= new TextCela((TextCela)dd,cd.getId());
-                    dd=new TextCela(dd.getId(),".");
+                    dd=new TextCela(dd.getId(),"");
                 }
                 else if(org[i][j] instanceof DataCela){
                     cd= new DataCela((DataCela)dd,cd.getId());
-                    dd=new TextCela(dd.getId(),".");
+                    dd=new TextCela(dd.getId(),"");
 
                 }else if (org[i][j] instanceof CelaRefNum) {
                     cd = new DataCela((DataCela) dd, cd.getId());
-                    dd=new TextCela(dd.getId(),".");
+                    dd=new TextCela(dd.getId(),"");
                 } else if (org[i][j] instanceof CelaRefText) {
                     cd = new DataCela((DataCela) dd, cd.getId());
-                    dd=new TextCela(dd.getId(),".");
+                    dd=new TextCela(dd.getId(),"");
                 } else if (org[i][j] instanceof CelaRefData) {
                     cd = new DataCela((DataCela) dd, cd.getId());
-                    dd=new TextCela(dd.getId(),".");
+                    dd=new TextCela(dd.getId(),"");
                 }
             }
         }
