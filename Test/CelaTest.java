@@ -1,35 +1,36 @@
 import main.CapaDomini.Models.Cela;
+import main.CapaDomini.Models.CelaAntiga;
 import org.junit.jupiter.api.Test;
 
 import java.util.AbstractMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+//CELA ANTIGA ES LA CELA SENSE ABSTRACT QUE ES VA UTILITZAR PER FER EL TESTING
 public class CelaTest {
 
     @Test
     public void TypeNumber(){
-        Cela c = new Cela(new AbstractMap.SimpleEntry<>(1, 1),"4.15");
+        CelaAntiga c = new CelaAntiga(new AbstractMap.SimpleEntry<>(1, 1),"4.15");
         assertEquals("numeric", c.calculaTipus());
     }
     @Test
     public void TypeText(){
-        Cela c = new Cela(new AbstractMap.SimpleEntry<>(1, 1),"4.15.15");
+        CelaAntiga c = new CelaAntiga(new AbstractMap.SimpleEntry<>(1, 1),"4.15.15");
         assertEquals("text", c.calculaTipus());
         assertEquals("text", c.getType());
     }
 
     @Test
     public void TypeDate(){
-        Cela c = new Cela(new AbstractMap.SimpleEntry<>(1, 1),"05/04/2001");
+        CelaAntiga c = new CelaAntiga(new AbstractMap.SimpleEntry<>(1, 1),"05/04/2001");
         assertEquals("date", c.calculaTipus());
-        Cela d = new Cela(new AbstractMap.SimpleEntry<>(1, 1),"30 de gener del 2001");
+        CelaAntiga d = new CelaAntiga(new AbstractMap.SimpleEntry<>(1, 1),"30 de gener del 2001");
         assertEquals("date", d.calculaTipus());
-        Cela e = new Cela(new AbstractMap.SimpleEntry<>(1, 1),"30 de febrer del 2001");
+        CelaAntiga e = new CelaAntiga(new AbstractMap.SimpleEntry<>(1, 1),"30 de febrer del 2001");
         assertEquals("text", e.calculaTipus());
-        Cela f = new Cela(new AbstractMap.SimpleEntry<>(1, 1),"30 de febrer del 2001 ");
+        CelaAntiga f = new CelaAntiga(new AbstractMap.SimpleEntry<>(1, 1),"30 de febrer del 2001 ");
         assertEquals("text", f.calculaTipus());
-        Cela g = new Cela(new AbstractMap.SimpleEntry<>(1, 1)," 30 de febrer del 2001 ");
+        CelaAntiga g = new CelaAntiga(new AbstractMap.SimpleEntry<>(1, 1)," 30 de febrer del 2001 ");
         assertEquals("text", g.calculaTipus());
     }
     @Test
