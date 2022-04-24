@@ -39,6 +39,29 @@ public class FullTest {
         ArrayList<Cela> c= new ArrayList<Cela>();
         c.add(f.Consultar_cela(idc));
         f.Esborrar_Celes(c);
-        assertEquals("nocont", f.Consultar_cela(idc).getResultatFinal());
+        assertEquals("", f.Consultar_cela(idc).getResultatFinal());
+    }
+    @Test
+    public void ModTipusNum() throws Exception {
+        Full f= new Full( 13,8);
+        AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(4, 5);
+        f.getCeles().get(idc).setResultat("2");
+        f.Modifica_Tipus_Numeric(idc);
+        assertEquals("numeric", f.getCeles().get(idc).getType());
+    }
+    @Test
+    public void ModTipusText() throws Exception {
+        Full f= new Full( 13,8);
+        AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(4, 5);
+        f.Modifica_Tipus_Text(idc);
+        assertEquals("text", f.getCeles().get(idc).getType());
+    }
+    @Test
+    public void ModTipusData() throws Exception {
+        Full f= new Full( 13,8);
+        AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(4, 5);
+        f.getCeles().get(idc).setResultat("11 de febrer del 2008");
+        f.Modifica_Tipus_Data(idc);
+        assertEquals("data", f.getCeles().get(idc).getType());
     }
 }

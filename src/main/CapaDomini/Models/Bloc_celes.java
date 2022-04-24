@@ -1,6 +1,7 @@
 package main.CapaDomini.Models;
 
 
+import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.*;
@@ -379,6 +380,20 @@ public class Bloc_celes {
         uniqueId = uniqueId << 32 << 16;
         uniqueId += (long) right;
         return uniqueId;
+    }
+
+    public double coeficient_Pearson(ArrayList<Numero> a1, ArrayList<Numero> b1) {
+        ArrayList<Numero> union = new ArrayList<Numero>();
+        union.addAll(a1);
+        union.addAll(b1);
+        double res=calculaVariança(union)/(calculaDesviació(a1)*calculaDesviació(b1));
+        return res;
+    }
+
+    public Integer longitud(ArrayList<TextCela> l){
+        Integer res= 0;
+        for(int i=0;i<l.size();i++) res+=l.get(i).getResultatFinal().length();
+        return res;
     }
 }
 
