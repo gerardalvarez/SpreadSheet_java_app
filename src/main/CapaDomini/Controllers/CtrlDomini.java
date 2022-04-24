@@ -468,7 +468,7 @@ public class CtrlDomini {
         else return true;
     }
 
-    /*
+
     public void copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) {
        Cela [][] mat1 = GetMatriu(doc, full, id1, id2);
        Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
@@ -498,7 +498,7 @@ public class CtrlDomini {
 
         return mat;
     }
-     */
+
 
 
     public boolean ComprovarId(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
