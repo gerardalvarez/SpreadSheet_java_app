@@ -169,4 +169,32 @@ public class CtrlPresentacio {
     public String getDia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.getDia(doc, full, id);
     }
+
+    public String getMes(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.getMes(doc, full, id);
+    }
+
+    public String getAny(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.getAny(doc, full, id);
+    }
+
+    public String getDataCompleta(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.getDataCompleta(doc, full, id);
+    }
+
+    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Cd.transformaText(doc, full, id);
+    }
+
+    public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        Cd.transformaTextIReemplaca(doc, full, id, idRemp);
+    }
+
+    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Cd.transformaData(doc, full, id);
+    }
+
+    public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        Cd.transformaDataIReemplaca(doc, full, id, idRemp);
+    }
 }

@@ -32,37 +32,42 @@ public class VistaTerminal {
     }
 
     private void DemanarOpcionsMenu () throws Exception {
-        io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
-        switch (s) {
-            case 1:
-                String doc = ObtenirNomDocument(); //la id del document de moment
-                if(Objects.equals(doc, "null")){
+        try {
+            io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
+            int s = io.readint();
+            switch (s) {
+                case 1:
+                    String doc = ObtenirNomDocument(); //la id del document de moment
+                    if (Objects.equals(doc, "null")) {
+                        MostrarMenu();
+                        DemanarOpcionsMenu();
+                    } else {
+                        MostrarOpcionsDocument();
+                        DemanarOpcionsDocument(doc);
+                    }
+                    break;
+                case 2:
+                    String nouDoc = ObtenirNouDocument();
+                    CrearNouDoc(nouDoc);
+                    io.writeln("Document Afegit amb Exit");
+                    MostrarOpcionsDocument();
+                    DemanarOpcionsDocument(nouDoc);
+                    break;
+                case 3:
+                    String elimDoc = ObtenirDocumentEliminar();
+                    EliminarDoc(elimDoc);
+                    io.writeln("Document Eliminat amb Exit");
                     MostrarMenu();
                     DemanarOpcionsMenu();
-                }
-                else {
-                    MostrarOpcionsDocument();
-                    DemanarOpcionsDocument(doc);
-                }
-                break;
-            case 2:
-                String nouDoc = ObtenirNouDocument();
-                CrearNouDoc(nouDoc);
-                io.writeln("Document Afegit amb Exit");
-                MostrarOpcionsDocument();
-                DemanarOpcionsDocument(nouDoc);
-                break;
-            case 3:
-                String elimDoc = ObtenirDocumentEliminar();
-                EliminarDoc(elimDoc);
-                io.writeln("Document Eliminat amb Exit");
-                MostrarMenu();
-                DemanarOpcionsMenu();
 
-            default:
-                io.writeln("ERROR: L'opció seleccionada no existeix");
-                DemanarOpcionsMenu();
+                default:
+                    io.writeln("ERROR: L'opció seleccionada no existeix");
+                    DemanarOpcionsMenu();
+            }
+        }
+        catch (Exception e) {
+            io.writeln("Escrigui un numero");
+            DemanarOpcionsMenu();
         }
     }
 
@@ -413,8 +418,9 @@ public class VistaTerminal {
         io.writeln("1. Obtenir dia");
         io.writeln("2. Obtenir mes");
         io.writeln("3. Obtenir any");
-        io.writeln("4. Transformar a Text");
-        io.writeln("5. Transformar a Data");
+        io.writeln("4. Obtenir data completa");
+        io.writeln("5. Transformar a Text");
+        io.writeln("6. Transformar a Data");
         io.writeln();
     }
 
@@ -435,15 +441,48 @@ public class VistaTerminal {
                 break;
 
             case 2:
-                //String mes = Cp.getMes(doc, full, id);
-                //io.writeln(mes);
+                String mes = Cp.getMes(doc, full, id);
+                io.writeln(mes);
                 MostrarOpcionsData();
                 DemanarOpcionsData(doc, full, id);
                 break;
 
             case 3:
-               // String any = Cp.getAny(doc, full, id);
-                //io.writeln(any);
+                String any = Cp.getAny(doc, full, id);
+                io.writeln(any);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 4:
+                String data = Cp.getDataCompleta(doc, full, id);
+                io.writeln(data);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 5:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.transformaTextIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.transformaText(doc, full, id);
+                }
+                ImprimirFull(doc, full);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 6:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.transformaDataIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.transformaData(doc, full, id);
+                }
+                ImprimirFull(doc, full);
                 MostrarOpcionsData();
                 DemanarOpcionsData(doc, full, id);
                 break;
