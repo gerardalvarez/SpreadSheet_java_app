@@ -95,7 +95,7 @@ public class Full {
         int i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
-            this.Celes.get(idc).setResultat("");
+            this.Celes.get(idc).setResultatFinal("");
             ++i;
         }
     };
