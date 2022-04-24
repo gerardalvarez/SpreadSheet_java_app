@@ -16,15 +16,8 @@ public class CelaRefText extends TextCela{
     }
 
     private void Avaluar(){
-        if (this.contingut.substring(1,3).equals("min")){
-            Bloc_celes bc= new Bloc_celes();
-            bc.remplaçar_minuscules(operadors);
-        }
         if(this.contingut.substring(1).equals("#")){
             resultat_final=operadors.get(0).getResultatFinal();
-        } else {
-            Bloc_celes bc= new Bloc_celes();
-            bc.remplaçar_majuscules(operadors);
         }
     }
 }

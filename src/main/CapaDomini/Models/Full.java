@@ -127,16 +127,15 @@ public class Full {
             Cela cel = this.Celes.get(id);
             Color colorFons = cel.getColorFons();
             Color colorLletra = cel.getColorLletra();
-            String type = cel.getType();
             ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
             this.Celes.replace(id, new DataCela(id, resultat));
-            this.Celes.get(id).setType(type);
+            this.Celes.get(id).setType("date");
             this.Celes.get(id).setColorFons(colorFons);
             this.Celes.get(id).setColorLletra(colorLletra);
             this.Celes.get(id).setObservadors(observadors);
         }
         else if(size > 4 && resultat.charAt(0) == '='){
-
+            //PASAR LA CELA A NUMREF Y QUE ESTE OPERE. HAY QUE VER SI NUM TAMBIEN DETECTA CUANDO HAY ERRORES :/
         }
         else if(size == 4 && resultat.startsWith("=#")  && resultat.startsWith("=#") && isNumerical(resultat.substring(2))){
             Integer fil = Integer.parseInt(resultat.substring(2,3));
