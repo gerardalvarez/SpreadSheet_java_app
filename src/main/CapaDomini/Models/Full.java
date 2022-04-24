@@ -1,8 +1,11 @@
 package main.CapaDomini.Models;
 
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.*;
+
+import static java.lang.Integer.parseInt;
 
 public class Full {
     private String nom;
@@ -95,27 +98,80 @@ public class Full {
         int i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
-            this.Celes.get(idc).setResultat("nocont");
+            this.Celes.get(idc).setResultatFinal("nocont");
             ++i;
         }
     };
 
     public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
+        int size = resultat.length();
         String a = PublicFuntions.calculaTipus(resultat);
-        if(resultat.charAt(0) == '=') {
-            Integer id1 = 0;
-            Integer id2 = 0;
-            for (String s: resultat.split(" ")) {
-                for (String val: s.split("-")) {
-                }
+        if(Objects.equals(a, "numeric")){
+            if(Objects.equals(this.Celes.get(id).getType(), "numeric")){
+                this.Celes.get(id).setResultatFinal(resultat);
+            }
+            else{
+                Cela cel = this.Celes.get(id);
+                Color colorFons = cel.getColorFons();
+                Color colorLletra = cel.getColorLletra();
+                String type = cel.getType();
+                ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+                this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), true, 2, Tipus_Numero.numero));
+                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setColorFons(colorFons);
+                this.Celes.get(id).setColorLletra(colorLletra);
+                this.Celes.get(id).setObservadors(observadors);
             }
         }
-        else {
-            if(Objects.equals(a, "numeric"))this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), true, 2, Tipus_Numero.numero));
-            else if(Objects.equals(a, "date"))this.Celes.replace(id, new DataCela(id, resultat));
-            else this.Celes.get(id).setResultat(resultat);
+        else if(Objects.equals(a, "date")){
+            Cela cel = this.Celes.get(id);
+            Color colorFons = cel.getColorFons();
+            Color colorLletra = cel.getColorLletra();
+            String type = cel.getType();
+            ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+            this.Celes.replace(id, new DataCela(id, resultat));
+            this.Celes.get(id).setType(type);
+            this.Celes.get(id).setColorFons(colorFons);
+            this.Celes.get(id).setColorLletra(colorLletra);
+            this.Celes.get(id).setObservadors(observadors);
         }
-    };
+        else if(size > 4 && resultat.charAt(0) == '='){
+
+        }
+        else if(size == 4 && resultat.startsWith("=#")  && resultat.startsWith("=#") && isNumerical(resultat.substring(2))){
+            Integer fil = Integer.parseInt(resultat.substring(2,3));
+            Integer col = Integer.parseInt(resultat.substring(3));
+            AbstractMap.SimpleEntry<Integer, Integer> he = new AbstractMap.SimpleEntry<Integer,Integer>(fil,col);
+            if(Objects.equals(this.Celes.get(he).getType(), "date")){
+                //CREAR CELA DATA REF
+            }
+            else if(Objects.equals(this.Celes.get(he).getType(), "text")){
+                //CREAR  CELA TEXT REF
+            }
+            else{
+                //CREAR NUM CELA REF
+            }
+            this.Celes.get(he).newObserver(id);
+        }
+        else {
+            if(Objects.equals(this.Celes.get(id).getType(), "text")){
+                this.Celes.get(id).setResultatFinal(resultat);
+            }
+            else{
+                Cela cel = this.Celes.get(id);
+                Color colorFons = cel.getColorFons();Color colorLletra = cel.getColorLletra();
+                String type = cel.getType();ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+                this.Celes.replace(id, new TextCela(id, resultat));
+                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setColorFons(colorFons);this.Celes.get(id).setColorLletra(colorLletra);
+                this.Celes.get(id).setObservadors(observadors);
+            }
+        }
+        //AQUI HAY QUE ACTUALIZAR TODOS LOS OBSERVERS DE LA NUEVA CELDA SI ESTA CANVIA DE TIPO TAMBIEN HABRIA QUE TENERLO
+        //EN CUENTA
+    }
+
+
 
     public void Modifica_Tipus_Numeric(AbstractMap.SimpleEntry<Integer, Integer> id) {
         String resultat = this.Celes.get(id).getResultatFinal();
@@ -279,6 +335,17 @@ public class Full {
             }
         }
         return ids;
+    }
+
+    private Boolean isNumerical(String strNum){
+        if (strNum == null) return false;
+
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 };
 
