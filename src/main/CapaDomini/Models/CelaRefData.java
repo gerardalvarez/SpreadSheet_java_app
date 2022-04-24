@@ -12,6 +12,18 @@ public class CelaRefData extends DataCela{
         this.contingut=contingut;
         Avaluar();
     }
+    public CelaRefData(CelaRefData dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
+        super(id,dd.getResultatFinal());
+        this.type=dd.getType();
+        this.colorFons=dd.getColorFons();
+        this.colorLletra=dd.getColorLletra();
+        this.contingut=dd.getContingut();
+        Avaluar();
+    }
+
+    private String getContingut() {
+        return this.contingut;
+    }
 
     private void Avaluar(){
         if(this.contingut.substring(1).equals("#")){

@@ -10,6 +10,7 @@ public class CelaRefNum extends Numero{
     private String operacio;
     private String contingut;
 
+
     public CelaRefNum(AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus, String contingut, ArrayList<Numero> operadors, String operacio) {
         super(id, new BigDecimal(0), arrodonit, num_Decimals, tipus);
         this.contingut= contingut;
@@ -18,17 +19,24 @@ public class CelaRefNum extends Numero{
         Avaluar();
     }
 
+    public CelaRefNum(CelaRefNum dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
+        super(id,dd.getResultatFinal());
+        this.resultat = dd.getResultat();
+        this.setArrodonit(dd.getArrodonit());
+        this.setNum_Decimals(dd.getNum_Decimals());
+        this.setTipus(dd.getTipus());
+        this.colorFons=dd.getColorFons();
+        this.colorLletra=dd.getColorLletra();
+        this.type=dd.getType();
+        this.contingut=dd.getContingut();
+        Avaluar();
+    }
 
-
+    public String getContingut() {
+        return this.contingut;
+    }
 
     private void Avaluar() {
-
-        /*switch (this.operacio){
-            case "+":
-                Suma();
-                break;
-
-        }*/
 
         if (this.operacio.equals("+")) Suma();
         else if (this.operacio.equals("-")) Resta();
