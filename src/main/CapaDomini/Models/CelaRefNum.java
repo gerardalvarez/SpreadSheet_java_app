@@ -35,7 +35,6 @@ public class CelaRefNum extends Numero{
         else if (this.operacio.equals("PRO")) Multiplica();
         else if (this.operacio.equals("DIV")) Divideix();
         else if (this.operacio.equals("AVG")) Average();
-        else if (this.operacio.equals("EQU")) Copia();
         else if (this.operacio.equals("MED")) Mediana();
         else if (this.operacio.equals("VAR")) Variança();
         else if (this.operacio.equals("MOD")) Moda();
@@ -43,7 +42,6 @@ public class CelaRefNum extends Numero{
         else Desviació();
         super.setResultat(this.resultat);
     }
-
     private void Suma(){
         int o = 0;
         int i= 2;

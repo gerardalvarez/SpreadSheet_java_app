@@ -135,9 +135,29 @@ public class Full {
             this.Celes.get(id).setObservadors(observadors);
         }
         else if(size > 4 && resultat.charAt(0) == '='){
-            //PASAR LA CELA A NUMREF Y QUE ESTE OPERE. HAY QUE VER SI NUM TAMBIEN DETECTA CUANDO HAY ERRORES :/
+            String func = PublicFuntions.getOper(resultat.substring(1,4));
+            if(func.equals("MAY") || func.equals("MIN")){
+                //CREAR FUNCION TEXT;
+            }
+            else if(!func.equals("NULL")){
+                //CREAR FUNCION NUM
+            }
+            else{
+                if(Objects.equals(this.Celes.get(id).getType(), "text")){
+                    this.Celes.get(id).setResultatFinal(resultat);
+                }
+                else{
+                    Cela cel = this.Celes.get(id);
+                    Color colorFons = cel.getColorFons();Color colorLletra = cel.getColorLletra();
+                    String type = cel.getType();ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+                    this.Celes.replace(id, new TextCela(id, resultat));
+                    this.Celes.get(id).setType(type);
+                    this.Celes.get(id).setColorFons(colorFons);this.Celes.get(id).setColorLletra(colorLletra);
+                    this.Celes.get(id).setObservadors(observadors);
+                }
+            }
         }
-        else if(size == 4 && resultat.startsWith("=#")  && resultat.startsWith("=#") && isNumerical(resultat.substring(2))){
+        else if(size == 4 && resultat.startsWith("=#")  && isNumerical(resultat.substring(2))){
             Integer fil = Integer.parseInt(resultat.substring(2,3));
             Integer col = Integer.parseInt(resultat.substring(3));
             AbstractMap.SimpleEntry<Integer, Integer> he = new AbstractMap.SimpleEntry<Integer,Integer>(fil,col);
