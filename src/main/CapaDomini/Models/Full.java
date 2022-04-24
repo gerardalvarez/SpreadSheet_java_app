@@ -132,7 +132,8 @@ public class Full {
             this.Celes.get(id).setColorLletra(colorLletra);
             this.Celes.get(id).setObservadors(observadors);
         }
-        else if(size == 4 && resultat.startsWith("=#")  && isNumerical(resultat.substring(2))){
+
+        /*else if(size == 4 && resultat.startsWith("=#")  && isNumerical(resultat.substring(2))){
             Integer fil = Integer.parseInt(resultat.substring(2,3));
             Integer col = Integer.parseInt(resultat.substring(3));
             AbstractMap.SimpleEntry<Integer, Integer> he = new AbstractMap.SimpleEntry<Integer,Integer>(fil,col);
@@ -170,7 +171,7 @@ public class Full {
                     this.Celes.get(id).setObservadors(observadors);
                 }
             }
-        }
+        }*/
         else {
             if(Objects.equals(this.Celes.get(id).getType(), "text")){
                 this.Celes.get(id).setResultatFinal(resultat);

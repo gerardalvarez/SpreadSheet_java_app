@@ -468,10 +468,37 @@ public class CtrlDomini {
         else return true;
     }
 
+    /*
     public void copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) {
-       //Cela [][] mat1 = GetMatriu(doc, full, id1, id2);
-       //Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
+       Cela [][] mat1 = GetMatriu(doc, full, id1, id2);
+       Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
+       Bloc_celes bc = new Bloc_celes();
+       bc.copiar_contingut(mat1, mat2);
     }
+
+    private Cela[][] GetMatriu(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        Full fu = Documents.get(doc).get_full(full);
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = fu.GetIdCeles(id1, id2);
+        Integer nf = id2.getKey() - id1.getKey();
+        Integer nc = id2.getValue() - id1.getValue();
+        Cela [][] mat = new Cela[nf + 1][nc + 1];
+        System.out.println(mat.length);
+        System.out.println(mat[0].length);
+        int f = 0;
+        int c = 0;
+
+        for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
+            mat[f][c] = fu.Consultar_cela(id);
+            if(c < nc) c++;
+            else {
+                c = 0;
+                f++;
+            }
+        }
+
+        return mat;
+    }
+     */
 
 
     public boolean ComprovarId(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
