@@ -18,6 +18,18 @@ public class CelaRefNum extends Numero{
         Avaluar();
     }
 
+    public CelaRefNum(CelaRefNum dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
+        super(id,dd.getResultatFinal());
+        this.resultat = dd.getResultat();
+        this.setArrodonit(dd.getArrodonit());
+        this.setNum_Decimals(dd.getNum_Decimals());
+        this.setTipus(dd.getTipus());
+        this.colorFons=dd.getColorFons();
+        this.colorLletra=dd.getColorLletra();
+        this.type=dd.getType();
+        this.contingut=dd.getContingut();
+        Avaluar();
+    }
 
 
 
@@ -35,7 +47,7 @@ public class CelaRefNum extends Numero{
         else if (this.operacio.equals("PRO")) Multiplica();
         else if (this.operacio.equals("DIV")) Divideix();
         else if (this.operacio.equals("AVG")) Average();
-        else if (this.operacio.equals("EQU")) Copia();
+        else if (this.operacio.equals("=")) Copia();
         else if (this.operacio.equals("MED")) Mediana();
         else if (this.operacio.equals("VAR")) Variança();
         else if (this.operacio.equals("MOD")) Moda();

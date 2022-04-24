@@ -27,6 +27,14 @@ public class Bloc_celes {
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
+                } else if (arr[i][j] instanceof CelaRefNum) {
+                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j],arr[i][j].getId());
+
+                } else if (arr[i][j] instanceof CelaRefText) {
+                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j],arr[i][j].getId());
+
+                } else if (arr[i][j] instanceof CelaRefData) {
+                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j],arr[i][j].getId());
                 }
                 auxindex[i][j]=arr[i][j].getId();
             }
@@ -70,6 +78,14 @@ public class Bloc_celes {
                 }
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
+                }  else if (arr[i][j] instanceof CelaRefNum) {
+                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j],arr[i][j].getId());
+
+                } else if (arr[i][j] instanceof CelaRefText) {
+                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j],arr[i][j].getId());
+
+                } else if (arr[i][j] instanceof CelaRefData) {
+                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j],arr[i][j].getId());
                 }
                 auxindex[i][j]=arr[i][j].getId();
             }
@@ -103,7 +119,7 @@ public class Bloc_celes {
 
 
     /////////
-    //Funciones de ordenar que devuelven una matriz con nuevas celdas creadas (diferentes ref a las pasadas) ordenadas
+    //Funciones de ordenar que devuelven una matriz con las celdas antiguas con los id cambiados a ordenado
     /////////
 
     public void ordena_A_Z(Cela arr[][],ArrayList<Integer> cols) {
@@ -273,21 +289,61 @@ public class Bloc_celes {
     }
 
 
-  /*  public void copiar_contingut(Cela org[][], Cela dest[][]) {
-        for (int i = 0; i < org.length; i++) {
-            for (int j = 0; j < org[i].length; j++)
-                dest[i][j].copiaCela(org[i][j]);
-        }
-    }*/
-/*
-    public void moure_contingut(Cela org[][], Cela dest[][]) {
+    public void copiar_contingut(Cela org[][], Cela dest[][]) {
         for (int i = 0; i < org.length; i++) {
             for (int j = 0; j < org[i].length; j++) {
-                dest[i][j].copiaCela(org[i][j]);
-                org[i][j]=new Cela(org[i][j].getId(),org[i][j].getContingut()) ;
+                Cela cd = dest[i][j];
+                Cela dd = org[i][j];
+                if (org[i][j] instanceof Numero) {
+                    cd = new Numero((Numero) dd, cd.getId());
+                } else if (org[i][j] instanceof TextCela) {
+                    cd = new TextCela((TextCela) dd, cd.getId());
+                } else if (org[i][j] instanceof DataCela) {
+                    cd = new DataCela((DataCela) dd, cd.getId());
+
+                } else if (org[i][j] instanceof CelaRefNum) {
+                    cd = new DataCela((DataCela) dd, cd.getId());
+
+                } else if (org[i][j] instanceof CelaRefText) {
+                    cd = new DataCela((DataCela) dd, cd.getId());
+
+                } else if (org[i][j] instanceof CelaRefData) {
+                    cd = new DataCela((DataCela) dd, cd.getId());
+                }
             }
         }
-    }*/
+    }
+
+    public void moure_contingut(Cela org[][], Cela dest[][]) {
+        for (int i = 0; i < org.length; i++) {
+            for (int j = 0; j < org[i].length; j++){
+                Cela cd=dest[i][j];
+                Cela dd=org[i][j];
+                if(org[i][j] instanceof Numero){
+                    cd = new Numero((Numero) dd,cd.getId());
+                    dd= new TextCela(dd.getId(),".");
+                }
+                else if(org[i][j] instanceof TextCela){
+                    cd= new TextCela((TextCela)dd,cd.getId());
+                    dd=new TextCela(dd.getId(),".");
+                }
+                else if(org[i][j] instanceof DataCela){
+                    cd= new DataCela((DataCela)dd,cd.getId());
+                    dd=new TextCela(dd.getId(),".");
+
+                }else if (org[i][j] instanceof CelaRefNum) {
+                    cd = new DataCela((DataCela) dd, cd.getId());
+                    dd=new TextCela(dd.getId(),".");
+                } else if (org[i][j] instanceof CelaRefText) {
+                    cd = new DataCela((DataCela) dd, cd.getId());
+                    dd=new TextCela(dd.getId(),".");
+                } else if (org[i][j] instanceof CelaRefData) {
+                    cd = new DataCela((DataCela) dd, cd.getId());
+                    dd=new TextCela(dd.getId(),".");
+                }
+            }
+        }
+    }
 
     public void remplaçar_majuscules(ArrayList<TextCela> inputs) {
         for (TextCela c: inputs){

@@ -14,6 +14,18 @@ public class CelaRefText extends TextCela{
         this.contingut=contingut;
         Avaluar();
     }
+    public CelaRefText(CelaRefText dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
+        super(id,dd.getResultatFinal());
+        this.type=dd.getType();
+        this.colorFons=dd.getColorFons();
+        this.colorLletra=dd.getColorLletra();
+        this.contingut=dd.getContingut();
+        Avaluar();
+    }
+
+    private String getContingut() {
+        return this.contingut;
+    }
 
     private void Avaluar(){
         if (this.contingut.substring(1,3).equals("min")){

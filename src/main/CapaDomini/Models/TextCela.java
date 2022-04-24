@@ -9,6 +9,12 @@ public class TextCela extends Cela{
     public TextCela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat){
         super(id, resultat);
     }
+    public TextCela(TextCela dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
+        super(id,dd.getResultatFinal());
+        this.type=dd.getType();
+        this.colorFons=dd.getColorFons();
+        this.colorLletra=dd.getColorLletra();
+    }
 
     //FUNCIONS PUBLIQUES
     public Boolean buscarElement(String element){
