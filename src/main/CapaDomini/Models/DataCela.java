@@ -30,8 +30,28 @@ public class DataCela extends Cela {
             int any = Integer.parseInt(TextFormat.substring(size-4));
             date = LocalDate.of(any,mes,dia);
         }
+    }
 
-
+    public DataCela(DataCela dd, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        super(id,dd.getResultatFinal());
+        String contingut =dd.getResultatFinal();
+        this.type=dd.getType();
+        this.colorFons=dd.getColorFons();
+        this.colorLletra=dd.getColorLletra();
+        DataValidator validator = new DateValidator("dd/MM/yyyy");
+        if(validator.isValid(contingut)){
+            dateFormat = contingut;
+            date = LocalDate.of(Integer.parseInt(dateFormat.substring(6)),Integer.parseInt(dateFormat.substring(3,5))
+                    ,Integer.parseInt(dateFormat.substring(0,2)));
+        }
+        else{
+            TextFormat = contingut;
+            int size = TextFormat.length();
+            int dia = Integer.parseInt(TextFormat.substring(0,2));
+            int mes = Integer.parseInt(monthToData(TextFormat.substring(2,size-4)));
+            int any = Integer.parseInt(TextFormat.substring(size-4));
+            date = LocalDate.of(any,mes,dia);
+        }
     }
 
     //GETTERS AND SETTERS

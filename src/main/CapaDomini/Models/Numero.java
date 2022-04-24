@@ -21,6 +21,7 @@ public class Numero extends Cela{
         this.arrodonit = arrodonit;
         this.num_Decimals = num_Decimals;
         this.tipus = tipus;
+
     }
 
 
@@ -28,6 +29,17 @@ public class Numero extends Cela{
         super(id, String.valueOf(resultat));
         this.resultat = new BigDecimal(resultat);
         resultat_final=resultat.toString(); //hay que ponerlo bien con los parametros
+    }
+
+    public Numero(Numero dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
+        super(id,dd.getResultatFinal());
+        this.resultat = dd.getResultat();
+        this.arrodonit = dd.getArrodonit();
+        this.num_Decimals = dd.getNum_Decimals();
+        this.tipus = dd.getTipus();
+        this.colorFons=dd.getColorFons();
+        this.colorLletra=dd.getColorLletra();
+        this.type=dd.getType();
     }
 
     //Mètodes
