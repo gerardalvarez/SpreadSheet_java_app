@@ -158,6 +158,12 @@ public class CtrlDomini {
         if (nou_type.equals("numero")) {
             f.Modifica_Tipus_Numeric(id);
         }
+        else if (nou_type.equals("text")) {
+            f.Modifica_Tipus_Text(id);
+        }
+        else if (nou_type.equals("data")){
+            f.Modifica_Tipus_Data(id);
+        }
     }
 
     public String GetTipusNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
@@ -262,6 +268,100 @@ public class CtrlDomini {
         modificarContingutCela(doc, full, idRemp, result);
         if (!ComprovarTipus(doc, full, idRemp, "numero")) {
             CanviarTipusCela(doc, full, idRemp, "numero");
+        }
+    }
+
+    //Operacions Data
+
+    public String getDia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        DataCela d = GetData(doc, full, id);
+        return d.getWeekDay() + " " + d.getDia();
+    }
+
+    public String getMes(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        DataCela d = GetData(doc, full, id);
+        return d.getMes();
+    }
+
+    public String getAny(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        DataCela d = GetData(doc, full, id);
+        return d.getAny();
+    }
+
+    public String getDataCompleta(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        DataCela d = GetData(doc, full, id);
+        return d.getWeekDay() + " " + d.getDia() + " " + d.getMes() + " " + d.getAny();
+    }
+
+    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        DataCela d = GetData(doc, full, id);
+        d.changeToText();
+    }
+
+    public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaData(doc, full, id, idRemp);
+        transformaText(doc, full, idRemp);
+    }
+
+    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        DataCela d = GetData(doc, full, id);
+        d.changeToDate();
+    }
+
+    public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaData(doc, full, id, idRemp);
+        transformaData(doc, full, idRemp);
+    }
+
+    private DataCela GetData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        return (DataCela) c;
+    }
+
+    private void ReemplacaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        DataCela t = GetData(doc, full, id);
+        String result = t.getContingut();
+        modificarContingutCela(doc, full, idRemp, result);
+        if (!ComprovarTipus(doc, full, idRemp, "data")) {
+            CanviarTipusCela(doc, full, idRemp, "data");
+        }
+    }
+
+    //Operacions text
+
+    public void AllMayus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        TextCela t = GetText(doc, full, id);
+        t.AllMayus();
+    }
+
+    public void AllMayusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaText(doc, full, id, idRemp);
+        AllMayus(doc, full, idRemp);
+    }
+
+    public void AllMinus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        TextCela t = GetText(doc, full, id);
+        t.AllMinus();
+    }
+
+    public void AllMinusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        ReemplacaText(doc, full, id, idRemp);
+        AllMinus(doc, full, idRemp);
+    }
+
+    private TextCela GetText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        return (TextCela) c;
+    }
+
+    private void ReemplacaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+        TextCela t = GetText(doc, full, id);
+        String result = t.getContingut();
+        modificarContingutCela(doc, full, idRemp, result);
+        if (!ComprovarTipus(doc, full, idRemp, "text")) {
+            CanviarTipusCela(doc, full, idRemp, "text");
         }
     }
 }

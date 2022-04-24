@@ -32,37 +32,42 @@ public class VistaTerminal {
     }
 
     private void DemanarOpcionsMenu () throws Exception {
-        io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
-        int s = io.readint();
-        switch (s) {
-            case 1:
-                String doc = ObtenirNomDocument(); //la id del document de moment
-                if(Objects.equals(doc, "null")){
+        try {
+            io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
+            int s = io.readint();
+            switch (s) {
+                case 1:
+                    String doc = ObtenirNomDocument(); //la id del document de moment
+                    if (Objects.equals(doc, "null")) {
+                        MostrarMenu();
+                        DemanarOpcionsMenu();
+                    } else {
+                        MostrarOpcionsDocument();
+                        DemanarOpcionsDocument(doc);
+                    }
+                    break;
+                case 2:
+                    String nouDoc = ObtenirNouDocument();
+                    CrearNouDoc(nouDoc);
+                    io.writeln("Document Afegit amb Exit");
+                    MostrarOpcionsDocument();
+                    DemanarOpcionsDocument(nouDoc);
+                    break;
+                case 3:
+                    String elimDoc = ObtenirDocumentEliminar();
+                    EliminarDoc(elimDoc);
+                    io.writeln("Document Eliminat amb Exit");
                     MostrarMenu();
                     DemanarOpcionsMenu();
-                }
-                else {
-                    MostrarOpcionsDocument();
-                    DemanarOpcionsDocument(doc);
-                }
-                break;
-            case 2:
-                String nouDoc = ObtenirNouDocument();
-                CrearNouDoc(nouDoc);
-                io.writeln("Document Afegit amb Exit");
-                MostrarOpcionsDocument();
-                DemanarOpcionsDocument(nouDoc);
-                break;
-            case 3:
-                String elimDoc = ObtenirDocumentEliminar();
-                EliminarDoc(elimDoc);
-                io.writeln("Document Eliminat amb Exit");
-                MostrarMenu();
-                DemanarOpcionsMenu();
 
-            default:
-                io.writeln("ERROR: L'opció seleccionada no existeix");
-                DemanarOpcionsMenu();
+                default:
+                    io.writeln("ERROR: L'opció seleccionada no existeix");
+                    DemanarOpcionsMenu();
+            }
+        }
+        catch (Exception e) {
+            io.writeln("Escrigui un numero");
+            DemanarOpcionsMenu();
         }
     }
 
@@ -123,6 +128,7 @@ public class VistaTerminal {
 
     public void MostrarOpcionsFull() throws Exception {
         io.writeln("A continuació pot veure quines opcions pot fer dintre d'un Full");
+        io.writeln("0. Retrocedir");
         io.writeln("1. Gestionar Cel·les");
         io.writeln("2. Afegir Fila");
         io.writeln("3. Eliminar Fila");
@@ -181,6 +187,7 @@ public class VistaTerminal {
     public void DemanarOpcionsCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
         int s = io.readint();
+        Boolean b;
         switch (s) {
             case 0:
                 MostrarOpcionsFull();
@@ -205,7 +212,7 @@ public class VistaTerminal {
                 break;
 
             case 4:
-                Boolean b = Cp.ComprovarTipusCela(doc, full, id, "numero");
+                 b = Cp.ComprovarTipusCela(doc, full, id, "numero");
                 if (b) {
                     MostrarOpcionsNumero();
                     DemanarOpcionsNumero(doc, full, id);
@@ -213,6 +220,37 @@ public class VistaTerminal {
                 else {
                     io.writeln("ERROR: La cel·la seleccionada no és de tipus Número");
                     io.writeln("Si us plau, seleccioni una Cel·la de tipus Número o canviï el tipus de l'actual");
+                    io.writeln();
+                    MostrarOpcionsCela();
+                    DemanarOpcionsCela(doc, full, id);
+                }
+                break;
+
+            case 5:
+                b = Cp.ComprovarTipusCela(doc, full, id, "data");
+                if (b) {
+                    MostrarOpcionsData();
+                    DemanarOpcionsData(doc, full, id);
+                }
+                else {
+                    io.writeln("ERROR: La cel·la seleccionada no és de tipus Data");
+                    io.writeln("Si us plau, seleccioni una Cel·la de tipus Data o canviï el tipus de l'actual");
+                    io.writeln();
+                    MostrarOpcionsCela();
+                    DemanarOpcionsCela(doc, full, id);
+                }
+                break;
+
+
+            case 6:
+                 b = Cp.ComprovarTipusCela(doc, full, id, "text");
+                if (b) {
+                    MostrarOpcionsText();
+                    DemanarOpcionsText(doc, full, id);
+                }
+                else {
+                    io.writeln("ERROR: La cel·la seleccionada no és de tipus Text");
+                    io.writeln("Si us plau, seleccioni una Cel·la de tipus Text o canviï el tipus de l'actual");
                     io.writeln();
                     MostrarOpcionsCela();
                     DemanarOpcionsCela(doc, full, id);
@@ -371,6 +409,139 @@ public class VistaTerminal {
                 DemanarOpcionsNumero(doc, full, id);
                 break;
 
+        }
+    }
+
+    private void MostrarOpcionsData() throws Exception {
+        io.writeln("A continuació pot veure quines opcions pot fer sobre una cel·la de tipus Data");
+        io.writeln("0. Retrocedir");
+        io.writeln("1. Obtenir dia");
+        io.writeln("2. Obtenir mes");
+        io.writeln("3. Obtenir any");
+        io.writeln("4. Obtenir data completa");
+        io.writeln("5. Transformar a Text");
+        io.writeln("6. Transformar a Data");
+        io.writeln();
+    }
+
+    private void DemanarOpcionsData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
+        int s = io.readint();
+        switch (s) {
+            case 0:
+                MostrarOpcionsCela();
+                DemanarOpcionsCela(doc, full, id);
+                break;
+
+            case 1:
+                String dia = Cp.getDia(doc, full, id);
+                io.writeln(dia);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 2:
+                String mes = Cp.getMes(doc, full, id);
+                io.writeln(mes);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 3:
+                String any = Cp.getAny(doc, full, id);
+                io.writeln(any);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 4:
+                String data = Cp.getDataCompleta(doc, full, id);
+                io.writeln(data);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 5:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.transformaTextIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.transformaText(doc, full, id);
+                }
+                ImprimirFull(doc, full);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            case 6:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.transformaDataIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.transformaData(doc, full, id);
+                }
+                ImprimirFull(doc, full);
+                MostrarOpcionsData();
+                DemanarOpcionsData(doc, full, id);
+                break;
+
+            default:
+                io.writeln("ERROR: L'opció seleccionada no existeix");
+                DemanarOpcionsText(doc, full, id);
+                break;
+        }
+    }
+
+    private void MostrarOpcionsText() throws Exception {
+        io.writeln("A continuació pot veure quines opcions pot fer sobre una cel·la de tipus Text");
+        io.writeln("0. Retrocedir");
+        io.writeln("1. Passar tot a majúscules");
+        io.writeln("2. Passar tot a minúscules");
+        io.writeln("Per poder fer buscar i reemplaçar ha de seleccionar un bloc de cel·les i sel·leccionar l'opció pertinent");
+        io.writeln();
+    }
+
+    private void DemanarOpcionsText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        io.writeln("Seleccioni una de les opcions, indiqui el número al terminal");
+        int s = io.readint();
+        switch (s) {
+            case 0:
+                MostrarOpcionsCela();
+                DemanarOpcionsCela(doc, full, id);
+                break;
+
+            case 1:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.AllMayusIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.AllMayus(doc, full, id);
+                }
+                ImprimirFull(doc, full);
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            case 2:
+                if (PreguntarColocarCelaNova()) {
+                    AbstractMap.SimpleEntry<Integer, Integer> idRemp = ObtenirIdCela();
+                    Cp.AllMinusIReemplaca(doc, full, id, idRemp);
+                }
+                else {
+                    Cp.AllMinus(doc, full, id);
+                }
+                ImprimirFull(doc, full);
+                MostrarOpcionsNumero();
+                DemanarOpcionsNumero(doc, full, id);
+                break;
+
+            default:
+                io.writeln("ERROR: L'opció seleccionada no existeix");
+                DemanarOpcionsText(doc, full, id);
+                break;
         }
     }
 

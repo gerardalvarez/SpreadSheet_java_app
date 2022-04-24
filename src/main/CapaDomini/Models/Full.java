@@ -121,6 +121,18 @@ public class Full {
         this.Celes.get(id).setType("numeric");
     }
 
+    public void Modifica_Tipus_Text(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        String contingut = this.Celes.get(id).getContingut();
+        this.Celes.replace(id, new TextCela(id, contingut));
+        this.Celes.get(id).setType("text");
+    }
+
+    public void Modifica_Tipus_Data(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        String contingut = this.Celes.get(id).getContingut();
+        this.Celes.replace(id, new DataCela(id, contingut));
+        this.Celes.get(id).setType("data");
+    }
+
     public void Modifica_Numero_Tipus(AbstractMap.SimpleEntry<Integer, Integer> id, String Type) {
         Cela c = this.Celes.get(id);
         Numero n = (Numero) c;
