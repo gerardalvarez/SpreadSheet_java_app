@@ -7,10 +7,7 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CtrlDomini {
 
@@ -321,7 +318,7 @@ public class CtrlDomini {
 
     private void ReemplacaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
         DataCela t = GetData(doc, full, id);
-        String result = t.getContingut();
+        String result = t.getResultatFinal();
         modificarContingutCela(doc, full, idRemp, result);
         if (!ComprovarTipus(doc, full, idRemp, "data")) {
             CanviarTipusCela(doc, full, idRemp, "data");
@@ -358,10 +355,106 @@ public class CtrlDomini {
 
     private void ReemplacaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
         TextCela t = GetText(doc, full, id);
-        String result = t.getContingut();
+        String result = t.getResultatFinal();
         modificarContingutCela(doc, full, idRemp, result);
         if (!ComprovarTipus(doc, full, idRemp, "text")) {
             CanviarTipusCela(doc, full, idRemp, "text");
         }
+    }
+
+    //Operacions de bloc
+    public void CalculaMitjana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        double d = bc.calculaMitjana(bloc);
+        modificarContingutCela(doc, full, idfin, Double.toString(d));
+    }
+
+    private ArrayList<Numero> ObtenirBlocNumeric(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        Full f = Documents.get(doc).get_full(full);
+        return f.getBlocNumero(id1, id2);
+    }
+
+    public Boolean ComprovaNumeric(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        Full f = Documents.get(doc).get_full(full);
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
+        for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
+            String t = GetTipusCela(doc, full, id);
+            if(!t.equals("numero")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void CalculaMediana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        double d = bc.calculaMediana(bloc);
+        modificarContingutCela(doc, full, idfin, Double.toString(d));
+    }
+
+    public void CalculaModa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        double d = bc.calculaModa(bloc);
+        modificarContingutCela(doc, full, idfin, Double.toString(d));
+    }
+
+    public void CalculaVariança(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        double d = bc.calculaVariança(bloc);
+        modificarContingutCela(doc, full, idfin, Double.toString(d));
+    }
+
+    public void BuscaMaxim(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        double d = bc.maxim(bloc);
+        modificarContingutCela(doc, full, idfin, Double.toString(d));
+    }
+
+
+    public void CalculaDesviacio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+        ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        double d = bc.calculaDesviació(bloc);
+        modificarContingutCela(doc, full, idfin, Double.toString(d));
+    }
+
+    public boolean ComprovaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        Full f = Documents.get(doc).get_full(full);
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
+        for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
+            String t = GetTipusCela(doc, full, id);
+            if(!t.equals("text")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void AllMayusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        ArrayList<TextCela> bloc = ObtenirBlocText(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        bc.remplaçar_majuscules(bloc);
+    }
+
+    private ArrayList<TextCela> ObtenirBlocText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        Full f = Documents.get(doc).get_full(full);
+        return f.getBlocText(id1, id2);
+    }
+
+    public void AllMinusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        ArrayList<TextCela> bloc = ObtenirBlocText(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        bc.remplaçar_minuscules(bloc);
+    }
+
+    public void BuscaRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) {
+        ArrayList<TextCela> bloc = ObtenirBlocText(doc, full, id1, id2);
+        Bloc_celes bc = new Bloc_celes();
+        bc.buscar_y_remplazar(bloc, buscar, remp);
     }
 }
