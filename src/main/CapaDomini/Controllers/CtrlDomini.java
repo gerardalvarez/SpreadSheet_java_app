@@ -113,7 +113,7 @@ public class CtrlDomini {
                     if(c.getResultatFinal().isEmpty()) temp.add(".");
                     else temp.add(c.getResultatFinal());
                 }
-                else {
+                else if (c instanceof DataCela){
                     temp.add(c.getResultatFinal());
                 }
             }
@@ -459,5 +459,48 @@ public class CtrlDomini {
         ArrayList<TextCela> bloc = ObtenirBlocText(doc, full, id1, id2);
         Bloc_celes bc = new Bloc_celes();
         bc.buscar_y_remplazar(bloc, buscar, remp);
+    }
+
+    public boolean ComprovaCelaNoOcupa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(c.getResultatFinal().equals("")) return false;
+        else return true;
+    }
+
+    public void copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) {
+       //Cela [][] mat1 = GetMatriu(doc, full, id1, id2);
+       //Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
+    }
+
+
+    public boolean ComprovarId(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        return f.ExisteixId(id);
+    }
+
+    public void EliminarCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        f.Modifica_Cela(id, "");
+    }
+
+    public void AfegirFila(String doc, String full, Integer fila) {
+        Full f = Documents.get(doc).get_full(full);
+        f.Afegir_Fila(fila);
+    }
+
+    public void AfegirCol(String doc, String full, Integer c) {
+        Full f = Documents.get(doc).get_full(full);
+        f.Afegir_Columna(c);
+    }
+
+    public void EliminarFila(String doc, String full, Integer fi) {
+        Full f = Documents.get(doc).get_full(full);
+        f.Eliminar_Fila(fi);
+    }
+
+    public void EliminarCol(String doc, String full, Integer co) {
+        Full f = Documents.get(doc).get_full(full);
+        f.Eliminar_Columna(co);
     }
 }

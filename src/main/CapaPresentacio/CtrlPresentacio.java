@@ -241,4 +241,36 @@ public class CtrlPresentacio {
     public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) {
         Cd.BuscaRemp(doc, full, id1, id2, buscar, remp);
     }
+
+    public boolean ComprovaCelaNoOcupa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.ComprovaCelaNoOcupa(doc, full, id);
+    }
+
+    public void Copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) {
+        Cd.copiar(doc, full, id1, id2, idfin1, idfin2);
+    }
+
+    public boolean ComprovarId(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.ComprovarId(doc, full, id);
+    }
+
+    public void EliminarCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Cd.EliminarCela(doc, full, id);
+    }
+
+    public void AfegirFila(String doc, String full, Integer f) {
+        Cd.AfegirFila(doc, full, f);
+    }
+
+    public void AfegirCol(String doc, String full, Integer c) {
+        Cd.AfegirCol(doc, full, c);
+    }
+
+    public void EliminarFila(String doc, String full, Integer fi) {
+        Cd.EliminarFila(doc, full, fi);
+    }
+
+    public void EliminarCol(String doc, String full, Integer co) {
+        Cd.EliminarCol(doc, full, co);
+    }
 }

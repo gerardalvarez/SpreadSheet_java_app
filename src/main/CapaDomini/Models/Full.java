@@ -48,12 +48,12 @@ public class Full {
     public String getNom(){return this.nom;}
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
-        if (nf <= this.Num_Files-1) //IncrementarIndexFila(nf);
+        if (nf <= this.Num_Files-1) IncrementarIndexFila(nf);
         ++this.Num_Files;
         Integer i= 0;
         while (i < this.Num_Columnes) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(nf,i);
-            this.Celes.put(idc, new TextCela(idc, ""));
+            Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
     };
@@ -64,7 +64,7 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
-            this.Celes.put(idc, new TextCela(idc, ""));
+            Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
     };
@@ -95,7 +95,7 @@ public class Full {
         int i= 0;
         while (i < celes.size()){
             AbstractMap.SimpleEntry<Integer, Integer> idc= celes.get(i).getId();
-            this.Celes.get(idc).setResultat("nocont");
+            this.Celes.get(idc).setResultat("");
             ++i;
         }
     };
@@ -279,6 +279,10 @@ public class Full {
             }
         }
         return ids;
+    }
+
+    public boolean ExisteixId(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return this.Celes.containsKey(id);
     }
 };
 
