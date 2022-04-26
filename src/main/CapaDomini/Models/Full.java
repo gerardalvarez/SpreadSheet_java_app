@@ -357,20 +357,27 @@ public class Full {
         return ids;
     }
 
+
+    public Cela [][] getBlocEnMatriu(ArrayList<Cela> c, Integer nf, Integer nc){
+        Cela [][] mat = new Cela[nf+1][nc+1];
+        int count=0;
+        for (int i=0;i<= nf;++i) {
+            for (int j = 0; j <= nc; ++j) {
+                mat[i][j] = c.get(count);
+                count++;
+            }
+        }
+        return mat;
+    }
+
+
     public void ordena_bloc(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2,ArrayList<Integer> cols,String criteri){
 
         ArrayList<Cela> C= getBlocCeles(id1,id2);
         Bloc_celes b=new Bloc_celes();
         Integer nf = id2.getKey() - id1.getKey();
         Integer nc = id2.getValue() - id1.getValue();
-        Cela [][] mat = new Cela[nf+1][nc+1];
-        int count=0;
-        for (int i=0;i<= nf;++i) {
-            for (int j = 0; j <= nc; ++j) {
-                mat[i][j] = C.get(count);
-                count++;
-            }
-        }
+        Cela [][] mat = getBlocEnMatriu(C,nf,nc);
         switch (criteri){
             case "Major-menor":
                 b.ordena_Z_A(mat,cols);
