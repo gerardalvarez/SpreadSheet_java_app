@@ -479,15 +479,14 @@ public class CtrlDomini {
     private Cela[][] GetMatriu(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
 
         Full fu = Documents.get(doc).get_full(full);
-        fu.getBlocCeles(id1,id2);
-        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = fu.GetIdCeles(id1, id2);
         ArrayList<Cela> C= fu.getBlocCeles(id1,id2);
-        Bloc_celes b= new Bloc_celes();
         Integer nf = id2.getKey() - id1.getKey();
         Integer nc = id2.getValue() - id1.getValue();
         Cela [][] mat = fu.getBlocEnMatriu(C,nf,nc);
 
-        /*Integer nf = id2.getKey() - id1.getKey();
+        /*
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = fu.GetIdCeles(id1, id2);
+        Integer nf = id2.getKey() - id1.getKey();
         Integer nc = id2.getValue() - id1.getValue();
         Cela [][] mat = new Cela[nf + 1][nc + 1];
         System.out.println(mat.length);
