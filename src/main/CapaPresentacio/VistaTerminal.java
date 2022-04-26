@@ -1004,7 +1004,7 @@ public class VistaTerminal {
         }
         else {
             io.writeln("El id seleccionat no existeix, seleccioni un altre");
-            return ObtenirIdRemp(doc, full);
+            return ObtenirIdCela(doc, full);
         }
     }
 

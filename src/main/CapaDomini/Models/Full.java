@@ -3,6 +3,7 @@ package main.CapaDomini.Models;
 
 import java.awt.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Full {
@@ -189,6 +190,104 @@ public class Full {
         //EN CUENTA
     }
 
+    public void ModificaCelaRef(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat, String pareType,  AbstractMap.SimpleEntry<Integer, Integer> pare){
+        if(Objects.equals(pareType, "date")){
+            DataCela c =  (DataCela) this.Celes.get(pare);
+            Cela cel = this.Celes.get(id);
+            Color colorFons = cel.getColorFons();
+            Color colorLletra = cel.getColorLletra();
+            String dateFormat = c.getDataFormat();
+            String TextFormat = c.getTextFormat();
+            LocalDate date = c.getDate();
+            String Rf = this.Celes.get(pare).getResultatFinal();
+            ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+            this.Celes.replace(id, new CelaRefData(id,resultat,Rf));
+            this.Celes.get(id).setColorFons(colorFons);
+            this.Celes.get(id).setColorLletra(colorLletra);
+            this.Celes.get(id).setObservadors(observadors);
+            this.Celes.get(id).setResultatFinal(Rf);
+            ((DataCela) this.Celes.get(id)).setDataFormat(dateFormat);
+            ((DataCela) this.Celes.get(id)).setTextFormat(TextFormat);
+            ((DataCela) this.Celes.get(id)).setDate(date);
+            String a = ((DataCela) this.Celes.get(id)).getDataFormat();
+            System.out.println(a);
+        }
+        else if(Objects.equals(pareType, "text")){
+            System.out.println("HEY");
+            Cela cel = this.Celes.get(id);
+            Color colorFons = cel.getColorFons();
+            Color colorLletra = cel.getColorLletra();
+            String Rf = this.Celes.get(pare).getResultatFinal();
+            ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+            this.Celes.replace(id, new CelaRefText(id,resultat,Rf));
+            this.Celes.get(id).setColorFons(colorFons);
+            this.Celes.get(id).setColorLletra(colorLletra);
+            this.Celes.get(id).setObservadors(observadors);
+            this.Celes.get(id).setResultatFinal(Rf);
+        }
+        else{
+            System.out.println("HEY");
+            Numero c = (Numero) this.Celes.get(pare);
+            Cela cel = this.Celes.get(id);
+            Color colorFons = cel.getColorFons();
+            Color colorLletra = cel.getColorLletra();
+            Boolean arrodonit = c.getArrodonit();
+            Integer num_Decimals = c.getNum_Decimals();
+            Tipus_Numero tipus = c.getTipus();
+            String Rf = this.Celes.get(pare).getResultatFinal();
+            ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+            this.Celes.replace(id, new CelaRefNum(id,Rf,arrodonit, num_Decimals,  tipus, resultat));
+            this.Celes.get(id).setColorFons(colorFons);
+            this.Celes.get(id).setColorLletra(colorLletra);
+            this.Celes.get(id).setObservadors(observadors);
+            ((Numero) this.Celes.get(id)).setResultat(new BigDecimal(Rf));
+            Numero a = (Numero) this.Celes.get(id);
+
+        }
+        if(!this.Celes.get(pare).getObservadors().contains(id))this.Celes.get(pare).newObserver(id);
+    }
+
+    public void ModificaCelaNum(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat){
+        if(Objects.equals(this.Celes.get(id).getType(), "numeric")){
+            Numero n = (Numero) this.Celes.get(id);
+            n.setResultat(new BigDecimal(resultat));
+        }
+        else{
+            Cela cel = this.Celes.get(id);
+            Color colorFons = cel.getColorFons();
+            Color colorLletra = cel.getColorLletra();
+            ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+            this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), true, 2, Tipus_Numero.numero));
+            this.Celes.get(id).setColorFons(colorFons);
+            this.Celes.get(id).setColorLletra(colorLletra);
+            this.Celes.get(id).setObservadors(observadors);
+        }
+    }
+    public void ModificaCelaDate(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat){
+        Cela cel = this.Celes.get(id);
+        Color colorFons = cel.getColorFons();
+        Color colorLletra = cel.getColorLletra();
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+        this.Celes.replace(id, new DataCela(id, resultat));
+        this.Celes.get(id).setType("date");
+        this.Celes.get(id).setColorFons(colorFons);
+        this.Celes.get(id).setColorLletra(colorLletra);
+        this.Celes.get(id).setObservadors(observadors);
+    }
+    public void ModificaCelaText(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat){
+        if(Objects.equals(this.Celes.get(id).getType(), "text")){
+            this.Celes.get(id).setResultatFinal(resultat);
+        }
+        else{
+            Cela cel = this.Celes.get(id);
+            Color colorFons = cel.getColorFons();Color colorLletra = cel.getColorLletra();
+            String type = cel.getType();ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+            this.Celes.replace(id, new TextCela(id, resultat));
+            this.Celes.get(id).setType(type);
+            this.Celes.get(id).setColorFons(colorFons);this.Celes.get(id).setColorLletra(colorLletra);
+            this.Celes.get(id).setObservadors(observadors);
+        }
+    }
 
 
     public void Modifica_Tipus_Numeric(AbstractMap.SimpleEntry<Integer, Integer> id) {

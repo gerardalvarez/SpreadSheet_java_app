@@ -11,12 +11,19 @@ public class CelaRefNum extends Numero{
     private String contingut;
 
 
+
+    public CelaRefNum(AbstractMap.SimpleEntry<Integer, Integer> id, String res,Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus, String contingut) {
+        super(id,new BigDecimal(res), arrodonit, num_Decimals, tipus);
+        this.contingut= contingut;
+        //Avaluar();
+    }
+
     public CelaRefNum(AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus, String contingut, ArrayList<Numero> operadors, String operacio) {
         super(id, new BigDecimal(0), arrodonit, num_Decimals, tipus);
         this.contingut= contingut;
         this.operadors= operadors;
         this.operacio= operacio;
-        Avaluar();
+        //Avaluar();
     }
 
     public CelaRefNum(CelaRefNum dd,AbstractMap.SimpleEntry<Integer,Integer> id) {

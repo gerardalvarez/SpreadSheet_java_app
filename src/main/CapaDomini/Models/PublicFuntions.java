@@ -1,5 +1,7 @@
 package main.CapaDomini.Models;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class PublicFuntions {
@@ -117,6 +119,27 @@ public class PublicFuntions {
             else if (Objects.equals(text, "MAY")) return "MAY";
             else if (Objects.equals(text, "MIN")) return "MIN";
             else return "NULL";
+    }
+
+    public static Boolean esRef(String result, Integer fila, Integer col){
+        Integer size = result.length();
+        if(size < 5)return false;
+        if(result.charAt(0) != '=')return false;
+        if(result.charAt(1) != '#')return false;
+        if(!result.contains("_") || result.charAt(size-1) == '_')return false;
+        if(!isNumerical(result.substring(2, result.indexOf('_'))) || !isNumerical(result.substring(result.indexOf('_')+1)))return false;
+        if(!refValida(Integer.parseInt(result.substring(2,result.indexOf('_'))),fila,col) || !refValida(Integer.parseInt(result.substring(result.indexOf('_')+1)),fila,col))return false;
+        return true;
+    }
+    public static AbstractMap.SimpleEntry<Integer, Integer> getNumIdRef(String result){
+        Integer fil = Integer.parseInt(result.substring(2,result.indexOf('_')));
+        Integer col = Integer.parseInt(result.substring(result.indexOf('_')+1));
+        return new AbstractMap.SimpleEntry<Integer,Integer>(fil-1,col-1);
+
+    }
+
+    public static boolean refValida(Integer num, Integer fila, Integer col){
+        return (num-1 < fila && num-1 >= 0 && num-1 < col);
     }
 
 }

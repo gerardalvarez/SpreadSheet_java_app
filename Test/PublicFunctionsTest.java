@@ -1,7 +1,8 @@
 import main.CapaDomini.Models.PublicFuntions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static main.CapaDomini.Models.PublicFuntions.esRef;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PublicFunctionsTest {
 
@@ -19,5 +20,11 @@ public class PublicFunctionsTest {
         assertEquals(" de octubre del ", a);
         String b = PublicFuntions.monthToText("13");
         assertEquals("null", b);
+    }
+
+    @Test
+    public void esReferencia(){
+        Boolean b = esRef("=#23_01", 50 , 50);
+        assertTrue(b);
     }
 }
