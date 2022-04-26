@@ -322,6 +322,21 @@ public class Full {
         return text;
     }
 
+    public ArrayList<Cela> getBlocCeles(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        ArrayList<Cela> c = new ArrayList<>();
+        boolean found = false;
+        Integer ip = id1.getKey();
+        Integer jp= id1.getValue();
+        Integer iif = id2.getKey();
+        Integer jjf= id2.getValue();
+        for (int i =ip;i<=iif;i++){
+            for (int j =jp;j<=jjf;j++){
+                c.add(Celes.get(new AbstractMap.SimpleEntry<>(i,j)));
+            }
+        }
+        return c;
+    }
+
     public ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> GetIdCeles(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = new ArrayList<>();
         boolean found = false;
@@ -341,6 +356,41 @@ public class Full {
         }
         return ids;
     }
+
+    public void ordena_bloc(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2,ArrayList<Integer> cols,String criteri){
+
+        ArrayList<Cela> C= getBlocCeles(id1,id2);
+        Bloc_celes b=new Bloc_celes();
+        Integer nf = id2.getKey() - id1.getKey();
+        Integer nc = id2.getValue() - id1.getValue();
+        Cela [][] mat = new Cela[nf+1][nc+1];
+        int count=0;
+        for (int i=0;i<= nf;++i) {
+            for (int j = 0; j <= nc; ++j) {
+                mat[i][j] = C.get(count);
+                count++;
+            }
+        }
+        switch (criteri){
+            case "Major-menor":
+                b.ordena_Z_A(mat,cols);
+                break;
+            case "Menor-major":
+                b.ordena_A_Z(mat,cols);
+                break;
+            default:
+                System.out.println("error");
+        }
+        for (int i=0;i< mat.length;++i) {
+            for (int j = 0; j < mat[0].length; ++j) {
+                Cela c= mat[i][j];
+                Celes.replace(c.getId(),c);
+            }
+        }
+
+    }
+
+
 
     private Boolean isNumerical(String strNum){
         if (strNum == null) return false;
