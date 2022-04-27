@@ -17,15 +17,16 @@ public class FullTest {
     }
     @Test
     public void Test_eliminar_fila() throws Exception {
-        Full f= new Full( 13,8);
-        f.Eliminar_Fila(8);
-        assertEquals(7, f.getNum_Files());
+        Full f= new Full(4,4);
+        for(int i=0; i<f.getNum_Columnes();++i) f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2,i),"aa");
+        f.Eliminar_Fila(2);
+        assertNull(f.getCeles());
     }
     @Test
     public void Test_afegir_col() throws Exception {
         Full f= new Full(4,4);
         for(int i=0; i<f.getNum_Files();++i) f.Modifica_Cela(new AbstractMap.SimpleEntry<>(i,3),"aa");
-        f.Afegir_Columna(2);
+        f.Eliminar_Columna(2);
         assertEquals(19, f.getNum_Columnes());
     }
     @Test
