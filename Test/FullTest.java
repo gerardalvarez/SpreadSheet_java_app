@@ -5,25 +5,28 @@ import org.junit.jupiter.api.Test;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FullTest {
     @Test
     public void Test_afegir_fila() throws Exception {
-        Full f= new Full( 20,20);
-        f.Afegir_Fila(10);
-        assertEquals(21, f.getNum_Files());
+        Full f= new Full(4,4);
+        for(int i=0; i<f.getNum_Columnes();++i) f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2,i),"aa");
+        f.Afegir_Fila(2);
+        assertNull(f.getCeles());
     }
     @Test
     public void Test_eliminar_fila() throws Exception {
-        Full f= new Full( 13,8);
-        f.Eliminar_Fila(8);
-        assertEquals(7, f.getNum_Files());
+        Full f= new Full(4,4);
+        for(int i=0; i<f.getNum_Columnes();++i) f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2,i),"aa");
+        f.Eliminar_Fila(2);
+        assertNull(f.getCeles());
     }
     @Test
     public void Test_afegir_col() throws Exception {
-        Full f= new Full( 18,20);
-        f.Afegir_Columna(18);
+        Full f= new Full(4,4);
+        for(int i=0; i<f.getNum_Files();++i) f.Modifica_Cela(new AbstractMap.SimpleEntry<>(i,3),"aa");
+        f.Eliminar_Columna(2);
         assertEquals(19, f.getNum_Columnes());
     }
     @Test
