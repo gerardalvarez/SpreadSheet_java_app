@@ -4,6 +4,7 @@ import main.CapaDomini.Models.*;
 import main.CapaPresentacio.inout;
 import org.w3c.dom.Text;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -98,16 +99,7 @@ public class CtrlDomini {
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
                 Cela c = Celes.get(id);
                 if (c instanceof Numero) {
-                    Numero n = (Numero) c;
-                    BigDecimal d = n.getResultat();
-                    Integer Num_Dec = n.getNum_Decimals();
-                    if(n.getArrodonit()) {
-                       d = d.setScale(Num_Dec, RoundingMode.HALF_UP);
-                    }
-                    else {
-                        d = d.setScale(Num_Dec, RoundingMode.DOWN);
-                    }
-                    temp.add(d.toString());
+                    temp.add(c.getResultatFinal());
                 }
                 else if (c instanceof TextCela) {
                     if(c.getResultatFinal().isEmpty()) temp.add(".");
@@ -130,11 +122,50 @@ public class CtrlDomini {
     }
 
     //CELA
-    public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
+    public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
         Full f = Documents.get(doc).get_full(full);
-        f.Modifica_Cela(id, contingut);
+        String a = PublicFuntions.calculaTipus(resultat);
+        if(Objects.equals(a, "numeric")){
+           f.ModificaCelaNum(id, resultat);
+            System.out.println( f.getCeles().get(id).getType() + " " + f.getCeles().get(id).getResultatFinal());
+        }
+        else if(Objects.equals(a, "date")){
+            f.ModificaCelaDate(id,resultat);
+        }
+        else if(PublicFuntions.esRef(resultat,f.getNum_Files(),f.getNum_Columnes())){
+            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getNumIdRef(resultat);
+            String pareType = f.getCeles().get(pare).getType();
+            System.out.println(pareType + " " + f.getCeles().get(pare).getResultatFinal());
+            f.ModificaCelaRef(id,resultat,pareType,pare);
 
+        }
+        else {
+            f.ModificaCelaText(id,resultat);
+        }
+        CheckObs(doc, full, id);
     }
+
+    public void CheckObs(String doc, String full , AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs = f.getCeles().get(id).getObservadors();
+        if(obs != null){
+            for(int i = 0; i < obs.size(); i++){
+                if(Objects.equals(f.getCeles().get(obs.get(i)).getType(), "date")){
+                    CelaRefData c =  (CelaRefData) f.getCeles().get(obs.get(i));
+                    modificarContingutCela(doc,full, obs.get(i), c.getContingut());
+                }
+                else  if(Objects.equals(f.getCeles().get(obs.get(i)).getType(), "text")){
+                    CelaRefText c =  (CelaRefText) f.getCeles().get(obs.get(i));
+                    modificarContingutCela(doc,full, obs.get(i), c.getContingut());
+                }
+                else {
+                    CelaRefNum c =  (CelaRefNum) f.getCeles().get(obs.get(i));
+                    modificarContingutCela(doc,full, obs.get(i), c.getContingut());
+                }
+            }
+        }
+    }
+
 
     public Boolean ComprovarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
         String t = GetTipusCela(doc, full, id);
@@ -184,9 +215,10 @@ public class CtrlDomini {
         n.setTipus(Tipus_Numero.valueOf(tipus));
     }
 
-    public void CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Numero n = GetNumero(doc, full, id);
         n.incrementar();
+        CheckObs(doc, full, id);
     }
 
     public void CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -194,54 +226,59 @@ public class CtrlDomini {
         CalculaIncrement(doc, full, idRemp);
     }
 
-    public void CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Numero n = GetNumero(doc, full, id);
         n.reduir();
+        CheckObs(doc, full, id);
     }
 
-    public void CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
         CalculaReduir(doc, full, idRemp);
     }
 
-    public void CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) {
+    public void CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
         Numero n = GetNumero(doc, full, id);
         n.potencia(exp);
+        CheckObs(doc, full, id);
     }
 
-    public void CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
         CalculaPotencia(doc, full, idRemp, exp);
     }
 
-    public void CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) {
+    public void CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
         Numero n = GetNumero(doc, full, id);
         n.arrel(exp);
+        CheckObs(doc, full, id);
     }
 
-    public void CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
         CalculaArrel(doc, full, idRemp, exp);
     }
 
-    public void CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Numero n = GetNumero(doc, full, id);
         n.valor_absolut();
+        CheckObs(doc, full, id);
     }
 
-    public void CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
         CalculaValorAbs(doc, full, idRemp);
     }
 
-    public void CalculaConversio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c) {
+    public void CalculaConversio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c) throws Exception {
         Numero n = GetNumero(doc, full, id);
         n.conversio(Tipus_Numero.valueOf(c));
         CanviarTipusNumero(doc, full, id, c);
+        CheckObs(doc, full, id);
 
     }
 
-    public void CalculaConversioIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void CalculaConversioIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
         CalculaConversio(doc, full, idRemp, c);
     }
@@ -262,9 +299,11 @@ public class CtrlDomini {
         return (Numero) c;
     }
 
-    private void ReemplacaNum(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    private void ReemplacaNum(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         Numero n = GetNumero(doc, full, id);
         String result = n.getResultat().toString();
+        System.out.println(result);
+        System.out.println(idRemp);
         modificarContingutCela(doc, full, idRemp, result);
         if (!ComprovarTipus(doc, full, idRemp, "numero")) {
             CanviarTipusCela(doc, full, idRemp, "numero");
@@ -298,7 +337,7 @@ public class CtrlDomini {
         d.changeToText();
     }
 
-    public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaData(doc, full, id, idRemp);
         transformaText(doc, full, idRemp);
     }
@@ -308,7 +347,7 @@ public class CtrlDomini {
         d.changeToDate();
     }
 
-    public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaData(doc, full, id, idRemp);
         transformaData(doc, full, idRemp);
     }
@@ -319,7 +358,7 @@ public class CtrlDomini {
         return (DataCela) c;
     }
 
-    private void ReemplacaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    private void ReemplacaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         DataCela t = GetData(doc, full, id);
         String result = t.getResultatFinal();
         modificarContingutCela(doc, full, idRemp, result);
@@ -335,7 +374,7 @@ public class CtrlDomini {
         t.AllMayus();
     }
 
-    public void AllMayusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void AllMayusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaText(doc, full, id, idRemp);
         AllMayus(doc, full, idRemp);
     }
@@ -345,7 +384,7 @@ public class CtrlDomini {
         t.AllMinus();
     }
 
-    public void AllMinusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    public void AllMinusIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaText(doc, full, id, idRemp);
         AllMinus(doc, full, idRemp);
     }
@@ -356,7 +395,7 @@ public class CtrlDomini {
         return (TextCela) c;
     }
 
-    private void ReemplacaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) {
+    private void ReemplacaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         TextCela t = GetText(doc, full, id);
         String result = t.getResultatFinal();
         modificarContingutCela(doc, full, idRemp, result);
@@ -366,7 +405,7 @@ public class CtrlDomini {
     }
 
     //Operacions de bloc
-    public void CalculaMitjana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+    public void CalculaMitjana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) throws Exception {
         ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
         Bloc_celes bc = new Bloc_celes();
         double d = bc.calculaMitjana(bloc);
@@ -390,28 +429,28 @@ public class CtrlDomini {
         return true;
     }
 
-    public void CalculaMediana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+    public void CalculaMediana(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) throws Exception {
         ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
         Bloc_celes bc = new Bloc_celes();
         double d = bc.calculaMediana(bloc);
         modificarContingutCela(doc, full, idfin, Double.toString(d));
     }
 
-    public void CalculaModa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+    public void CalculaModa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) throws Exception {
         ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
         Bloc_celes bc = new Bloc_celes();
         double d = bc.calculaModa(bloc);
         modificarContingutCela(doc, full, idfin, Double.toString(d));
     }
 
-    public void CalculaVariança(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+    public void CalculaVariança(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) throws Exception {
         ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
         Bloc_celes bc = new Bloc_celes();
         double d = bc.calculaVariança(bloc);
         modificarContingutCela(doc, full, idfin, Double.toString(d));
     }
 
-    public void BuscaMaxim(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+    public void BuscaMaxim(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) throws Exception {
         ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
         Bloc_celes bc = new Bloc_celes();
         double d = bc.maxim(bloc);
@@ -419,7 +458,7 @@ public class CtrlDomini {
     }
 
 
-    public void CalculaDesviacio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) {
+    public void CalculaDesviacio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin) throws Exception {
         ArrayList<Numero> bloc = ObtenirBlocNumeric(doc, full, id1, id2);
         Bloc_celes bc = new Bloc_celes();
         double d = bc.calculaDesviació(bloc);

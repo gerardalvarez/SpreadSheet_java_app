@@ -9,10 +9,9 @@ public class CelaRefText extends TextCela{
     private ArrayList<TextCela> operadors;
 
 
-    public CelaRefText(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut, ArrayList<TextCela> operadors) {
-        super(id, contingut);
+    public CelaRefText(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut, String rf) {
+        super(id, rf);
         this.contingut=contingut;
-        Avaluar();
     }
     public CelaRefText(CelaRefText dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
         super(id,dd.getResultatFinal());
@@ -20,23 +19,11 @@ public class CelaRefText extends TextCela{
         this.colorFons=dd.getColorFons();
         this.colorLletra=dd.getColorLletra();
         this.contingut=dd.getContingut();
-        Avaluar();
+        //Avaluar();
     }
 
-    private String getContingut() {
+   public String getContingut() {
         return this.contingut;
     }
 
-    private void Avaluar(){
-        if (this.contingut.substring(1,3).equals("min")){
-            Bloc_celes bc= new Bloc_celes();
-            bc.remplaçar_minuscules(operadors);
-        }
-        if(this.contingut.substring(1).equals("#")){
-            resultat_final=operadors.get(0).getResultatFinal();
-        } else {
-            Bloc_celes bc= new Bloc_celes();
-            bc.remplaçar_majuscules(operadors);
-        }
-    }
 }

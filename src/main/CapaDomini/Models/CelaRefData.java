@@ -7,10 +7,10 @@ public class CelaRefData extends DataCela{
     private String contingut;
     private ArrayList<TextCela> operadors;
 
-    public CelaRefData(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut) {
-        super(id, contingut);
+    public CelaRefData(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut, String rf) {
+        super(id, rf);
         this.contingut=contingut;
-        Avaluar();
+
     }
     public CelaRefData(CelaRefData dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
         super(id,dd.getResultatFinal());
@@ -18,16 +18,11 @@ public class CelaRefData extends DataCela{
         this.colorFons=dd.getColorFons();
         this.colorLletra=dd.getColorLletra();
         this.contingut=dd.getContingut();
-        Avaluar();
+        //Avaluar();
     }
 
-    private String getContingut() {
+    public String getContingut() {
         return this.contingut;
     }
 
-    private void Avaluar(){
-        if(this.contingut.charAt(1) == '#'){
-            resultat_final=operadors.get(0).getResultatFinal();
-        }
-    }
 }

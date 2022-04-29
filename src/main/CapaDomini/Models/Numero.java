@@ -7,10 +7,10 @@ import java.util.AbstractMap;
 import static java.lang.Math.PI;
 
 public class Numero extends Cela{
-    private BigDecimal resultat;
-    private Boolean arrodonit;
-    private Integer num_Decimals;
-    private Tipus_Numero tipus;
+    protected BigDecimal resultat;
+    protected Boolean arrodonit;
+    protected Integer num_Decimals;
+    protected Tipus_Numero tipus;
 
     //Constructor
 
@@ -21,8 +21,9 @@ public class Numero extends Cela{
         this.arrodonit = arrodonit;
         this.num_Decimals = num_Decimals;
         this.tipus = tipus;
-
+        ActualitzarResultatFinal();
     }
+
 
 
     public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
@@ -47,26 +48,31 @@ public class Numero extends Cela{
 
     public void incrementar () {
         this.resultat = this.resultat.add(new BigDecimal(1));
+        ActualitzarResultatFinal();
     }
 
     public void reduir () {
         this.resultat = this.resultat.add(new BigDecimal(-1));
+        ActualitzarResultatFinal();
     }
 
     public void potencia(Double exp) {
         double b = this.resultat.doubleValue();
         this.resultat = BigDecimal.valueOf(Math.pow(b, exp));
         this.resultat = this.resultat.stripTrailingZeros();
+        ActualitzarResultatFinal();
     }
 
     public void valor_absolut() {
         this.resultat = this.resultat.abs();
+        ActualitzarResultatFinal();
     }
 
     public void arrel (Double exp) {
         double b = this.resultat.doubleValue();
         this.resultat = BigDecimal.valueOf(Math.pow(b, 1/exp));
         this.resultat = this.resultat.stripTrailingZeros();
+        ActualitzarResultatFinal();
     }
 
     //funció a descartar un cop estigui fet el controller
@@ -86,10 +92,12 @@ public class Numero extends Cela{
                     case fahrenheit:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1.8));
                         this.resultat = this.resultat.add(BigDecimal.valueOf(32));
+                        ActualitzarResultatFinal();
                         break;
 
                     case kelvin:
                         this.resultat = this.resultat.add(BigDecimal.valueOf(273.15));
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -99,13 +107,14 @@ public class Numero extends Cela{
                     case celsius:
                         this.resultat = this.resultat.add(BigDecimal.valueOf(-32));
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf((double) 5/9));
-
+                        ActualitzarResultatFinal();
                         break;
 
                     case kelvin:
                         this.resultat = this.resultat.add(BigDecimal.valueOf(-32));
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf((double)5/9));
                         this.resultat = this.resultat.add(BigDecimal.valueOf(273.15));
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -114,12 +123,14 @@ public class Numero extends Cela{
                 switch(convertit) {
                     case celsius:
                         this.resultat = this.resultat.add(BigDecimal.valueOf(-273.15));
+                        ActualitzarResultatFinal();
                         break;
 
                     case fahrenheit:
                         this.resultat = this.resultat.add(BigDecimal.valueOf(-273.15));
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1.8));
                         this.resultat = this.resultat.add(BigDecimal.valueOf(32));
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -128,34 +139,41 @@ public class Numero extends Cela{
                 switch(convertit) {
                     case m:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1000));
+                        ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(100000));
+                        ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1000000));
+                        ActualitzarResultatFinal();
                         break;
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(39370.07874));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(3280.839895));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1093.613298));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case miles:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.62137119));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -165,34 +183,41 @@ public class Numero extends Cela{
                     case km:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(1000), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(100));
+                        ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1000));
+                        ActualitzarResultatFinal();
                         break;
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(39.37007874));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(3.280839895));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1.093613298));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case miles:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.00062137119));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -202,35 +227,42 @@ public class Numero extends Cela{
                     case km:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(100000), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case m:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(100), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(10));
+                        ActualitzarResultatFinal();
                         break;
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.3937007874));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.03280839895));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.01093613298));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case miles:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.0000062137119));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -240,35 +272,42 @@ public class Numero extends Cela{
                     case km:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(1000000), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case m:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(1000), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(10), 20, RoundingMode.HALF_UP);
+                        ActualitzarResultatFinal();
                         break;
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.03937007874));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.003280839895));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.001093613298));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case miles:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(0.00000062137119));
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -278,36 +317,43 @@ public class Numero extends Cela{
                     case km:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(39370.07874), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case m:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(39.37007874), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.3937007874), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.03937007874), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(12), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(36), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case miles:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(63360), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -317,35 +363,42 @@ public class Numero extends Cela{
                     case km:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(3280.839895), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case m:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(3.280839895), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.03280839895), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.003280839895), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(12));
+                        ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(3), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case miles:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(5280), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -356,34 +409,41 @@ public class Numero extends Cela{
                     case km:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(1093.613298), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case m:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(1.093613298), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.01093613298), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.001093613298), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(36));
+                        ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(3));
+                        ActualitzarResultatFinal();
                         break;
 
                     case miles:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(1760), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -393,33 +453,40 @@ public class Numero extends Cela{
                     case km:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.62137119), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case m:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.00062137119), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.0000062137119), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(0.00000062137119), 20, RoundingMode.HALF_UP);
                         this.resultat = this.resultat.stripTrailingZeros();
+                        ActualitzarResultatFinal();
                         break;
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(63360));
+                        ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(5280));
+                        ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1760));
+                        ActualitzarResultatFinal();
                         break;
                 }
                 break;
@@ -428,12 +495,14 @@ public class Numero extends Cela{
             case graus:
                 if (convertit == Tipus_Numero.radiants) {
                     this.resultat = this.resultat.multiply(BigDecimal.valueOf(PI/180));
+                    ActualitzarResultatFinal();
                 }
                 break;
 
             case radiants:
                 if (convertit == Tipus_Numero.graus) {
                     this.resultat = this.resultat.multiply(BigDecimal.valueOf((double) 180/PI));
+                    ActualitzarResultatFinal();
                 }
                 break;
         }
@@ -444,14 +513,17 @@ public class Numero extends Cela{
 
     public void setResultat(BigDecimal resultat) {
         this.resultat = resultat;
+        ActualitzarResultatFinal();
     }
 
     public void setArrodonit(Boolean arrodonit) {
         this.arrodonit = arrodonit;
+        ActualitzarResultatFinal();
     }
 
     public void setNum_Decimals(Integer num_Decimals) {
         this.num_Decimals = num_Decimals;
+        ActualitzarResultatFinal();
     }
 
     public void setTipus(Tipus_Numero tipus) {
@@ -461,7 +533,8 @@ public class Numero extends Cela{
     //Getters
 
     public BigDecimal getResultat() {
-        return resultat;
+        System.out.println("R: " + this.resultat);
+        return this.resultat;
     }
 
     public Boolean getArrodonit() {
@@ -474,6 +547,17 @@ public class Numero extends Cela{
 
     public Tipus_Numero getTipus() {
         return tipus;
+    }
+
+    private void ActualitzarResultatFinal() {
+        BigDecimal numero = resultat;
+        if (arrodonit) {
+            numero = numero.setScale(num_Decimals, RoundingMode.HALF_UP);
+        }
+        else {
+            numero = numero.setScale(num_Decimals, RoundingMode.DOWN);
+        }
+        super.setResultatFinal(numero.toString());
     }
 }
 

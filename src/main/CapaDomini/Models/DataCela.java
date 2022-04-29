@@ -9,7 +9,11 @@ import static main.CapaDomini.Models.PublicFuntions.monthToData;
 public class DataCela extends Cela {
     private String dateFormat = "null";
     private String TextFormat = "null";
-    private final LocalDate date;
+
+    public LocalDate getDate() {return date;}
+    public void setDate(LocalDate date) {this.date = date;}
+
+    private LocalDate date;
 
     //CREADORA
     public DataCela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut){
