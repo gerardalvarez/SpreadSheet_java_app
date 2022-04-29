@@ -1,3 +1,5 @@
+import main.CapaDomini.Controllers.CtrlDomini;
+import main.CapaDomini.Models.Full;
 import main.CapaDomini.Models.PublicFuntions;
 import org.junit.jupiter.api.Test;
 
@@ -19,5 +21,11 @@ public class PublicFunctionsTest {
         assertEquals(" de octubre del ", a);
         String b = PublicFuntions.monthToText("13");
         assertEquals("null", b);
+    }
+
+    @Test
+    public void reasCSVTest() throws Exception {
+        Full f = PublicFuntions.readCsv();
+        System.out.println(f.Mostrar());
     }
 }
