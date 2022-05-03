@@ -3,6 +3,9 @@ package main.CapaDomini.Models;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class PublicFuntions {
     public static String monthToText(String monthNumber){
@@ -119,6 +122,46 @@ public class PublicFuntions {
             else if (Objects.equals(text, "MAY")) return "MAY";
             else if (Objects.equals(text, "MIN")) return "MIN";
             else return "NULL";
+    }
+
+    public static Full readCsv() {
+        List<List<String>> files = new ArrayList<>();
+        int size = 0;
+        try (Scanner scanner = new Scanner(new File("src/main/CapaDomini/Models/Test.csv"));) {
+            while (scanner.hasNextLine()) {
+                List<String> fil = getRecordFromLine(scanner.nextLine());
+                if (fil.size() > size) size = fil.size();
+                files.add(fil);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        Full f = new Full("Full 2", size, files.size());
+
+        int i = 0;
+        for (List <String> lists: files) {
+            int j = 0;
+            for (String s : lists) {
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
+                f.Modifica_Cela(id, s);
+                j++;
+            }
+            i++;
+        }
+        return f;
+    }
+
+    private static List<String> getRecordFromLine(String line) {
+        List<String> values = new ArrayList<>();
+        try (Scanner rowScanner = new Scanner(line)) {
+            rowScanner.useDelimiter(",");
+            while (rowScanner.hasNext()) {
+                values.add(rowScanner.next());
+            }
+        }
+        return values;
     }
 
     public static Boolean esRef(String result, Integer fila, Integer col){

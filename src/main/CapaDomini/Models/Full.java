@@ -4,6 +4,7 @@ package main.CapaDomini.Models;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class Full {
@@ -578,6 +579,46 @@ public class Full {
 
     public boolean ExisteixId(AbstractMap.SimpleEntry<Integer, Integer> id) {
         return this.Celes.containsKey(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Full{" +
+                "nom='" + nom + '\'' +
+                ", Num_Columnes=" + Num_Columnes +
+                ", Num_Files=" + Num_Files +
+                ", Celes=" + Celes +
+                '}';
+    }
+
+    public ArrayList<String> Mostrar() throws Exception { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
+        ArrayList<String> temp = new ArrayList<>();
+        for(int i = 0; i < this.Num_Files; i++) {
+            for(int j = 0; j < this.Num_Columnes; j++) {
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
+                Cela c = this.Celes.get(id);
+                if (c instanceof Numero) {
+                    Numero n = (Numero) c;
+                    BigDecimal d = n.getResultat();
+                    Integer Num_Dec = n.getNum_Decimals();
+                    if(n.getArrodonit()) {
+                        d = d.setScale(Num_Dec, RoundingMode.HALF_UP);
+                    }
+                    else {
+                        d = d.setScale(Num_Dec, RoundingMode.DOWN);
+                    }
+                    temp.add(d.toString());
+                }
+                else if (c instanceof TextCela) {
+                    if(c.getResultatFinal().isEmpty()) temp.add(".");
+                    else temp.add(c.getResultatFinal());
+                }
+                else if (c instanceof DataCela){
+                    temp.add(c.getResultatFinal());
+                }
+            }
+        }
+        return temp;
     }
 };
 

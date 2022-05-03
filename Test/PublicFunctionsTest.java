@@ -1,3 +1,5 @@
+import main.CapaDomini.Controllers.CtrlDomini;
+import main.CapaDomini.Models.Full;
 import main.CapaDomini.Models.PublicFuntions;
 import org.junit.jupiter.api.Test;
 
@@ -26,5 +28,11 @@ public class PublicFunctionsTest {
     public void esReferencia(){
         Boolean b = esRef("=#23_01", 50 , 50);
         assertTrue(b);
+    }
+
+    @Test
+    public void reasCSVTest() throws Exception {
+        Full f = PublicFuntions.readCsv();
+        System.out.println(f.Mostrar());
     }
 }
