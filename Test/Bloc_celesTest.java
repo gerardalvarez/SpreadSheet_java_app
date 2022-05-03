@@ -15,71 +15,92 @@ class Bloc_celesTest {
     }
 
     @Test
-    void ordena_A_Z() {
+    void ordena_A_Z() throws Exception {
 
         // (0,0)1 c   (0,1)b c3      (0,0)1 c2   (0,1)a c5
         // (1,0)2 c1  (1,1)c c4  to  (1,0)1 c    (1,1)b c3
         // (2,0)1 c2  (2,1)a c5      (2,0)2 c1   (2,1)c c4
 
-        Bloc_celes bloc=new Bloc_celes();
 
-        ArrayList<Cela> list = new ArrayList<>();
-        BigDecimal.valueOf((double) 0);
-        Cela c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
-        Cela c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        Cela c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        Full f=new Full(2,3);
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "1");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 0), "1");
 
-        Cela c3 = new TextCela(new AbstractMap.SimpleEntry<>(0, 1), "b");
-        Cela c4 = new TextCela(new AbstractMap.SimpleEntry<>(1, 1), "c");
-        Cela c5 = new TextCela(new AbstractMap.SimpleEntry<>(2, 1), "a");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "c");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "a");
+
+        for (Integer g=0; g < f.getNum_Files(); ++g) { //PRINT
+            for (Integer j = 0; j < f.getNum_Columnes(); ++j) System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) .getResultatFinal()+ " ");
+            System.out.println();
+        }
 
         ArrayList<Integer> cols = new ArrayList<>();
         cols.add(0);
         cols.add(1);
-        Cela arr[][]= {{c,c3},{c1,c4},{c2,c5}};
-        bloc.ordena_A_Z(arr,cols);
+        f.ordena_bloc(new AbstractMap.SimpleEntry<>(0, 0),new AbstractMap.SimpleEntry<>(2, 1),cols,"Major-menor");
+        Bloc_celes bloc=new Bloc_celes();
 
-        assertTrue(new AbstractMap.SimpleEntry<>(0, 0).equals(c2.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(1, 0).equals(c.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(2, 0).equals(c1.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(0, 1).equals(c5.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(1, 1).equals(c3.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(2, 1).equals(c4.getId()));
 
+        for (Integer g=0; g < f.getNum_Files(); ++g) { //PRINT
+            for (Integer j = 0; j < f.getNum_Columnes(); ++j) System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) .getResultatFinal()+ " ");
+            System.out.println();
+        }
+
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(0,0)).getResultatFinal(),"2.00");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(1,0)).getResultatFinal(),"1.00");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(2,0)).getResultatFinal(),"1.00");
+
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(0,1)).getResultatFinal(),"c");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(1,1)).getResultatFinal(),"b");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(2,1)).getResultatFinal(),"a");
 
 
     }
 
     @Test
-    void ordena_Z_A() {
-        // (0,0)1 c   (0,1)b c3      (0,0)2 c1   (0,1)c c4
+    void ordena_Z_A() throws Exception {
+
+        // (0,0)1 c   (0,1)b c3      (0,0)1 c2   (0,1)a c5
         // (1,0)2 c1  (1,1)c c4  to  (1,0)1 c    (1,1)b c3
-        // (2,0)1 c2  (2,1)a c5      (2,0)1 c2   (2,1)a c5
+        // (2,0)1 c2  (2,1)a c5      (2,0)2 c1   (2,1)c c4
 
-        Bloc_celes bloc=new Bloc_celes();
 
-        ArrayList<Cela> list = new ArrayList<>();
-        BigDecimal.valueOf((double) 0);
-        Cela c = new Numero(new AbstractMap.SimpleEntry<>(0, 0), "1");
-        Cela c1 = new Numero(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        Cela c2 = new Numero(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        Full f=new Full(2,3);
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "1");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 0), "1");
 
-        Cela c3 = new TextCela(new AbstractMap.SimpleEntry<>(0, 1), "b");
-        Cela c4 = new TextCela(new AbstractMap.SimpleEntry<>(1, 1), "c");
-        Cela c5 = new TextCela(new AbstractMap.SimpleEntry<>(2, 1), "a");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "c");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "a");
+
+        for (Integer g=0; g < f.getNum_Files(); ++g) { //PRINT
+            for (Integer j = 0; j < f.getNum_Columnes(); ++j) System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) .getResultatFinal()+ " ");
+            System.out.println();
+        }
 
         ArrayList<Integer> cols = new ArrayList<>();
         cols.add(0);
         cols.add(1);
-        Cela arr[][]= {{c,c3},{c1,c4},{c2,c5}};
-        bloc.ordena_Z_A(arr,cols);
+        f.ordena_bloc(new AbstractMap.SimpleEntry<>(0, 0),new AbstractMap.SimpleEntry<>(2, 1),cols,"Menor-major");
+        Bloc_celes bloc=new Bloc_celes();
 
-        assertTrue(new AbstractMap.SimpleEntry<>(0, 0).equals(c1.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(1, 0).equals(c.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(2, 0).equals(c2.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(0, 1).equals(c4.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(1, 1).equals(c3.getId()));
-        assertTrue(new AbstractMap.SimpleEntry<>(2, 1).equals(c5.getId()));
+
+        for (Integer g=0; g < f.getNum_Files(); ++g) { //PRINT
+            for (Integer j = 0; j < f.getNum_Columnes(); ++j) System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) .getResultatFinal()+ " ");
+            System.out.println();
+        }
+
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(0,0)).getResultatFinal(),"1.00");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(1,0)).getResultatFinal(),"1.00");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(2,0)).getResultatFinal(),"2.00");
+
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(0,1)).getResultatFinal(),"a");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(1,1)).getResultatFinal(),"b");
+        assertEquals(f.getCeles().get(new AbstractMap.SimpleEntry<Integer,Integer>(2,1)).getResultatFinal(),"c");
+
     }
 
     @Test

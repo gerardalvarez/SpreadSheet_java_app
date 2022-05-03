@@ -537,7 +537,7 @@ public class Full {
     }
 
 
-    public void ordena_bloc(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2,ArrayList<Integer> cols,String criteri){
+    public void ordena_bloc(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, ArrayList<Integer> cols, String criteri){
 
         ArrayList<Cela> C= getBlocCeles(id1,id2);
         Bloc_celes b=new Bloc_celes();
