@@ -131,6 +131,15 @@ public class PublicFuntions {
         if(!refValida(Integer.parseInt(result.substring(2,result.indexOf('_'))),fila,col) || !refValida(Integer.parseInt(result.substring(result.indexOf('_')+1)),fila,col))return false;
         return true;
     }
+    public static Boolean esRefLlarga(String result, Integer fila, Integer col){
+        Integer size = result.length();
+        if(size < 5)return false;
+        if(result.charAt(0) != '=')return false;
+        String Oper = getOper(result.substring(1,4));
+        if(Oper.equals("NULL"))return false;
+        return true;
+    }
+
     public static AbstractMap.SimpleEntry<Integer, Integer> getNumIdRef(String result){
         Integer fil = Integer.parseInt(result.substring(2,result.indexOf('_')));
         Integer col = Integer.parseInt(result.substring(result.indexOf('_')+1));
