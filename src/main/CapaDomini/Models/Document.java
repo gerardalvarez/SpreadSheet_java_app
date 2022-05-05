@@ -8,6 +8,7 @@ public class Document {
     private String nom;
     private final Date Data_creacio;
     private Date Data_ultima_mod;
+    private Integer numfulls =1;
     private final ArrayList<Full> fulls;
 
     public Document(){
@@ -15,6 +16,7 @@ public class Document {
         Data_creacio= new Date();
         Data_ultima_mod =new Date();
         fulls=new ArrayList<>();
+        fulls.add(new Full(3,3));
     }
 
     public Document(String nom) {
@@ -22,6 +24,7 @@ public class Document {
         Data_creacio= new Date();
         Data_ultima_mod =new Date();
         fulls=new ArrayList<>();
+        fulls.add(new Full(3,3));
     }
 
     public String getNom() {
@@ -36,13 +39,20 @@ public class Document {
     public void afegir_full(Full full) {
 
         fulls.add(full);
+        ++numfulls;
     }
 
     public void elimina_full(String Nomfull) {
+        boolean f=false;
         for (Full full : fulls ) {
-            if (full.getNom().equals(Nomfull)) fulls.remove(full);
-            break;
+            if (full.getNom().equals(Nomfull)){
+                fulls.remove(full);
+                f=true;
+                break;
+            }
         }
+        if (!f) System.out.println("Full no trobat");
+        numfulls--;
     }
 
     public Date getData_ultima_mod(){
@@ -68,5 +78,13 @@ public class Document {
             if (full.getNom().equals(Nomfull)) return full;
         }
         return null;
+    }
+
+    public Integer getNumfulls() {
+        return numfulls;
+    }
+
+    public void setNumfulls(Integer numfulls) {
+        this.numfulls = numfulls;
     }
 }
