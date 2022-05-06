@@ -36,20 +36,31 @@ public class DataParser {
         }
         FileWriter fileWriter = new FileWriter("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\"+document.getNom()+".txt");
         PrintWriter printWriter = new PrintWriter(fileWriter);
-        //full extra
+
+        //full extra para pruebas
         Full f=new Full(2,3);
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "1");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 0), "1");
-
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "c");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "a");
         f.SetNom("Hoja 1");
         document.afegir_full(f);
+        //full extra para pruebas 2
+        f=new Full(3,3);
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "2");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 0), "1");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "cc");
+        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "2.02");
+        f.SetNom("Hoja 2");
+        document.afegir_full(f);
+
+
         DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
         printWriter.print(document.getNom()+";"+dateFormat.format(document.getData_creacio())+";"+dateFormat.format(new Date())+"\n"+document.getNumfulls()+"\n");
-
         ArrayList<Full> fulls = document.getFulls();
         for(Full ff:fulls){
             printWriter.print(ff.getNom()+";"+ff.getNum_Files()+";"+ff.getNum_Columnes()+"\n");
@@ -122,14 +133,6 @@ public class DataParser {
             System.out.println(l);
         }
         System.out.println(d.getFulls().size());
-        for(Full f: d.getFulls()){
-            System.out.println(f.getNom());
-            for (Integer g=0; g < f.getNum_Files(); ++g) { //PRINT
-                for (Integer j = 0; j < f.getNum_Columnes(); ++j) System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) .getResultatFinal()+ " ");
-                System.out.println();
-            }
-        }
-
 
         return d;
     }
@@ -152,7 +155,7 @@ public class DataParser {
         String subclass= scan.next();
         switch (subclass){
             case "Numero":
-                c=new Numero(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),new BigDecimal(scan.nextInt()),Boolean.valueOf(scan.next()), scan.nextInt(), Tipus_Numero.valueOf("numero"));
+                c=new Numero(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),new BigDecimal(scan.next()),Boolean.valueOf(scan.next()), scan.nextInt(), Tipus_Numero.valueOf("numero"));
                 break;
 
             case "TextCela":
@@ -180,6 +183,7 @@ public class DataParser {
         c.setColorFons(new Color(rc,gc,bc));
         c.setColorLletra(new Color(r,g,b));
         c.setType(tipus);
+        System.out.println("a");
         return c;
     }
 
