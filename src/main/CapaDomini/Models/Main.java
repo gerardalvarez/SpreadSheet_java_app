@@ -3,7 +3,8 @@ package main.CapaDomini.Models;
 import main.CapaDades.DataParser;
 import java.math.BigDecimal;
 
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.*;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -72,10 +73,8 @@ public class Main {
 
         DataParser d =new DataParser();
         d.guarda(new Document("Prueba"));
-        d.carrega("a");
-
-
-
+        Document x =d.carrega("Prueba");
+        System.out.println(x.getData_ultima_mod());
     }
 
 }

@@ -2,6 +2,9 @@ package main.CapaDades;
 
 import main.CapaDomini.Models.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
@@ -11,6 +14,7 @@ import java.lang.annotation.Documented;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -36,9 +40,10 @@ public class DataParser {
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "c");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "a");
+        f.SetNom("Hoja 1");
         document.afegir_full(f);
-
-        printWriter.print(document.getNom()+";"+document.getData_creacio()+";"+document.getData_ultima_mod()+"\n"+document.getNumfulls()+"\n");
+        DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
+        printWriter.print(document.getNom()+";"+dateFormat.format(document.getData_creacio())+";"+dateFormat.format(new Date())+"\n"+document.getNumfulls()+"\n");
 
         ArrayList<Full> fulls = document.getFulls();
         for(Full ff:fulls){
@@ -57,7 +62,7 @@ public class DataParser {
                            c=c+";";
                            break;
                         case "DataCela":
-                            c=c+";"+ ((DataCela) a).getDataFormat()+";"+ ((DataCela) a).getTextFormat();
+                            //c=c+";"+ ((DataCela) a).getDataFormat()+";"+ ((DataCela) a).getTextFormat();
                             break;
                         case "CelaRefNum":
                              c=c+";";
@@ -82,11 +87,14 @@ public class DataParser {
 
     public Document carrega(String nom) throws Exception {
 
-        List<String> content = Files.readAllLines(Paths.get("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\Prueba.txt"));
+        List<String> content = Files.readAllLines(Paths.get("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\"+nom+".txt"));
         for (String s:content) System.out.println(s);
         Scanner scan = new Scanner(content.get(0));
         scan.useDelimiter(Pattern.compile(";"));
         Document d=new Document(scan.next());
+        SimpleDateFormat formatter1=new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
+        d.setData_creacio(formatter1.parse(scan.next()));
+        d.setData_ultima_mod(formatter1.parse(scan.next()));
         int nfulls= Integer.parseInt(content.get(1));
         d.setNumfulls(nfulls);
         System.out.println(nfulls);
@@ -118,7 +126,7 @@ public class DataParser {
         }
 
 
-        return null;
+        return d;
     }
 
     public Cela leecela( String x){
@@ -147,7 +155,7 @@ public class DataParser {
                 break;
 
             case "DataCela":
-
+                c=new DataCela(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),res);
                 break;
 
             case "CelaRefNum":
@@ -166,6 +174,7 @@ public class DataParser {
         }
         c.setColorFons(new Color(rc,gc,bc));
         c.setColorLletra(new Color(r,g,b));
+        c.setType(tipus);
         return c;
     }
 
