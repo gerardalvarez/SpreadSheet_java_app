@@ -70,11 +70,19 @@ public class Main {
             }
             System.out.println();
         }*/
-        DataParser d =new DataParser();
+        DataParser d = new DataParser();
         d.getdocs();
         d.guarda(new Document("Prueba"));
-        Document x =d.carrega("Prueba");
-        System.out.println(x.getData_ultima_mod());
+        Document x = d.carrega("Prueba");
+        for (Full f : x.getFulls()) {
+            System.out.println(f.getNom());
+            for (Integer g = 0; g < f.getNum_Files(); ++g) { //PRINT
+                for (Integer j = 0; j < f.getNum_Columnes(); ++j)
+                    System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g, j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g, j)).getResultatFinal() + " ");
+                System.out.println();
+            }
+            System.out.println(x.getData_ultima_mod());
+        }
     }
 
 }

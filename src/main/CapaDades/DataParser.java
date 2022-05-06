@@ -55,6 +55,8 @@ public class DataParser {
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "cc");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "2.02");
+        Cela aa= f.Consultar_cela(new AbstractMap.SimpleEntry<>(2, 0));
+        aa.getObservadors().add(new AbstractMap.SimpleEntry<>(2, 1));
         f.SetNom("Hoja 2");
         document.afegir_full(f);
 
@@ -71,7 +73,7 @@ public class DataParser {
                    c=g.toString()+";"+j.toString() +";"+a.getColorFons().getRed()+";"+a.getColorFons().getGreen()+";"+a.getColorFons().getBlue()+";"+a.getColorLletra().getRed()+";"+a.getColorLletra().getGreen()+";"+a.getColorLletra().getBlue()+";"+a.getType()+";"+a.getResultatFinal()+";"+a.getClass().getSimpleName();
                   switch (a.getClass().getSimpleName()){
                         case "Numero":
-                            c=c+";"+ ((Numero) a).getResultat().toString()+";"+ ((Numero) a).getArrodonit().toString()+";"+ ((Numero) a).getNum_Decimals().toString()+";"+ ((Numero) a).getTipus().toString();
+                            c=c+";"+ ((Numero) a).getResultat().toString()+";"+ ((Numero) a).getArrodonit().toString()+";"+ ((Numero) a).getNum_Decimals().toString()+";"+ ((Numero) a).getTipus().toString()+";";
 
                             break;
                         case "TextCela":
@@ -90,6 +92,13 @@ public class DataParser {
                             c=c+";";
                             break;
                         default: break;
+                    }
+                    int aux=a.getObservadors().size();
+                    c+=aux+";";
+                    if (aux!=0){
+                        for (int i =0;i<aux;++i){
+                            c+=a.getObservadors().get(i).getKey()+";"+a.getObservadors().get(i).getValue()+";";
+                        }
                     }
                     c+="|";
                     printWriter.print(c);
@@ -156,6 +165,7 @@ public class DataParser {
         switch (subclass){
             case "Numero":
                 c=new Numero(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),new BigDecimal(scan.next()),Boolean.valueOf(scan.next()), scan.nextInt(), Tipus_Numero.valueOf("numero"));
+                scan.next();
                 break;
 
             case "TextCela":
@@ -180,10 +190,15 @@ public class DataParser {
 
             default: break;
         }
+        int aux= scan.nextInt();
+        if (aux!=0){
+            for (int i=0;i<aux;++i){
+                c.getObservadors().add((new AbstractMap.SimpleEntry<Integer, Integer>(scan.nextInt(),scan.nextInt())));
+            }
+        }
         c.setColorFons(new Color(rc,gc,bc));
         c.setColorLletra(new Color(r,g,b));
         c.setType(tipus);
-        System.out.println("a");
         return c;
     }
 
