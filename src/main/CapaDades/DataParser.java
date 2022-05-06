@@ -23,9 +23,14 @@ public class DataParser {
 
     public void guarda(Document document) throws Exception {
 
-        File myObj = new File(document.getNom()+".txt");
+        File myObj = new File("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\"+document.getNom()+".txt");
         if (myObj.createNewFile()) {
             System.out.println("File created: " + myObj.getName());
+            FileWriter fileWriter = new FileWriter("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\DatabaseDocs",true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(document.getNom()+"\n");
+            printWriter.flush();
+            printWriter.close();
         } else {
             System.out.println("File already exists.");
         }
@@ -177,6 +182,15 @@ public class DataParser {
         c.setType(tipus);
         return c;
     }
+
+
+    public List<String> getdocs() throws IOException {
+
+
+        List<String> content = Files.readAllLines(Paths.get("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\DatabaseDocs"));
+        return content;
+    }
+
 
 
 }

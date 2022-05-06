@@ -70,8 +70,8 @@ public class Main {
             }
             System.out.println();
         }*/
-
         DataParser d =new DataParser();
+        d.getdocs();
         d.guarda(new Document("Prueba"));
         Document x =d.carrega("Prueba");
         System.out.println(x.getData_ultima_mod());
