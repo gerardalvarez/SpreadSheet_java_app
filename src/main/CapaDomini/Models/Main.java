@@ -1,11 +1,12 @@
 package main.CapaDomini.Models;
 
 import main.CapaDades.DataParser;
+import java.math.BigDecimal;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+
+import java.awt.*;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class Main {
 
@@ -14,17 +15,17 @@ public class Main {
 
         Random rand = new Random();
 
-        Full full=new Full(5,5);
-        for (int i=0;i< full.getNum_Files();++i) {
+        Full full = new Full(5, 5);
+        for (int i = 0; i < full.getNum_Files(); ++i) {
             for (int j = 0; j < full.getNum_Columnes(); ++j) {
-                full.Modifica_Cela(new AbstractMap.SimpleEntry<>(i,j), Integer.toString(rand.nextInt(10)));
+                full.Modifica_Cela(new AbstractMap.SimpleEntry<>(i, j), Integer.toString(rand.nextInt(10)));
             }
         }
 
-        for (int i=0;i< full.getNum_Files();++i) {
+        for (int i = 0; i < full.getNum_Files(); ++i) {
             for (int j = 0; j < full.getNum_Columnes(); ++j) {
-                Cela c= full.Consultar_cela(new AbstractMap.SimpleEntry<>(i,j));
-                System.out.print("("+ c.getId()+") "+c.getResultatFinal()+ "|");
+                Cela c = full.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
+                System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
             }
             System.out.println();
         }
@@ -71,5 +72,10 @@ public class Main {
 
         DataParser d =new DataParser();
         d.guarda(new Document("Prueba"));
+        d.carrega("a");
+
+
+
     }
+
 }

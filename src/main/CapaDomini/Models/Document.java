@@ -6,9 +6,9 @@ import java.util.*;
 public class Document {
 
     private String nom;
-    private final Date Data_creacio;
+    private  Date Data_creacio;
     private Date Data_ultima_mod;
-    private Integer numfulls =1;
+    private Integer numfulls =0;
     private final ArrayList<Full> fulls;
 
     public Document(){
@@ -16,7 +16,6 @@ public class Document {
         Data_creacio= new Date();
         Data_ultima_mod =new Date();
         fulls=new ArrayList<>();
-        fulls.add(new Full(3,3));
     }
 
     public Document(String nom) {
@@ -24,7 +23,6 @@ public class Document {
         Data_creacio= new Date();
         Data_ultima_mod =new Date();
         fulls=new ArrayList<>();
-        fulls.add(new Full(3,3));
     }
 
     public String getNom() {
@@ -61,6 +59,10 @@ public class Document {
 
     public Date getData_creacio() {
         return Data_creacio;
+    }
+
+    public void setData_creacio(Date d){
+        Data_creacio=d;
     }
 
     public void setData_ultima_mod(Date data_ultima_mod) {

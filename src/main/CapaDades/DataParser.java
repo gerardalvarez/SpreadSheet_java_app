@@ -2,13 +2,18 @@ package main.CapaDades;
 
 import main.CapaDomini.Models.*;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.annotation.Documented;
-import java.util.AbstractMap;
-import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class DataParser {
 
@@ -33,22 +38,23 @@ public class DataParser {
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "a");
         document.afegir_full(f);
 
-        printWriter.print(document.getNom()+";"+document.getData_creacio()+";"+document.getData_ultima_mod()+"\nFULLES "+document.getNumfulls()+"\n\n");
+        printWriter.print(document.getNom()+";"+document.getData_creacio()+";"+document.getData_ultima_mod()+"\n"+document.getNumfulls()+"\n");
 
         ArrayList<Full> fulls = document.getFulls();
         for(Full ff:fulls){
-            printWriter.print(ff.getNom()+";"+ff.getNum_Files()+"-"+ff.getNum_Columnes()+"\n");
+            printWriter.print(ff.getNom()+";"+ff.getNum_Files()+";"+ff.getNum_Columnes()+"\n");
             String c="";
             for (Integer g=0; g < ff.getNum_Files(); ++g) { //PRINT
                for (Integer j = 0; j < ff.getNum_Columnes(); ++j) {
                    Cela a=ff.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j));
-                   c=g.toString()+"-"+j.toString() +";"+a.getColorFons()+";"+a.getColorLletra()+";"+a.getType()+";"+a.getResultatFinal()+";"+a.getClass().getSimpleName();
+                   c=g.toString()+";"+j.toString() +";"+a.getColorFons().getRed()+";"+a.getColorFons().getGreen()+";"+a.getColorFons().getBlue()+";"+a.getColorLletra().getRed()+";"+a.getColorLletra().getGreen()+";"+a.getColorLletra().getBlue()+";"+a.getType()+";"+a.getResultatFinal()+";"+a.getClass().getSimpleName();
                   switch (a.getClass().getSimpleName()){
                         case "Numero":
                             c=c+";"+ ((Numero) a).getResultat().toString()+";"+ ((Numero) a).getArrodonit().toString()+";"+ ((Numero) a).getNum_Decimals().toString()+";"+ ((Numero) a).getTipus().toString();
+
                             break;
                         case "TextCela":
-                           c=c+";" ;
+                           c=c+";";
                            break;
                         case "DataCela":
                             c=c+";"+ ((DataCela) a).getDataFormat()+";"+ ((DataCela) a).getTextFormat();
@@ -66,12 +72,102 @@ public class DataParser {
                     }
                     c+="|";
                     printWriter.print(c);
+                   printWriter.print("\n");
                 }
-                printWriter.print("\n");
 
             }
-            printWriter.print("\n");
         }
             printWriter.close();
     }
+
+    public Document carrega(String nom) throws Exception {
+
+        List<String> content = Files.readAllLines(Paths.get("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\Prueba.txt"));
+        for (String s:content) System.out.println(s);
+        Scanner scan = new Scanner(content.get(0));
+        scan.useDelimiter(Pattern.compile(";"));
+        Document d=new Document(scan.next());
+        int nfulls= Integer.parseInt(content.get(1));
+        d.setNumfulls(nfulls);
+        System.out.println(nfulls);
+        int l=2;
+        for(int i=0;i<nfulls;i++){
+            scan = new Scanner(content.get(l));
+            scan.useDelimiter(Pattern.compile(";"));
+            String nomm= scan.next();
+            int fila = scan.nextInt();
+            int col = scan.nextInt();
+            Full z =new Full(nomm,col,fila);
+            HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Cela> celes = z.getCeles();
+            ++l;
+            for (int ii=0;ii<fila*col;++ii) {
+                Cela x = leecela(content.get(l));
+                ++l;
+                celes.replace(x.getId(), x);
+            }
+            d.afegir_full(z);
+            System.out.println(l);
+        }
+        System.out.println(d.getFulls().size());
+        for(Full f: d.getFulls()){
+            System.out.println(f.getNom());
+            for (Integer g=0; g < f.getNum_Files(); ++g) { //PRINT
+                for (Integer j = 0; j < f.getNum_Columnes(); ++j) System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) .getResultatFinal()+ " ");
+                System.out.println();
+            }
+        }
+
+
+        return null;
+    }
+
+    public Cela leecela( String x){
+        Cela c=null;
+        Scanner scan = new Scanner(x);
+        scan.useDelimiter(Pattern.compile(";"));
+        int fila = scan.nextInt();
+        int col = scan.nextInt();
+        int rc = scan.nextInt();
+        int gc = scan.nextInt();
+        int bc = scan.nextInt();
+        int r = scan.nextInt();
+        int g = scan.nextInt();
+        int b = scan.nextInt();
+
+        String tipus = scan.next();
+        String res = scan.next();
+        String subclass= scan.next();
+        switch (subclass){
+            case "Numero":
+                c=new Numero(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),new BigDecimal(scan.nextInt()),Boolean.valueOf(scan.next()), scan.nextInt(), Tipus_Numero.valueOf("numero"));
+                break;
+
+            case "TextCela":
+                c=new TextCela(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),res);
+                break;
+
+            case "DataCela":
+
+                break;
+
+            case "CelaRefNum":
+
+                break;
+
+            case "CelaRefText":
+
+                break;
+
+            case "CelaRefData":
+
+                break;
+
+            default: break;
+        }
+        c.setColorFons(new Color(rc,gc,bc));
+        c.setColorLletra(new Color(r,g,b));
+        return c;
+    }
+
+
 }
