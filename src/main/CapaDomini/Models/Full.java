@@ -591,8 +591,8 @@ public class Full {
                 '}';
     }
 
-    public ArrayList<String> Mostrar() throws Exception { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
-        ArrayList<String> temp = new ArrayList<>();
+    public String[][] Mostrar() { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
+        String[][] temp = new String[this.Num_Files][this.Num_Columnes];
         for(int i = 0; i < this.Num_Files; i++) {
             for(int j = 0; j < this.Num_Columnes; j++) {
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
@@ -607,14 +607,14 @@ public class Full {
                     else {
                         d = d.setScale(Num_Dec, RoundingMode.DOWN);
                     }
-                    temp.add(d.toString());
+                    temp[i][j] = (d.toString());
                 }
                 else if (c instanceof TextCela) {
-                    if(c.getResultatFinal().isEmpty()) temp.add(".");
-                    else temp.add(c.getResultatFinal());
+                    if(c.getResultatFinal().isEmpty()) temp[i][j] = (" ");
+                    else temp[i][j] = (c.getResultatFinal());
                 }
                 else if (c instanceof DataCela){
-                    temp.add(c.getResultatFinal());
+                    temp[i][j] = (c.getResultatFinal());
                 }
             }
         }
