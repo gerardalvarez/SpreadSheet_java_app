@@ -70,6 +70,7 @@ public class VistaPrincipal extends JFrame {
                     Object obj = temp[col][row];
                     //Full.setValueAt("Hola", row, col);
                     Full.repaint();
+
                     System.out.println(Arrays.deepToString(temp));
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
