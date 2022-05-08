@@ -2,14 +2,12 @@ package main.CapaPresentacio;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
@@ -54,13 +52,17 @@ public class VistaPrincipal extends JFrame {
         this.setContentPane(panel1);
         this.pack();
 
+        AtomicBoolean modificat = new AtomicBoolean(false);
+
         Full.getModel().addTableModelListener(e -> {
             System.out.println(e.getType());
-            if (e.getType() == TableModelEvent.UPDATE) {
+
+            if (e.getType() == TableModelEvent.UPDATE && !modificat.get()) {
                 int col = e.getColumn();
                 int row = e.getFirstRow();
                 String mod = Full.getValueAt(row, col).toString();
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(col, row);
+                modificat.set(true);
 
                 try {
                     System.out.println(mod);
@@ -68,13 +70,17 @@ public class VistaPrincipal extends JFrame {
                     String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
                     System.out.println(temp[col][row]);
                     Object obj = temp[col][row];
-                    //Full.setValueAt("Hola", row, col);
+                    Full.setValueAt(obj, row, col);
                     Full.repaint();
 
                     System.out.println(Arrays.deepToString(temp));
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
+            }
+
+            else {
+                modificat.set(false);
             }
         });
     }
