@@ -1,23 +1,25 @@
 package main.CapaDomini.Models;
 
 
+import jdk.javadoc.internal.doclets.toolkit.util.Utils;
+
 import java.awt.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.math.RoundingMode;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Full {
     private String nom;
     private Integer Num_Columnes;
     private Integer Num_Files;
     private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
-    private ConcurrentHashMap<Integer,Accio> Estatsprevis;
+    private ArrayList<Accio> Estatsprevis;
 
     //Constructor
     public Full(String n, Integer nc, Integer nf) {
         Celes = new HashMap<>();
+        Estatsprevis= new ArrayList<>();
         this.nom = n;
         this.Num_Columnes = nc;
         this.Num_Files = nf;
@@ -389,6 +391,10 @@ public class Full {
     }
 
     public void Undo(){
+    }
+
+    public void Afegir_Accio(Accio a){
+        Estatsprevis.add(a);
     }
 
     //Métodes Privats

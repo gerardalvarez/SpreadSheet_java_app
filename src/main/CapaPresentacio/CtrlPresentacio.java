@@ -258,19 +258,19 @@ public class CtrlPresentacio {
         Cd.EliminarCela(doc, full, id);
     }
 
-    public void AfegirFila(String doc, String full, Integer f) {
+    public void AfegirFila(String doc, String full, Integer f) throws Exception {
         Cd.AfegirFila(doc, full, f);
     }
 
-    public void AfegirCol(String doc, String full, Integer c) {
+    public void AfegirCol(String doc, String full, Integer c) throws Exception {
         Cd.AfegirCol(doc, full, c);
     }
 
-    public void EliminarFila(String doc, String full, Integer fi) {
+    public void EliminarFila(String doc, String full, Integer fi) throws Exception {
         Cd.EliminarFila(doc, full, fi);
     }
 
-    public void EliminarCol(String doc, String full, Integer co) {
+    public void EliminarCol(String doc, String full, Integer co) throws Exception {
         Cd.EliminarCol(doc, full, co);
     }
 }
