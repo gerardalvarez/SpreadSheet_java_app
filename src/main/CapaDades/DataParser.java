@@ -37,7 +37,9 @@ public class DataParser {
         FileWriter fileWriter = new FileWriter("src/main/CapaDades/"+document.getNom());
         PrintWriter printWriter = new PrintWriter(fileWriter);
 
-        //full extra para pruebas
+        //ESto son hojas creadas para hacer pruebas ya que el doc que uso en el main está vacío
+
+        /*full extra para pruebas*//*
         Full f=new Full(2,3);
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "1");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
@@ -47,7 +49,7 @@ public class DataParser {
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "a");
         f.SetNom("Hoja 1");
         document.afegir_full(f);
-        //full extra para pruebas 2
+        *//*full extra para pruebas 2*//*
         f=new Full(3,3);
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "2");
         f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
@@ -59,6 +61,7 @@ public class DataParser {
         aa.getObservadors().add(new AbstractMap.SimpleEntry<>(2, 1));
         f.SetNom("Hoja 2");
         document.afegir_full(f);
+        */
 
 
         DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");

@@ -135,6 +135,19 @@ public class Bloc_celes {
                 else if(arr[i][j] instanceof TextCela){
                     aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
                 }
+                else if(arr[i][j] instanceof DataCela){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new DataCela(((DataCela) arr[i][j]).getId(),((DataCela) arr[i][j]).getResultatFinal()));
+                }
+                //Aunque son ref solo ordena por resultadofinal asi que con celas textoauxiliares vale
+                else if(arr[i][j] instanceof CelaRefNum){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
+                }
+                else if(arr[i][j] instanceof CelaRefText){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
+                }
+                else if(arr[i][j] instanceof CelaRefData){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
+                }
                 auxindex[i][j]=arr[i][j].getId();
             }
         }
@@ -177,6 +190,19 @@ public class Bloc_celes {
                     aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat().toString()));
                 }
                 else if(arr[i][j] instanceof TextCela){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
+                }
+                else if(arr[i][j] instanceof DataCela){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new DataCela(((DataCela) arr[i][j]).getId(),((DataCela) arr[i][j]).getResultatFinal()));
+                }
+                //Aunque son ref solo ordena por resultadofinal asi que con celas textoauxiliares vale
+                else if(arr[i][j] instanceof CelaRefNum){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
+                }
+                else if(arr[i][j] instanceof CelaRefText){
+                    aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
+                }
+                else if(arr[i][j] instanceof CelaRefData){
                     aux[i][j] = new AbstractMap.SimpleEntry(uniqueId(i,j),new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal()));
                 }
                 auxindex[i][j]=arr[i][j].getId();
