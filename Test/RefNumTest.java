@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RefNumTest {
-    @Test
+   /* @Test
     public void Test_SumaRef() throws Exception {
         String contingut= "=SUM#2-3,14,#4-5";
         Numero n1= new Numero(new AbstractMap.SimpleEntry<>(2, 3),new BigDecimal("5.4"),true,2, Tipus_Numero.numero);
@@ -185,6 +185,6 @@ public class RefNumTest {
         operadors.add(n6);
         CelaRefNum cr= new CelaRefNum(new AbstractMap.SimpleEntry<>(1, 1),true,2, Tipus_Numero.numero, contingut, operadors, operacio);
         assertEquals(new BigDecimal("1.1384615384615382"),cr.getResultat());
-    }
+    }*/
 
 }

@@ -137,12 +137,62 @@ public class CtrlDomini {
             String pareType = f.getCeles().get(pare).getType();
             System.out.println(pareType + " " + f.getCeles().get(pare).getResultatFinal());
             f.ModificaCelaRef(id,resultat,pareType,pare);
-
+        }
+        else if(PublicFuntions.esRefText(resultat,f.getNum_Files(), f.getNum_Columnes()) && Objects.equals(f.getCeles().get(PublicFuntions.getIdRefText(resultat)).getType(), "text")){
+            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
+            f.ModificaCelaTextRefLong(id,resultat,pare);
+        }
+        else if(PublicFuntions.esRefNum(resultat,f.getNum_Files(), f.getNum_Columnes()) && NumericalCheck(resultat,f)){
+            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
+            f.ModificaCelaNumRefLong(id,resultat,pare);
         }
         else {
             f.ModificaCelaText(id,resultat);
         }
         CheckObs(doc, full, id);
+    }
+
+    private Boolean NumericalCheck(String result, Full f) throws Exception {
+        AbstractMap.SimpleEntry<Integer, Integer> first = PublicFuntions.getIdRefText(result);
+        AbstractMap.SimpleEntry<Integer, Integer> second = PublicFuntions.getIdRefNum(result);
+        if(result.charAt(11) == '-'){
+            return Objects.equals(f.getCeles().get(first).getType(), "numeric") && Objects.equals(f.getCeles().get(second).getType(), "numeric");
+        }
+        else {
+            return validBlock(first,second,f);
+        }
+    }
+
+    public Boolean validBlock(AbstractMap.SimpleEntry<Integer, Integer> first , AbstractMap.SimpleEntry<Integer, Integer> second, Full f) throws Exception {
+        /*NO se valida que sean entre Filas i Columnas porque para ref lo compruebo antes. Si queremos la funcion para
+        otros bloques añadir esta parte*/
+
+        Integer firstF,secondF,firstC, secondC;
+        if(Objects.equals(first.getKey(), second.getKey()) && Objects.equals(first.getValue(), second.getValue()))return false;
+
+        if (first.getKey() <=  second.getKey()){
+            firstF = first.getKey();
+            secondF = second.getKey();
+        }
+        else{
+            firstF = second.getKey();
+            secondF = first.getKey();
+        }
+        if (first.getValue() <=  second.getValue()){
+            firstC = first.getValue();
+            secondC = second.getValue();
+        }
+        else{
+            firstC = second.getValue();
+            secondC = first.getValue();
+        }
+
+        for(int i = firstF; i <= secondF; i++){
+            for(int j = firstC; j <= secondC ;j++){
+                if(!Objects.equals(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,j)).getType(), "numeric"))return false;
+            }
+        }
+        return true;
     }
 
     public void CheckObs(String doc, String full , AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {

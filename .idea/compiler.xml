@@ -4,7 +4,6 @@
     <excludeFromCompile>
       <directory url="file://file:" includeSubdirectories="true" />
       <directory url="file://" includeSubdirectories="false" />
-      <file url="file://$PROJECT_DIR$/Test/TextTest.java" />
       <file url="file://$PROJECT_DIR$/Test/CelaTest.java" />
       <file url="file://$PROJECT_DIR$/Test/NumeroTest.java" />
     </excludeFromCompile>

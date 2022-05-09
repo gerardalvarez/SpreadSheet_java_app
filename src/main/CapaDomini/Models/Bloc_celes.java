@@ -395,5 +395,28 @@ public class Bloc_celes {
         for(int i=0;i<l.size();i++) res+=l.get(i).getResultatFinal().length();
         return res;
     }
+
+    public double suma(ArrayList<Numero> inputs){
+        double suma = 0;
+        for (Cela c : inputs) {
+            suma += Double.parseDouble(c.getResultatFinal());
+        }
+        return suma;
+    }
+
+    public double resta(ArrayList<Numero> inputs){
+        double resta = 0;
+        for (Cela c : inputs) {
+            resta -= Double.parseDouble(c.getResultatFinal());
+        }
+        return resta;
+    }
+    public double mult(ArrayList<Numero> inputs){
+        double mult = 1;
+        for (Cela c : inputs) {
+            mult *= Double.parseDouble(c.getResultatFinal());
+        }
+        return mult;
+    }
 }
 

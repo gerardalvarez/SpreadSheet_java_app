@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class CelaRefData extends DataCela{
     private String contingut;
-    private ArrayList<TextCela> operadors;
 
     public CelaRefData(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut, String rf) {
         super(id, rf);
