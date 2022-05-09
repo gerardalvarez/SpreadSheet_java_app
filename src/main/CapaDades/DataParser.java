@@ -23,10 +23,10 @@ public class DataParser {
 
     public void guarda(Document document) throws Exception {
 
-        File myObj = new File("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\"+document.getNom()+".txt");
+        File myObj = new File("src/main/CapaDades/"+document.getNom());
         if (myObj.createNewFile()) {
             System.out.println("File created: " + myObj.getName());
-            FileWriter fileWriter = new FileWriter("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\DatabaseDocs",true);
+            FileWriter fileWriter = new FileWriter("src/main/CapaDades/DatabaseDocs",true);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             printWriter.print(document.getNom()+"\n");
             printWriter.flush();
@@ -34,7 +34,7 @@ public class DataParser {
         } else {
             System.out.println("File already exists.");
         }
-        FileWriter fileWriter = new FileWriter("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\"+document.getNom()+".txt");
+        FileWriter fileWriter = new FileWriter("src/main/CapaDades/"+document.getNom());
         PrintWriter printWriter = new PrintWriter(fileWriter);
 
         //full extra para pruebas
@@ -80,16 +80,16 @@ public class DataParser {
                            c=c+";";
                            break;
                         case "DataCela":
-                            //c=c+";"+ ((DataCela) a).getDataFormat()+";"+ ((DataCela) a).getTextFormat();
+                            c=c+";";
                             break;
                         case "CelaRefNum":
-                             c=c+";";
+                             c=c+";"+ ((CelaRefNum) a).getContingut()+";";
                             break;
                         case "CelaRefText":
-                            c=c+";";
+                            c=c+";"+ ((CelaRefText) a).getContingut()+";";
                             break;
                         case "CelaRefData":
-                            c=c+";";
+                            c=c+";"+ ((CelaRefData) a).getContingut()+";";
                             break;
                         default: break;
                     }
@@ -112,7 +112,7 @@ public class DataParser {
 
     public Document carrega(String nom) throws Exception {
 
-        List<String> content = Files.readAllLines(Paths.get("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\"+nom+".txt"));
+        List<String> content = Files.readAllLines(Paths.get("src/main/CapaDades/"+nom));
         for (String s:content) System.out.println(s);
         Scanner scan = new Scanner(content.get(0));
         scan.useDelimiter(Pattern.compile(";"));
@@ -177,15 +177,16 @@ public class DataParser {
                 break;
 
             case "CelaRefNum":
-
+                scan.next();
+                c =new CelaRefNum(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),scan.next(),Boolean.valueOf(scan.next()), scan.nextInt(), Tipus_Numero.valueOf("numero"),scan.next());
                 break;
 
             case "CelaRefText":
-
+                c= new CelaRefText(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),scan.next(),res);
                 break;
 
             case "CelaRefData":
-
+                c= new CelaRefData(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),scan.next(),res);
                 break;
 
             default: break;
