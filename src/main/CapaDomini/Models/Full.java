@@ -6,12 +6,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Full {
     private String nom;
     private Integer Num_Columnes;
     private Integer Num_Files;
     private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
+    private ConcurrentHashMap<Integer,Accio> Estatsprevis;
 
     //Constructor
     public Full(String n, Integer nc, Integer nf) {
@@ -384,6 +386,9 @@ public class Full {
 
     public HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Cela> getCeles() throws Exception {
         return Celes;
+    }
+
+    public void Undo(){
     }
 
     //Métodes Privats
