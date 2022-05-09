@@ -230,15 +230,15 @@ public class CtrlPresentacio {
         return Cd.ComprovaText(doc, full, id1, id2);
     }
 
-    public void AllMayusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+    public void AllMayusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) throws Exception {
         Cd.AllMayusBloc(doc, full, id1, id2);
     }
 
-    public void AllMinusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+    public void AllMinusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) throws Exception {
         Cd.AllMinusBloc(doc, full, id1, id2);
     }
 
-    public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) {
+    public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) throws Exception {
         Cd.BuscaRemp(doc, full, id1, id2, buscar, remp);
     }
 
@@ -246,7 +246,7 @@ public class CtrlPresentacio {
         return Cd.ComprovaCelaNoOcupa(doc, full, id);
     }
 
-    public void Copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) {
+    public void Copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) throws Exception {
         Cd.copiar(doc, full, id1, id2, idfin1, idfin2);
     }
 
