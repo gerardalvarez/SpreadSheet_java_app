@@ -66,7 +66,7 @@ public class VistaPrincipal extends JFrame {
             if (e.getType() == TableModelEvent.UPDATE && !modificat.get()) {
                 int col = e.getColumn();
                 int row = e.getFirstRow();
-                String mod = Full.getValueAt(row, col).toString();
+                String mod = Full.getValueAt(row, col).toString().trim();
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                 modificat.set(true);
 

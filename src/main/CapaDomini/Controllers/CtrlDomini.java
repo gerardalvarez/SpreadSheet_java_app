@@ -140,6 +140,7 @@ public class CtrlDomini {
         AbstractMap.SimpleEntry<Integer, Integer> first = PublicFuntions.getIdRefText(result);
         AbstractMap.SimpleEntry<Integer, Integer> second = PublicFuntions.getIdRefNum(result);
         if(result.charAt(11) == '-'){
+            System.out.println(Objects.equals(f.getCeles().get(first).getType(), "numeric") && Objects.equals(f.getCeles().get(second).getType(), "numeric"));
             return Objects.equals(f.getCeles().get(first).getType(), "numeric") && Objects.equals(f.getCeles().get(second).getType(), "numeric");
         }
         else {
