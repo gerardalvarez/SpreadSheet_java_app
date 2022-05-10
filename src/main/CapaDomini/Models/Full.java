@@ -2,6 +2,7 @@ package main.CapaDomini.Models;
 
 
 import jdk.javadoc.internal.doclets.toolkit.util.Utils;
+import main.CapaDomini.Controllers.CtrlDomini;
 
 import java.awt.*;
 import java.math.BigDecimal;
@@ -390,7 +391,191 @@ public class Full {
         return Celes;
     }
 
-    public void Undo(){
+    public void Undo() throws Exception {
+        if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("modificarcela")) {
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviartipuscela")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviartipusnum")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaincrement")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculareduir")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculapotencia")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaarrel")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculavalorabs")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaconversio")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviardecimal")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviararrodonit")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("transformatext")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("transformadata")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("mayus")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("minus")){
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularmitjana")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularmediana")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularmoda")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularvariança")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("buscamaxim")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculardesviació")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("mayusb")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("minusb")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("buscaremp")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("copiar")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("eliminarcela")){
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("afegirfila")){
+            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
+            Integer fila= id.getKey();
+            this.Eliminar_Fila(fila);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("afegircol")){
+            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
+            Integer col= id.getValue();
+            this.Eliminar_Columna(col);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("eliminarfila")){
+            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
+            Integer fila= id.getKey();
+            this.Afegir_Fila(fila);
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("eliminarcol")){
+            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
+            Integer col= id.getValue();
+            this.Afegir_Columna(col);
+            for (int i= 0; i< Estatsprevis.size(); ++i){
+                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
+                Celes.replace(c.getId(), c);
+            }
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+        }
     }
 
     public void Afegir_Accio(Accio a){

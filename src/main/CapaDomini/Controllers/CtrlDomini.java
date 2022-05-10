@@ -232,7 +232,7 @@ public class CtrlDomini {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add(f.Consultar_cela(id));
-        Accio a= new Accio("calculaIncrement", celes);
+        Accio a= new Accio("calculaincrement", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
         n.incrementar();
@@ -735,7 +735,7 @@ public class CtrlDomini {
         for (int i= 0; i < ids.size(); ++i){
             celes.add(f.getCeles().get(ids.get(i)));
         }
-        Accio a= new Accio("eliminarfila", celes);
+        Accio a= new Accio("afegirfila", celes);
         f.Afegir_Accio(a);
     }
 
