@@ -1,6 +1,7 @@
 package main.CapaDomini.Models;
 
 import main.CapaDades.DataParser;
+import main.CapaDomini.Controllers.CtrlDomini;
 
 import javax.print.Doc;
 import java.math.BigDecimal;
@@ -18,16 +19,16 @@ public class Main {
 
         Random rand = new Random();
 
-        Full full = new Full(5, 5);
-        for (int i = 0; i < full.getNum_Files(); ++i) {
-            for (int j = 0; j < full.getNum_Columnes(); ++j) {
-                full.Modifica_Cela(new AbstractMap.SimpleEntry<>(i, j), Integer.toString(rand.nextInt(10)));
+        Full f = new Full(5, 5);
+        for (int i = 0; i < f.getNum_Files(); ++i) {
+            for (int j = 0; j < f.getNum_Columnes(); ++j) {
+                f.Modifica_Cela(new AbstractMap.SimpleEntry<>(i, j), Integer.toString(rand.nextInt(10)));
             }
         }
 
-        for (int i = 0; i < full.getNum_Files(); ++i) {
-            for (int j = 0; j < full.getNum_Columnes(); ++j) {
-                Cela c = full.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
+        for (int i = 0; i < f.getNum_Files(); ++i) {
+            for (int j = 0; j < f.getNum_Columnes(); ++j) {
+                Cela c = f.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
                 System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
             }
             System.out.println();
@@ -73,10 +74,11 @@ public class Main {
             System.out.println();
         }*/
 
-        DataParser d = new DataParser();
-        d.getdocs();
-        Document x = d.carrega("Prueba");
-        for (Full f : x.getFulls()) {
+        CtrlDomini ct =new CtrlDomini();
+        Document x=new Document("a");
+        x.afegir_full(f);
+        ct.gg().put("a",x);
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=SUM(A2,B2)");
             System.out.println(f.getNom());
             for (int i = 0; i < f.getNum_Files(); ++i) {
                 for (int j = 0; j < f.getNum_Columnes(); ++j) {
@@ -85,26 +87,7 @@ public class Main {
                 }
                 System.out.println();
             }
-            System.out.println(x.getData_ultima_mod());
-        }
-
-        x.getNumfulls();
-        ArrayList<Integer> cols = new ArrayList<>();
-        cols.add(1);
-        cols.add(0);
-        x.get_full("Full sense nom").ordena_bloc(new AbstractMap.SimpleEntry<>(0, 0),new AbstractMap.SimpleEntry<>(2, 2),cols,"Major-menor");
-        d.guarda(x);
-        for (Full f : x.getFulls()) {
-            System.out.println(f.getNom());
-            for (int i = 0; i < f.getNum_Files(); ++i) {
-                for (int j = 0; j < f.getNum_Columnes(); ++j) {
-                    Cela c = f.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
-                    System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
-                }
-                System.out.println();
-            }
-            System.out.println(x.getData_ultima_mod());
         }
     }
 
-}
+

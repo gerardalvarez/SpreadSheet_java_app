@@ -69,10 +69,11 @@ public class PublicFuntions {
     }
 
     public static String calculaTipus(String contingut){
-        String Tipus = "text";
+        String Tipus = "";
         if(contingut == null)return Tipus;
         if(isNumerical(contingut))Tipus = "numeric";
         else if(isData(contingut))Tipus = "date";
+        else Tipus="text";
         return Tipus;
     }
 
@@ -193,7 +194,7 @@ public class PublicFuntions {
 
     public static Boolean esRefNum(String result, Integer fila, Integer col){
         int size = result.length();
-        if(size < 5)return false;
+        if(size < 18)return false;
         if(result.charAt(0) != '=')return false;
         String Oper = getOper(result.substring(1,4));
         if(Oper.equals("NULL"))return false;
@@ -227,6 +228,180 @@ public class PublicFuntions {
         return (num-1 < fila && num-1 >= 0 && num-1 < col);
     }
 
+    public static String analiza(String s, int x, int y) {
+        String tipus="";
+        String oper="";
+        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l= new ArrayList<>();
+        if (s.substring(0,1).equals("=")){//es ref;
+            if (s.length()>6) {
+                String ss=s.substring(1,5);
+                if ((ss.equals("SUM(") || ss.equals("RES(") || ss.equals("PRO(") || ss.equals("DIV(") || ss.equals("AVG(") ||
+                        ss.equals("MED(") || ss.equals("VAR(") || ss.equals("MOD(") || ss.equals("MAX(") || ss.equals("DEV(") ||
+                        ss.equals("MAY(") || ss.equals("MIN(") ) && s.substring(s.length()-1).equals(")")) { //ES REF OP
+
+                    oper=ss;
+                    String ops= s.substring(5,s.length()-1);
+
+                    Scanner sc=new Scanner(ops);
+
+                    sc.useDelimiter(",");
+
+                    while (sc.hasNext()){
+                        String op =sc.next();
+                        if (op.contains(":")){ //es bloque
+                            if (op.length()<5) {
+                                tipus = "referencia pero #ERROR";
+                                break;
+                            }
+                        }
+                        else {
+                            String[] part = op.split("(?<=\\D)(?=\\d)");
+                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                                l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
+                                if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                else tipus="REFNUM";
+                            }else{
+                                tipus="referencia pero #ERROR";
+                                break;
+                            }
+                        }
+                    }
+                } else tipus="referencia pero #ERROR";
+            } else if(s.length()<=5){ //Referencia a una celda
+
+                String aux= s.replaceFirst("=","");
+                String[] part = aux.split("(?<=\\D)(?=\\d)");
+                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x){
+                    l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
+                    tipus ="ref a otra celda";
+                }else tipus="referencia pero #ERROR";
+
+            }else tipus= "referencia pero #ERROR";
+
+        }else if(isNum(s)) tipus ="numeric";
+        else if (/*is data*/ 1<0) tipus ="data";
+        else tipus="text";
+        System.out.println("La cela es de "+tipus);
+        if (l.size()>0){
+            System.out.print("Los operadores de "+oper+" son: ");
+            for(AbstractMap.SimpleEntry<Integer,Integer> q:l){
+                System.out.print((q.getKey()-1) +" "+(q.getValue()-1)+", ");
+            }
+        }
+        return tipus;
+    }
+
+    public static ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> analizaops(String s, int x, int y) {
+        String tipus="";
+        String oper="";
+        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l= new ArrayList<>();
+        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> operadores= new ArrayList<>();
+        if (s.substring(0,1).equals("=")){//es ref;
+            if (s.length()>6) {
+                String ss=s.substring(1,5);
+                if ((ss.equals("SUM(") || ss.equals("RES(") || ss.equals("PRO(") || ss.equals("DIV(") || ss.equals("AVG(") ||
+                        ss.equals("MED(") || ss.equals("VAR(") || ss.equals("MOD(") || ss.equals("MAX(") || ss.equals("DEV(") ||
+                        ss.equals("MAY(") || ss.equals("MIN(") ) && s.substring(s.length()-1).equals(")")) { //ES REF OP
+
+                    oper=ss;
+                    String ops= s.substring(5,s.length()-1);
+
+                    Scanner sc=new Scanner(ops);
+
+                    sc.useDelimiter(",");
+
+                    while (sc.hasNext()){
+                        String op =sc.next();
+                        if (op.contains(":")){ //es bloque
+                            if (op.length()<5) {
+                                tipus = "referencia pero #ERROR";
+                                break;
+                            }
+                        }
+                        else {
+                            String[] part = op.split("(?<=\\D)(?=\\d)");
+                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                                l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
+                                if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                else tipus="REFNUM";
+                            }else{
+                                tipus="referencia pero #ERROR";
+                                break;
+                            }
+                        }
+                    }
+                } else tipus="referencia pero #ERROR";
+            } else if(s.length()<=5){ //Referencia a una celda
+
+                String aux= s.replaceFirst("=","");
+                String[] part = aux.split("(?<=\\D)(?=\\d)");
+                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x){
+                    l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
+                    tipus ="ref a otra celda";
+                }else tipus="referencia pero #ERROR";
+
+            }else tipus= "referencia pero #ERROR";
+
+        }else if(isNum(s)) tipus ="numeric";
+        else if (/*is data*/ 1<0) tipus ="data";
+        else tipus="text";
+        System.out.println("La cela es de "+tipus);
+        if (l.size()>0){
+            System.out.print("Los operadores de "+oper+" son: ");
+            for(AbstractMap.SimpleEntry<Integer,Integer> q:l){
+                System.out.print((q.getKey()-1) +" "+(q.getValue()-1)+", ");
+                operadores.add(new AbstractMap.SimpleEntry<Integer, Integer>(q.getKey()-1,q.getValue()-1));
+            }
+        }
+        return operadores;
+    }
+
+    private static boolean isNum(String s) {
+        try {
+            Double.parseDouble(s);
+            return true;
+        }catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    // Pasar de numeros a letras para las columnas:
+
+    public static String getExcelColumnName(int number) {
+        final StringBuilder sb = new StringBuilder();
+        int num = number - 1;
+        while (num >= 0) {
+            int numChar = (num % 26) + 65;
+            sb.append((char)numChar);
+            num = (num / 26) - 1;
+        }
+        return sb.reverse().toString();
+    }
+
+    //Pasar de letras a numeros:
+    public static int toNumber(String name) {
+        int number = 0;
+        for (int i = 0; i < name.length(); i++) {
+            number = number * 26 + (name.charAt(i) - ('A' - 1));
+        }
+        return number; }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
