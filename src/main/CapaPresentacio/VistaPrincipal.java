@@ -57,7 +57,7 @@ public class VistaPrincipal extends JFrame {
             if (e.getType() == TableModelEvent.UPDATE && !modificat.get()) {
                 int col = e.getColumn();
                 int row = e.getFirstRow();
-                String mod = Full.getValueAt(row, col).toString();
+                String mod = Full.getValueAt(row, col).toString().trim();
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                 modificat.set(true);
 
@@ -93,10 +93,6 @@ public class VistaPrincipal extends JFrame {
                     System.out.println(content);
                 }
             }
-        });
-        decimalsButton.addActionListener(e -> {
-            Decimals d = new Decimals();
-            d.setVisible(true);
         });
     }
 
