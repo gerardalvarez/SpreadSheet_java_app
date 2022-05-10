@@ -327,6 +327,18 @@ public class Full {
         else cd.AllMinus();
         if(!this.Celes.get(pare).getObservadors().contains(id))this.Celes.get(pare).newObserver(id);
     }
+    public void ModificaCelaError(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat){
+        Cela cel = this.Celes.get(id);
+        Color colorFons = cel.getColorFons();
+        Color colorLletra = cel.getColorLletra();
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+        this.Celes.replace(id, new CelaRefText(id,resultat,"ERROR: invalid ref"));
+        this.Celes.get(id).setColorFons(colorFons);
+        this.Celes.get(id).setColorLletra(colorLletra);
+        this.Celes.get(id).setObservadors(observadors);
+        this.Celes.get(id).setResultatFinal("ERROR: invalid ref");
+    }
+
     public void ModificaCelaNumRefLong(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat,  AbstractMap.SimpleEntry<Integer, Integer> pare){
         Numero c = (Numero) this.Celes.get(pare);
         Cela cel = this.Celes.get(id);

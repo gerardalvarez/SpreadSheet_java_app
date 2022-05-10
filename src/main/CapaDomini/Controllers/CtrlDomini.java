@@ -127,6 +127,9 @@ public class CtrlDomini {
             AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
             f.ModificaCelaNumRefLong(id,resultat,pare);
         }
+        else if(resultat.length() > 0 && resultat.charAt(0)=='='){
+            f.ModificaCelaError(id,resultat);
+        }
         else {
             f.ModificaCelaText(id,resultat);
         }
