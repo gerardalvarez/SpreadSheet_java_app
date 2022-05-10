@@ -86,7 +86,7 @@ public class DataParser {
                             c=c+";";
                             break;
                         case "CelaRefNum":
-                             c=c+";"+ ((CelaRefNum) a).getContingut()+";";
+                             c=c+";"+ ((CelaRefNum) a).getResultat().toString()+";"+ ((CelaRefNum) a).getArrodonit().toString()+";"+ ((CelaRefNum) a).getNum_Decimals().toString()+";"+ ((CelaRefNum) a).getTipus().toString()+";"+ ((CelaRefNum) a).getContingut()+";";
                             break;
                         case "CelaRefText":
                             c=c+";"+ ((CelaRefText) a).getContingut()+";";
