@@ -18,6 +18,8 @@ public class VistaPrincipal extends JFrame {
     private JTextField Contingut;
     private JButton decimalsButton;
 
+    ;
+
     public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
         super(title);
 
@@ -43,7 +45,14 @@ public class VistaPrincipal extends JFrame {
         }
 
 
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fitxer = new JMenu("Fitxer");
+        JMenuItem guardar = new JMenuItem("Guardar");
 
+        fitxer.add(guardar);
+        menuBar.add(fitxer);
+
+        this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(800, 600));
         this.setContentPane(panel1);
@@ -93,10 +102,6 @@ public class VistaPrincipal extends JFrame {
                     System.out.println(content);
                 }
             }
-        });
-        decimalsButton.addActionListener(e -> {
-            Decimals d = new Decimals();
-            d.setVisible(true);
         });
     }
 
