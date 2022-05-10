@@ -5,6 +5,10 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -13,6 +17,8 @@ public class VistaPrincipal extends JFrame {
     private JTable Full;
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
+    private JTextField Contingut;
+    private JButton decimalsButton;
 
     public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
         super(title);
@@ -22,13 +28,6 @@ public class VistaPrincipal extends JFrame {
         for (int i = 0; i < nomColumnes.length; i++) {
             nomColumnes[i] = String.valueOf(i + 1);
         }
-
-        Object[][] dades = {
-
-                {"Mecuri", 0, false},
-                {"Venus", 0, false},
-                {"Terra", 1, true}
-        };
 
         String[][] data = cp.MostrarLlista("Doc 1", "Full 1");
 
@@ -82,6 +81,28 @@ public class VistaPrincipal extends JFrame {
             else {
                 modificat.set(false);
             }
+        });
+        Full.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                int row = Full.rowAtPoint(e.getPoint());
+                int col = Full.columnAtPoint(e.getPoint());
+                if (row >= 0 && col >= 0) {
+                    String[][] temp;
+                    try {
+                        temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    Contingut.setText(temp[col][row]);
+                    System.out.println(temp[col][row]);
+                }
+            }
+        });
+        decimalsButton.addActionListener(e -> {
+            Decimals d = new Decimals();
+            d.setVisible(true);
         });
     }
 }
