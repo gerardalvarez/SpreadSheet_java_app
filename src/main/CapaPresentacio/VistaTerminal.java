@@ -1046,7 +1046,8 @@ public class VistaTerminal {
         return nou_type;
     }
 
-    public void ImprimirFull(String doc, String full) throws Exception {
+   public void ImprimirFull(String doc, String full) throws Exception {
+        /*
         ArrayList<String> celes = Cp.MostrarLlista(doc, full);
         int nf = Cp.GetFiles(doc, full);
         int nc = Cp.GetColumnes(doc, full);
@@ -1058,7 +1059,9 @@ public class VistaTerminal {
             }
             io.writeln();
         }
+         */
     }
+
 
     private boolean PreguntarColocarCelaNova() throws Exception {
         io.writeln("Vol col·locar el resultat a una altra cel·la?");

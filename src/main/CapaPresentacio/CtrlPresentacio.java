@@ -1,5 +1,6 @@
 package main.CapaPresentacio;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
 import main.CapaDomini.Models.Document;
 
@@ -12,15 +13,17 @@ import java.util.HashMap;
 public class CtrlPresentacio {
 
     private final CtrlDomini Cd;
-    private final VistaTerminal Vp;
+    private final VistaPrincipal vc;
     private static inout io;
 
 
 
     public CtrlPresentacio() throws Exception {
         Cd = new CtrlDomini();
-        Vp = new VistaTerminal(this);
+        FlatIntelliJLaf.setup();
         io = new inout();
+        vc = new VistaPrincipal("Excel", this);
+        vc.setVisible(true);
     }
     //DOCUMENTS
     public ArrayList<String> GetDocs(){
@@ -43,7 +46,7 @@ public class CtrlPresentacio {
         return Cd.GetFullDoc(doc);
     }
     //FULLS
-    public ArrayList<String> MostrarLlista(String doc, String full) throws Exception {
+    public String[][] MostrarLlista(String doc, String full) throws Exception {
         return Cd.Mostrar(doc, full);
     }
 

@@ -88,29 +88,10 @@ public class CtrlDomini {
         return f.getNum_Columnes();
     }
 
-    public ArrayList<String> Mostrar(String doc, String full) throws Exception { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
+    public String[][] Mostrar(String doc, String full) throws Exception { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
         ArrayList<String> temp = new ArrayList<>();
         Full f = Documents.get(doc).get_full(full);
-        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes = f.getCeles();
-        Integer nf = f.getNum_Files();
-        Integer nc = f.getNum_Columnes();
-        for(int i = 0; i < nf; i++) {
-            for(int j = 0; j < nc; j++) {
-                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
-                Cela c = Celes.get(id);
-                if (c instanceof Numero) {
-                    temp.add(c.getResultatFinal());
-                }
-                else if (c instanceof TextCela) {
-                    if(c.getResultatFinal().isEmpty()) temp.add(".");
-                    else temp.add(c.getResultatFinal());
-                }
-                else if (c instanceof DataCela){
-                    temp.add(c.getResultatFinal());
-                }
-            }
-        }
-        return temp;
+        return f.Mostrar();
     }
 
     public void CrearFull(String doc, String Full,Integer nf, Integer nc){
