@@ -193,7 +193,7 @@ public class PublicFuntions {
 
     public static Boolean esRefNum(String result, Integer fila, Integer col){
         int size = result.length();
-        if(size < 5)return false;
+        if(size < 18)return false;
         if(result.charAt(0) != '=')return false;
         String Oper = getOper(result.substring(1,4));
         if(Oper.equals("NULL"))return false;
