@@ -65,7 +65,7 @@ public class DataParser {
 
 
         DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
-        printWriter.print(document.getNom()+";"+dateFormat.format(document.getData_creacio())+";"+dateFormat.format(new Date())+"\n"+document.getNumfulls()+"\n");
+        printWriter.print(document.getNom()+";"+dateFormat.format(document.getData_creacio())+";"+dateFormat.format(new Date())+"\n"+document.getFulls().size()+"\n");
         ArrayList<Full> fulls = document.getFulls();
         for(Full ff:fulls){
             printWriter.print(ff.getNom()+";"+ff.getNum_Files()+";"+ff.getNum_Columnes()+"\n");
