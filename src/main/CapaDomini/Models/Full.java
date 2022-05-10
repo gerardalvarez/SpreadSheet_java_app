@@ -783,6 +783,37 @@ public class Full {
         }
         return temp;
     }
+
+    public String ValorTotal(AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Cela c = this.Celes.get(id);
+        if (c instanceof Numero) {
+            if (c instanceof CelaRefNum) {
+                CelaRefNum rn = (CelaRefNum) c;
+                return rn.getContingut();
+            }
+            else {
+                Numero n = (Numero) c;
+                BigDecimal d = n.getResultat();
+                return d.toString();
+            }
+        }
+        else if (c instanceof DataCela) {
+            if (c instanceof CelaRefData) {
+                CelaRefData rd = (CelaRefData) c;
+                return rd.getContingut();
+            }
+            else return c.getResultatFinal();
+        }
+        else {
+            if (c instanceof CelaRefText) {
+                CelaRefText rt = (CelaRefText) c;
+                return rt.getContingut();
+            }
+            else return c.getResultatFinal();
+        }
+    }
+
+
 };
 
 

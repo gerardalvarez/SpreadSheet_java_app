@@ -5,8 +5,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.AbstractMap;
@@ -60,15 +58,15 @@ public class VistaPrincipal extends JFrame {
                 int col = e.getColumn();
                 int row = e.getFirstRow();
                 String mod = Full.getValueAt(row, col).toString();
-                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(col, row);
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                 modificat.set(true);
 
                 try {
                     System.out.println(mod);
                     cp.ModificarContingutCela("Doc 1", "Full 1", id, mod);
                     String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
-                    System.out.println(temp[col][row]);
-                    Object obj = temp[col][row];
+                    System.out.println(temp[row][col]);
+                    Object obj = temp[row][col];
                     Full.setValueAt(obj, row, col);
                     Full.repaint();
 
@@ -89,14 +87,10 @@ public class VistaPrincipal extends JFrame {
                 int row = Full.rowAtPoint(e.getPoint());
                 int col = Full.columnAtPoint(e.getPoint());
                 if (row >= 0 && col >= 0) {
-                    String[][] temp;
-                    try {
-                        temp = cp.MostrarLlista("Doc 1", "Full 1");
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    Contingut.setText(temp[col][row]);
-                    System.out.println(temp[col][row]);
+                    AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
+                    String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                    Contingut.setText(content);
+                    System.out.println(content);
                 }
             }
         });

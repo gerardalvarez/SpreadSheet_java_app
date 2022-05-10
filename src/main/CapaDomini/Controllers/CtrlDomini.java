@@ -610,4 +610,9 @@ public class CtrlDomini {
         Full f = Documents.get(doc).get_full(full);
         f.Eliminar_Columna(co);
     }
+
+    public String ValorTotal(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        return f.ValorTotal(id);
+    }
 }
