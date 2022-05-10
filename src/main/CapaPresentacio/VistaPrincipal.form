@@ -5,7 +5,9 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <enabled value="false"/>
+    </properties>
     <border type="none" title=""/>
     <children>
       <tabbedpane id="d7494" binding="tabbedPane1" default-binding="true">
@@ -23,7 +25,9 @@
             <constraints>
               <tabbedpane title="Full 1"/>
             </constraints>
-            <properties/>
+            <properties>
+              <enabled value="false"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="85165" class="javax.swing.JTable" binding="Full">
@@ -44,14 +48,15 @@
       <component id="952e4" class="javax.swing.JLabel">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <preferred-size width="99" height="16"/>
+            <preferred-size width="50" height="16"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Numeros"/>
+          <horizontalTextPosition value="2"/>
+          <text value="Contingut"/>
         </properties>
       </component>
-      <hspacer id="2df36">
+      <hspacer id="a67ed">
         <constraints>
           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -66,14 +71,12 @@
           <editable value="false"/>
         </properties>
       </component>
-      <component id="492dc" class="javax.swing.JButton" binding="decimalsButton" default-binding="true">
+      <component id="8abbf" class="javax.swing.JToolBar$Separator">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="99" height="30"/>
-          </grid>
+          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Decimals"/>
+          <separatorSize width="10" height="1"/>
         </properties>
       </component>
     </children>

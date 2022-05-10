@@ -276,4 +276,8 @@ public class CtrlPresentacio {
     public void EliminarCol(String doc, String full, Integer co) {
         Cd.EliminarCol(doc, full, co);
     }
+
+    public String ValorTotal(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.ValorTotal(doc, full, id);
+    }
 }
