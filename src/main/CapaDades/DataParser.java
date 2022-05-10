@@ -116,7 +116,7 @@ public class DataParser {
     public Document carrega(String nom) throws Exception {
 
         List<String> content = Files.readAllLines(Paths.get("src/main/CapaDades/"+nom));
-        for (String s:content) System.out.println(s);
+        //for (String s:content) System.out.println(s);
         Scanner scan = new Scanner(content.get(0));
         scan.useDelimiter(Pattern.compile(";"));
         Document d=new Document(scan.next());
@@ -125,7 +125,7 @@ public class DataParser {
         d.setData_ultima_mod(formatter1.parse(scan.next()));
         int nfulls= Integer.parseInt(content.get(1));
         d.setNumfulls(nfulls);
-        System.out.println(nfulls);
+        //System.out.println(nfulls);
         int l=2;
         for(int i=0;i<nfulls;i++){
             scan = new Scanner(content.get(l));
@@ -142,9 +142,9 @@ public class DataParser {
                 celes.replace(x.getId(), x);
             }
             d.afegir_full(z);
-            System.out.println(l);
+           // System.out.println(l);
         }
-        System.out.println(d.getFulls().size());
+       // System.out.println(d.getFulls().size());
 
         return d;
     }
@@ -214,7 +214,7 @@ public class DataParser {
     public List<String> getdocs() throws IOException {
 
 
-        List<String> content = Files.readAllLines(Paths.get("C:\\Users\\Gerard\\IdeaProjects\\subgrup-prop3-1\\src\\main\\CapaDades\\DatabaseDocs"));
+        List<String> content = Files.readAllLines(Paths.get("src/main/CapaDades/DatabaseDocs"));
         return content;
     }
 

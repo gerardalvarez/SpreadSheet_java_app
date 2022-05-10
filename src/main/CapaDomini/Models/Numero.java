@@ -533,7 +533,7 @@ public class Numero extends Cela{
     //Getters
 
     public BigDecimal getResultat() {
-        System.out.println("R: " + this.resultat);
+        //System.out.println("R: " + this.resultat);
         return this.resultat;
     }
 

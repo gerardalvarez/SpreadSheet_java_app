@@ -1,6 +1,8 @@
 package main.CapaDomini.Models;
 
 import main.CapaDades.DataParser;
+
+import javax.print.Doc;
 import java.math.BigDecimal;
 
 import java.text.SimpleDateFormat;
@@ -70,15 +72,23 @@ public class Main {
             }
             System.out.println();
         }*/
+        ArrayList<Integer> cols = new ArrayList<>();
+        cols.add(1);
+        cols.add(0);
+        full.ordena_bloc(new AbstractMap.SimpleEntry<>(0, 0),new AbstractMap.SimpleEntry<>(2, 2),cols,"Major-menor");
         DataParser d = new DataParser();
         d.getdocs();
-        d.guarda(new Document("Prueba"));
+        Document doc=new Document("Prueba");
+        doc.afegir_full(full);
+        d.guarda(doc);
         Document x = d.carrega("Prueba");
         for (Full f : x.getFulls()) {
             System.out.println(f.getNom());
-            for (Integer g = 0; g < f.getNum_Files(); ++g) { //PRINT
-                for (Integer j = 0; j < f.getNum_Columnes(); ++j)
-                    System.out.print(f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g, j)).getId() + " " + f.getCeles().get(new AbstractMap.SimpleEntry<Integer, Integer>(g, j)).getResultatFinal() + " ");
+            for (int i = 0; i < f.getNum_Files(); ++i) {
+                for (int j = 0; j < f.getNum_Columnes(); ++j) {
+                    Cela c = f.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
+                    System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
+                }
                 System.out.println();
             }
             System.out.println(x.getData_ultima_mod());
