@@ -311,6 +311,157 @@ public class Full {
         if(!this.Celes.get(pare).getObservadors().contains(id))this.Celes.get(pare).newObserver(id);
     }
 
+    public void ModificaCelaTextRefLong(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat,  AbstractMap.SimpleEntry<Integer, Integer> pare){
+        Cela cel = this.Celes.get(id);
+        Color colorFons = cel.getColorFons();
+        Color colorLletra = cel.getColorLletra();
+        String Rf = this.Celes.get(pare).getResultatFinal();
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+        this.Celes.replace(id, new CelaRefText(id,resultat,Rf));
+        this.Celes.get(id).setColorFons(colorFons);
+        this.Celes.get(id).setColorLletra(colorLletra);
+        this.Celes.get(id).setObservadors(observadors);
+        this.Celes.get(id).setResultatFinal(Rf);
+        TextCela cd = (TextCela)this.Celes.get(id);
+        if(resultat.substring(1, 4).equals("MAY"))cd.AllMayus();
+        else cd.AllMinus();
+        if(!this.Celes.get(pare).getObservadors().contains(id))this.Celes.get(pare).newObserver(id);
+    }
+    public void ModificaCelaNumRefLong(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat,  AbstractMap.SimpleEntry<Integer, Integer> pare){
+        Numero c = (Numero) this.Celes.get(pare);
+        Cela cel = this.Celes.get(id);
+        Color colorFons = cel.getColorFons();
+        Color colorLletra = cel.getColorLletra();
+        Boolean arrodonit = c.getArrodonit();
+        Integer num_Decimals = c.getNum_Decimals();
+        Tipus_Numero tipus = c.getTipus();
+        String Rf = this.Celes.get(pare).getResultatFinal();
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
+        this.Celes.replace(id, new CelaRefNum(id,Rf,arrodonit, num_Decimals,  tipus, resultat));
+        this.Celes.get(id).setColorFons(colorFons);
+        this.Celes.get(id).setColorLletra(colorLletra);
+        this.Celes.get(id).setObservadors(observadors);
+        ((Numero) this.Celes.get(id)).setResultat(new BigDecimal(Rf));
+        Numero a = (Numero) this.Celes.get(id);
+        //AFEGIR AVALUAR
+        ArrayList<Numero> sender = new ArrayList<>();
+        AbstractMap.SimpleEntry<Integer, Integer> first = PublicFuntions.getIdRefText(resultat);
+        AbstractMap.SimpleEntry<Integer, Integer> second = PublicFuntions.getIdRefNum(resultat);
+        if(resultat.charAt(11)=='-' || resultat.substring(1, 4).equals("DIV")){
+            sender.add((Numero) this.Celes.get(first));
+            sender.add((Numero) this.Celes.get(second));
+        }
+        else{
+            sender = getAllCeles(first,second);
+        }
+        ((Numero) this.Celes.get(id)).setResultat(avaluar(sender, resultat.substring(1,4)));
+        //FUNCIO OBSERVER ES MOLT MES AMPLIA
+        if(resultat.charAt(11)=='-' || resultat.substring(1, 4).equals("DIV")){
+            if(!this.Celes.get(first).getObservadors().contains(id))this.Celes.get(first).newObserver(id);
+            if(!this.Celes.get(second).getObservadors().contains(id))this.Celes.get(second).newObserver(id);
+        }
+        else{
+            getAllObservers(id,first,second);
+        }
+    }
+    private BigDecimal avaluar(ArrayList<Numero> sender, String oper){
+        if(Objects.equals(oper, "DIV")){
+            return sender.get(0).getResultat().divide(sender.get(1).getResultat());
+        }
+        else if(Objects.equals(oper, "AVG")){
+            Bloc_celes bc= new Bloc_celes();
+            return BigDecimal.valueOf(bc.calculaMitjana(sender));
+        }
+        else if(Objects.equals(oper, "DEV")){
+            Bloc_celes bc= new Bloc_celes();
+            return BigDecimal.valueOf(bc.calculaDesviació(sender));
+        }
+        else if(Objects.equals(oper, "VAR")) {
+            Bloc_celes bc= new Bloc_celes();
+            return BigDecimal.valueOf(bc.calculaVariança(sender));
+        }
+        else if(Objects.equals(oper, "MED")){
+            Bloc_celes bc= new Bloc_celes();
+            return BigDecimal.valueOf(bc.calculaMediana(sender));
+        }
+
+        else if(Objects.equals(oper, "MOD")){
+            Bloc_celes bc= new Bloc_celes();
+            return BigDecimal.valueOf(bc.calculaModa(sender));
+        }
+        else if(Objects.equals(oper, "MAX")){
+            Bloc_celes bc= new Bloc_celes();
+            return  BigDecimal.valueOf(bc.maxim(sender));
+        }
+        else if(Objects.equals(oper, "SUM")){
+            Bloc_celes bc= new Bloc_celes();
+            return  BigDecimal.valueOf(bc.suma(sender));
+        }
+        else if(Objects.equals(oper, "RES")){
+            Bloc_celes bc= new Bloc_celes();
+            return  BigDecimal.valueOf(bc.resta(sender));
+        }
+        else if(Objects.equals(oper, "PRO")){
+            Bloc_celes bc= new Bloc_celes();
+            return  BigDecimal.valueOf(bc.mult(sender));
+        }
+        return new BigDecimal(0);
+    }
+
+    private ArrayList<Numero> getAllCeles(AbstractMap.SimpleEntry<Integer, Integer> first , AbstractMap.SimpleEntry<Integer, Integer> second){
+        Integer firstF,secondF,firstC, secondC;ArrayList<Numero> sender = new ArrayList<>();
+        if (first.getKey() <=  second.getKey()){
+            firstF = first.getKey();
+            secondF = second.getKey();
+        }
+        else{
+            firstF = second.getKey();
+            secondF = first.getKey();
+        }
+        if (first.getValue() <=  second.getValue()){
+            firstC = first.getValue();
+            secondC = second.getValue();
+        }
+        else{
+            firstC = second.getValue();
+            secondC = first.getValue();
+        }
+
+        for(int i = firstF; i <= secondF; i++){
+            for(int j = firstC; j <= secondC ;j++){
+                sender.add((Numero) this.Celes.get(new AbstractMap.SimpleEntry<>(i,j)));
+            }
+        }
+        return sender;
+    }
+
+    private void getAllObservers( AbstractMap.SimpleEntry<Integer, Integer> fill,AbstractMap.SimpleEntry<Integer, Integer> first , AbstractMap.SimpleEntry<Integer, Integer> second){
+        Integer firstF,secondF,firstC, secondC;ArrayList<Numero> sender = new ArrayList<>();
+        if (first.getKey() <=  second.getKey()){
+            firstF = first.getKey();
+            secondF = second.getKey();
+        }
+        else{
+            firstF = second.getKey();
+            secondF = first.getKey();
+        }
+        if (first.getValue() <=  second.getValue()){
+            firstC = first.getValue();
+            secondC = second.getValue();
+        }
+        else{
+            firstC = second.getValue();
+            secondC = first.getValue();
+        }
+
+        for(int i = firstF; i <= secondF; i++){
+            for(int j = firstC; j <= secondC ;j++){
+                AbstractMap.SimpleEntry<Integer,Integer> id = new AbstractMap.SimpleEntry<>(i,j);
+                if(!this.Celes.get(id).getObservadors().contains(fill))this.Celes.get(id).newObserver(fill);
+            }
+        }
+    }
+
     public void ModificaCelaNum(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat){
         if(Objects.equals(this.Celes.get(id).getType(), "numeric")){
             Numero n = (Numero) this.Celes.get(id);

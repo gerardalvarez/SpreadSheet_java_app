@@ -1,5 +1,5 @@
 import main.CapaDomini.Models.TextCela;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.AbstractMap;
 
@@ -27,11 +27,11 @@ public class TextTest {
 
     @Test
     public void MayusAndMinus(){
-        TextCela c = new TextCela(new AbstractMap.SimpleEntry<>(1, 1),"Hello World");
+        TextCela c = new TextCela(new AbstractMap.SimpleEntry<>(1, 1),"Hello1= World");
         c.AllMayus();
-        assertEquals("HELLO WORLD", c.getResultatFinal());
+        assertEquals("HELLO1= WORLD", c.getResultatFinal());
         assertNotEquals("HELLO WORLd", c.getResultatFinal());
         c.AllMinus();
-        assertEquals("hello world", c.getResultatFinal());
+        assertEquals("hello1= world", c.getResultatFinal());
     }
 }
