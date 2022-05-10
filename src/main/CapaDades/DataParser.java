@@ -180,8 +180,12 @@ public class DataParser {
                 break;
 
             case "CelaRefNum":
+                String aa=scan.next();
+                Boolean ab =Boolean.valueOf(scan.next());
+                Integer ac=  scan.nextInt();
                 scan.next();
-                c =new CelaRefNum(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),scan.next(),Boolean.valueOf(scan.next()), scan.nextInt(), Tipus_Numero.valueOf("numero"),scan.next());
+                String cont= scan.next();
+                c =new CelaRefNum(new AbstractMap.SimpleEntry<Integer, Integer>(fila,col),aa,ab, ac, Tipus_Numero.valueOf("numero"),cont);
                 break;
 
             case "CelaRefText":
