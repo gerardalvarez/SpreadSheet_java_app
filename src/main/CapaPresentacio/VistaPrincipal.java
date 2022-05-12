@@ -2,11 +2,15 @@ package main.CapaPresentacio;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FilenameFilter;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,6 +20,7 @@ public class VistaPrincipal extends JFrame {
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     private JTextField Contingut;
+    private JTextField Tipus;
     private JButton decimalsButton;
 
     ;
@@ -48,8 +53,10 @@ public class VistaPrincipal extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fitxer = new JMenu("Fitxer");
         JMenuItem guardar = new JMenuItem("Guardar");
+        JMenuItem obrir = new JMenuItem("Obrir");
 
         fitxer.add(guardar);
+        fitxer.add(obrir);
         menuBar.add(fitxer);
 
         this.setJMenuBar(menuBar);
@@ -57,6 +64,53 @@ public class VistaPrincipal extends JFrame {
         this.setMinimumSize(new Dimension(800, 600));
         this.setContentPane(panel1);
         this.pack();
+
+        guardar.addActionListener(e -> {
+            JFileChooser savefile = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text", "txt");
+            savefile.setFileFilter(filter);
+            int status = savefile.showSaveDialog(this);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                try {
+                    cp.guardarDocument();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            else System.out.println("Cancelat");
+        });
+
+        obrir.addActionListener(e -> {
+            JFileChooser openfile = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text", "txt");
+            openfile.setFileFilter(filter);
+            int status = openfile.showOpenDialog(this);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                try {
+                    cp.obrirDocument();
+                } catch (Exception ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut obrir", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                String[][] dades;
+                try {
+                    dades = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                Full.setModel(new DefaultTableModel(dades, nomCol));
+                Full.repaint();
+            }
+            else System.out.println("Cancelat");
+        });
+
 
         AtomicBoolean modificat = new AtomicBoolean(false);
 
@@ -76,6 +130,10 @@ public class VistaPrincipal extends JFrame {
                     String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
                     System.out.println(temp[row][col]);
                     Object obj = temp[row][col];
+                    String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                    String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                    Tipus.setText(type);
+                    Contingut.setText(content);
                     Full.setValueAt(obj, row, col);
                     Full.repaint();
 
@@ -98,6 +156,8 @@ public class VistaPrincipal extends JFrame {
                 if (row >= 0 && col >= 0) {
                     AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                     String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                    String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                    Tipus.setText(type);
                     Contingut.setText(content);
                     System.out.println(content);
                 }

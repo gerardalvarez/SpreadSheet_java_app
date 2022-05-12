@@ -1,19 +1,18 @@
 package main.CapaDomini.Controllers;
 
+import main.CapaDades.DataParser;
 import main.CapaDomini.Models.*;
 import main.CapaPresentacio.inout;
-import org.w3c.dom.Text;
 
-import java.awt.*;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import javax.xml.crypto.Data;
 import java.util.*;
 
 public class CtrlDomini {
 
     private HashMap<String, Document> Documents;
     private inout io;
+
+    private DataParser dp;
 
     private static CtrlDomini singletonObject;
 
@@ -35,6 +34,7 @@ public class CtrlDomini {
         Full nou = new Full("Full 1", 20, 20);
         Documents.get("Doc 1").afegir_full(nou);
         io = new inout();
+        dp = new DataParser();
     }
 
     //DOCUMENTS
@@ -615,5 +615,15 @@ public class CtrlDomini {
     public String ValorTotal(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = Documents.get(doc).get_full(full);
         return f.ValorTotal(id);
+    }
+
+    public void guardarDocument() throws Exception {
+        Document d = Documents.get("Doc 1");
+        dp.guarda(d);
+    }
+
+    public void obrirDocument() throws Exception {
+        Document nou = dp.carrega("Prueba");
+        Documents.replace("Doc 1", nou);
     }
 }

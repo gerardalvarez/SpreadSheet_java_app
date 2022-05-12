@@ -280,4 +280,12 @@ public class CtrlPresentacio {
     public String ValorTotal(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.ValorTotal(doc, full, id);
     }
+
+    public void guardarDocument() throws Exception {
+        Cd.guardarDocument();
+    }
+
+    public void obrirDocument() throws Exception {
+        Cd.obrirDocument();
+    }
 }
