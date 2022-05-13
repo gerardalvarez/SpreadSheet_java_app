@@ -259,7 +259,8 @@ public class PublicFuntions {
                                 Boolean err=false;
                                 while (scc.hasNext()){
                                     String[] part = scc.next().split("(?<=\\D)(?=\\d)");
-                                    if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                                    if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                                            && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                                         System.out.println("EL BLOQUE ES " +toNumber(part[0])+" " +Integer.parseInt(part[1]));
                                         if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
                                         else tipus="REFNUM";
@@ -273,7 +274,8 @@ public class PublicFuntions {
                             }
                         } else {
                             String[] part = op.split("(?<=\\D)(?=\\d)");
-                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                                    && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                                 l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
                                 if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
                                 else tipus="REFNUM";
@@ -288,7 +290,8 @@ public class PublicFuntions {
 
                 String aux= s.replaceFirst("=","");
                 String[] part = aux.split("(?<=\\D)(?=\\d)");
-                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x){
+                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x
+                        && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                     l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
                     tipus ="ref a otra celda";
                 }else tipus="referencia pero #ERROR";
@@ -318,7 +321,7 @@ public class PublicFuntions {
                 String ss=s.substring(1,5);
                 if ((ss.equals("SUM(") || ss.equals("RES(") || ss.equals("PRO(") || ss.equals("DIV(") || ss.equals("AVG(") ||
                         ss.equals("MED(") || ss.equals("VAR(") || ss.equals("MOD(") || ss.equals("MAX(") || ss.equals("DEV(") ||
-                        ss.equals("MAY(") || ss.equals("MIN(") ) && s.substring(s.length()-1).equals(")")) { //ES REF OP
+                        ss.equals("MAY(") || ss.equals("MIN(") ) && s.substring(s.length()-1).equals(")")) {      //ES REF OP
 
                     oper=ss;
                     String ops= s.substring(5,s.length()-1);
@@ -329,7 +332,7 @@ public class PublicFuntions {
 
                     while (sc.hasNext()){
                         String op =sc.next();
-                        if (op.contains(":")){ //es bloque
+                        if (op.contains(":")){                       // es bloque
                             if (op.length()<5) {
                                 tipus = "referencia pero #ERROR";
                                 break;
@@ -359,10 +362,13 @@ public class PublicFuntions {
                                 if (err) break;
                             }
                         }
-                        else {
+                        else {            //OPERANDO NORMAL
                             String[] part = op.split("(?<=\\D)(?=\\d)");
-                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                            System.out.println("++++++++-ppp"+toNumber(part[0]));
+                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                            && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                                 l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
+
                                 if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
                                 else tipus="REFNUM";
                             }else{
@@ -376,7 +382,8 @@ public class PublicFuntions {
 
                 String aux= s.replaceFirst("=","");
                 String[] part = aux.split("(?<=\\D)(?=\\d)");
-                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x){
+                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x
+                        && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                     l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
                     tipus ="ref a otra celda";
                 }else tipus="referencia pero #ERROR";
