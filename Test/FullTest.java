@@ -1,3 +1,4 @@
+import main.CapaDomini.Controllers.CtrlDomini;
 import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.Full;
 import org.junit.jupiter.api.Test;
@@ -67,4 +68,14 @@ public class FullTest {
         f.Modifica_Tipus_Data(idc);
         assertEquals("data", f.getCeles().get(idc).getType());
     }
+    @Test
+    public void undo() throws Exception {
+        CtrlDomini d= new CtrlDomini();
+        d.CrearDocument("1");
+        d.CrearFull("1","1f",3,3);
+        d.EliminarFila("1","1f", 1);
+        //d.Undo("1","1f");
+        assertEquals("data", d.Mostrar("1","1f"));
+    }
+
 }
