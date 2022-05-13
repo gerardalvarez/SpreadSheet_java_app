@@ -109,10 +109,22 @@ public class CtrlDomini {
 
     //CELA
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
+
+        Full f = Documents.get(doc).get_full(full);
+        String a = analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
+        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
+        if (f.Consultar_cela(id) instanceof CelaRefNum){
+            l=analizaops(((CelaRefNum) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            f.borraref(id,l);
+        } else if (f.Consultar_cela(id) instanceof CelaRefText){
+            l=analizaops(((CelaRefText) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            f.borraref(id,l);
+        }else if (f.Consultar_cela(id) instanceof CelaRefData){
+            l=analizaops(((CelaRefData) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            f.borraref(id,l);
+        }
         if (!resultat.equals("")){
-            Full f = Documents.get(doc).get_full(full);
-            String a = analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
-            ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
+
             switch (a){
                 case "text":
                     f.Modifica_Cela(id,resultat);

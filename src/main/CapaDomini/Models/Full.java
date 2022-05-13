@@ -571,6 +571,12 @@ public class Full {
         System.out.println("vamooooooos"+Celes.get(new AbstractMap.SimpleEntry<Integer, Integer> (0,1)).getObservadors().size());
     }
 
+    public void borraref(AbstractMap.SimpleEntry<Integer, Integer> id, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l) {
+
+        for (AbstractMap.SimpleEntry<Integer, Integer> i:l){
+            Celes.get(i).getObservadors().remove(id);
+        }
+    }
 };
 
 

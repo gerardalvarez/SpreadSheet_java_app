@@ -1,5 +1,6 @@
 package main.CapaDomini.Models;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -252,9 +253,25 @@ public class PublicFuntions {
                             if (op.length()<5) {
                                 tipus = "referencia pero #ERROR";
                                 break;
+                            }else {
+                                Scanner scc=new Scanner(op);
+                                scc.useDelimiter(":");
+                                Boolean err=false;
+                                while (scc.hasNext()){
+                                    String[] part = scc.next().split("(?<=\\D)(?=\\d)");
+                                    if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                                        System.out.println("EL BLOQUE ES " +toNumber(part[0])+" " +Integer.parseInt(part[1]));
+                                        if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                        else tipus="REFNUM";
+                                    }else{
+                                        tipus="referencia pero #ERROR";
+                                        err=true;
+                                        break;
+                                    }
+                                }
+                                if (err) break;
                             }
-                        }
-                        else {
+                        } else {
                             String[] part = op.split("(?<=\\D)(?=\\d)");
                             if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
                                 l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
@@ -316,6 +333,30 @@ public class PublicFuntions {
                             if (op.length()<5) {
                                 tipus = "referencia pero #ERROR";
                                 break;
+                            }else {
+                                Scanner scc=new Scanner(op);
+                                scc.useDelimiter(":");
+                                Boolean err=false;
+                                    String[] part = scc.next().split("(?<=\\D)(?=\\d)");
+                                    String[] part2 = scc.next().split("(?<=\\D)(?=\\d)");
+                                    if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                                        if (part2.length==2 && isNum(part2[1]) && toNumber(part2[0])<y && toNumber(part2[0])>0 && Integer.parseInt(part2[1])<=x && Integer.parseInt(part2[1])>0){
+                                        for (int i=toNumber(part[0]);i<=toNumber(part2[0]);i++){
+                                            for (int j=Integer.parseInt(part[1]);j<=Integer.parseInt(part2[1]);j++){
+                                                l.add(new AbstractMap.SimpleEntry<>(i,j));
+                                            }
+                                        }
+                                        if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                        else tipus="REFNUM";
+                                        }else{
+                                            tipus="referencia pero #ERROR";
+                                            err=true;
+                                    }
+                                }else{
+                                        tipus="referencia pero #ERROR";
+                                        break;
+                                    }
+                                if (err) break;
                             }
                         }
                         else {
