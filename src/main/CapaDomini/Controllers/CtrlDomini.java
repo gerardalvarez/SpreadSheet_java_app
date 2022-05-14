@@ -159,9 +159,7 @@ public class CtrlDomini {
     public void CheckObs(String doc, String full , AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs = f.getCeles().get(id).getObservadors();
-        System.out.println("-------" + obs.size());
         if(obs.size()!=0){
-            System.out.println("-´-------sdasfwsedfsdf");
             for(int i = 0; i < obs.size(); i++){
                 if(f.getCeles().get(obs.get(i)) instanceof CelaRefData){
                     CelaRefData c =  (CelaRefData) f.getCeles().get(obs.get(i));

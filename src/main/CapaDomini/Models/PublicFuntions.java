@@ -110,25 +110,7 @@ public class PublicFuntions {
         }
     }
 
-    public static String getOperNoRec(String text){
-            if (Objects.equals(text, "MAY")) return "MAY";
-            else if (Objects.equals(text, "MIN")) return "MIN";
-            else return "NULL";
-    }
 
-    public static String getOper(String text){
-        if (Objects.equals(text, "SUM")) return "SUM";
-        else if (Objects.equals(text, "RES")) return "RES";
-        else if (Objects.equals(text, "PRO")) return "PRO";
-        else if (Objects.equals(text, "DIV")) return "DIV";
-        else if (Objects.equals(text, "AVG")) return "AVG";
-        else if (Objects.equals(text, "MED")) return "MED";
-        else if (Objects.equals(text, "VAR")) return "VAR";
-        else if (Objects.equals(text, "MOD")) return "MOD";
-        else if (Objects.equals(text, "MAX")) return "MAX";
-        else if (Objects.equals(text, "DEV")) return "DEV";
-        else return "NULL";
-    }
 
     public static Full readCsv() {
         List<List<String>> files = new ArrayList<>();
@@ -181,49 +163,7 @@ public class PublicFuntions {
         if(!refValida(Integer.parseInt(result.substring(2,result.indexOf('_'))),fila,col) || !refValida(Integer.parseInt(result.substring(result.indexOf('_')+1)),fila,col))return false;
         return true;
     }
-    public static Boolean esRefText(String result, Integer fila, Integer col){
-        int size = result.length();
-        if(size < 5)return false;
-        if(result.charAt(0) != '=')return false;
-        String Oper = getOperNoRec(result.substring(1,4));
-        if(Oper.equals("NULL"))return false;
-        if(result.charAt(4) != '(' && result.charAt(5) != '#' && result.charAt(8) != '_' && result.charAt(11) != ')')return false;
-        if(!isNumerical(result.substring(6, 8)) || !isNumerical(result.substring(9,11)))return false;
-        if(!refValida(Integer.parseInt(result.substring(6,8)),fila,col) || !refValida(Integer.parseInt(result.substring(9,11)),fila,col))return false;
-        return true;
-    }
 
-    public static Boolean esRefNum(String result, Integer fila, Integer col){
-        int size = result.length();
-        if(size < 18)return false;
-        if(result.charAt(0) != '=')return false;
-        String Oper = getOper(result.substring(1,4));
-        if(Oper.equals("NULL"))return false;
-        if(result.charAt(4) != '(' && result.charAt(5) != '#' && result.charAt(8) != '_' && (result.charAt(11) != ('-') || (result.charAt(11) != (':')))
-                && result.charAt(12) != '#' && result.charAt(15) != '_' && result.charAt(18) != ')')return false;
-        if(!isNumerical(result.substring(6, 8)) || !isNumerical(result.substring(9,11)) || !isNumerical(result.substring(13, 15)) || !isNumerical(result.substring(16,18)))return false;
-        if(!refValida(Integer.parseInt(result.substring(6,8)),fila,col) || !refValida(Integer.parseInt(result.substring(9,11)),fila,col))return false;
-        if(!refValida(Integer.parseInt(result.substring(13,15)),fila,col) || !refValida(Integer.parseInt(result.substring(16,18)),fila,col))return false;
-        return true;
-    }
-
-    public static AbstractMap.SimpleEntry<Integer, Integer> getNumIdRef(String result){
-        Integer fil = Integer.parseInt(result.substring(2,result.indexOf('_')));
-        Integer col = Integer.parseInt(result.substring(result.indexOf('_')+1));
-        return new AbstractMap.SimpleEntry<>(fil-1,col-1);
-    }
-
-    public static AbstractMap.SimpleEntry<Integer, Integer> getIdRefText(String result){
-        Integer fil = Integer.parseInt(result.substring(6,8));
-        Integer col = Integer.parseInt(result.substring(9,11));
-        return new AbstractMap.SimpleEntry<>(fil-1,col-1);
-    }
-
-    public static AbstractMap.SimpleEntry<Integer, Integer> getIdRefNum(String result){
-        Integer fil = Integer.parseInt(result.substring(13,15));
-        Integer col = Integer.parseInt(result.substring(16,18));
-        return new AbstractMap.SimpleEntry<>(fil-1,col-1);
-    }
 
     public static boolean refValida(Integer num, Integer fila, Integer col){
         return (num-1 < fila && num-1 >= 0 && num-1 < col);

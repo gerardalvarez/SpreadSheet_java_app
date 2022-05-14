@@ -77,8 +77,13 @@ public class Main {
         CtrlDomini ct =new CtrlDomini();
         Document x=new Document("a");
         x.afegir_full(f);
-        ct.gg().put("a",x);
-        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=SUM(A2,B2)");
+      //  ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=SUM(A2,B2)");
+        DataParser d= new DataParser();
+        Document a=d.carrega("a");
+        ct.gg().put("a",a);
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=A3");
+
+        d.guarda(a);
             System.out.println(f.getNom());
             for (int i = 0; i < f.getNum_Files(); ++i) {
                 for (int j = 0; j < f.getNum_Columnes(); ++j) {
