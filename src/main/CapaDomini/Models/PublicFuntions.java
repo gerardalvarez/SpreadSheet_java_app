@@ -304,7 +304,6 @@ public class PublicFuntions {
                         }
                         else {            //OPERANDO NORMAL
                             String[] part = op.split("(?<=\\D)(?=\\d)");
-                            System.out.println("++++++++-ppp"+toNumber(part[0]));
                             if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
                             && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                                 l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
