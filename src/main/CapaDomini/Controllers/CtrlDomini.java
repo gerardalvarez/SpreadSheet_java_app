@@ -125,7 +125,6 @@ public class CtrlDomini {
         }
         else if(PublicFuntions.esRefNum(resultat,f.getNum_Files(), f.getNum_Columnes()) && NumericalCheck(resultat,f)){
             AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
-            f.ModificaCelaNumRefLong(id,resultat,pare);
         }
         else if(resultat.length() > 0 && resultat.charAt(0)=='='){
             f.ModificaCelaError(id,resultat);
@@ -348,28 +347,47 @@ public class CtrlDomini {
     //Operacions Data
 
     public String getDia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
-        return d.getWeekDay() + " " + d.getDia();
+        return d.getDia();
     }
 
     public String getMes(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
         return d.getMes();
     }
 
     public String getAny(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
         return d.getAny();
     }
-
+    public String getWeekday(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
+        DataCela d = GetData(doc, full, id);
+        return d.getWeekDay();
+    }
     public String getDataCompleta(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         DataCela d = GetData(doc, full, id);
         return d.getWeekDay() + " " + d.getDia() + " " + d.getMes() + " " + d.getAny();
     }
 
-    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public Boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return false;
         DataCela d = GetData(doc, full, id);
         d.changeToText();
+        return true;
     }
 
     public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -377,9 +395,13 @@ public class CtrlDomini {
         transformaText(doc, full, idRemp);
     }
 
-    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return false;
         DataCela d = GetData(doc, full, id);
         d.changeToDate();
+        return true;
     }
 
     public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {

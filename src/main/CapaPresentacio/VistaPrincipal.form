@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main.CapaPresentacio.VistaPrincipal">
-  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="5" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="5" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="526" height="400"/>
+      <xy x="20" y="20" width="724" height="400"/>
     </constraints>
     <properties>
       <enabled value="false"/>
@@ -12,7 +12,7 @@
     <children>
       <tabbedpane id="d7494" binding="tabbedPane1" default-binding="true">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="200" height="200"/>
           </grid>
         </constraints>
@@ -58,7 +58,7 @@
       </component>
       <hspacer id="a67ed">
         <constraints>
-          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
       <component id="bb1c7" class="javax.swing.JTextField" binding="Contingut">
@@ -92,7 +92,7 @@
       </component>
       <toolbar id="c1f68">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="1" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="-1" height="20"/>
           </grid>
         </constraints>
@@ -133,20 +133,87 @@
       </toolbar>
       <component id="c9496" class="javax.swing.JToolBar$Separator">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
       <toolbar id="a3c6c">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="2" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="-1" height="20"/>
           </grid>
         </constraints>
         <properties/>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="212ed" class="javax.swing.JButton" binding="dateTextButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Data a Text"/>
+            </properties>
+          </component>
+          <component id="16d57" class="javax.swing.JButton" binding="textDateButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Text a Data"/>
+            </properties>
+          </component>
+          <component id="adce5" class="javax.swing.JButton" binding="DDButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Dia"/>
+            </properties>
+          </component>
+          <component id="7f217" class="javax.swing.JButton" binding="MMButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Mes"/>
+            </properties>
+          </component>
+          <component id="2b257" class="javax.swing.JButton" binding="AAAAButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Any"/>
+            </properties>
+          </component>
+          <component id="1239a" class="javax.swing.JButton" binding="diaSemanalButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Dia semanal"/>
+            </properties>
+          </component>
+          <component id="29450" class="javax.swing.JButton" binding="minusculesButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Minuscules"/>
+            </properties>
+          </component>
+          <component id="e3ec4" class="javax.swing.JButton" binding="majusculesButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Majuscules"/>
+            </properties>
+          </component>
+        </children>
       </toolbar>
+      <component id="a911f" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Resultat"/>
+        </properties>
+      </component>
+      <component id="64afa" class="javax.swing.JTextField" binding="Resultat">
+        <constraints>
+          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <editable value="false"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

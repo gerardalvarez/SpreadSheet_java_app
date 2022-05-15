@@ -6,13 +6,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FilenameFilter;
 import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VistaPrincipal extends JFrame {
@@ -25,12 +23,25 @@ public class VistaPrincipal extends JFrame {
     private JButton button2;
     private JButton button3;
     private JButton button4;
+    private JComboBox DataFormat;
+    private JButton MMButton;
+    private JButton DDButton;
+    private JButton textDateButton;
+    private JButton dateTextButton;
+    private JButton AAAAButton;
+    private JButton diaSemanalButton;
+    private JTextField Resultat;
+    private JButton majusculesButton;
+    private JButton minusculesButton;
     private JButton decimalsButton;
 
-    ;
+    private int columna;
+    private int fila;
+
 
     public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
         super(title);
+
 
         String[] nomColumnes = new String[cp.GetColumnes("Doc 1", "Full 1")];
 
@@ -155,8 +166,8 @@ public class VistaPrincipal extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                int row = Full.rowAtPoint(e.getPoint());
-                int col = Full.columnAtPoint(e.getPoint());
+                int row = fila = Full.rowAtPoint(e.getPoint());
+                int col = columna = Full.columnAtPoint(e.getPoint());
                 if (row >= 0 && col >= 0) {
                     AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                     String content = cp.ValorTotal("Doc 1", "Full 1", id);
@@ -165,6 +176,127 @@ public class VistaPrincipal extends JFrame {
                     Contingut.setText(content);
                     System.out.println(content);
                 }
+            }
+        });
+        dateTextButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            if(!cp.transformaText("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+            else{
+                String[][] temp = new String[0][];
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println(temp[fila][columna]);
+                Object obj = temp[fila][columna];
+                String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                Tipus.setText(type);
+                Contingut.setText(content);
+                Full.setValueAt(obj, fila, columna);
+                Full.repaint();
+            }
+        });
+        textDateButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            if(!cp.transformaData("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+            else{
+                String[][] temp = new String[0][];
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println(temp[fila][columna]);
+                Object obj = temp[fila][columna];
+                String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                Tipus.setText(type);
+                Contingut.setText(content);
+                Full.setValueAt(obj, fila, columna);
+                Full.repaint();
+            }
+        });
+        minusculesButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            cp.AllMinus("Doc 1", "Full 1", id);
+            String[][] temp = new String[0][];
+            try {
+                temp = cp.MostrarLlista("Doc 1", "Full 1");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            System.out.println(temp[fila][columna]);
+            Object obj = temp[fila][columna];
+            String content = cp.ValorTotal("Doc 1", "Full 1", id);
+            String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+            Tipus.setText(type);
+            Contingut.setText(content);Full.setValueAt(obj, fila, columna);
+            Full.repaint();
+        });
+        majusculesButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            cp.AllMayus("Doc 1", "Full 1", id);
+            String[][] temp = new String[0][];
+            try {
+                temp = cp.MostrarLlista("Doc 1", "Full 1");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            System.out.println(temp[fila][columna]);
+            Object obj = temp[fila][columna];
+            String content = cp.ValorTotal("Doc 1", "Full 1", id);
+            String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+            Tipus.setText(type);
+            Contingut.setText(content);Full.setValueAt(obj, fila, columna);
+            Full.repaint();
+        });
+        DDButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            String content = cp.getDia("Doc 1", "Full 1", id);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+
+            else{
+                Resultat.setText("Dia "+content);
+            }
+        });
+
+        MMButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            String content = cp.getMes("Doc 1", "Full 1", id);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+
+            else{
+                Resultat.setText("Mes "+content);
+            }
+        });
+
+        AAAAButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            String content = cp.getAny("Doc 1", "Full 1", id);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+
+            else{
+                Resultat.setText("Any "+content);
+            }
+        });
+
+        diaSemanalButton.addActionListener(e -> {
+            System.out.println(fila + " " + columna);
+            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+            String content = cp.getWeekday("Doc 1", "Full 1", id);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+
+            else{
+                Resultat.setText("Dia de la setmana "+content);
             }
         });
     }
