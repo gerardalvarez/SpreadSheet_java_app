@@ -21,6 +21,10 @@ public class VistaPrincipal extends JFrame {
     private JTabbedPane tabbedPane1;
     private JTextField Contingut;
     private JTextField Tipus;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
+    private JButton button4;
     private JButton decimalsButton;
 
     ;
