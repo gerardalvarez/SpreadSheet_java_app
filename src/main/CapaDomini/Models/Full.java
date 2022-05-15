@@ -545,7 +545,7 @@ public class Full {
         return this.Celes.get(id);
     };
 
-    public HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Cela> getCeles() throws Exception {
+    public HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Cela> getCeles() {
         return Celes;
     }
 

@@ -4,7 +4,6 @@ import main.CapaDades.DataParser;
 import main.CapaDomini.Models.*;
 import main.CapaPresentacio.inout;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 public class CtrlDomini {
@@ -250,59 +249,89 @@ public class CtrlDomini {
         n.setTipus(Tipus_Numero.valueOf(tipus));
     }
 
-    public void CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
-        Numero n = GetNumero(doc, full, id);
-        n.incrementar();
-        CheckObs(doc, full, id);
+    public int CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.incrementar();
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaIncrement(doc, full, idRemp);
+        int codi = CalculaIncrement(doc, full, idRemp);
+        return codi;
     }
 
-    public void CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
-        Numero n = GetNumero(doc, full, id);
-        n.reduir();
-        CheckObs(doc, full, id);
+    public int CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.reduir();
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaReduir(doc, full, idRemp);
+        int codi = CalculaReduir(doc, full, idRemp);
+        return codi;
     }
 
-    public void CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
-        Numero n = GetNumero(doc, full, id);
-        n.potencia(exp);
-        CheckObs(doc, full, id);
+    public int CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.potencia(exp);
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaPotencia(doc, full, idRemp, exp);
+        int codi = CalculaPotencia(doc, full, idRemp, exp);
+        return codi;
     }
 
-    public void CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
-        Numero n = GetNumero(doc, full, id);
-        n.arrel(exp);
-        CheckObs(doc, full, id);
+    public int CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.arrel(exp);
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaArrel(doc, full, idRemp, exp);
+        int codi = CalculaArrel(doc, full, idRemp, exp);
+        return codi;
     }
 
-    public void CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
-        Numero n = GetNumero(doc, full, id);
-        n.valor_absolut();
-        CheckObs(doc, full, id);
+    public int CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.valor_absolut();
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaValorAbs(doc, full, idRemp);
+        int codi = CalculaValorAbs(doc, full, idRemp);
+        return codi;
     }
 
     public void CalculaConversio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c) throws Exception {
@@ -337,8 +366,6 @@ public class CtrlDomini {
     private void ReemplacaNum(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         Numero n = GetNumero(doc, full, id);
         String result = n.getResultat().toString();
-        System.out.println(result);
-        System.out.println(idRemp);
         modificarContingutCela(doc, full, idRemp, result);
         if (!ComprovarTipus(doc, full, idRemp, "numero")) {
             CanviarTipusCela(doc, full, idRemp, "numero");
@@ -623,7 +650,7 @@ public class CtrlDomini {
     }
 
     public void obrirDocument() throws Exception {
-        Document nou = dp.carrega("Prueba");
+        Document nou = dp.carrega("Doc 1");
         Documents.replace("Doc 1", nou);
     }
 }
