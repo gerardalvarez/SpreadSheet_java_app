@@ -13,18 +13,19 @@ public class Decimals extends JDialog {
     private JRadioButton arrodonirRadioButton;
     private JRadioButton truncarRadioButton;
 
-    public Decimals(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp) {
+    public Decimals(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setMinimumSize(new Dimension(500, 200));
+        setResizable(false);
         setTitle("Decimals");
 
         ButtonGroup group = new ButtonGroup();
         group.add(arrodonirRadioButton);
         group.add(truncarRadioButton);
 
-        buttonOK.addActionListener(e -> onOK());
+        buttonOK.addActionListener(e -> onOK(cela, cp, full));
 
         buttonCancel.addActionListener(e -> onCancel());
 
@@ -40,9 +41,23 @@ public class Decimals extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-
-        dispose();
+    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full){
+        if (textField1.getText().trim().isBlank() || (!arrodonirRadioButton.isSelected() && !truncarRadioButton.isSelected())) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Ompli tots els camps per poder procedir", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            cp.CanviarDecimals("Doc 1", "Full 1", cela, Integer.valueOf(textField1.getText().trim()));
+            if (truncarRadioButton.isSelected()) {
+                cp.CanviarArrodonit("Doc 1", "Full 1", cela, false);
+            }
+            else {
+                cp.CanviarArrodonit("Doc 1", "Full 1", cela, true);
+            }
+            String cont = cp.ValorTotal("Doc 1", "Full 1", cela);
+            full.setValueAt(cont, cela.getKey(), cela.getValue());
+            dispose();
+        }
     }
 
     private void onCancel() {

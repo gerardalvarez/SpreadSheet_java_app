@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VistaPrincipal extends JFrame {
@@ -23,6 +24,7 @@ public class VistaPrincipal extends JFrame {
     private JButton potenciaButton;
     private JButton arrelButton;
     private JButton numeroDecimalsButton;
+    private JButton conversioButton;
     private JButton decimalsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
@@ -62,6 +64,8 @@ public class VistaPrincipal extends JFrame {
         fitxer.add(guardar);
         fitxer.add(obrir);
         menuBar.add(fitxer);
+
+        super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/App_Logo.png"))).getImage());
 
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -491,9 +495,22 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                Decimals d = new Decimals(CelaActual, cp);
+                Decimals d = new Decimals(CelaActual, cp, Full);
                 d.setLocationRelativeTo(this);
                 d.setVisible(true);
+
+            }
+        });
+        conversioButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                Conversio c = new Conversio();
+                c.setLocationRelativeTo(this);
+                c.setVisible(true);
+
             }
         });
     }
