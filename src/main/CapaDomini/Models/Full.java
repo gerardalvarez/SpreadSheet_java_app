@@ -55,10 +55,12 @@ public class Full {
 
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
+        /*
         for (Integer g=0; g < Num_Files; ++g) { //PRINT
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
             System.out.println();
         }
+         */
 
         int k= 0;
         //AÑADE AL FINAL
@@ -76,19 +78,23 @@ public class Full {
             this.Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
-
+        /*
         System.out.println();
         for (Integer g=0; g < Num_Files; ++g) {
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
                 System.out.println();
-            }
+        }
+         */
     };
 
     public void Afegir_Columna(Integer nc) {
+        /*
         for (Integer g=0; g < Num_Files; ++g) { //PRINT
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
             System.out.println();
         }
+
+         */
 
         int k= 0;
         //AÑADE AL FINAL
@@ -106,19 +112,24 @@ public class Full {
             this.Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
-
+/*
         System.out.println();
         for (Integer g=0; g < Num_Files; ++g) {
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
             System.out.println();
         }
+
+ */
     };
 
     public void Eliminar_Fila(Integer nf) {
+        /*
         for (Integer g=0; g < Num_Files; ++g) { //PRINT
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
             System.out.println();
         }
+
+         */
 
         if (nf < this.Num_Files) DecrementarIndexFila(nf);
         --this.Num_Files;
@@ -129,19 +140,24 @@ public class Full {
             this.Celes.remove(idc);
             ++i;
         }
-
+/*
         System.out.println();
         for (Integer g=0; g < Num_Files; ++g) {
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
             System.out.println();
         }
+
+ */
     };
 
     public void Eliminar_Columna(Integer nc) {
+        /*
         for (Integer g=0; g < Num_Files; ++g) { //PRINT
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
             System.out.println();
         }
+
+         */
 
         if (nc < this.Num_Columnes) DecrementarIndexCol(nc);
         --this.Num_Columnes;
@@ -152,12 +168,14 @@ public class Full {
             this.Celes.remove(idc);
             ++i;
         }
-
+/*
         System.out.println();
         for (Integer g=0; g < Num_Files; ++g) {
             for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
             System.out.println();
         }
+
+ */
     };
 
     public void Esborrar_Celes(ArrayList<Cela> celes) {
@@ -394,7 +412,9 @@ public class Full {
     public void Undo() throws Exception {
         if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("modificarcela")) {
             Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            System.out.println(c.getResultatFinal());
             Celes.replace(c.getId(), c);
+            System.out.println(c.getResultatFinal());
             Estatsprevis.remove(Estatsprevis.size() - 1);
         }
         else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviartipuscela")){

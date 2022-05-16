@@ -1,19 +1,20 @@
 package main.CapaDomini.Models;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 
 import static java.lang.Math.PI;
 
-public class Numero extends Cela{
+public class Numero extends Cela implements Cloneable{
     protected BigDecimal resultat;
     protected Boolean arrodonit;
     protected Integer num_Decimals;
     protected Tipus_Numero tipus;
 
     //Constructor
-
 
     public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, BigDecimal resultat, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
         super(id, resultat.toString());
@@ -24,6 +25,19 @@ public class Numero extends Cela{
         ActualitzarResultatFinal();
     }
 
+    public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, BigDecimal resultat, Color cf, Color cl, CelaEnum dt, String t, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
+        super(id, resultat.toString(), cf, cl, dt, t, obs);
+        this.resultat = resultat;
+        this.arrodonit = arrodonit;
+        this.num_Decimals = num_Decimals;
+        this.tipus = tipus;
+        this.colorFons= cf;
+        this.colorLletra= cl;
+        this.designedType= dt;
+        this.type= t;
+        this.observadors= obs;
+        ActualitzarResultatFinal();
+    }
 
 
     public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
@@ -45,6 +59,9 @@ public class Numero extends Cela{
 
     //Mètodes
 
+    public Object clone() {
+        return new Numero(this.id, this.resultat, this.colorFons, this.colorFons, this.designedType, this.type, this.observadors, this.arrodonit, this.num_Decimals, this.tipus);
+    }
 
     public void incrementar () {
         this.resultat = this.resultat.add(new BigDecimal(1));

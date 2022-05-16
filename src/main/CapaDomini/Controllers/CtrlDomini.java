@@ -125,7 +125,7 @@ public class CtrlDomini {
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio ac= new Accio("modificarcela", celes);
         f.Afegir_Accio(ac);
         String a = PublicFuntions.calculaTipus(resultat);
@@ -188,10 +188,10 @@ public class CtrlDomini {
         else return "text";
     }
 
-    public void CanviarTipusCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) {
+    public void CanviarTipusCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("canviartipuscela", celes);
         f.Afegir_Accio(a);
         if (nou_type.equals("numero")) {
@@ -218,10 +218,10 @@ public class CtrlDomini {
         return false;
     }
 
-    public void CanviarTipusNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
+    public void CanviarTipusNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("canviartipusnum", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -231,7 +231,7 @@ public class CtrlDomini {
     public void CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculaincrement", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -247,7 +247,7 @@ public class CtrlDomini {
     public void CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculareduir", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -263,7 +263,7 @@ public class CtrlDomini {
     public void CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculapotencia", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -279,7 +279,7 @@ public class CtrlDomini {
     public void CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculaarrel", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -295,7 +295,7 @@ public class CtrlDomini {
     public void CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculavalorabs", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -311,7 +311,7 @@ public class CtrlDomini {
     public void CalculaConversio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculaconversio", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -326,20 +326,20 @@ public class CtrlDomini {
         CalculaConversio(doc, full, idRemp, c);
     }
 
-    public void CanviarDecimals(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) {
+    public void CanviarDecimals(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("canviardecimal", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
         n.setNum_Decimals(dec);
     }
 
-    public void CanviarArrodonit(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) {
+    public void CanviarArrodonit(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("canviararrodonit", celes);
         f.Afegir_Accio(a);
         Numero n = GetNumero(doc, full, id);
@@ -385,10 +385,10 @@ public class CtrlDomini {
         return d.getWeekDay() + " " + d.getDia() + " " + d.getMes() + " " + d.getAny();
     }
 
-    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("transformatext", celes);
         f.Afegir_Accio(a);
         DataCela d = GetData(doc, full, id);
@@ -400,10 +400,10 @@ public class CtrlDomini {
         transformaText(doc, full, idRemp);
     }
 
-    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("transformadata", celes);
         f.Afegir_Accio(a);
         DataCela d = GetData(doc, full, id);
@@ -432,10 +432,10 @@ public class CtrlDomini {
 
     //Operacions text
 
-    public void AllMayus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void AllMayus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("mayus", celes);
         f.Afegir_Accio(a);
         TextCela t = GetText(doc, full, id);
@@ -447,10 +447,10 @@ public class CtrlDomini {
         AllMayus(doc, full, idRemp);
     }
 
-    public void AllMinus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void AllMinus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("minus", celes);
         f.Afegir_Accio(a);
         TextCela t = GetText(doc, full, id);
@@ -484,9 +484,9 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
-        celes.add(f.getCeles().get(idfin));
+        celes.add((Cela) f.getCeles().get(idfin).clone());
         Accio a= new Accio("calcularmitjana", celes);
         f.Afegir_Accio(a);
         Bloc_celes bc = new Bloc_celes();
@@ -517,9 +517,9 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
-        celes.add(f.getCeles().get(idfin));
+        celes.add((Cela) f.getCeles().get(idfin).clone());
         Accio a= new Accio("calcularmediana", celes);
         f.Afegir_Accio(a);
         Bloc_celes bc = new Bloc_celes();
@@ -533,9 +533,9 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
-        celes.add(f.getCeles().get(idfin));
+        celes.add((Cela) f.getCeles().get(idfin).clone());
         Accio a= new Accio("calcularmoda", celes);
         f.Afegir_Accio(a);
         Bloc_celes bc = new Bloc_celes();
@@ -549,9 +549,9 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
-        celes.add(f.getCeles().get(idfin));
+        celes.add((Cela) f.getCeles().get(idfin).clone());
         Accio a= new Accio("calcularvariança", celes);
         f.Afegir_Accio(a);
         Bloc_celes bc = new Bloc_celes();
@@ -565,9 +565,9 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
-        celes.add(f.getCeles().get(idfin));
+        celes.add((Cela) f.getCeles().get(idfin).clone());
         Accio a= new Accio("buscamaxim", celes);
         f.Afegir_Accio(a);
         Bloc_celes bc = new Bloc_celes();
@@ -582,9 +582,9 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
-        celes.add(f.getCeles().get(idfin));
+        celes.add((Cela) f.getCeles().get(idfin).clone());
         Accio a= new Accio("calculardesviació", celes);
         f.Afegir_Accio(a);
         Bloc_celes bc = new Bloc_celes();
@@ -610,7 +610,7 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("mayusb", celes);
         f.Afegir_Accio(a);
@@ -629,7 +629,7 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("minusb", celes);
         f.Afegir_Accio(a);
@@ -643,7 +643,7 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("buscaremp", celes);
         f.Afegir_Accio(a);
@@ -665,10 +665,10 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> idsfin = f.GetIdCeles(idfin1, idfin2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         for (int i= 0; i < idsfin.size(); ++i){
-            celes.add(f.getCeles().get(idsfin.get(i)));
+            celes.add((Cela) f.getCeles().get(idsfin.get(i)).clone());
         }
         Accio a= new Accio("copiar", celes);
         f.Afegir_Accio(a);
@@ -715,10 +715,10 @@ public class CtrlDomini {
         return f.ExisteixId(id);
     }
 
-    public void EliminarCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void EliminarCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add(f.Consultar_cela(id));
+        celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("eliminarcela", celes);
         f.Afegir_Accio(a);
         f.Modifica_Cela(id, "");
@@ -733,7 +733,7 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("afegirfila", celes);
         f.Afegir_Accio(a);
@@ -748,7 +748,7 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("afegircol", celes);
         f.Afegir_Accio(a);
@@ -762,7 +762,7 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("eliminarfila", celes);
         f.Afegir_Accio(a);
@@ -777,10 +777,14 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
         for (int i= 0; i < ids.size(); ++i){
-            celes.add(f.getCeles().get(ids.get(i)));
+            celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("eliminarcol", celes);
         f.Afegir_Accio(a);
         f.Eliminar_Columna(co);
+    }
+    public void Undo(String doc, String full) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        f.Undo();
     }
 }
