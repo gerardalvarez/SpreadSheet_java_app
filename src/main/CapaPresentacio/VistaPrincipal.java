@@ -25,6 +25,7 @@ public class VistaPrincipal extends JFrame {
     private JButton arrelButton;
     private JButton numeroDecimalsButton;
     private JButton conversioButton;
+    private JButton canviarTipusNumeroButton;
     private JButton decimalsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
@@ -506,11 +507,35 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (Objects.equals(cp.GetTipusNumero("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de numero. Consulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             else {
-                Conversio c = new Conversio();
+                Conversio c = new Conversio(CelaActual, cp, Full);
                 c.setLocationRelativeTo(this);
                 c.setVisible(true);
 
+            }
+        });
+        canviarTipusNumeroButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                Object[] tipus = {"numero", "celsius", "fahrenheit", "kelvin", "km", "m", "cm", "mm", "miles", "yards", "feet", "inches", "graus", "radiants"};
+                JComboBox comboBox = new JComboBox(tipus);
+                JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
+                cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, comboBox.getSelectedItem().toString());
             }
         });
     }

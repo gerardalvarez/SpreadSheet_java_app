@@ -139,16 +139,19 @@ public class Numero extends Cela{
                 switch(convertit) {
                     case m:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1000));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
                     case cm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(100000));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1000000));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
@@ -188,11 +191,13 @@ public class Numero extends Cela{
 
                     case cm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(100));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
                     case mm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1000));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
@@ -238,6 +243,7 @@ public class Numero extends Cela{
 
                     case mm:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(10));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
@@ -283,6 +289,7 @@ public class Numero extends Cela{
 
                     case cm:
                         this.resultat = this.resultat.divide(BigDecimal.valueOf(10), 20, RoundingMode.HALF_UP);
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
@@ -386,6 +393,7 @@ public class Numero extends Cela{
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(12));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
@@ -432,11 +440,13 @@ public class Numero extends Cela{
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(36));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(3));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
@@ -476,16 +486,19 @@ public class Numero extends Cela{
 
                     case inches:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(63360));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
                     case feet:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(5280));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
 
                     case yards:
                         this.resultat = this.resultat.multiply(BigDecimal.valueOf(1760));
+                        this.resultat = this.resultat.stripTrailingZeros();
                         ActualitzarResultatFinal();
                         break;
                 }
@@ -495,6 +508,7 @@ public class Numero extends Cela{
             case graus:
                 if (convertit == Tipus_Numero.radiants) {
                     this.resultat = this.resultat.multiply(BigDecimal.valueOf(PI/180));
+                    this.resultat = this.resultat.stripTrailingZeros();
                     ActualitzarResultatFinal();
                 }
                 break;
@@ -502,6 +516,7 @@ public class Numero extends Cela{
             case radiants:
                 if (convertit == Tipus_Numero.graus) {
                     this.resultat = this.resultat.multiply(BigDecimal.valueOf((double) 180/PI));
+                    this.resultat = this.resultat.stripTrailingZeros();
                     ActualitzarResultatFinal();
                 }
                 break;
