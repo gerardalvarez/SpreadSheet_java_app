@@ -102,49 +102,49 @@
           <component id="fb9bf" class="javax.swing.JButton" binding="IncrementarButton">
             <constraints/>
             <properties>
-              <text value="Incrementar"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="c8f1e" class="javax.swing.JButton" binding="reduirButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Reduir"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="bed5f" class="javax.swing.JButton" binding="valorAbsolutButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Valor Absolut"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="a12ba" class="javax.swing.JButton" binding="potenciaButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Potencia"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="d5177" class="javax.swing.JButton" binding="arrelButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Arrel"/>
+              <text value=""/>
             </properties>
           </component>
-          <component id="bf292" class="javax.swing.JButton" binding="numeroDecimalsButton" default-binding="true">
+          <component id="bf292" class="javax.swing.JButton" binding="numeroDecimalsButton">
             <constraints/>
             <properties>
-              <text value="Numero Decimals"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="a383c" class="javax.swing.JButton" binding="canviarTipusNumeroButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Canviar Tipus Numero"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="6c06e" class="javax.swing.JButton" binding="conversioButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Conversio"/>
+              <text value=""/>
             </properties>
           </component>
         </children>

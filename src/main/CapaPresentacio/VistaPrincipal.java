@@ -26,7 +26,6 @@ public class VistaPrincipal extends JFrame {
     private JButton numeroDecimalsButton;
     private JButton conversioButton;
     private JButton canviarTipusNumeroButton;
-    private JButton decimalsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
 
@@ -66,7 +65,16 @@ public class VistaPrincipal extends JFrame {
         fitxer.add(obrir);
         menuBar.add(fitxer);
 
-        super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/App_Logo.png"))).getImage());
+        super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/App_Logo.png"))).getImage());
+        IncrementarButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Incrementar.png"))));
+        reduirButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Reduir.png"))));
+        valorAbsolutButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Valor_Absolut.png"))));
+        potenciaButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Potencia.png"))));
+        arrelButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Arrel.png"))));
+        numeroDecimalsButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Decimals.png"))));
+        canviarTipusNumeroButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Canviar.png"))));
+        conversioButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Conversio.png"))));
+
 
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
