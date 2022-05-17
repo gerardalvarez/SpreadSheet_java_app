@@ -2,14 +2,10 @@ package main.CapaDomini.Controllers;
 
 import main.CapaDades.DataParser;
 import main.CapaDomini.Models.*;
-import main.CapaPresentacio.inout;
+import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
-import java.awt.*;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 import static main.CapaDomini.Models.PublicFuntions.*;
@@ -17,7 +13,6 @@ import static main.CapaDomini.Models.PublicFuntions.*;
 public class CtrlDomini {
 
     private HashMap<String, Document> Documents;
-    private inout io;
 
     private DataParser dp;
 
@@ -40,7 +35,6 @@ public class CtrlDomini {
         Documents.put("Doc 1",new Document("Doc 1"));
         Full nou = new Full("Full 1", 25, 25);
         Documents.get("Doc 1").afegir_full(nou);
-        io = new inout();
         dp = new DataParser();
     }
 
@@ -441,7 +435,7 @@ public class CtrlDomini {
         return d.getWeekDay() + " " + d.getDia() + " " + d.getMes() + " " + d.getAny();
     }
 
-    public Boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public Boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         try {
@@ -463,7 +457,7 @@ public class CtrlDomini {
         transformaText(doc, full, idRemp);
     }
 
-    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         try {
@@ -885,6 +879,11 @@ public class CtrlDomini {
         System.out.println("aaaaaaaaaaaaaaaaaas");
         if(!NumericColumn(doc,f,Col2,filI2, filF2))return null;
         return Bloc_celes.PieChart(f.getColText(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
+    }
+    public CategoryChart Histograma(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        if(!NumericColumn(doc,f,Col2,filI2, filF2))return null;
+        return Bloc_celes.HistoChart(f.getColText(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
     }
 
     Boolean NumericColumn(String doc,Full f,Integer col, Integer fIni, Integer fFi) throws Exception {
