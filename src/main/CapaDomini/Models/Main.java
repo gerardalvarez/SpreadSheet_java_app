@@ -79,11 +79,13 @@ public class Main {
         x.afegir_full(f);
       //  ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=SUM(A2,B2)");
         DataParser d= new DataParser();
-        Document a=d.carrega("a");
+        Document a=d.carrega("a", "C:");
         ct.gg().put("a",a);
         ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=A3");
 
-        d.guarda(a);
+
+        String path = "C:"; //fallara
+        d.guarda(a, path, "Proba");// ara el path es passa des de la vista terminal
             System.out.println(f.getNom());
             for (int i = 0; i < f.getNum_Files(); ++i) {
                 for (int j = 0; j < f.getNum_Columnes(); ++j) {

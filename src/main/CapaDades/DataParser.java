@@ -21,12 +21,12 @@ import java.util.regex.Pattern;
 
 public class DataParser {
 
-    public void guarda(Document document) throws Exception {
+    public void guarda(Document document, String path, String fileName) throws Exception {
 
-        File myObj = new File("src/main/CapaDades/"+document.getNom());
+        File myObj = new File(path + "/" + fileName + ".fdc");
         if (myObj.createNewFile()) {
             System.out.println("File created: " + myObj.getName());
-            FileWriter fileWriter = new FileWriter("src/main/CapaDades/DatabaseDocs",true);
+            FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".fdc",true);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             printWriter.print(document.getNom()+"\n");
             printWriter.flush();
@@ -34,8 +34,10 @@ public class DataParser {
         } else {
             System.out.println("File already exists.");
         }
-        FileWriter fileWriter = new FileWriter("src/main/CapaDades/"+document.getNom());
+
+        FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".fdc");
         PrintWriter printWriter = new PrintWriter(fileWriter);
+
 
         //ESto son hojas creadas para hacer pruebas ya que el doc que uso en el main está vacío
 
@@ -113,9 +115,9 @@ public class DataParser {
             printWriter.close();
     }
 
-    public Document carrega(String nom) throws Exception {
+    public Document carrega(String nom, String path) throws Exception {
 
-        List<String> content = Files.readAllLines(Paths.get("src/main/CapaDades/"+nom));
+        List<String> content = Files.readAllLines(Paths.get(path + "/" + nom));
         //for (String s:content) System.out.println(s);
         Scanner scan = new Scanner(content.get(0));
         scan.useDelimiter(Pattern.compile(";"));

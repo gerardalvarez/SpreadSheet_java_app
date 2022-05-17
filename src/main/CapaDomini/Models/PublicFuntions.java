@@ -111,17 +111,14 @@ public class PublicFuntions {
 
 
 
-    public static Full readCsv() {
+    public static Full readCsv(String fileName, String path) throws FileNotFoundException {
         List<List<String>> files = new ArrayList<>();
         int size = 0;
-        try (Scanner scanner = new Scanner(new File("src/main/CapaDomini/Models/Test.csv"));) {
-            while (scanner.hasNextLine()) {
-                List<String> fil = getRecordFromLine(scanner.nextLine());
-                if (fil.size() > size) size = fil.size();
-                files.add(fil);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        Scanner scanner = new Scanner(new File(path + "/" + fileName));
+        while (scanner.hasNextLine()) {
+            List<String> fil = getRecordFromLine(scanner.nextLine());
+            if (fil.size() > size) size = fil.size();
+            files.add(fil);
         }
 
 

@@ -6,6 +6,9 @@ import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
+import javax.print.Doc;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 
@@ -857,13 +860,19 @@ public class CtrlDomini {
         return f.ValorTotal(id);
     }
 
-    public void guardarDocument() throws Exception {
+    public void guardarDocument(String fileName, File path) throws Exception {
+        System.out.println(fileName);
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        System.out.println(p);
         Document d = Documents.get("Doc 1");
-        dp.guarda(d);
+        dp.guarda(d, p, fileName);
     }
 
-    public void obrirDocument() throws Exception {
-        Document nou = dp.carrega("Doc 1");
+    public void obrirDocument(String fileName, File path) throws Exception {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        Document nou = dp.carrega(fileName, p);
         Documents.replace("Doc 1", nou);
     }
 
@@ -894,6 +903,16 @@ public class CtrlDomini {
         System.out.println("suuuu");
         System.out.println("Valid Column");
         return true;
+
+    }
+
+    public void ImportarCSV(String fileName, File path) throws FileNotFoundException {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        Full nou = PublicFuntions.readCsv(fileName, p);
+        nou.SetNom("Full 1");
+        Documents.get("Doc 1").elimina_full("Full 1");
+        Documents.get("Doc 1").afegir_full(nou);
 
     }
 }
