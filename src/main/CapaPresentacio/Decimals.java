@@ -1,29 +1,33 @@
 package main.CapaPresentacio;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.AbstractMap;
 
 public class Decimals extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField textField1;
+    private JRadioButton arrodonirRadioButton;
+    private JRadioButton truncarRadioButton;
 
-    public Decimals() {
+    public Decimals(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setMinimumSize(new Dimension(500, 200));
+        setResizable(false);
+        setTitle("Decimals");
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        ButtonGroup group = new ButtonGroup();
+        group.add(arrodonirRadioButton);
+        group.add(truncarRadioButton);
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK(cela, cp, full));
+
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -34,27 +38,30 @@ public class Decimals extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full){
+        if (textField1.getText().trim().isBlank() || (!arrodonirRadioButton.isSelected() && !truncarRadioButton.isSelected())) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Ompli tots els camps per poder procedir", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            cp.CanviarDecimals("Doc 1", "Full 1", cela, Integer.valueOf(textField1.getText().trim()));
+            if (truncarRadioButton.isSelected()) {
+                cp.CanviarArrodonit("Doc 1", "Full 1", cela, false);
+            }
+            else {
+                cp.CanviarArrodonit("Doc 1", "Full 1", cela, true);
+            }
+            String cont = cp.ValorTotal("Doc 1", "Full 1", cela);
+            full.setValueAt(cont, cela.getKey(), cela.getValue());
+            dispose();
+        }
     }
 
     private void onCancel() {
         // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        Decimals dialog = new Decimals();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

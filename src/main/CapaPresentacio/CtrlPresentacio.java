@@ -1,13 +1,15 @@
 package main.CapaPresentacio;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
 import main.CapaDomini.Models.Document;
+import main.CapaDomini.Models.Numero;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.XYChart;
 
 
-import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CtrlPresentacio {
 
@@ -96,44 +98,44 @@ public class CtrlPresentacio {
         Cd.CanviarTipusNumero(doc, full, id, tipus);
     }
 
-    public void CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
-        Cd.CalculaIncrement(doc, full, id);
+    public int CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        return Cd.CalculaIncrement(doc, full, id);
     }
 
-    public void CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> id_Remp) throws Exception {
-        Cd.CalculaIncrementIReemplaca(doc, full, id, id_Remp);
+    public int CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> id_Remp) throws Exception {
+        return Cd.CalculaIncrementIReemplaca(doc, full, id, id_Remp);
     }
 
-    public void CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
-        Cd.CalculaReduir(doc, full, id);
+    public int CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        return Cd.CalculaReduir(doc, full, id);
     }
 
-    public void CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
-        Cd.CalculaReduirIReemplaca(doc, full, id, idRemp);
+    public int CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+        return Cd.CalculaReduirIReemplaca(doc, full, id, idRemp);
     }
 
-    public void CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
-        Cd.CalculaPotencia(doc, full, id, exp);
+    public int CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
+        return Cd.CalculaPotencia(doc, full, id, exp);
     }
 
-    public void CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
-        Cd.CalculaPotenciaIReemplaca(doc, full, id, exp, idRemp);
+    public int CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+        return Cd.CalculaPotenciaIReemplaca(doc, full, id, exp, idRemp);
     }
 
-    public void CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
-        Cd.CalculaArrel(doc, full, id, exp);
+    public int CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
+        return Cd.CalculaArrel(doc, full, id, exp);
     }
 
-    public void CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
-        Cd.CalculaArrelIReemplaca(doc, full, id, exp, idRemp);
+    public int CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+        return Cd.CalculaArrelIReemplaca(doc, full, id, exp, idRemp);
     }
 
-    public void CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
-        Cd.CalculaValorAbs(doc, full, id);
+    public int CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        return Cd.CalculaValorAbs(doc, full, id);
     }
 
-    public void CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
-        Cd.CalculaValorAbsIReemplaca(doc, full, id, idRemp);
+    public int CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+        return Cd.CalculaValorAbsIReemplaca(doc, full, id, idRemp);
     }
 
     public void CalculaConversio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c) throws Exception {
@@ -175,6 +177,9 @@ public class CtrlPresentacio {
     public String getMes(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.getMes(doc, full, id);
     }
+    public String getWeekday(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.getWeekday(doc, full, id);
+    }
 
     public String getAny(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.getAny(doc, full, id);
@@ -184,16 +189,16 @@ public class CtrlPresentacio {
         return Cd.getDataCompleta(doc, full, id);
     }
 
-    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
-        Cd.transformaText(doc, full, id);
+    public boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.transformaText(doc, full, id);
     }
 
     public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         Cd.transformaTextIReemplaca(doc, full, id, idRemp);
     }
 
-    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
-        Cd.transformaData(doc, full, id);
+    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.transformaData(doc, full, id);
     }
 
     public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -282,5 +287,20 @@ public class CtrlPresentacio {
 
     public String ValorTotal(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.ValorTotal(doc, full, id);
+    }
+
+    public void guardarDocument() throws Exception {
+        Cd.guardarDocument();
+    }
+
+    public void obrirDocument() throws Exception {
+        Cd.obrirDocument();
+    }
+
+    public XYChart LinearChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        return Cd.LinearChart(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
+    }
+    public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        return Cd.PieChart(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
     }
 }

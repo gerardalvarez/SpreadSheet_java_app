@@ -1,8 +1,10 @@
 package main.CapaDomini.Controllers;
 
+import main.CapaDades.DataParser;
 import main.CapaDomini.Models.*;
 import main.CapaPresentacio.inout;
-import org.w3c.dom.Text;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.XYChart;
 
 import java.awt.*;
 import java.lang.reflect.Array;
@@ -14,6 +16,8 @@ public class CtrlDomini {
 
     private HashMap<String, Document> Documents;
     private inout io;
+
+    private DataParser dp;
 
     private static CtrlDomini singletonObject;
 
@@ -32,9 +36,10 @@ public class CtrlDomini {
     private void InicialitzarCtrlDomini() throws Exception {
         Documents = new HashMap<>();
         Documents.put("Doc 1",new Document("Doc 1"));
-        Full nou = new Full("Full 1", 20, 20);
+        Full nou = new Full("Full 1", 25, 25);
         Documents.get("Doc 1").afegir_full(nou);
         io = new inout();
+        dp = new DataParser();
     }
 
     //DOCUMENTS
@@ -118,7 +123,16 @@ public class CtrlDomini {
             String pareType = f.getCeles().get(pare).getType();
             System.out.println(pareType + " " + f.getCeles().get(pare).getResultatFinal());
             f.ModificaCelaRef(id,resultat,pareType,pare);
-
+        }
+        else if(PublicFuntions.esRefText(resultat,f.getNum_Files(), f.getNum_Columnes()) && Objects.equals(f.getCeles().get(PublicFuntions.getIdRefText(resultat)).getType(), "text")){
+            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
+            f.ModificaCelaTextRefLong(id,resultat,pare);
+        }
+        else if(PublicFuntions.esRefNum(resultat,f.getNum_Files(), f.getNum_Columnes()) && NumericalCheck(resultat,f)){
+            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
+        }
+        else if(resultat.length() > 0 && resultat.charAt(0)=='='){
+            f.ModificaCelaError(id,resultat);
         }
         else {
             f.ModificaCelaText(id,resultat);
@@ -249,84 +263,114 @@ public class CtrlDomini {
         n.setTipus(Tipus_Numero.valueOf(tipus));
     }
 
-    public void CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+    public int CalculaIncrement(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculaincrement", celes);
         f.Afegir_Accio(a);
-        Numero n = GetNumero(doc, full, id);
-        n.incrementar();
-        CheckObs(doc, full, id);
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.incrementar();
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaIncrementIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaIncrement(doc, full, idRemp);
+        int codi = CalculaIncrement(doc, full, idRemp);
+        return codi;
     }
 
-    public void CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+    public int CalculaReduir(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculareduir", celes);
         f.Afegir_Accio(a);
-        Numero n = GetNumero(doc, full, id);
-        n.reduir();
-        CheckObs(doc, full, id);
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.reduir();
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaReduirIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaReduir(doc, full, idRemp);
+        int codi = CalculaReduir(doc, full, idRemp);
+        return codi;
     }
 
-    public void CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
+    public int CalculaPotencia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculapotencia", celes);
         f.Afegir_Accio(a);
-        Numero n = GetNumero(doc, full, id);
-        n.potencia(exp);
-        CheckObs(doc, full, id);
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.potencia(exp);
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaPotenciaIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaPotencia(doc, full, idRemp, exp);
+        int codi = CalculaPotencia(doc, full, idRemp, exp);
+        return codi;
     }
 
-    public void CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
+    public int CalculaArrel(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculaarrel", celes);
         f.Afegir_Accio(a);
-        Numero n = GetNumero(doc, full, id);
-        n.arrel(exp);
-        CheckObs(doc, full, id);
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.arrel(exp);
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaArrelIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaArrel(doc, full, idRemp, exp);
+        int codi = CalculaArrel(doc, full, idRemp, exp);
+        return codi;
     }
 
-    public void CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+    public int CalculaValorAbs(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("calculavalorabs", celes);
         f.Afegir_Accio(a);
-        Numero n = GetNumero(doc, full, id);
-        n.valor_absolut();
-        CheckObs(doc, full, id);
+        Boolean comp = ComprovarTipus(doc, full, id, "numero");
+        if (comp) {
+            Numero n = GetNumero(doc, full, id);
+            n.valor_absolut();
+            CheckObs(doc, full, id);
+            return 0;
+        }
+        else return 1;
     }
 
-    public void CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
+    public int CalculaValorAbsIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         ReemplacaNum(doc, full, id, idRemp);
-        CalculaValorAbs(doc, full, idRemp);
+        int codi = CalculaValorAbs(doc, full, idRemp);
+        return codi;
     }
 
     public void CalculaConversio(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String c) throws Exception {
@@ -376,8 +420,6 @@ public class CtrlDomini {
     private void ReemplacaNum(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         Numero n = GetNumero(doc, full, id);
         String result = n.getResultat().toString();
-        System.out.println(result);
-        System.out.println(idRemp);
         modificarContingutCela(doc, full, idRemp, result);
         if (!ComprovarTipus(doc, full, idRemp, "numero")) {
             CanviarTipusCela(doc, full, idRemp, "numero");
@@ -387,33 +429,51 @@ public class CtrlDomini {
     //Operacions Data
 
     public String getDia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
-        return d.getWeekDay() + " " + d.getDia();
+        return d.getDia();
     }
 
     public String getMes(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
         return d.getMes();
     }
 
     public String getAny(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
         return d.getAny();
     }
-
+    public String getWeekday(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
+        DataCela d = GetData(doc, full, id);
+        return d.getWeekDay();
+    }
     public String getDataCompleta(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         DataCela d = GetData(doc, full, id);
         return d.getWeekDay() + " " + d.getDia() + " " + d.getMes() + " " + d.getAny();
     }
 
-    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
+    public Boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("transformatext", celes);
         f.Afegir_Accio(a);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return false;
         DataCela d = GetData(doc, full, id);
         d.changeToText();
+        return true;
     }
 
     public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -421,14 +481,17 @@ public class CtrlDomini {
         transformaText(doc, full, idRemp);
     }
 
-    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
+    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
         Accio a= new Accio("transformadata", celes);
         f.Afegir_Accio(a);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return false;
         DataCela d = GetData(doc, full, id);
         d.changeToDate();
+        return true;
     }
 
     public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -521,6 +584,7 @@ public class CtrlDomini {
     }
 
     public Boolean ComprovaNumeric(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        System.out.println(doc +" " + full + " " + id1 + " " +id2);
         Full f = Documents.get(doc).get_full(full);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
@@ -812,5 +876,36 @@ public class CtrlDomini {
     public String ValorTotal(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = Documents.get(doc).get_full(full);
         return f.ValorTotal(id);
+    }
+
+    public void guardarDocument() throws Exception {
+        Document d = Documents.get("Doc 1");
+        dp.guarda(d);
+    }
+
+    public void obrirDocument() throws Exception {
+        Document nou = dp.carrega("Doc 1");
+        Documents.replace("Doc 1", nou);
+    }
+
+    public XYChart LinearChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        if(!NumericColumn(doc,f,Col1, filI1,filF1)
+                || !NumericColumn(doc,f,Col2,filI2, filF2))return null;
+        return Bloc_celes.linearChart(f.getColNumero(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
+    }
+    public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        if(!NumericColumn(doc,f,Col2,filI2, filF2))return null;
+        return Bloc_celes.PieChart(f.getColText(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
+    }
+
+    Boolean NumericColumn(String doc,Full f,Integer col, Integer fIni, Integer fFi) throws Exception {
+        for(int i = fIni; i <= fFi; i++){
+            if(!Objects.equals(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,col)).getType(), "numeric"))return false;
+        }
+        System.out.println("Valid Column");
+        return true;
+
     }
 }
