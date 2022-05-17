@@ -31,10 +31,6 @@ public class VistaPrincipal extends JFrame {
     private JButton conversioButton;
     private JButton canviarTipusNumeroButton;
     private JButton afegirColumnaButton;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
     private JComboBox DataFormat;
     private JButton MMButton;
     private JButton DDButton;
@@ -121,6 +117,7 @@ public class VistaPrincipal extends JFrame {
                 }
             } else System.out.println("Cancelat");
         });
+
 
         obrir.addActionListener(e -> {
             JFileChooser openfile = new JFileChooser();
@@ -268,26 +265,7 @@ public class VistaPrincipal extends JFrame {
             }
         });
 
-        reduirButton.addActionListener(e -> {
-            if (CelaActual == null) {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String[] opt = {"No Reemplaçar", "Reemplaçar"};
-                int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Reduir", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
-                if (result == 0) {
-                    JTextField rowField = new JTextField(5);
-                    JTextField colField = new JTextField(5);
 
-                    JPanel myPanel = new JPanel();
-                    myPanel.add(new JLabel("Introdueixi la Cel·la on vol col·locar el resultat"));
-                    myPanel.add(Box.createHorizontalStrut(15));
-                    myPanel.add(new JLabel("Fila:"));
-                    myPanel.add(rowField);
-                    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                    myPanel.add(new JLabel("Columna:"));
-                    myPanel.add(colField);
         dateTextButton.addActionListener(e -> {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
@@ -539,9 +517,26 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+        reduirButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String[] opt = {"No Reemplaçar", "Reemplaçar"};
+                int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Reduir", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
+                if (result == 0) {
+                    JTextField rowField = new JTextField(5);
+                    JTextField colField = new JTextField(5);
 
-
-    }
+                    JPanel myPanel = new JPanel();
+                    myPanel.add(new JLabel("Introdueixi la Cel·la on vol col·locar el resultat"));
+                    myPanel.add(Box.createHorizontalStrut(15));
+                    myPanel.add(new JLabel("Fila:"));
+                    myPanel.add(rowField);
+                    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+                    myPanel.add(new JLabel("Columna:"));
+                    myPanel.add(colField);
 
                     int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
                     if (result_2 == JOptionPane.OK_OPTION) {
@@ -583,7 +578,6 @@ public class VistaPrincipal extends JFrame {
                 }
             }
         });
-
         valorAbsolutButton.addActionListener(e -> {
             if (CelaActual == null) {
                 Toolkit.getDefaultToolkit().beep();
