@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+import static main.CapaDomini.Models.PublicFuntions.*;
+
 public class CtrlDomini {
 
     private HashMap<String, Document> Documents;
@@ -52,6 +54,9 @@ public class CtrlDomini {
         return temp;
     }
 
+    public HashMap<String, Document> gg(){
+        return Documents;
+    }
     public void CrearDocument(String doc){
         Documents.put(doc,new Document(doc));
         Full nou = new Full("Full 1", 20, 20);
@@ -109,97 +114,70 @@ public class CtrlDomini {
 
     //CELA
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
+
         Full f = Documents.get(doc).get_full(full);
-        String a = PublicFuntions.calculaTipus(resultat);
-        if(Objects.equals(a, "numeric")){
-           f.ModificaCelaNum(id, resultat);
-            System.out.println( f.getCeles().get(id).getType() + " " + f.getCeles().get(id).getResultatFinal());
+        String a = analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
+        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
+        if (f.Consultar_cela(id) instanceof CelaRefNum){
+            l=analizaops(((CelaRefNum) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            f.borraref(id,l);
+        } else if (f.Consultar_cela(id) instanceof CelaRefText){
+            l=analizaops(((CelaRefText) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            f.borraref(id,l);
+        }else if (f.Consultar_cela(id) instanceof CelaRefData){
+            l=analizaops(((CelaRefData) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            f.borraref(id,l);
         }
-        else if(Objects.equals(a, "date")){
-            f.ModificaCelaDate(id,resultat);
-        }
-        else if(PublicFuntions.esRef(resultat,f.getNum_Files(),f.getNum_Columnes())){
-            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getNumIdRef(resultat);
-            String pareType = f.getCeles().get(pare).getType();
-            System.out.println(pareType + " " + f.getCeles().get(pare).getResultatFinal());
-            f.ModificaCelaRef(id,resultat,pareType,pare);
-        }
-        else if(PublicFuntions.esRefText(resultat,f.getNum_Files(), f.getNum_Columnes()) && Objects.equals(f.getCeles().get(PublicFuntions.getIdRefText(resultat)).getType(), "text")){
-            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
-            f.ModificaCelaTextRefLong(id,resultat,pare);
-        }
-        else if(PublicFuntions.esRefNum(resultat,f.getNum_Files(), f.getNum_Columnes()) && NumericalCheck(resultat,f)){
-            AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
-        }
-        else if(resultat.length() > 0 && resultat.charAt(0)=='='){
-            f.ModificaCelaError(id,resultat);
-        }
-        else {
-            f.ModificaCelaText(id,resultat);
-        }
-        CheckObs(doc, full, id);
-    }
+        if (!resultat.equals("")){
 
-    private Boolean NumericalCheck(String result, Full f) throws Exception {
-        AbstractMap.SimpleEntry<Integer, Integer> first = PublicFuntions.getIdRefText(result);
-        AbstractMap.SimpleEntry<Integer, Integer> second = PublicFuntions.getIdRefNum(result);
-        if(result.charAt(11) == '-'){
-            System.out.println(Objects.equals(f.getCeles().get(first).getType(), "numeric") && Objects.equals(f.getCeles().get(second).getType(), "numeric"));
-            return Objects.equals(f.getCeles().get(first).getType(), "numeric") && Objects.equals(f.getCeles().get(second).getType(), "numeric");
-        }
-        else {
-            return validBlock(first,second,f);
-        }
-    }
-
-    public Boolean validBlock(AbstractMap.SimpleEntry<Integer, Integer> first , AbstractMap.SimpleEntry<Integer, Integer> second, Full f) throws Exception {
-        /*NO se valida que sean entre Filas i Columnas porque para ref lo compruebo antes. Si queremos la funcion para
-        otros bloques añadir esta parte*/
-
-        Integer firstF,secondF,firstC, secondC;
-        if(Objects.equals(first.getKey(), second.getKey()) && Objects.equals(first.getValue(), second.getValue()))return false;
-
-        if (first.getKey() <=  second.getKey()){
-            firstF = first.getKey();
-            secondF = second.getKey();
-        }
-        else{
-            firstF = second.getKey();
-            secondF = first.getKey();
-        }
-        if (first.getValue() <=  second.getValue()){
-            firstC = first.getValue();
-            secondC = second.getValue();
-        }
-        else{
-            firstC = second.getValue();
-            secondC = first.getValue();
-        }
-
-        for(int i = firstF; i <= secondF; i++){
-            for(int j = firstC; j <= secondC ;j++){
-                if(!Objects.equals(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,j)).getType(), "numeric"))return false;
+            switch (a){
+                case "text":
+                    f.Modifica_Cela(id,resultat);
+                    break;
+                case "numeric":
+                    f.Modifica_Cela(id,resultat);
+                    break;
+                case "data":
+                    f.Modifica_Cela(id,resultat);
+                    break;
+                case "REFNUM":
+                    l=analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
+                    f.opera(id,l,resultat);
+                    break;
+                case "REFTEXT":
+                    l=analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
+                    f.opera(id,l,resultat);
+                    break;
+                case "ref a otra celda":
+                    l=analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
+                    f.opera(id,l,resultat);
+                    break;
+                case "referencia pero #ERROR":
+                    f.Modifica_Cela(id,"#ERROR");
+                    break;
             }
         }
-        return true;
+
+        CheckObs(doc, full, id);
     }
 
     public void CheckObs(String doc, String full , AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs = f.getCeles().get(id).getObservadors();
-        if(obs != null){
+        if(obs.size()!=0){
             for(int i = 0; i < obs.size(); i++){
-                if(Objects.equals(f.getCeles().get(obs.get(i)).getType(), "date")){
+                if(f.getCeles().get(obs.get(i)) instanceof CelaRefData){
                     CelaRefData c =  (CelaRefData) f.getCeles().get(obs.get(i));
                     modificarContingutCela(doc,full, obs.get(i), c.getContingut());
                 }
-                else  if(Objects.equals(f.getCeles().get(obs.get(i)).getType(), "text")){
+                else  if(f.getCeles().get(obs.get(i)) instanceof CelaRefText){
                     CelaRefText c =  (CelaRefText) f.getCeles().get(obs.get(i));
                     modificarContingutCela(doc,full, obs.get(i), c.getContingut());
                 }
                 else {
+                    System.out.println(obs.get(i).getKey()+" "+obs.get(i).getValue());
                     CelaRefNum c =  (CelaRefNum) f.getCeles().get(obs.get(i));
-                    modificarContingutCela(doc,full, obs.get(i), c.getContingut());
+                    modificarContingutCela(doc,full,obs.get(i), c.getContingut());
                 }
             }
         }
