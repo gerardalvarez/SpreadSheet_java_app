@@ -444,7 +444,11 @@ public class CtrlDomini {
     public Boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add((Cela) f.Consultar_cela(id).clone());
+        try {
+            celes.add((Cela) f.Consultar_cela(id).clone());
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
         Accio a= new Accio("transformatext", celes);
         f.Afegir_Accio(a);
         Cela c = f.Consultar_cela(id);
@@ -462,7 +466,11 @@ public class CtrlDomini {
     public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
-        celes.add((Cela) f.Consultar_cela(id).clone());
+        try {
+            celes.add((Cela) f.Consultar_cela(id).clone());
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
         Accio a= new Accio("transformadata", celes);
         f.Afegir_Accio(a);
         Cela c = f.Consultar_cela(id);
@@ -810,11 +818,11 @@ public class CtrlDomini {
         AbstractMap.SimpleEntry<Integer,Integer> id2= new AbstractMap.SimpleEntry<>(numfiles-1,c);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
-        for (int i= 0; i < ids.size(); ++i){
+        /*for (int i= 0; i < ids.size(); ++i){
             celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("afegircol", celes);
-        f.Afegir_Accio(a);
+        f.Afegir_Accio(a);*/
     }
 
     public void EliminarFila(String doc, String full, Integer fi) throws Exception {
@@ -874,14 +882,18 @@ public class CtrlDomini {
     }
     public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
         Full f = Documents.get(doc).get_full(full);
+        System.out.println("aaaaaaaaaaaaaaaaaas");
         if(!NumericColumn(doc,f,Col2,filI2, filF2))return null;
         return Bloc_celes.PieChart(f.getColText(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
     }
 
     Boolean NumericColumn(String doc,Full f,Integer col, Integer fIni, Integer fFi) throws Exception {
+        System.out.println("aa1aaa");
         for(int i = fIni; i <= fFi; i++){
-            if(!Objects.equals(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,col)).getType(), "numeric"))return false;
+            System.out.println(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,col)).getResultatFinal()+" "+ f.getCeles().get(new AbstractMap.SimpleEntry<>(i,col)).getType());
+            if(!Objects.equals(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,col)).getType(), "numeric")) return false;
         }
+        System.out.println("suuuu");
         System.out.println("Valid Column");
         return true;
 

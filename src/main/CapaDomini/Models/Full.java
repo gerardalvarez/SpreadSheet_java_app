@@ -201,7 +201,7 @@ public class Full {
                 String type = cel.getType();
                 ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
                 this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), cel.getArrodonit(), cel.getNum_Decimals(), Tipus_Numero.numero));
-                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setType("numeric");
                 this.Celes.get(id).setColorFons(colorFons);
                 this.Celes.get(id).setColorLletra(colorLletra);
                 this.Celes.get(id).setObservadors(observadors);
@@ -213,7 +213,7 @@ public class Full {
                 String type = cel.getType();
                 ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
                 this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), true, 2, Tipus_Numero.numero));
-                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setType("numeric");
                 this.Celes.get(id).setColorFons(colorFons);
                 this.Celes.get(id).setColorLletra(colorLletra);
                 this.Celes.get(id).setObservadors(observadors);
@@ -226,7 +226,7 @@ public class Full {
                 String type = cel.getType();
                 ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
                 this.Celes.replace(id, new DataCela(id,resultat));
-                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setType("date");
                 this.Celes.get(id).setColorFons(colorFons);
                 this.Celes.get(id).setColorLletra(colorLletra);
                 this.Celes.get(id).setObservadors(observadors);
@@ -238,7 +238,7 @@ public class Full {
                 String type = cel.getType();
                 ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
                 this.Celes.replace(id, new DataCela(id,resultat));
-                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setType("date");
                 this.Celes.get(id).setColorFons(colorFons);
                 this.Celes.get(id).setColorLletra(colorLletra);
                 this.Celes.get(id).setObservadors(observadors);
@@ -251,7 +251,7 @@ public class Full {
                 String type = cel.getType();
                 ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
                 this.Celes.replace(id, new TextCela(id,resultat));
-                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setType("text");
                 this.Celes.get(id).setColorFons(colorFons);
                 this.Celes.get(id).setColorLletra(colorLletra);
                 this.Celes.get(id).setObservadors(observadors);
@@ -263,7 +263,7 @@ public class Full {
                 String type = cel.getType();
                 ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors = cel.getObservadors();
                 this.Celes.replace(id, new TextCela(id,resultat));
-                this.Celes.get(id).setType(type);
+                this.Celes.get(id).setType("text");
                 this.Celes.get(id).setColorFons(colorFons);
                 this.Celes.get(id).setColorLletra(colorLletra);
                 this.Celes.get(id).setObservadors(observadors);
@@ -289,6 +289,7 @@ public class Full {
         }
         else if(Objects.equals(oper, "VAR")) {
             Bloc_celes bc= new Bloc_celes();
+            System.out.println(bc.calculaVariança(sender));
             return BigDecimal.valueOf(bc.calculaVariança(sender));
         }
         else if(Objects.equals(oper, "MED")){

@@ -2,11 +2,8 @@ package main.CapaPresentacio;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
-import main.CapaDomini.Models.Document;
-import main.CapaDomini.Models.Numero;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
-
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

@@ -311,7 +311,11 @@ public class VistaPrincipal extends JFrame {
         minusculesButton.addActionListener(e -> {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            cp.AllMinus("Doc 1", "Full 1", id);
+            try {
+                cp.AllMinus("Doc 1", "Full 1", id);
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
             String[][] temp = new String[0][];
             try {
                 temp = cp.MostrarLlista("Doc 1", "Full 1");
@@ -329,7 +333,11 @@ public class VistaPrincipal extends JFrame {
         majusculesButton.addActionListener(e -> {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            cp.AllMayus("Doc 1", "Full 1", id);
+            try {
+                cp.AllMayus("Doc 1", "Full 1", id);
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
             String[][] temp = new String[0][];
             try {
                 temp = cp.MostrarLlista("Doc 1", "Full 1");
@@ -418,10 +426,11 @@ public class VistaPrincipal extends JFrame {
             Col2.add(rowFiField2);
             myPanel.add(Col2);
 
-            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "PIE Chart", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI,rowF,col,rowI2,rowF2,col2;
                 try {
+                    System.out.println("aaaaaa");
                     rowI = Integer.parseInt(rowIniField2.getText());
                     rowF = Integer.parseInt(rowFiField2.getText());
                     col = Integer.parseInt(colField1.getText());
@@ -429,6 +438,7 @@ public class VistaPrincipal extends JFrame {
                     rowF2 = Integer.parseInt(rowFiField2.getText());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
+                    System.out.println(1);
                     JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -438,6 +448,7 @@ public class VistaPrincipal extends JFrame {
                         System.out.println("hey");
                         chart = cp.PieChart("Doc 1", "Full 1", col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
                     } catch (Exception ex) {
+                        System.out.println(2);
                         ex.printStackTrace();
                     }
                     if (Objects.equals(chart, null))
@@ -818,13 +829,21 @@ public class VistaPrincipal extends JFrame {
                 Object[] tipus = {"numero", "celsius", "fahrenheit", "kelvin", "km", "m", "cm", "mm", "miles", "yards", "feet", "inches", "graus", "radiants"};
                 JComboBox comboBox = new JComboBox(tipus);
                 JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
-                cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, comboBox.getSelectedItem().toString());
+                try {
+                    cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, comboBox.getSelectedItem().toString());
+                } catch (CloneNotSupportedException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         afegirColumnaButton.addActionListener(e -> {
             modificat.set(true);
             int colActual = cp.GetColumnes("Doc 1", "Full 1");
-            cp.AfegirCol("Doc 1", "Full 1", colActual + 1);
+            try {
+                cp.AfegirCol("Doc 1", "Full 1", colActual + 1);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
             Integer colNova = colActual + 1;
             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
             dtm.addColumn(colNova.toString());

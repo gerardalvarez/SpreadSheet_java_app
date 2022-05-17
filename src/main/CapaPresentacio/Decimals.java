@@ -47,12 +47,24 @@ public class Decimals extends JDialog {
             JOptionPane.showMessageDialog(this, "Ompli tots els camps per poder procedir", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else {
-            cp.CanviarDecimals("Doc 1", "Full 1", cela, Integer.valueOf(textField1.getText().trim()));
+            try {
+                cp.CanviarDecimals("Doc 1", "Full 1", cela, Integer.valueOf(textField1.getText().trim()));
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
             if (truncarRadioButton.isSelected()) {
-                cp.CanviarArrodonit("Doc 1", "Full 1", cela, false);
+                try {
+                    cp.CanviarArrodonit("Doc 1", "Full 1", cela, false);
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             else {
-                cp.CanviarArrodonit("Doc 1", "Full 1", cela, true);
+                try {
+                    cp.CanviarArrodonit("Doc 1", "Full 1", cela, true);
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             String cont = cp.ValorTotal("Doc 1", "Full 1", cela);
             full.setValueAt(cont, cela.getKey(), cela.getValue());
