@@ -1,7 +1,9 @@
 package main.CapaDomini.Models;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static main.CapaDomini.Models.PublicFuntions.monthToData;
@@ -56,6 +58,24 @@ public class DataCela extends Cela {
         }
     }
 
+    public DataCela(AbstractMap.SimpleEntry<Integer, Integer> id, String contingut, Color cf, Color cl, CelaEnum dt, String t, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs){
+        super(id, contingut, cf, cl ,dt, t, obs);
+        DataValidator validator = new DateValidator("dd/MM/yyyy");
+        if(validator.isValid(contingut)){
+            dateFormat = contingut;
+            date = LocalDate.of(Integer.parseInt(dateFormat.substring(6)),Integer.parseInt(dateFormat.substring(3,5))
+                    ,Integer.parseInt(dateFormat.substring(0,2)));
+        }
+        else{
+            TextFormat = contingut;
+            int size = TextFormat.length();
+            int dia = Integer.parseInt(TextFormat.substring(0,2));
+            int mes = Integer.parseInt(monthToData(TextFormat.substring(2,size-4)));
+            int any = Integer.parseInt(TextFormat.substring(size-4));
+            date = LocalDate.of(any,mes,dia);
+        }
+    }
+
     //GETTERS AND SETTERS
     public String getDataFormat() {return dateFormat;}
     public void setDataFormat(String dataFormat) {this.dateFormat = dataFormat;}
@@ -64,6 +84,10 @@ public class DataCela extends Cela {
 
 
     //FUNCTIONS
+    public Object clone() {
+        return new DataCela(this.id, this.resultat_final, this.colorFons, this.colorFons, this.designedType, this.type, this.observadors);
+    }
+
     public void changeToText(){
         if(!Objects.equals(TextFormat, "null")){
            resultat_final = TextFormat;

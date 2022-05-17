@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
-public abstract class Cela {
+public abstract class Cela implements Cloneable{
     //VARIABLES
     protected  AbstractMap.SimpleEntry<Integer , Integer> id;
     protected  String resultat_final;
@@ -12,8 +12,6 @@ public abstract class Cela {
     protected  Color colorLletra = new Color(0);
     protected  CelaEnum designedType; // En un futur fer enum
     protected  String type;
-
-
 
     protected ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors; //Para avisarles si yo cambio
 
@@ -25,6 +23,15 @@ public abstract class Cela {
         observadors= new ArrayList<>();
     }
 
+    public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat, Color cf, Color cl, CelaEnum dt, String t, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs) {
+        this.id = id;
+        this.resultat_final = resultat;
+        this.colorFons= cf;
+        this.colorLletra= cl;
+        this.designedType= dt;
+        this.type= t;
+        this.observadors= obs;
+    }
 
     //GETTERS AND SETTERS
     public CelaEnum getDesignedType() {return designedType;}
@@ -50,6 +57,11 @@ public abstract class Cela {
     public ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> getObservadors(){ return observadors;}
 
     //PUBLIC FUNCTIONS
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return 1;
+    }
+
     public String calculaTipus(){
         String Tipus = "text";
         if(resultat_final == null)return Tipus;

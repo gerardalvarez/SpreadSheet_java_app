@@ -1,6 +1,5 @@
 package main.CapaPresentacio;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
 import main.CapaDomini.Models.Document;
 
@@ -81,7 +80,7 @@ public class CtrlPresentacio {
         return Cd.GetTipusCela(doc, full, id);
     }
 
-    public void CanviarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) {
+    public void CanviarTipus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) throws CloneNotSupportedException {
         Cd.CanviarTipusCela(doc, full, id, nou_type);
     }
 
@@ -93,7 +92,7 @@ public class CtrlPresentacio {
         return Cd.TipusNumeroValid(s);
     }
 
-    public void CanviarTipusNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
+    public void CanviarTipusNumero(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) throws CloneNotSupportedException {
         Cd.CanviarTipusNumero(doc, full, id, tipus);
     }
 
@@ -145,15 +144,15 @@ public class CtrlPresentacio {
         Cd.CalculaConversioIReemplaca(doc, full, id, c, idRemp);
     }
 
-    public void CanviarDecimals(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) {
+    public void CanviarDecimals(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) throws CloneNotSupportedException {
         Cd.CanviarDecimals(doc, full, id, dec);
     }
 
-    public void CanviarArrodonit(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) {
+    public void CanviarArrodonit(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) throws CloneNotSupportedException {
         Cd.CanviarArrodonit(doc, full, id, arrodonir);
     }
 
-    public void AllMayus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void AllMayus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Cd.AllMayus(doc, full, id);
     }
 
@@ -161,7 +160,7 @@ public class CtrlPresentacio {
         Cd.AllMayusIReemplaca(doc, full, id, idRemp);
     }
 
-    public void AllMinus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void AllMinus(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Cd.AllMinus(doc, full, id);
     }
 
@@ -185,7 +184,7 @@ public class CtrlPresentacio {
         return Cd.getDataCompleta(doc, full, id);
     }
 
-    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Cd.transformaText(doc, full, id);
     }
 
@@ -193,7 +192,7 @@ public class CtrlPresentacio {
         Cd.transformaTextIReemplaca(doc, full, id, idRemp);
     }
 
-    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Cd.transformaData(doc, full, id);
     }
 
@@ -233,15 +232,15 @@ public class CtrlPresentacio {
         return Cd.ComprovaText(doc, full, id1, id2);
     }
 
-    public void AllMayusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+    public void AllMayusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) throws Exception {
         Cd.AllMayusBloc(doc, full, id1, id2);
     }
 
-    public void AllMinusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+    public void AllMinusBloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) throws Exception {
         Cd.AllMinusBloc(doc, full, id1, id2);
     }
 
-    public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) {
+    public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) throws Exception {
         Cd.BuscaRemp(doc, full, id1, id2, buscar, remp);
     }
 
@@ -249,7 +248,7 @@ public class CtrlPresentacio {
         return Cd.ComprovaCelaNoOcupa(doc, full, id);
     }
 
-    public void Copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) {
+    public void Copiar(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2) throws Exception {
         Cd.copiar(doc, full, id1, id2, idfin1, idfin2);
     }
 
@@ -257,24 +256,28 @@ public class CtrlPresentacio {
         return Cd.ComprovarId(doc, full, id);
     }
 
-    public void EliminarCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public void EliminarCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         Cd.EliminarCela(doc, full, id);
     }
 
-    public void AfegirFila(String doc, String full, Integer f) {
+    public void AfegirFila(String doc, String full, Integer f) throws Exception {
         Cd.AfegirFila(doc, full, f);
     }
 
-    public void AfegirCol(String doc, String full, Integer c) {
+    public void AfegirCol(String doc, String full, Integer c) throws Exception {
         Cd.AfegirCol(doc, full, c);
     }
 
-    public void EliminarFila(String doc, String full, Integer fi) {
+    public void EliminarFila(String doc, String full, Integer fi) throws Exception {
         Cd.EliminarFila(doc, full, fi);
     }
 
-    public void EliminarCol(String doc, String full, Integer co) {
+    public void EliminarCol(String doc, String full, Integer co) throws Exception {
         Cd.EliminarCol(doc, full, co);
+    }
+
+    public void Undo(String doc, String full) throws Exception {
+        Cd.Undo(doc, full);
     }
 
     public String ValorTotal(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
