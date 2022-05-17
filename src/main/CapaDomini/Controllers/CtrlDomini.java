@@ -3,6 +3,8 @@ package main.CapaDomini.Controllers;
 import main.CapaDades.DataParser;
 import main.CapaDomini.Models.*;
 import main.CapaPresentacio.inout;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.XYChart;
 
 import javax.xml.crypto.Data;
 import java.util.*;
@@ -475,6 +477,7 @@ public class CtrlDomini {
     }
 
     public Boolean ComprovaNumeric(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        System.out.println(doc +" " + full + " " + id1 + " " +id2);
         Full f = Documents.get(doc).get_full(full);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
@@ -647,5 +650,26 @@ public class CtrlDomini {
     public void obrirDocument() throws Exception {
         Document nou = dp.carrega("Prueba");
         Documents.replace("Doc 1", nou);
+    }
+
+    public XYChart LinearChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        if(!NumericColumn(doc,f,Col1, filI1,filF1)
+                || !NumericColumn(doc,f,Col2,filI2, filF2))return null;
+        return Bloc_celes.linearChart(f.getColNumero(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
+    }
+    public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        if(!NumericColumn(doc,f,Col2,filI2, filF2))return null;
+        return Bloc_celes.PieChart(f.getColText(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
+    }
+
+    Boolean NumericColumn(String doc,Full f,Integer col, Integer fIni, Integer fFi) throws Exception {
+        for(int i = fIni; i <= fFi; i++){
+            if(!Objects.equals(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,col)).getType(), "numeric"))return false;
+        }
+        System.out.println("Valid Column");
+        return true;
+
     }
 }

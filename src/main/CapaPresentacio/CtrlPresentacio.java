@@ -3,6 +3,9 @@ package main.CapaPresentacio;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
 import main.CapaDomini.Models.Document;
+import main.CapaDomini.Models.Numero;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.XYChart;
 
 
 import java.math.BigDecimal;
@@ -290,5 +293,12 @@ public class CtrlPresentacio {
 
     public void obrirDocument() throws Exception {
         Cd.obrirDocument();
+    }
+
+    public XYChart LinearChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        return Cd.LinearChart(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
+    }
+    public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        return Cd.PieChart(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
     }
 }

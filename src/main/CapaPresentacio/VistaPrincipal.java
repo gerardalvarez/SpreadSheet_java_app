@@ -1,5 +1,9 @@
 package main.CapaPresentacio;
 
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -33,6 +37,8 @@ public class VistaPrincipal extends JFrame {
     private JTextField Resultat;
     private JButton majusculesButton;
     private JButton minusculesButton;
+    private JButton button5;
+    private JButton pie;
     private JButton decimalsButton;
 
     private int columna;
@@ -121,6 +127,7 @@ public class VistaPrincipal extends JFrame {
                 }
 
                 Full.setModel(new DefaultTableModel(dades, nomCol));
+                Full.getCellRenderer(1, 1);
                 Full.repaint();
             }
             else System.out.println("Cancelat");
@@ -144,7 +151,7 @@ public class VistaPrincipal extends JFrame {
                     cp.ModificarContingutCela("Doc 1", "Full 1", id, mod);
                     String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
                     System.out.println(temp[row][col]);
-                    Object obj = temp[row][col];
+                    String obj = temp[row][col];
                     String content = cp.ValorTotal("Doc 1", "Full 1", id);
                     String type = cp.GetTipusCela("Doc 1", "Full 1", id);
                     Tipus.setText(type);
@@ -190,7 +197,7 @@ public class VistaPrincipal extends JFrame {
                     ex.printStackTrace();
                 }
                 System.out.println(temp[fila][columna]);
-                Object obj = temp[fila][columna];
+                String obj = temp[fila][columna];
                 String content = cp.ValorTotal("Doc 1", "Full 1", id);
                 String type = cp.GetTipusCela("Doc 1", "Full 1", id);
                 Tipus.setText(type);
@@ -211,7 +218,7 @@ public class VistaPrincipal extends JFrame {
                     ex.printStackTrace();
                 }
                 System.out.println(temp[fila][columna]);
-                Object obj = temp[fila][columna];
+                String obj = temp[fila][columna];
                 String content = cp.ValorTotal("Doc 1", "Full 1", id);
                 String type = cp.GetTipusCela("Doc 1", "Full 1", id);
                 Tipus.setText(type);
@@ -231,7 +238,7 @@ public class VistaPrincipal extends JFrame {
                 ex.printStackTrace();
             }
             System.out.println(temp[fila][columna]);
-            Object obj = temp[fila][columna];
+            String obj = temp[fila][columna];
             String content = cp.ValorTotal("Doc 1", "Full 1", id);
             String type = cp.GetTipusCela("Doc 1", "Full 1", id);
             Tipus.setText(type);
@@ -249,7 +256,7 @@ public class VistaPrincipal extends JFrame {
                 ex.printStackTrace();
             }
             System.out.println(temp[fila][columna]);
-            Object obj = temp[fila][columna];
+            String obj = temp[fila][columna];
             String content = cp.ValorTotal("Doc 1", "Full 1", id);
             String type = cp.GetTipusCela("Doc 1", "Full 1", id);
             Tipus.setText(type);
@@ -299,6 +306,138 @@ public class VistaPrincipal extends JFrame {
                 Resultat.setText("Dia de la setmana "+content);
             }
         });
+
+        pie.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/pieChart.png"))));
+        pie.addActionListener(e -> {
+            JTextField colField1 = new JTextField();
+            JTextField rowIniField2 = new JTextField();
+            JTextField rowFiField2 = new JTextField();
+            JTextField colField2 = new JTextField();
+
+            JPanel myPanel = new JPanel();
+            JPanel Text = new JPanel();
+            JPanel Col1 = new JPanel();
+            JPanel Col2 = new JPanel();
+            myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+            Text.add(new JLabel("Introduiex la Columna amb les dades Numeriques"));
+            myPanel.add(Text);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col1.add(new JLabel("Columna 1:"));
+            Col1.add(colField1);
+            Col1.add(new JLabel("Columna 2:"));
+            Col1.add(colField2);
+            myPanel.add(Col1);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(rowIniField2);
+            Col2.add(new JLabel("Fila Final:"));
+            Col2.add(rowFiField2);
+            myPanel.add(Col2);
+
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
+            if (result_2 == JOptionPane.OK_OPTION) {
+                Integer rowI,rowF,col,rowI2,rowF2,col2;
+                try {
+                    rowI = Integer.parseInt(rowIniField2.getText());
+                    rowF = Integer.parseInt(rowFiField2.getText());
+                    col = Integer.parseInt(colField1.getText());
+                    rowI2 = Integer.parseInt(rowIniField2.getText());
+                    rowF2 = Integer.parseInt(rowFiField2.getText());
+                    col2 = Integer.parseInt(colField2.getText());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if(!col.equals(col2) && rowI < rowF){
+                    PieChart chart = null;
+                    try {
+                        System.out.println("hey");
+                        chart = cp.PieChart("Doc 1", "Full 1", col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    if (Objects.equals(chart, null))
+                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    else {
+                        PieChart finalChart = chart;
+                        Thread t = new Thread(() -> new SwingWrapper(finalChart).displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+                        t.start();
+                    }
+                }
+                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+
+            }
+        });
+        button5.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/chartLinear.png"))));
+        button5.addActionListener(e -> {
+
+            JTextField colField1 = new JTextField();
+            JTextField rowIniField2 = new JTextField();
+            JTextField rowFiField2 = new JTextField();
+            JTextField colField2 = new JTextField();
+
+            JPanel myPanel = new JPanel();
+            JPanel Text = new JPanel();
+            JPanel Col1 = new JPanel();
+            JPanel Col2 = new JPanel();
+            myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+            Text.add(new JLabel("Introduiex la Columna amb les dades Numeriques"));
+            myPanel.add(Text);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col1.add(new JLabel("Columna 1:"));
+            Col1.add(colField1);
+            Col1.add(new JLabel("Columna 2:"));
+            Col1.add(colField2);
+            myPanel.add(Col1);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(rowIniField2);
+            Col2.add(new JLabel("Fila Final:"));
+            Col2.add(rowFiField2);
+            myPanel.add(Col2);
+
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
+            if (result_2 == JOptionPane.OK_OPTION) {
+                Integer rowI=0,rowF=0,col=0,rowI2=0,rowF2=0,col2=0;
+                try {
+                    rowI = Integer.parseInt(rowIniField2.getText());
+                    rowF = Integer.parseInt(rowFiField2.getText());
+                    col = Integer.parseInt(colField1.getText());
+                    rowI2 = Integer.parseInt(rowIniField2.getText());
+                    rowF2 = Integer.parseInt(rowFiField2.getText());
+                    col2 = Integer.parseInt(colField2.getText());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if(col != col2 && rowI < rowF){
+                    XYChart chart = null;
+                    try {
+                        chart = cp.LinearChart("Doc 1", "Full 1", col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    if (Objects.equals(chart, null))
+                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    else {
+                        chart.getStyler().setCursorEnabled(true);
+                        XYChart finalChart = chart;
+                        Thread t = new Thread(() -> new SwingWrapper(finalChart).displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+                        t.start();
+                    }
+                }
+                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+
+            }
+        });
+
+
     }
 
     /*public void showPieChart(){
@@ -330,6 +469,7 @@ public class VistaPrincipal extends JFrame {
         panelBarChart.add(barChartPanel, BorderLayout.CENTER);
         panelBarChart.validate();
     }*/
+
 }
 
 

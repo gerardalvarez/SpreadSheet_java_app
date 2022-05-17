@@ -1,6 +1,13 @@
 package main.CapaDomini.Models;
 
 
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.PieChartBuilder;
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.style.Styler;
+
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.Map;
@@ -443,6 +450,25 @@ public class Bloc_celes {
             mult *= Double.parseDouble(c.getResultatFinal());
         }
         return mult;
+    }
+
+    public static XYChart linearChart(double[] input1, double[] input2){
+        return QuickChart.getChart("Sample Chart", "X", "Y", "y(x)", input1, input2);
+    }
+    public static PieChart PieChart(ArrayList<String> input1, double[] input2){
+        PieChart chart = new PieChartBuilder().width(800).height(600).title("Graf Circular").build();
+        HashMap<String, Integer> grafic = new HashMap<>();
+        for(String s : input1){
+            grafic.put(s,0);
+        }
+
+        for(int i = 0; i < input1.size(); i++) {
+            grafic.put(input1.get(i), grafic.get(input1.get(i))+(int) input2[i]);
+        }
+        for(HashMap.Entry<String, Integer> entry : grafic.entrySet()) {
+            chart.addSeries(entry.getKey(), entry.getValue());
+        }
+        return chart;
     }
 
 }

@@ -618,11 +618,32 @@ public class Full {
         ArrayList<Numero> num = new ArrayList<>();
 
         for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
+            System.out.println(id);
             Cela c = this.Celes.get(id);
             Numero n = (Numero) c;
             num.add(n);
         }
 
+        return num;
+    }
+    public double[] getColNumero(Integer col, Integer fIni, Integer fFi){
+        double[] num = new double[fFi-fIni+1];
+        for(int i = fIni; i <= fFi; i++){
+            System.out.println(i + "="+ col);
+            Cela c = this.Celes.get(new AbstractMap.SimpleEntry<>(i,col));
+            System.out.println(c.getResultatFinal());
+            Numero n = (Numero) c;
+            num[i-fIni] = (n.getResultat().doubleValue());
+        }
+        return num;
+    }
+    public ArrayList<String> getColText(Integer col, Integer fIni, Integer fFi){
+        ArrayList<String> num = new ArrayList<>();
+        for(int i = fIni; i <= fFi; i++){
+            System.out.println(i + "="+ col);
+            Cela c = this.Celes.get(new AbstractMap.SimpleEntry<>(i,col));
+            num.add(c.getResultatFinal());
+        }
         return num;
     }
 
@@ -632,7 +653,7 @@ public class Full {
 
         for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
             Cela c = this.Celes.get(id);
-            DataCela d = (DataCela) c;
+                DataCela d = (DataCela) c;
             data.add(d);
         }
 
