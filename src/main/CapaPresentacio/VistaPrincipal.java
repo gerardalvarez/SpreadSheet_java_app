@@ -26,6 +26,7 @@ public class VistaPrincipal extends JFrame {
     private JButton numeroDecimalsButton;
     private JButton conversioButton;
     private JButton canviarTipusNumeroButton;
+    private JButton afegirColumnaButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
 
@@ -545,6 +546,14 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
                 cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, comboBox.getSelectedItem().toString());
             }
+        });
+        afegirColumnaButton.addActionListener(e -> {
+            modificat.set(true);
+            int colActual = cp.GetColumnes("Doc 1", "Full 1");
+            cp.AfegirCol("Doc 1", "Full 1", colActual + 1);
+            Integer colNova = colActual + 1;
+            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+            dtm.addColumn(colNova.toString());
         });
     }
     /*public void showPieChart(){

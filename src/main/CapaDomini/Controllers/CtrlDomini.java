@@ -30,7 +30,7 @@ public class CtrlDomini {
     private void InicialitzarCtrlDomini() throws Exception {
         Documents = new HashMap<>();
         Documents.put("Doc 1",new Document("Doc 1"));
-        Full nou = new Full("Full 1", 20, 20);
+        Full nou = new Full("Full 1", 25, 25);
         Documents.get("Doc 1").afegir_full(nou);
         io = new inout();
         dp = new DataParser();
