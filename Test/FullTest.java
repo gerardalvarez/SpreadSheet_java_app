@@ -79,5 +79,13 @@ public class FullTest {
         d.Undo("1","1f");
         assertEquals("data", d.Mostrar("1","1f"));
     }
-
+    @Test
+    public void undofilacol() throws Exception {
+        CtrlDomini d= new CtrlDomini();
+        d.CrearDocument("1");
+        d.CrearFull("1","1f",3,3);
+        d.AfegirCol("1","1f", 2);
+        d.Undo("1","1f");
+        assertEquals("data", d.Mostrar("1","1f"));
+    }
 }
