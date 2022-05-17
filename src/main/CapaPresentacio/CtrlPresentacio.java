@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
 import main.CapaDomini.Models.Document;
 import main.CapaDomini.Models.Numero;
+import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
@@ -189,7 +190,7 @@ public class CtrlPresentacio {
         return Cd.getDataCompleta(doc, full, id);
     }
 
-    public boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         return Cd.transformaText(doc, full, id);
     }
 
@@ -197,7 +198,7 @@ public class CtrlPresentacio {
         Cd.transformaTextIReemplaca(doc, full, id, idRemp);
     }
 
-    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
         return Cd.transformaData(doc, full, id);
     }
 
@@ -302,5 +303,8 @@ public class CtrlPresentacio {
     }
     public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
         return Cd.PieChart(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
+    }
+    public CategoryChart Histograma(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        return Cd.Histograma(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
     }
 }

@@ -25,7 +25,13 @@ public class Decimals extends JDialog {
         group.add(arrodonirRadioButton);
         group.add(truncarRadioButton);
 
-        buttonOK.addActionListener(e -> onOK(cela, cp, full));
+        buttonOK.addActionListener(e -> {
+            try {
+                onOK(cela, cp, full);
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         buttonCancel.addActionListener(e -> onCancel());
 
@@ -41,7 +47,7 @@ public class Decimals extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full){
+    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) throws CloneNotSupportedException {
         if (textField1.getText().trim().isBlank() || (!arrodonirRadioButton.isSelected() && !truncarRadioButton.isSelected())) {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "Ompli tots els camps per poder procedir", "Error", JOptionPane.ERROR_MESSAGE);

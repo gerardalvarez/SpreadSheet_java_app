@@ -1,10 +1,7 @@
 package main.CapaDomini.Models;
 
 
-import org.knowm.xchart.PieChart;
-import org.knowm.xchart.PieChartBuilder;
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.XYChart;
+import org.knowm.xchart.*;
 import org.knowm.xchart.style.Styler;
 
 import java.awt.*;
@@ -468,6 +465,31 @@ public class Bloc_celes {
         for(HashMap.Entry<String, Integer> entry : grafic.entrySet()) {
             chart.addSeries(entry.getKey(), entry.getValue());
         }
+        return chart;
+    }
+
+    public static CategoryChart HistoChart(ArrayList<String> input1, double[] input2){
+        CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Histograma").xAxisTitle("Score").yAxisTitle("Number").build();
+        chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
+        ///
+        HashMap<String, Integer> graf = new HashMap<>();
+        for(String s : input1){
+            graf.put(s,0);
+        }
+
+        for(int i = 0; i < input1.size(); i++) {
+            graf.put(input1.get(i), graf.get(input1.get(i))+(int) input2[i]);
+        }
+
+        ArrayList<String> first = new ArrayList<>();
+        ArrayList<Integer> second = new ArrayList<>();
+        for(HashMap.Entry<String, Integer> entry : graf.entrySet()) {
+            first.add(entry.getKey());
+            second.add(entry.getValue());
+        }
+
+        chart.addSeries("Histograma", first, second);
+
         return chart;
     }
 

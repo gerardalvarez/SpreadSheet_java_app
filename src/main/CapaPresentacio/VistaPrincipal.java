@@ -1,5 +1,6 @@
 package main.CapaPresentacio;
 
+import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
@@ -43,6 +44,7 @@ public class VistaPrincipal extends JFrame {
     private JButton minusculesButton;
     private JButton button5;
     private JButton pie;
+    private JButton Histograma;
     private JButton decimalsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
@@ -269,49 +271,61 @@ public class VistaPrincipal extends JFrame {
         dateTextButton.addActionListener(e -> {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            if(!cp.transformaText("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
-            else{
-                String[][] temp = new String[0][];
-                try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            try {
+                if(!cp.transformaText("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+                else{
+                    String[][] temp = new String[0][];
+                    try {
+                        temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    System.out.println(temp[fila][columna]);
+                    String obj = temp[fila][columna];
+                    String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                    String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                    Tipus.setText(type);
+                    Contingut.setText(content);
+                    Full.setValueAt(obj, fila, columna);
+                    Full.repaint();
                 }
-                System.out.println(temp[fila][columna]);
-                String obj = temp[fila][columna];
-                String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
-                Tipus.setText(type);
-                Contingut.setText(content);
-                Full.setValueAt(obj, fila, columna);
-                Full.repaint();
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
             }
         });
         textDateButton.addActionListener(e -> {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            if(!cp.transformaData("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
-            else{
-                String[][] temp = new String[0][];
-                try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            try {
+                if(!cp.transformaData("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+                else{
+                    String[][] temp = new String[0][];
+                    try {
+                        temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    System.out.println(temp[fila][columna]);
+                    String obj = temp[fila][columna];
+                    String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                    String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                    Tipus.setText(type);
+                    Contingut.setText(content);
+                    Full.setValueAt(obj, fila, columna);
+                    Full.repaint();
                 }
-                System.out.println(temp[fila][columna]);
-                String obj = temp[fila][columna];
-                String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
-                Tipus.setText(type);
-                Contingut.setText(content);
-                Full.setValueAt(obj, fila, columna);
-                Full.repaint();
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
             }
         });
         minusculesButton.addActionListener(e -> {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            cp.AllMinus("Doc 1", "Full 1", id);
+            try {
+                cp.AllMinus("Doc 1", "Full 1", id);
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
+            }
             String[][] temp = new String[0][];
             try {
                 temp = cp.MostrarLlista("Doc 1", "Full 1");
@@ -329,7 +343,11 @@ public class VistaPrincipal extends JFrame {
         majusculesButton.addActionListener(e -> {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            cp.AllMayus("Doc 1", "Full 1", id);
+            try {
+                cp.AllMayus("Doc 1", "Full 1", id);
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
+            }
             String[][] temp = new String[0][];
             try {
                 temp = cp.MostrarLlista("Doc 1", "Full 1");
@@ -387,7 +405,70 @@ public class VistaPrincipal extends JFrame {
                 Resultat.setText("Dia de la setmana "+content);
             }
         });
+        Histograma.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/histogram.png"))));
+        Histograma.addActionListener(e -> {
+            JTextField colField1 = new JTextField();
+            JTextField rowIniField2 = new JTextField();
+            JTextField rowFiField2 = new JTextField();
+            JTextField colField2 = new JTextField();
 
+            JPanel myPanel = new JPanel();
+            JPanel Text = new JPanel();
+            JPanel Col1 = new JPanel();
+            JPanel Col2 = new JPanel();
+            myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+            Text.add(new JLabel("Introduiex la Columna amb les dades Numeriques"));
+            myPanel.add(Text);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col1.add(new JLabel("Columna 1:"));
+            Col1.add(colField1);
+            Col1.add(new JLabel("Columna 2:"));
+            Col1.add(colField2);
+            myPanel.add(Col1);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(rowIniField2);
+            Col2.add(new JLabel("Fila Final:"));
+            Col2.add(rowFiField2);
+            myPanel.add(Col2);
+
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
+            if (result_2 == JOptionPane.OK_OPTION) {
+                Integer rowI,rowF,col,rowI2,rowF2,col2;
+                try {
+                    rowI = Integer.parseInt(rowIniField2.getText());
+                    rowF = Integer.parseInt(rowFiField2.getText());
+                    col = Integer.parseInt(colField1.getText());
+                    rowI2 = Integer.parseInt(rowIniField2.getText());
+                    rowF2 = Integer.parseInt(rowFiField2.getText());
+                    col2 = Integer.parseInt(colField2.getText());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if(!col.equals(col2) && rowI < rowF){
+                    CategoryChart chart = null;
+                    try {
+                        System.out.println("hey");
+                        chart = cp.Histograma("Doc 1", "Full 1", col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    if (Objects.equals(chart, null))
+                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    else {
+                        CategoryChart finalChart = chart;
+                        Thread t = new Thread(() -> new SwingWrapper(finalChart).displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+                        t.start();
+                    }
+                }
+                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+
+            }
+        });
         pie.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/pieChart.png"))));
         pie.addActionListener(e -> {
             JTextField colField1 = new JTextField();
@@ -818,13 +899,21 @@ public class VistaPrincipal extends JFrame {
                 Object[] tipus = {"numero", "celsius", "fahrenheit", "kelvin", "km", "m", "cm", "mm", "miles", "yards", "feet", "inches", "graus", "radiants"};
                 JComboBox comboBox = new JComboBox(tipus);
                 JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
-                cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, comboBox.getSelectedItem().toString());
+                try {
+                    cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, comboBox.getSelectedItem().toString());
+                } catch (CloneNotSupportedException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         afegirColumnaButton.addActionListener(e -> {
             modificat.set(true);
             int colActual = cp.GetColumnes("Doc 1", "Full 1");
-            cp.AfegirCol("Doc 1", "Full 1", colActual + 1);
+            try {
+                cp.AfegirCol("Doc 1", "Full 1", colActual + 1);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             Integer colNova = colActual + 1;
             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
             dtm.addColumn(colNova.toString());

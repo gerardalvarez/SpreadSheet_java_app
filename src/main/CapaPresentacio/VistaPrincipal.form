@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="5" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="852" height="400"/>
+      <xy x="20" y="20" width="888" height="400"/>
     </constraints>
     <properties>
       <enabled value="false"/>
@@ -150,6 +150,12 @@
           <hspacer id="c4575">
             <constraints/>
           </hspacer>
+          <component id="79dda" class="javax.swing.JButton" binding="Histograma">
+            <constraints/>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
           <component id="2c611" class="javax.swing.JButton" binding="pie">
             <constraints/>
             <properties>
