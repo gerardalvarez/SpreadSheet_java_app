@@ -2,6 +2,10 @@ package main.CapaPresentacio;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
+import main.CapaDomini.Models.Document;
+import main.CapaDomini.Models.Numero;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.XYChart;
 
 
 import java.util.AbstractMap;
@@ -173,6 +177,9 @@ public class CtrlPresentacio {
     public String getMes(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.getMes(doc, full, id);
     }
+    public String getWeekday(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.getWeekday(doc, full, id);
+    }
 
     public String getAny(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.getAny(doc, full, id);
@@ -182,16 +189,16 @@ public class CtrlPresentacio {
         return Cd.getDataCompleta(doc, full, id);
     }
 
-    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
-        Cd.transformaText(doc, full, id);
+    public boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.transformaText(doc, full, id);
     }
 
     public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         Cd.transformaTextIReemplaca(doc, full, id, idRemp);
     }
 
-    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
-        Cd.transformaData(doc, full, id);
+    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.transformaData(doc, full, id);
     }
 
     public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -284,5 +291,12 @@ public class CtrlPresentacio {
 
     public void obrirDocument() throws Exception {
         Cd.obrirDocument();
+    }
+
+    public XYChart LinearChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        return Cd.LinearChart(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
+    }
+    public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        return Cd.PieChart(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
     }
 }

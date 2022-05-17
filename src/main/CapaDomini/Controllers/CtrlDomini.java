@@ -3,6 +3,8 @@ package main.CapaDomini.Controllers;
 import main.CapaDades.DataParser;
 import main.CapaDomini.Models.*;
 import main.CapaPresentacio.inout;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.XYChart;
 
 import java.util.*;
 
@@ -124,7 +126,6 @@ public class CtrlDomini {
         }
         else if(PublicFuntions.esRefNum(resultat,f.getNum_Files(), f.getNum_Columnes()) && NumericalCheck(resultat,f)){
             AbstractMap.SimpleEntry<Integer, Integer> pare = PublicFuntions.getIdRefText(resultat);
-            f.ModificaCelaNumRefLong(id,resultat,pare);
         }
         else if(resultat.length() > 0 && resultat.charAt(0)=='='){
             f.ModificaCelaError(id,resultat);
@@ -375,28 +376,47 @@ public class CtrlDomini {
     //Operacions Data
 
     public String getDia(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
-        return d.getWeekDay() + " " + d.getDia();
+        return d.getDia();
     }
 
     public String getMes(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
         return d.getMes();
     }
 
     public String getAny(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
         DataCela d = GetData(doc, full, id);
         return d.getAny();
     }
-
+    public String getWeekday(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return "null";
+        DataCela d = GetData(doc, full, id);
+        return d.getWeekDay();
+    }
     public String getDataCompleta(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         DataCela d = GetData(doc, full, id);
         return d.getWeekDay() + " " + d.getDia() + " " + d.getMes() + " " + d.getAny();
     }
 
-    public void transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public Boolean transformaText(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return false;
         DataCela d = GetData(doc, full, id);
         d.changeToText();
+        return true;
     }
 
     public void transformaTextIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -404,9 +424,13 @@ public class CtrlDomini {
         transformaText(doc, full, idRemp);
     }
 
-    public void transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+    public boolean transformaData(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = Documents.get(doc).get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if(!Objects.equals(c.getType(), "date"))return false;
         DataCela d = GetData(doc, full, id);
         d.changeToDate();
+        return true;
     }
 
     public void transformaDataIReemplaca(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -480,6 +504,7 @@ public class CtrlDomini {
     }
 
     public Boolean ComprovaNumeric(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
+        System.out.println(doc +" " + full + " " + id1 + " " +id2);
         Full f = Documents.get(doc).get_full(full);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
@@ -652,5 +677,26 @@ public class CtrlDomini {
     public void obrirDocument() throws Exception {
         Document nou = dp.carrega("Doc 1");
         Documents.replace("Doc 1", nou);
+    }
+
+    public XYChart LinearChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        if(!NumericColumn(doc,f,Col1, filI1,filF1)
+                || !NumericColumn(doc,f,Col2,filI2, filF2))return null;
+        return Bloc_celes.linearChart(f.getColNumero(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
+    }
+    public PieChart PieChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        if(!NumericColumn(doc,f,Col2,filI2, filF2))return null;
+        return Bloc_celes.PieChart(f.getColText(Col1, filI1,filF1),f.getColNumero(Col2,filI2, filF2));
+    }
+
+    Boolean NumericColumn(String doc,Full f,Integer col, Integer fIni, Integer fFi) throws Exception {
+        for(int i = fIni; i <= fFi; i++){
+            if(!Objects.equals(f.getCeles().get(new AbstractMap.SimpleEntry<>(i,col)).getType(), "numeric"))return false;
+        }
+        System.out.println("Valid Column");
+        return true;
+
     }
 }
