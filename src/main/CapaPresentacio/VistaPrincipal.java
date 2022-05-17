@@ -44,6 +44,7 @@ public class VistaPrincipal extends JFrame {
     private JButton minusculesButton;
     private JButton button5;
     private JButton pie;
+    private JButton Histograma;
     private JButton decimalsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;

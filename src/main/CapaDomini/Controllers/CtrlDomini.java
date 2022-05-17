@@ -8,7 +8,6 @@ import org.knowm.xchart.XYChart;
 
 import java.util.*;
 
-import static main.CapaDomini.Models.PublicFuntions.*;
 
 public class CtrlDomini {
 
@@ -110,16 +109,16 @@ public class CtrlDomini {
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
 
         Full f = Documents.get(doc).get_full(full);
-        String a = analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
+        String a = PublicFuntions.analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
         ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
         if (f.Consultar_cela(id) instanceof CelaRefNum){
-            l=analizaops(((CelaRefNum) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            l=PublicFuntions.analizaops(((CelaRefNum) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
             f.borraref(id,l);
         } else if (f.Consultar_cela(id) instanceof CelaRefText){
-            l=analizaops(((CelaRefText) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            l=PublicFuntions.analizaops(((CelaRefText) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
             f.borraref(id,l);
         }else if (f.Consultar_cela(id) instanceof CelaRefData){
-            l=analizaops(((CelaRefData) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
+            l=PublicFuntions.analizaops(((CelaRefData) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
             f.borraref(id,l);
         }
         if (!resultat.equals("")){
@@ -135,15 +134,15 @@ public class CtrlDomini {
                     f.Modifica_Cela(id,resultat);
                     break;
                 case "REFNUM":
-                    l=analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
+                    l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
                     f.opera(id,l,resultat);
                     break;
                 case "REFTEXT":
-                    l=analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
+                    l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
                     f.opera(id,l,resultat);
                     break;
                 case "ref a otra celda":
-                    l=analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
+                    l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
                     f.opera(id,l,resultat);
                     break;
                 case "referencia pero #ERROR":
