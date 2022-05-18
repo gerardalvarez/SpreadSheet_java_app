@@ -1,12 +1,14 @@
 package main.CapaDomini.Models;
 
 import javax.swing.plaf.synth.SynthOptionPaneUI;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PublicFuntions {
     public static String monthToText(String monthNumber){
@@ -111,7 +113,7 @@ public class PublicFuntions {
 
 
 
-    public static Full readCsv(String fileName, String path) throws FileNotFoundException {
+    public static List<List<String>> readCsv(String fileName, String path) throws FileNotFoundException {
         List<List<String>> files = new ArrayList<>();
         int size = 0;
         Scanner scanner = new Scanner(new File(path + "/" + fileName));
@@ -121,20 +123,7 @@ public class PublicFuntions {
             files.add(fil);
         }
 
-
-        Full f = new Full("Full 2", size, files.size());
-
-        int i = 0;
-        for (List <String> lists: files) {
-            int j = 0;
-            for (String s : lists) {
-                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
-                f.Modifica_Cela(id, s);
-                j++;
-            }
-            i++;
-        }
-        return f;
+        return files;
     }
 
     private static List<String> getRecordFromLine(String line) {
@@ -339,7 +328,7 @@ public class PublicFuntions {
         return operadores;
     }
 
-    private static boolean isNum(String s) {
+    public static boolean isNum(String s) {
         try {
             Double.parseDouble(s);
             return true;
@@ -367,6 +356,25 @@ public class PublicFuntions {
             number = number * 26 + (name.charAt(i) - ('A' - 1));
         }
         return number; }
+
+    public static void exportaCsv(String fileName, String path, String[][] contingut) throws IOException {
+        File myObj = new File(path + "/" + fileName + ".csv");
+        if (myObj.createNewFile()) {
+            System.out.println("File created: " + myObj.getName());
+            FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".csv",true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            for (String[] fila : contingut) {
+                String fila_final = Arrays.toString(fila).replace("[", "").replace("]", ",");
+                printWriter.print(fila_final + "\n");
+            }
+
+            printWriter.flush();
+            printWriter.close();
+        } else {
+            System.out.println("File already exists.");
+        }
+    }
 }
 
 

@@ -185,6 +185,8 @@ public class VistaPrincipal extends JFrame {
                 } catch (FileNotFoundException ex) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "El fitxer no s'ha trobat", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
                 }
 
                 String[][] temp;
@@ -203,6 +205,22 @@ public class VistaPrincipal extends JFrame {
                 dtm.setDataVector(temp, nomCol);
                 dataVector.set(false);
                 Full.repaint();
+            } else System.out.println("Cancelat");
+        });
+
+        CSV_exp.addActionListener(e -> {
+            JFileChooser savefile = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV", "csv");
+            savefile.setFileFilter(filter);
+            int status = savefile.showSaveDialog(this);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                String fileName = savefile.getSelectedFile().getName();
+                File path = savefile.getCurrentDirectory();
+                try {
+                    cp.exportarCSV(fileName, path);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             } else System.out.println("Cancelat");
         });
 

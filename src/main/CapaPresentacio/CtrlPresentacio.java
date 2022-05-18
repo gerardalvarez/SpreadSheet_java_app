@@ -310,8 +310,12 @@ public class CtrlPresentacio {
         return Cd.Histograma(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
     }
 
-    public void ImportarCSV(String fileName, File path) throws FileNotFoundException {
+    public void ImportarCSV(String fileName, File path) throws Exception {
         Cd.ImportarCSV(fileName, path);
+    }
+
+    public void exportarCSV(String fileName, File path) throws Exception {
+        Cd.exportarCSV(fileName, path);
     }
 }
 

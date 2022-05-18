@@ -906,13 +906,33 @@ public class CtrlDomini {
 
     }
 
-    public void ImportarCSV(String fileName, File path) throws FileNotFoundException {
+    public void ImportarCSV(String fileName, File path) throws Exception {
         String p = path.toString();
         p = p.replace("\\", "/");
-        Full nou = PublicFuntions.readCsv(fileName, p);
-        nou.SetNom("Full 1");
-        Documents.get("Doc 1").elimina_full("Full 1");
-        Documents.get("Doc 1").afegir_full(nou);
+        List<List<String>> nou = PublicFuntions.readCsv(fileName, p);
 
+        Full f = new Full("Full 1", nou.size(), nou.get(0).size());
+
+        Documents.get("Doc 1").elimina_full("Full 1");
+        Documents.get("Doc 1").afegir_full(f);
+
+        int i = 0;
+        for (List <String> lists: nou) {
+            int j = 0;
+            for (String s : lists) {
+                if (PublicFuntions.isNum(s)) s = s.trim();
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
+                modificarContingutCela("Doc 1", f.getNom(), id, s);
+                j++;
+            }
+            i++;
+        }
+
+    }
+
+    public void exportarCSV(String fileName, File path) throws Exception {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        PublicFuntions.exportaCsv(fileName, p, Mostrar("Doc 1", "Full 1"));
     }
 }
