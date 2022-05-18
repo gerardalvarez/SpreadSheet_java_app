@@ -1,5 +1,6 @@
 package main.CapaPresentacio;
 
+import main.CapaDomini.Models.PublicFuntions;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.SwingWrapper;
@@ -9,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
@@ -50,6 +52,10 @@ public class VistaPrincipal extends JFrame {
     private JButton Histograma;
     private JComboBox ListaOps;
     private JButton Operabloc;
+    private JButton colorCelaButton;
+    private JButton afegirFilaButton;
+    private JButton eliminarColumnaButton;
+    private JButton eliminarFilaButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -963,7 +969,7 @@ public class VistaPrincipal extends JFrame {
             }
             else if (Objects.equals(cp.GetTipusNumero("Doc 1", "Full 1", CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de numero. Consulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de número \nConsulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 Conversio c = new Conversio(CelaActual, cp, Full);
@@ -986,18 +992,20 @@ public class VistaPrincipal extends JFrame {
                 JComboBox comboBox = new JComboBox(tipus);
                 JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
                 try {
-                    cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, comboBox.getSelectedItem().toString());
+                    cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, Objects.requireNonNull(comboBox.getSelectedItem()).toString());
                 } catch (CloneNotSupportedException ex) {
                     ex.printStackTrace();
                 }
             }
         });
+
         afegirColumnaButton.addActionListener(e -> {
             int colActual = cp.GetColumnes("Doc 1", "Full 1");
             try {
                 cp.AfegirCol("Doc 1", "Full 1", 0);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
             }
             Integer colNova = colActual + 1;
             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
@@ -1017,6 +1025,43 @@ public class VistaPrincipal extends JFrame {
             dtm.setDataVector(dades, nomCol);
             dataVector.set(false);
             Full.repaint();
+        });
+
+        afegirFilaButton.addActionListener(e -> {
+            String num = JOptionPane.showInputDialog(this, "Escrigui la posicio on vol afegir la nova fila", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
+
+            if (PublicFuntions.isNum(num)) {
+                int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                try {
+                    cp.AfegirFila("Doc 1", "Full 1", Integer.valueOf(num));
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                dataVector.set(true);
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] dataFilaNova = new String[colActual];
+                Arrays.fill(dataFilaNova, " ");
+                dtm.addRow(dataFilaNova);
+
+                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                String[][] dades;
+                try {
+                    dades = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                dtm.setDataVector(dades, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+            }
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
 
@@ -1123,6 +1168,19 @@ public class VistaPrincipal extends JFrame {
 
                 System.out.println(ListaOps.getItemAt(ListaOps.getSelectedIndex()));
 
+            }
+        });
+        colorCelaButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                Color color = JColorChooser.showDialog(this, "Colors", null);
+                TableCellRenderer cellRenderer = Full.getCellRenderer(CelaActual.getKey(), CelaActual.getValue());
+                Component rendererComponent = cellRenderer.getTableCellRendererComponent(Full, null, false, true, 0, 0);
+                //rendererComponent.se
+                System.out.println(color);
             }
         });
     }

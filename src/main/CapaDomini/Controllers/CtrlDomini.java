@@ -1,5 +1,7 @@
 package main.CapaDomini.Controllers;
 
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.element.Paragraph;
 import main.CapaDades.DataParser;
 import main.CapaDomini.Models.*;
 import org.knowm.xchart.CategoryChart;
@@ -7,8 +9,10 @@ import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
 import javax.print.Doc;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.*;
 
 
