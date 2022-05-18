@@ -9,6 +9,8 @@ import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
@@ -290,12 +292,12 @@ public class CtrlPresentacio {
         return Cd.ValorTotal(doc, full, id);
     }
 
-    public void guardarDocument() throws Exception {
-        Cd.guardarDocument();
+    public void guardarDocument(String fileName, File path) throws Exception {
+        Cd.guardarDocument(fileName, path);
     }
 
-    public void obrirDocument() throws Exception {
-        Cd.obrirDocument();
+    public void obrirDocument(String fileName, File path) throws Exception {
+        Cd.obrirDocument(fileName, path);
     }
 
     public XYChart LinearChart(String doc, String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
@@ -306,6 +308,14 @@ public class CtrlPresentacio {
     }
     public CategoryChart Histograma(String doc, String full, Integer Col1, Integer filI1, Integer filF1, Integer Col2, Integer filI2, Integer filF2) throws Exception {
         return Cd.Histograma(doc,full,Col1, filI1, filF1, Col2,filI2, filF2);
+    }
+
+    public void ImportarCSV(String fileName, File path) throws Exception {
+        Cd.ImportarCSV(fileName, path);
+    }
+
+    public void exportarCSV(String fileName, File path) throws Exception {
+        Cd.exportarCSV(fileName, path);
     }
     public int Opera_bloc (String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2, String operacio, Double oper) throws Exception {
         return Cd.Operar_bloc(doc, full, id1, id2, idfin1, idfin2, operacio, oper);

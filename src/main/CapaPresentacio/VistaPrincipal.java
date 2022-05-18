@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Objects;
@@ -48,7 +50,6 @@ public class VistaPrincipal extends JFrame {
     private JButton Histograma;
     private JComboBox ListaOps;
     private JButton Operabloc;
-    private JButton decimalsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -59,6 +60,8 @@ public class VistaPrincipal extends JFrame {
         super(title);
 
         CelaActual = null;
+
+
         String[] nomColumnes = new String[cp.GetColumnes("Doc 1", "Full 1")];
         String[] nomFiles = new String[cp.GetFiles("Doc 1", "Full 1")];
         for (int i = 0; i < nomColumnes.length; i++) {
@@ -85,11 +88,21 @@ public class VistaPrincipal extends JFrame {
         JMenu fitxer = new JMenu("Fitxer");
         JMenuItem guardar = new JMenuItem("Guardar");
         JMenuItem obrir = new JMenuItem("Obrir");
+        JMenu exportar = new JMenu("Exportar");
+        JMenu importar = new JMenu("Importar");
+        JMenuItem CSV_exp = new JMenuItem("CSV");
+        JMenuItem CSV_imp = new JMenuItem("CSV");
+        JMenuItem pdf = new JMenuItem("pdf");
+
+        importar.add(CSV_imp);
+        exportar.add(CSV_exp);
+        exportar.add(pdf);
 
         fitxer.add(guardar);
         fitxer.add(obrir);
+        fitxer.add(exportar);
+        fitxer.add(importar);
         menuBar.add(fitxer);
-
 
         super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/App_Logo.png"))).getImage());
         IncrementarButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Incrementar.png"))));
@@ -108,14 +121,19 @@ public class VistaPrincipal extends JFrame {
         this.setContentPane(panel1);
         this.pack();
 
+        AtomicBoolean modificat = new AtomicBoolean(false);
+        AtomicBoolean dataVector = new AtomicBoolean(false);
+
         guardar.addActionListener(e -> {
             JFileChooser savefile = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text", "txt");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Full de càlcul", "fdc");
             savefile.setFileFilter(filter);
             int status = savefile.showSaveDialog(this);
             if (status == JFileChooser.APPROVE_OPTION) {
+                String fileName = savefile.getSelectedFile().getName();
+                File path = savefile.getCurrentDirectory();
                 try {
-                    cp.guardarDocument();
+                    cp.guardarDocument(fileName, path);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -125,42 +143,94 @@ public class VistaPrincipal extends JFrame {
 
         obrir.addActionListener(e -> {
             JFileChooser openfile = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text", "txt");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Full de càlcul", "fdc");
             openfile.setFileFilter(filter);
             int status = openfile.showOpenDialog(this);
             if (status == JFileChooser.APPROVE_OPTION) {
+                String fileName = openfile.getSelectedFile().getName();
+                File path = openfile.getCurrentDirectory();
                 try {
-                    cp.obrirDocument();
+                    cp.obrirDocument(fileName, path);
                 } catch (Exception ex) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut obrir", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
+                String[][] temp;
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
                 String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
 
                 for (int i = 0; i < nomCol.length; i++) {
                     nomCol[i] = String.valueOf(i + 1);
                 }
-                String[][] dades;
-                try {
-                    dades = cp.MostrarLlista("Doc 1", "Full 1");
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                Full.setModel(new DefaultTableModel(dades, nomCol));
-                Full.getCellRenderer(1, 1);
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
                 Full.repaint();
             } else System.out.println("Cancelat");
         });
 
+        CSV_imp.addActionListener(e -> {
+            JFileChooser openfile = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV", "csv");
+            openfile.setFileFilter(filter);
+            int status = openfile.showOpenDialog(this);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                String fileName = openfile.getSelectedFile().getName();
+                File path = openfile.getCurrentDirectory();
+                try {
+                    cp.ImportarCSV(fileName, path);
+                } catch (FileNotFoundException ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "El fitxer no s'ha trobat", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
 
-        AtomicBoolean modificat = new AtomicBoolean(false);
+                String[][] temp;
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+            } else System.out.println("Cancelat");
+        });
+
+        CSV_exp.addActionListener(e -> {
+            JFileChooser savefile = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV", "csv");
+            savefile.setFileFilter(filter);
+            int status = savefile.showSaveDialog(this);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                String fileName = savefile.getSelectedFile().getName();
+                File path = savefile.getCurrentDirectory();
+                try {
+                    cp.exportarCSV(fileName, path);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else System.out.println("Cancelat");
+        });
 
         Full.getModel().addTableModelListener(e -> {
             System.out.println(e.getType());
 
-            if (e.getType() == TableModelEvent.UPDATE && !modificat.get()) {
+            if (e.getType() == TableModelEvent.UPDATE && !modificat.get() && !dataVector.get()) {
                 int col = e.getColumn();
                 int row = e.getFirstRow();
                 String mod = Full.getValueAt(row, col).toString().trim();
@@ -168,16 +238,25 @@ public class VistaPrincipal extends JFrame {
                 modificat.set(true);
 
                 try {
-                    System.out.println(mod);
+                    //System.out.println(mod);
                     cp.ModificarContingutCela("Doc 1", "Full 1", id, mod);
                     String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
-                    System.out.println(temp[row][col]);
+                    //System.out.println(temp[row][col]);
                     String obj = temp[row][col];
                     String content = cp.ValorTotal("Doc 1", "Full 1", id);
                     String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                    for (int i = 0; i < nomCol.length; i++) {
+                        nomCol[i] = String.valueOf(i + 1);
+                    }
+                    dataVector.set(true);
+                    dtm.setDataVector(temp, nomCol);
+                    dataVector.set(false);
                     Tipus.setText(type);
                     Contingut.setText(content);
-                    Full.setValueAt(obj, row, col);
+                    //Full.setValueAt(obj, row, col);
                     Full.repaint();
 
                     System.out.println(Arrays.deepToString(temp));
@@ -914,16 +993,30 @@ public class VistaPrincipal extends JFrame {
             }
         });
         afegirColumnaButton.addActionListener(e -> {
-            modificat.set(true);
             int colActual = cp.GetColumnes("Doc 1", "Full 1");
             try {
-                cp.AfegirCol("Doc 1", "Full 1", colActual + 1);
+                cp.AfegirCol("Doc 1", "Full 1", 0);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
             Integer colNova = colActual + 1;
             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+            dataVector.set(true);
             dtm.addColumn(colNova.toString());
+            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+            for (int i = 0; i < nomCol.length; i++) {
+                nomCol[i] = String.valueOf(i + 1);
+            }
+            String[][] dades;
+            try {
+                dades = cp.MostrarLlista("Doc 1", "Full 1");
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            dtm.setDataVector(dades, nomCol);
+            dataVector.set(false);
+            Full.repaint();
         });
 
 

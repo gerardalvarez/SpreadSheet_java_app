@@ -70,9 +70,13 @@ public class Main {
 
         CtrlDomini ct =new CtrlDomini();
         DataParser d= new DataParser();
-        Document a=d.carrega("a");
+        Document a=d.carrega("a", "C:");
         ct.gg().put("a",a);
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=A3");
 
+
+        String path = "C:"; //fallara
+        d.guarda(a, path, "Proba");// ara el path es passa des de la vista terminal
         for (Full ff: a.getFulls()) {
             for (int i = 0; i < ff.getNum_Files(); ++i) {
                 for (int j = 0; j < ff.getNum_Columnes(); ++j) {

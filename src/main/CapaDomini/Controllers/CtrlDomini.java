@@ -6,6 +6,9 @@ import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
+import javax.print.Doc;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 
@@ -831,13 +834,19 @@ public class CtrlDomini {
         return f.ValorTotal(id);
     }
 
-    public void guardarDocument() throws Exception {
+    public void guardarDocument(String fileName, File path) throws Exception {
+        System.out.println(fileName);
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        System.out.println(p);
         Document d = Documents.get("Doc 1");
-        dp.guarda(d);
+        dp.guarda(d, p, fileName);
     }
 
-    public void obrirDocument() throws Exception {
-        Document nou = dp.carrega("Doc 1");
+    public void obrirDocument(String fileName, File path) throws Exception {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        Document nou = dp.carrega(fileName, p);
         Documents.replace("Doc 1", nou);
     }
 
@@ -869,6 +878,36 @@ public class CtrlDomini {
         System.out.println("Valid Column");
         return true;
 
+    }
+
+    public void ImportarCSV(String fileName, File path) throws Exception {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        List<List<String>> nou = PublicFuntions.readCsv(fileName, p);
+
+        Full f = new Full("Full 1", nou.size(), nou.get(0).size());
+
+        Documents.get("Doc 1").elimina_full("Full 1");
+        Documents.get("Doc 1").afegir_full(f);
+
+        int i = 0;
+        for (List <String> lists: nou) {
+            int j = 0;
+            for (String s : lists) {
+                if (PublicFuntions.isNum(s)) s = s.trim();
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(i, j);
+                modificarContingutCela("Doc 1", f.getNom(), id, s);
+                j++;
+            }
+            i++;
+        }
+
+    }
+
+    public void exportarCSV(String fileName, File path) throws Exception {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        PublicFuntions.exportaCsv(fileName, p, Mostrar("Doc 1", "Full 1"));
     }
 
     public int Operar_bloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2, String operacio, Double oper) throws Exception {
