@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
+    private JTable FirstCol;
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     private JTextField Contingut;
@@ -56,8 +57,6 @@ public class VistaPrincipal extends JFrame {
         super(title);
 
         CelaActual = null;
-
-
         String[] nomColumnes = new String[cp.GetColumnes("Doc 1", "Full 1")];
 
         for (int i = 0; i < nomColumnes.length; i++) {

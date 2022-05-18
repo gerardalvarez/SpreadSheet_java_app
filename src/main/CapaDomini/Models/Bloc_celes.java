@@ -318,6 +318,8 @@ public class Bloc_celes {
     }
 
 
+
+
     public void copiar_contingut(Cela[][] org, Cela[][] dest) {
         for (int i = 0; i < org.length; i++) {
             for (int j = 0; j < org[i].length; j++) {
@@ -476,6 +478,17 @@ public class Bloc_celes {
         uniqueId += (long) right;
         return uniqueId;
     }
+    public double covariança(ArrayList<Numero> a1, ArrayList<Numero> b1) {
+        double x = 0, y = 0, sum = 0;
+        //SUMATORI
+        x = calculaMitjana(a1);
+        y = calculaMitjana(b1);
+
+        for(int i = 0; i < a1.size(); i++)
+            sum += (a1.get(i).getResultat().doubleValue()-x)* (b1.get(i).getResultat().doubleValue()-y);
+
+        return sum/a1.size();
+    }
 
     public double coeficient_Pearson(ArrayList<Numero> a1, ArrayList<Numero> b1) {
         ArrayList<Numero> union = new ArrayList<Numero>();
@@ -483,6 +496,30 @@ public class Bloc_celes {
         union.addAll(b1);
         double res=calculaVariança(union)/(calculaDesviació(a1)*calculaDesviació(b1));
         return res;
+    }
+    public String COUNTIF(String LogicOP , String comparedOP,String IfFalse, String IfTrue, String CellContent){
+        switch(LogicOP){
+            case "==":
+                if(Objects.equals(CellContent, comparedOP))return IfTrue;
+                else return IfFalse;
+            case ">":
+                if(Double.parseDouble(CellContent) > Double.parseDouble(comparedOP))return IfTrue;
+                else return IfFalse;
+            case "<":
+                if(Double.parseDouble(CellContent) < Double.parseDouble(comparedOP))return IfTrue;
+                else return IfFalse;
+            case ">=":
+                if(Double.parseDouble(CellContent) >= Double.parseDouble(comparedOP))return IfTrue;
+                else return IfFalse;
+            case "<=":
+                if(Double.parseDouble(CellContent) <= Double.parseDouble(comparedOP))return IfTrue;
+                else return IfFalse;
+            case "=":
+                if(Objects.equals(Double.parseDouble(CellContent), Double.parseDouble(comparedOP)))return IfTrue;
+                else return IfFalse;
+            default:
+                return "null";
+        }
     }
 
     public Integer longitud(ArrayList<TextCela> l){
