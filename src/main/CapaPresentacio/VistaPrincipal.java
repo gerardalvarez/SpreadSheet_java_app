@@ -60,7 +60,7 @@ public class VistaPrincipal extends JFrame {
 
         CelaActual = null;
         String[] nomColumnes = new String[cp.GetColumnes("Doc 1", "Full 1")];
-
+        String[] nomFiles = new String[cp.GetFiles("Doc 1", "Full 1")];
         for (int i = 0; i < nomColumnes.length; i++) {
             nomColumnes[i] = String.valueOf(i + 1);
         }
@@ -936,16 +936,17 @@ public class VistaPrincipal extends JFrame {
             JTextField rowIniField4 = new JTextField();
             JTextField rowFiField4 = new JTextField();
             JTextField colField33 = new JTextField();
-
+            JTextField cont = new JTextField();
             JPanel myPanel = new JPanel();
             JPanel Text = new JPanel();
+            JPanel Text2 = new JPanel();
             JPanel Col1 = new JPanel();
             JPanel Col2 = new JPanel();
             JPanel Col3 = new JPanel();
             JPanel Col4 = new JPanel();
             myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
 
-            Text.add(new JLabel("Operació amb blocs"));
+            Text.add(new JLabel("Blocs per operar"));
             myPanel.add(Text);
             String[] optionsToChoose = {"suma", "resta", "mult", "div", "min","may"};
             ListaOps = new JComboBox<>(optionsToChoose);
@@ -976,36 +977,55 @@ public class VistaPrincipal extends JFrame {
             Col4.add(rowFiField4);
             myPanel.add(Col4);
 
+            myPanel.add(Box.createVerticalStrut(15));
+            Text2.add(new JLabel("Numero per operar"));
+            myPanel.add(Text2);
+            myPanel.add(cont);
+
             int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Operacio blocs", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowF,col,rowI2,col2, Frowin,Frowdest,Fcolin,Fcoldest;
+                    try {
+                        col = Integer.parseInt(colField1.getText());
+                        rowI2 = Integer.parseInt(rowIniField2.getText());
 
-                    col = Integer.parseInt(colField1.getText());
-                    rowI2 = Integer.parseInt(rowIniField2.getText());
+                        col2 = Integer.parseInt(colField2.getText());
+                        rowF = Integer.parseInt(rowFiField2.getText());
 
-                    col2 = Integer.parseInt(colField2.getText());
-                    rowF = Integer.parseInt(rowFiField2.getText());
+                        Frowin = Integer.parseInt(rowIniField4.getText());
+                        Frowdest = Integer.parseInt(rowFiField4.getText());
 
-                    Frowin = Integer.parseInt(rowIniField4.getText());
-                    Frowdest = Integer.parseInt(rowFiField4.getText());
+                        Fcolin = Integer.parseInt(colField3.getText());
+                        Fcoldest = Integer.parseInt(colField33.getText());
 
-                    Fcolin = Integer.parseInt(colField3.getText());
-                    Fcoldest = Integer.parseInt(colField33.getText());
+                        System.out.println(col + " " + rowI2 + " " + col2 + " " + rowF + " " + Frowin + " " + Frowdest + " " + Fcolin + " " + Fcoldest + " ");
+                    } catch (NumberFormatException ex){
+                        JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
-                    System.out.println(col+" "+rowI2+" "+col2+" "+rowF+" "+Frowin+" "+Frowdest+" "+Fcolin+" "+Fcoldest+" ");
-
-                if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0 ){
-                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no tenen el mateix tamany", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    try {
+                        Double.parseDouble(cont.getText());
+                        }catch (NumberFormatException ex){
+                        JOptionPane.showMessageDialog(new JFrame(), "El operador no és un numero vàlid", "Dialog", JOptionPane.ERROR_MESSAGE);
+                        return;
+                         }
+                    int cols = nomColumnes.length;
+                    int fils=nomFiles.length;
+                if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0
+                    || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0|| Fcoldest-1 < 0|| Frowdest-1 < 0|| Fcolin-1 < 0||Frowin-1< 0
+                        || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils|| Fcoldest-1 >= cols|| Frowdest-1 >= fils|| Fcolin-1 >= cols||Frowin-1>= fils){
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
                     return;
-                }else {
+                } else {
                     int a;
                     try {
-                        a= cp.Opera_bloc("Doc 1", "Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(0,0),new AbstractMap.SimpleEntry<Integer,Integer>(0,0)
-                                ,new AbstractMap.SimpleEntry<Integer,Integer>(0,0),new AbstractMap.SimpleEntry<Integer,Integer>(0,0), ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString(),3.0);
+                        a= cp.Opera_bloc("Doc 1", "Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
+                                ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1), ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString(),Double.parseDouble(cont.getText()));
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    if (a==-1) JOptionPane.showMessageDialog(new JFrame(), "Els blocs son del tipus correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    if (a==-1) JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son del tipus correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
                 }
 
                 System.out.println(ListaOps.getItemAt(ListaOps.getSelectedIndex()));
