@@ -213,7 +213,7 @@ public class PublicFuntions {
                             }
                         } else {
                             String[] part = op.split("(?<=\\D)(?=\\d)");
-                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<=y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
                                     && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                                 l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
                                 if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
@@ -229,7 +229,7 @@ public class PublicFuntions {
 
                 String aux= s.replaceFirst("=","");
                 String[] part = aux.split("(?<=\\D)(?=\\d)");
-                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x
+                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<=y && Integer.parseInt(part[1])<=x && toNumber(part[0])>0 && Integer.parseInt(part[1])>0
                         && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                     l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
                     tipus ="ref a otra celda";
@@ -303,7 +303,7 @@ public class PublicFuntions {
                         }
                         else {            //OPERANDO NORMAL
                             String[] part = op.split("(?<=\\D)(?=\\d)");
-                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                            if (part.length==2 && isNum(part[1]) && toNumber(part[0])<=y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
                             && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                                 l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
 
@@ -320,7 +320,7 @@ public class PublicFuntions {
 
                 String aux= s.replaceFirst("=","");
                 String[] part = aux.split("(?<=\\D)(?=\\d)");
-                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && Integer.parseInt(part[1])<=x
+                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<=y && Integer.parseInt(part[1])<=x && toNumber(part[0])>0 && Integer.parseInt(part[1])>0
                         && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
                     l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
                     tipus ="ref a otra celda";

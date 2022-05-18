@@ -122,32 +122,15 @@ public class CtrlDomini {
             f.borraref(id,l);
         }
         if (!resultat.equals("")){
-
-            switch (a){
-                case "text":
-                    f.Modifica_Cela(id,resultat);
-                    break;
-                case "numeric":
-                    f.Modifica_Cela(id,resultat);
-                    break;
-                case "data":
-                    f.Modifica_Cela(id,resultat);
-                    break;
-                case "REFNUM":
-                    l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
-                    f.opera(id,l,resultat);
-                    break;
-                case "REFTEXT":
-                    l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
-                    f.opera(id,l,resultat);
-                    break;
-                case "ref a otra celda":
-                    l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
-                    f.opera(id,l,resultat);
-                    break;
-                case "referencia pero #ERROR":
-                    f.Modifica_Cela(id,"#ERROR");
-                    break;
+            if (a.equals("text") || a.equals("data") || a.equals("numeric") ){
+                f.Modifica_Cela(id,resultat);
+            } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda") ) {
+                l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
+                if (! l.contains(id)) f.opera(id,l,resultat);
+                else a="referencia pero #ERROR";
+            }
+            if (a.equals("referencia pero #ERROR")){
+                f.Modifica_Cela(id,"#ERROR");
             }
         }
 
@@ -740,6 +723,16 @@ public class CtrlDomini {
        Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
        Bloc_celes bc = new Bloc_celes();
        bc.copiar_contingut(mat1, mat2);
+        for (int ah=0;ah< mat2.length;ah++){
+            for (int jf = 0; jf < mat2[ah].length; jf++){
+                if (mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum){
+                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
+                }else {
+                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
+                    f.getCeles().replace(mat2[ah][jf].getId(),mat2[ah][jf]);
+                }
+            }
+        }
     }
 
     private Cela[][] GetMatriu(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
@@ -749,25 +742,6 @@ public class CtrlDomini {
         Integer nf = id2.getKey() - id1.getKey();
         Integer nc = id2.getValue() - id1.getValue();
         Cela [][] mat = fu.getBlocEnMatriu(C,nf,nc);
-
-        /*
-        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = fu.GetIdCeles(id1, id2);
-        Integer nf = id2.getKey() - id1.getKey();
-        Integer nc = id2.getValue() - id1.getValue();
-        Cela [][] mat = new Cela[nf + 1][nc + 1];
-        System.out.println(mat.length);
-        System.out.println(mat[0].length);
-        int f = 0;
-        int c = 0;
-
-        for (AbstractMap.SimpleEntry<Integer, Integer> id : ids) {
-            mat[f][c] = fu.Consultar_cela(id);
-            if(c < nc) c++;
-            else {
-                c = 0;
-                f++;
-            }
-        }*/
 
         return mat;
     }
@@ -895,5 +869,39 @@ public class CtrlDomini {
         System.out.println("Valid Column");
         return true;
 
+    }
+
+    public int Operar_bloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2, String operacio, Double oper) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        Cela [][] mat1 = GetMatriu(doc, full, id1, id2);
+        Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
+        if ( operacio.equals("suma") || operacio.equals("resta") || operacio.equals("mult") || operacio.equals("div")){
+
+            for (int ah=0;ah< mat1.length;ah++){ //COMPROBAR QUE TODAS SON NUM
+                for (int jf = 0; jf < mat1[ah].length; jf++){
+                    if (!(mat1[ah][jf] instanceof CelaRefNum) && ! (mat1[ah][jf] instanceof Numero) ) return -1;
+                }
+            }
+
+        }else if (operacio.equals("min") || operacio.equals("may")){ //COMPROBAR QUE TODAS SON TEXT
+            for (int ah=0;ah< mat1.length;ah++){
+                for (int jf = 0; jf < mat1[ah].length; jf++){
+                    if (! (mat1[ah][jf] instanceof TextCela) ) return -1;
+                }
+            }
+        }
+        Bloc_celes bc = new Bloc_celes();
+        bc.operar_bloc(mat1, mat2,operacio,oper);
+        for (int ah=0;ah< mat2.length;ah++){
+            for (int jf = 0; jf < mat2[ah].length; jf++){
+                if (mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum){
+                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
+                }else {
+                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
+                    f.getCeles().replace(mat2[ah][jf].getId(),mat2[ah][jf]);
+                }
+            }
+        }
+        return 0;
     }
 }

@@ -864,6 +864,8 @@ public class Full {
             Celes.get(i).getObservadors().remove(id);
         }
     }
+
+
 };
 
 

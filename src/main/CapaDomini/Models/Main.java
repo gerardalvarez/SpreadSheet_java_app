@@ -26,13 +26,7 @@ public class Main {
             }
         }
 
-        for (int i = 0; i < f.getNum_Files(); ++i) {
-            for (int j = 0; j < f.getNum_Columnes(); ++j) {
-                Cela c = f.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
-                System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
-            }
-            System.out.println();
-        }
+
 /*
         AbstractMap.SimpleEntry<Integer,Integer> id1=new AbstractMap.SimpleEntry<>(1,1);
         AbstractMap.SimpleEntry<Integer,Integer> id2=new AbstractMap.SimpleEntry<>(3,2);
@@ -75,23 +69,35 @@ public class Main {
         }*/
 
         CtrlDomini ct =new CtrlDomini();
-        Document x=new Document("a");
-        x.afegir_full(f);
-      //  ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=SUM(A2,B2)");
         DataParser d= new DataParser();
         Document a=d.carrega("a");
         ct.gg().put("a",a);
-        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"=A3");
 
-        d.guarda(a);
-            System.out.println(f.getNom());
-            for (int i = 0; i < f.getNum_Files(); ++i) {
-                for (int j = 0; j < f.getNum_Columnes(); ++j) {
-                    Cela c = f.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
+        for (Full ff: a.getFulls()) {
+            for (int i = 0; i < ff.getNum_Files(); ++i) {
+                for (int j = 0; j < ff.getNum_Columnes(); ++j) {
+                    Cela c = ff.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
                     System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
                 }
                 System.out.println();
             }
+        }
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"a");
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,1),"aaa");
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(4,0),"=SUM(A1:D2)");
+        ct.copiar("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(2,1),new AbstractMap.SimpleEntry<>(2,2),new AbstractMap.SimpleEntry<>(4,3));
+        ct.Operar_bloc("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),"may", 5.0);
+            System.out.println(f.getNom());
+            for (Full ff: a.getFulls()) {
+                for (int i = 0; i < ff.getNum_Files(); ++i) {
+                    for (int j = 0; j < ff.getNum_Columnes(); ++j) {
+                        Cela c = ff.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
+                        System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
+                    }
+                    System.out.println();
+                }
+            }
+
         }
     }
 

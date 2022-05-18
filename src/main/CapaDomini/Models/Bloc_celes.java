@@ -4,8 +4,6 @@ package main.CapaDomini.Models;
 import org.knowm.xchart.*;
 import org.knowm.xchart.style.Styler;
 
-import java.awt.*;
-import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.*;
@@ -325,21 +323,23 @@ public class Bloc_celes {
             for (int j = 0; j < org[i].length; j++) {
                 Cela cd = dest[i][j];
                 Cela dd = org[i][j];
-                if (org[i][j] instanceof Numero) {
-                    cd = new Numero((Numero) dd, cd.getId());
-                } else if (org[i][j] instanceof TextCela) {
-                    cd = new TextCela((TextCela) dd, cd.getId());
-                } else if (org[i][j] instanceof DataCela) {
-                    cd = new DataCela((DataCela) dd, cd.getId());
-
-                } else if (org[i][j] instanceof CelaRefNum) {
-                    cd = new DataCela((DataCela) dd, cd.getId());
+                if (org[i][j] instanceof CelaRefNum) {
+                    System.out.println(((CelaRefNum) dd).getContingut());
+                    dest[i][j] = new TextCela(cd.getId(),((CelaRefNum) dd).getContingut());
 
                 } else if (org[i][j] instanceof CelaRefText) {
-                    cd = new DataCela((DataCela) dd, cd.getId());
+                    dest[i][j] = new TextCela(cd.getId(),((CelaRefText) dd).getContingut());
 
                 } else if (org[i][j] instanceof CelaRefData) {
-                    cd = new DataCela((DataCela) dd, cd.getId());
+                    dest[i][j] = new TextCela(cd.getId(),((CelaRefData) dd).getContingut());
+                }else if (org[i][j] instanceof Numero) {
+                    System.out.println("a");
+                    dest[i][j] = new Numero((Numero) dd, cd.getId());
+                } else if (org[i][j] instanceof TextCela) {
+                    dest[i][j] = new TextCela((TextCela) dd, cd.getId());
+                } else if (org[i][j] instanceof DataCela) {
+                    dest[i][j] = new DataCela((DataCela) dd, cd.getId());
+
                 }
             }
         }
@@ -375,6 +375,71 @@ public class Bloc_celes {
             }
         }
     }
+
+    public void operar_bloc(Cela[][] org, Cela[][] dest, String operacio, Double oper) {
+        switch (operacio){
+            case "suma":
+                for (int i = 0; i < org.length; i++) {
+                    for (int j = 0; j < org[i].length; j++) {
+                        Cela cd = dest[i][j];
+                        Cela dd = org[i][j];
+                        Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) + oper;
+                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                    }
+                }
+                break;
+            case "resta":
+                for (int i = 0; i < org.length; i++) {
+                    for (int j = 0; j < org[i].length; j++) {
+                        Cela cd = dest[i][j];
+                        Cela dd = org[i][j];
+                        Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) -oper;
+                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                    }
+                }
+                break;
+            case "mult":
+                for (int i = 0; i < org.length; i++) {
+                    for (int j = 0; j < org[i].length; j++) {
+                        Cela cd = dest[i][j];
+                        Cela dd = org[i][j];
+                        Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) * oper;
+                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                    }
+                }
+                break;
+            case "div":
+                for (int i = 0; i < org.length; i++) {
+                    for (int j = 0; j < org[i].length; j++) {
+                        Cela cd = dest[i][j];
+                        Cela dd = org[i][j];
+                        Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) / oper;
+                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                    }
+                }
+                break;
+            case "may":
+                for (int i = 0; i < org.length; i++) {
+                    for (int j = 0; j < org[i].length; j++) {
+                        Cela cd = dest[i][j];
+                        Cela dd = org[i][j];
+                        dest[i][j]=new TextCela(dest[i][j].getId(),dest[i][j].getResultatFinal().toUpperCase(Locale.ROOT));
+                    }
+                }
+                break;
+            case "min":
+                for (int i = 0; i < org.length; i++) {
+                    for (int j = 0; j < org[i].length; j++) {
+                        Cela cd = dest[i][j];
+                        Cela dd = org[i][j];
+                        dest[i][j]=new TextCela(dest[i][j].getId(),dest[i][j].getResultatFinal().toLowerCase(Locale.ROOT));
+                    }
+                }
+                break;
+        }
+    }
+
+
 
     public void remplaçar_majuscules(ArrayList<TextCela> inputs) {
         for (TextCela c: inputs){
