@@ -1120,7 +1120,22 @@ public class VistaPrincipal extends JFrame {
                     }
                     if (a==-1) JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son del tipus correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
                 }
+                String[][] temp;
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
 
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
                 System.out.println(ListaOps.getItemAt(ListaOps.getSelectedIndex()));
 
             }

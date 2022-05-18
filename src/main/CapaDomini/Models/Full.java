@@ -832,11 +832,18 @@ public class Full {
 
         if(resultat.length()<=5){
             if (Celes.get(l.get(0)) instanceof Numero || Celes.get(l.get(0)) instanceof CelaRefNum) {
-                Celes.replace(id,new CelaRefNum(id,Celes.get(l.get(0)).getResultatFinal(),true,2,Tipus_Numero.numero,resultat));
+                Cela aaux=new CelaRefNum(id,Celes.get(l.get(0)).getResultatFinal(),true,2,Tipus_Numero.numero,resultat);
+                aaux.setObservadors(Celes.get(id).observadors);
+                Celes.replace(id,aaux);
             }else if (Celes.get(l.get(0)) instanceof TextCela) {
-                Celes.replace(id,new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal()));
+                Cela aaux=new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal());
+                aaux.setObservadors(Celes.get(id).observadors);
+                Celes.replace(id,aaux);
             }else if (Celes.get(l.get(0)) instanceof DataCela) {
-                Celes.replace(id,new CelaRefData(id,resultat,Celes.get(l.get(0)).getResultatFinal()));
+
+                Cela aaux=new CelaRefData(id,resultat,Celes.get(l.get(0)).getResultatFinal());
+                aaux.setObservadors(Celes.get(id).observadors);
+                Celes.replace(id,aaux);
             }
         }else if(resultat.substring(1, 4).equals("MAY") ){
             Celes.replace(id,new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal().toUpperCase()));
@@ -850,12 +857,14 @@ public class Full {
                 }
             }
             BigDecimal b = avaluar(aux, resultat.substring(1, 4));
-            Celes.replace(id,new CelaRefNum(id,b.toString(),true,2,Tipus_Numero.numero,resultat));
+            Cela aaux= new CelaRefNum(id,b.toString(),true,2,Tipus_Numero.numero,resultat);
+            aaux.setObservadors(Celes.get(id).observadors);
+            Celes.replace(id,aaux);
         }
         for (int i = 0; i < l.size(); i++) {
             if (!Celes.get(l.get(i)).getObservadors().contains(id)) Celes.get(l.get(i)).newObserver(id);
         }
-        System.out.println("vamooooooos"+Celes.get(new AbstractMap.SimpleEntry<Integer, Integer> (0,1)).getObservadors().size());
+        System.out.println("vamooooooos"+Celes.get(id).getObservadors().size());
     }
 
     public void borraref(AbstractMap.SimpleEntry<Integer, Integer> id, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l) {
@@ -863,6 +872,7 @@ public class Full {
         for (AbstractMap.SimpleEntry<Integer, Integer> i:l){
             Celes.get(i).getObservadors().remove(id);
         }
+        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
     }
 
 

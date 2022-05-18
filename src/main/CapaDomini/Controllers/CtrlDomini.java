@@ -110,17 +110,17 @@ public class CtrlDomini {
 
     //CELA
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
-
+        System.out.println("-------"+resultat);
         Full f = Documents.get(doc).get_full(full);
         String a = PublicFuntions.analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
         ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
-        if (f.Consultar_cela(id) instanceof CelaRefNum){
+        if (f.Consultar_cela(id) instanceof CelaRefNum && !((CelaRefNum) f.Consultar_cela(id)).getContingut().equals(resultat)){
             l=PublicFuntions.analizaops(((CelaRefNum) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
             f.borraref(id,l);
-        } else if (f.Consultar_cela(id) instanceof CelaRefText){
+        } else if (f.Consultar_cela(id) instanceof CelaRefText &&!((CelaRefText) f.Consultar_cela(id)).getContingut().equals(resultat)){
             l=PublicFuntions.analizaops(((CelaRefText) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
             f.borraref(id,l);
-        }else if (f.Consultar_cela(id) instanceof CelaRefData){
+        }else if (f.Consultar_cela(id) instanceof CelaRefData && !((CelaRefData) f.Consultar_cela(id)).getContingut().equals(resultat)){
             l=PublicFuntions.analizaops(((CelaRefData) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
             f.borraref(id,l);
         }
@@ -143,22 +143,24 @@ public class CtrlDomini {
     public void CheckObs(String doc, String full , AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs = f.getCeles().get(id).getObservadors();
+        System.out.println("check obs V"+obs.size());
         if(obs.size()!=0){
+            System.out.println("check obs "+obs.size());
             for(int i = 0; i < obs.size(); i++){
-                if(f.getCeles().get(obs.get(i)) instanceof CelaRefData){
-                    CelaRefData c =  (CelaRefData) f.getCeles().get(obs.get(i));
-                    modificarContingutCela(doc,full, obs.get(i), c.getContingut());
+                    if (f.getCeles().get(obs.get(i)) instanceof CelaRefData) {
+                        CelaRefData c = (CelaRefData) f.getCeles().get(obs.get(i));
+                        modificarContingutCela(doc, full, obs.get(i), c.getContingut());
+                    } else if (f.getCeles().get(obs.get(i)) instanceof CelaRefText) {
+                        CelaRefText c = (CelaRefText) f.getCeles().get(obs.get(i));
+                        modificarContingutCela(doc, full, obs.get(i), c.getContingut());
+                    } else {
+                        System.out.println(obs.get(i).getKey() + " " + obs.get(i).getValue());
+                        CelaRefNum c = (CelaRefNum) f.getCeles().get(obs.get(i));
+                        modificarContingutCela(doc, full, obs.get(i), c.getContingut());
+                    }
+
                 }
-                else  if(f.getCeles().get(obs.get(i)) instanceof CelaRefText){
-                    CelaRefText c =  (CelaRefText) f.getCeles().get(obs.get(i));
-                    modificarContingutCela(doc,full, obs.get(i), c.getContingut());
-                }
-                else {
-                    System.out.println(obs.get(i).getKey()+" "+obs.get(i).getValue());
-                    CelaRefNum c =  (CelaRefNum) f.getCeles().get(obs.get(i));
-                    modificarContingutCela(doc,full,obs.get(i), c.getContingut());
-                }
-            }
+
         }
     }
 

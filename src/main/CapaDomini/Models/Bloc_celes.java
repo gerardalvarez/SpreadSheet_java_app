@@ -4,6 +4,7 @@ package main.CapaDomini.Models;
 import org.knowm.xchart.*;
 import org.knowm.xchart.style.Styler;
 
+import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.*;
@@ -386,7 +387,7 @@ public class Bloc_celes {
                         Cela cd = dest[i][j];
                         Cela dd = org[i][j];
                         Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) + oper;
-                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                        dest[i][j]=new Numero(dest[i][j].getId(),BigDecimal.valueOf(aux),true,2,Tipus_Numero.numero);
                     }
                 }
                 break;
@@ -396,7 +397,7 @@ public class Bloc_celes {
                         Cela cd = dest[i][j];
                         Cela dd = org[i][j];
                         Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) -oper;
-                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                        dest[i][j]=new Numero(dest[i][j].getId(),BigDecimal.valueOf(aux),true,2,Tipus_Numero.numero);
                     }
                 }
                 break;
@@ -406,7 +407,7 @@ public class Bloc_celes {
                         Cela cd = dest[i][j];
                         Cela dd = org[i][j];
                         Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) * oper;
-                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                        dest[i][j]=new Numero(dest[i][j].getId(), BigDecimal.valueOf(aux),true,2,Tipus_Numero.numero);
                     }
                 }
                 break;
@@ -416,7 +417,7 @@ public class Bloc_celes {
                         Cela cd = dest[i][j];
                         Cela dd = org[i][j];
                         Double aux = Double.parseDouble(dest[i][j].getResultatFinal()) / oper;
-                        dest[i][j]=new Numero(dest[i][j].getId(),aux.toString());
+                        dest[i][j]=new Numero(dest[i][j].getId(),BigDecimal.valueOf(aux),true,2,Tipus_Numero.numero);
                     }
                 }
                 break;
