@@ -874,6 +874,7 @@ public class CtrlDomini {
     public int Operar_bloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2, String operacio, Double oper) throws Exception {
         Full f = Documents.get(doc).get_full(full);
         Cela [][] mat1 = GetMatriu(doc, full, id1, id2);
+        Cela [][] mataux = GetMatriu(doc, full, id1, id2);
         Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
         if ( operacio.equals("suma") || operacio.equals("resta") || operacio.equals("mult") || operacio.equals("div")){
 
@@ -891,14 +892,14 @@ public class CtrlDomini {
             }
         }
         Bloc_celes bc = new Bloc_celes();
-        bc.operar_bloc(mat1, mat2,operacio,oper);
+        bc.operar_bloc(mat1, mataux,operacio,oper);
         for (int ah=0;ah< mat2.length;ah++){
             for (int jf = 0; jf < mat2[ah].length; jf++){
                 if (mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum){
-                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
+                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mataux[ah][jf].getResultatFinal());
                 }else {
-                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
-                    f.getCeles().replace(mat2[ah][jf].getId(),mat2[ah][jf]);
+                    modificarContingutCela(doc,full,mat2[ah][jf].getId(),mataux[ah][jf].getResultatFinal());
+                    f.getCeles().replace(mat2[ah][jf].getId(),mataux[ah][jf]);
                 }
             }
         }

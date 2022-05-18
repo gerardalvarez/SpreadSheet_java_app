@@ -82,11 +82,11 @@ public class Main {
                 System.out.println();
             }
         }
-        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"a");
-        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,1),"aaa");
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"10");
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,1),"10");
         ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(4,0),"=SUM(A1:D2)");
         ct.copiar("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(2,1),new AbstractMap.SimpleEntry<>(2,2),new AbstractMap.SimpleEntry<>(4,3));
-        ct.Operar_bloc("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),"may", 5.0);
+        ct.Operar_bloc("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),"suma", 5.0);
             System.out.println(f.getNom());
             for (Full ff: a.getFulls()) {
                 for (int i = 0; i < ff.getNum_Files(); ++i) {

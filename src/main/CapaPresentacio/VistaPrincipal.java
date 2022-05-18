@@ -46,6 +46,8 @@ public class VistaPrincipal extends JFrame {
     private JButton button5;
     private JButton pie;
     private JButton Histograma;
+    private JComboBox ListaOps;
+    private JButton Operabloc;
     private JButton decimalsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
@@ -87,6 +89,7 @@ public class VistaPrincipal extends JFrame {
         fitxer.add(guardar);
         fitxer.add(obrir);
         menuBar.add(fitxer);
+
 
         super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/App_Logo.png"))).getImage());
         IncrementarButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Incrementar.png"))));
@@ -469,6 +472,7 @@ public class VistaPrincipal extends JFrame {
             }
         });
         pie.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/pieChart.png"))));
+
         pie.addActionListener(e -> {
             JTextField colField1 = new JTextField();
             JTextField rowIniField2 = new JTextField();
@@ -535,6 +539,7 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+
         button5.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/chartLinear.png"))));
         button5.addActionListener(e -> {
 
@@ -919,6 +924,93 @@ public class VistaPrincipal extends JFrame {
             Integer colNova = colActual + 1;
             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
             dtm.addColumn(colNova.toString());
+        });
+
+
+        Operabloc.addActionListener(e -> {
+            JTextField colField1 = new JTextField();
+            JTextField rowIniField2 = new JTextField();
+            JTextField rowFiField2 = new JTextField();
+            JTextField colField2 = new JTextField();
+            JTextField colField3 = new JTextField();
+            JTextField rowIniField4 = new JTextField();
+            JTextField rowFiField4 = new JTextField();
+            JTextField colField33 = new JTextField();
+
+            JPanel myPanel = new JPanel();
+            JPanel Text = new JPanel();
+            JPanel Col1 = new JPanel();
+            JPanel Col2 = new JPanel();
+            JPanel Col3 = new JPanel();
+            JPanel Col4 = new JPanel();
+            myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+            Text.add(new JLabel("Operació amb blocs"));
+            myPanel.add(Text);
+            String[] optionsToChoose = {"suma", "resta", "mult", "div", "min","may"};
+            ListaOps = new JComboBox<>(optionsToChoose);
+            myPanel.add(ListaOps);
+            myPanel.add(Box.createVerticalStrut(15));
+            Col1.add(new JLabel("Columna incial:"));
+            Col1.add(colField1);
+            Col1.add(new JLabel("Columna final:"));
+            Col1.add(colField2);
+            myPanel.add(Col1);
+
+            Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(rowIniField2);
+            Col2.add(new JLabel("Fila Final:"));
+            Col2.add(rowFiField2);
+            myPanel.add(Col2);
+            myPanel.add(Box.createVerticalStrut(15));
+            Col3.add(new JLabel("Columna desti inicial:"));
+            Col3.add(colField3);
+            Col3.add(new JLabel("Columna desti final:"));
+            Col3.add(colField33);
+            myPanel.add(Col3);
+
+
+            Col4.add(new JLabel("Fila desti Inicial:"));
+            Col4.add(rowIniField4);
+            Col4.add(new JLabel("Fila desti Final:"));
+            Col4.add(rowFiField4);
+            myPanel.add(Col4);
+
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Operacio blocs", JOptionPane.OK_CANCEL_OPTION);
+            if (result_2 == JOptionPane.OK_OPTION) {
+                Integer rowF,col,rowI2,col2, Frowin,Frowdest,Fcolin,Fcoldest;
+
+                    col = Integer.parseInt(colField1.getText());
+                    rowI2 = Integer.parseInt(rowIniField2.getText());
+
+                    col2 = Integer.parseInt(colField2.getText());
+                    rowF = Integer.parseInt(rowFiField2.getText());
+
+                    Frowin = Integer.parseInt(rowIniField4.getText());
+                    Frowdest = Integer.parseInt(rowFiField4.getText());
+
+                    Fcolin = Integer.parseInt(colField3.getText());
+                    Fcoldest = Integer.parseInt(colField33.getText());
+
+                    System.out.println(col+" "+rowI2+" "+col2+" "+rowF+" "+Frowin+" "+Frowdest+" "+Fcolin+" "+Fcoldest+" ");
+
+                if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0 ){
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no tenen el mateix tamany", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }else {
+                    int a;
+                    try {
+                        a= cp.Opera_bloc("Doc 1", "Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(0,0),new AbstractMap.SimpleEntry<Integer,Integer>(0,0)
+                                ,new AbstractMap.SimpleEntry<Integer,Integer>(0,0),new AbstractMap.SimpleEntry<Integer,Integer>(0,0), ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString(),3.0);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    if (a==-1) JOptionPane.showMessageDialog(new JFrame(), "Els blocs son del tipus correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                }
+
+                System.out.println(ListaOps.getItemAt(ListaOps.getSelectedIndex()));
+
+            }
         });
     }
     /*public void showPieChart(){
