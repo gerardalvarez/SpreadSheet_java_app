@@ -811,11 +811,11 @@ public class CtrlDomini {
         AbstractMap.SimpleEntry<Integer,Integer> id2= new AbstractMap.SimpleEntry<>(numfiles-1,c);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
-        /*for (int i= 0; i < ids.size(); ++i){
+        for (int i= 0; i < ids.size(); ++i){
             celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("afegircol", celes);
-        f.Afegir_Accio(a);*/
+        f.Afegir_Accio(a);
     }
 
     public void EliminarFila(String doc, String full, Integer fi) throws Exception {

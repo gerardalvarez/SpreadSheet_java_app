@@ -73,11 +73,24 @@ public class FullTest {
         CtrlDomini d= new CtrlDomini();
         d.CrearDocument("1");
         d.CrearFull("1","1f",3,3);
-        AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(1, 0);
-        d.modificarContingutCela("1","1f", idc, "2");
-        d.CalculaPotencia("1", "1f", idc, Double.valueOf("3"));
+        d.AfegirCol("1", "1f", 2);
         d.Undo("1","1f");
         assertEquals("data", d.Mostrar("1","1f"));
     }
-
+    @Test
+    public void undocalcula() throws Exception {
+        CtrlDomini d= new CtrlDomini();
+        d.CrearDocument("1");
+        d.CrearFull("1","1f",4,4);
+        AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<>(0, 0);
+        AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<>(1, 1);
+        AbstractMap.SimpleEntry<Integer, Integer> idcfin = new AbstractMap.SimpleEntry<>(3, 3);
+        d.modificarContingutCela("1","1f", idc, "2");
+        d.modificarContingutCela("1","1f", new AbstractMap.SimpleEntry<>(0, 1), "3");
+        d.modificarContingutCela("1","1f", new AbstractMap.SimpleEntry<>(1, 0), "10");
+        d.modificarContingutCela("1","1f", idc2, "8");
+        d.CalculaDesviacio("1","1f", idc, idc2, idcfin);
+        //d.Undo("1","1f");
+        assertEquals("data", d.Mostrar("1","1f"));
+    }
 }
