@@ -1033,7 +1033,7 @@ public class VistaPrincipal extends JFrame {
             if (PublicFuntions.isNum(num)) {
                 int colActual = cp.GetColumnes("Doc 1", "Full 1");
                 try {
-                    cp.AfegirFila("Doc 1", "Full 1", Integer.valueOf(num));
+                    cp.AfegirFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -1055,6 +1055,74 @@ public class VistaPrincipal extends JFrame {
                     throw new RuntimeException(ex);
                 }
                 dtm.setDataVector(dades, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+            }
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        eliminarColumnaButton.addActionListener(e -> {
+            String num = JOptionPane.showInputDialog(this, "Escrigui la posicio de la columna que vols esborrar", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
+
+            if (PublicFuntions.isNum(num)) {
+                int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                try {
+                    cp.EliminarCol("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                } catch (Exception ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                String[][] temp;
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+            }
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        eliminarFilaButton.addActionListener(e -> {
+            String num = JOptionPane.showInputDialog(this, "Escrigui la posicio de la fila que vol eliminar", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
+
+            if (PublicFuntions.isNum(num)) {
+                int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                try {
+                    cp.EliminarFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                } catch (Exception ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                String[][] temp;
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
                 dataVector.set(false);
                 Full.repaint();
             }
