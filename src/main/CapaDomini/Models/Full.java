@@ -835,11 +835,11 @@ public class Full {
                 Cela aaux=new CelaRefNum(id,Celes.get(l.get(0)).getResultatFinal(),true,2,Tipus_Numero.numero,resultat);
                 aaux.setObservadors(Celes.get(id).observadors);
                 Celes.replace(id,aaux);
-            }else if (Celes.get(l.get(0)) instanceof TextCela) {
+            }else if (Celes.get(l.get(0)) instanceof TextCela || Celes.get(l.get(0)) instanceof CelaRefText ) {
                 Cela aaux=new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal());
                 aaux.setObservadors(Celes.get(id).observadors);
                 Celes.replace(id,aaux);
-            }else if (Celes.get(l.get(0)) instanceof DataCela) {
+            }else if (Celes.get(l.get(0)) instanceof DataCela || Celes.get(l.get(0)) instanceof CelaRefData) {
 
                 Cela aaux=new CelaRefData(id,resultat,Celes.get(l.get(0)).getResultatFinal());
                 aaux.setObservadors(Celes.get(id).observadors);
@@ -876,6 +876,25 @@ public class Full {
     }
 
 
+    public boolean comprova_bucle(AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> id1) {
+       Boolean b=false;
+       String res="";
+        if( Celes.get(id1) instanceof CelaRefNum ) {
+            res=((CelaRefNum) Celes.get(id1)).getContingut();
+        }else if (Celes.get(id1) instanceof CelaRefText) {
+            res=((CelaRefText) Celes.get(id1)).getContingut();
+        }else if (Celes.get(id1) instanceof CelaRefData) {
+            res=((CelaRefData) Celes.get(id1)).getContingut();
+        }else return false;
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l = PublicFuntions.analizaops(res, getNum_Files(), getNum_Columnes());
+       if (l.contains(id)) return true;
+       for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
+           b= comprova_bucle(id,id2);
+           if (b) break;
+       }
+        return b;
+
+    }
 };
 
 

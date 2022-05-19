@@ -128,9 +128,17 @@ public class CtrlDomini {
             if (a.equals("text") || a.equals("data") || a.equals("numeric") ){
                 f.Modifica_Cela(id,resultat);
             } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda") ) {
+                Boolean b= false;
                 l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
-                if (! l.contains(id)) f.opera(id,l,resultat);
-                else a="referencia pero #ERROR";
+                for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
+                    b= f.comprova_bucle(id,id2);
+                    if (b) break;
+                }
+                if (b) a="referencia pero #ERROR";
+                else {
+                    if (!l.contains(id)) f.opera(id, l, resultat);
+                    else a = "referencia pero #ERROR";
+                }
             }
             if (a.equals("referencia pero #ERROR")){
                 f.Modifica_Cela(id,"#ERROR");
@@ -139,6 +147,9 @@ public class CtrlDomini {
 
         CheckObs(doc, full, id);
     }
+
+
+
 
     public void CheckObs(String doc, String full , AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         Full f = Documents.get(doc).get_full(full);

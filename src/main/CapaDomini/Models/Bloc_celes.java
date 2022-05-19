@@ -244,6 +244,7 @@ public class Bloc_celes {
         for(Cela c : inputs){
             res+= Double.parseDouble(c.getResultatFinal());
         }
+        if(inputs.size()==0)return res;
         return res/ inputs.size();
     }
 
@@ -300,7 +301,9 @@ public class Bloc_celes {
             acMedia2 = acMedia2 + Double.parseDouble(c.getResultatFinal()) * Double.parseDouble(c.getResultatFinal());
             n++;
         }
-        double varianza = acMedia2/(n-1) - (acMedia * acMedia) / (n * (n-1));
+        double varianza =0.0;
+        if (inputs.size()<2 ) return varianza;
+        varianza = acMedia2/(n-1) - (acMedia * acMedia) / (n * (n-1));
         return varianza;
 
     }
