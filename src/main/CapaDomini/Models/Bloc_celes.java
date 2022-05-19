@@ -257,6 +257,7 @@ public class Bloc_celes {
             }
         });
         double resultat;
+        if(inputs.size()==0)return 0.0;
         if(inputs.size() % 2 == 0){
             Double sumaMedios = Double.parseDouble(inputs.get(inputs.size()/2).getResultatFinal()) + Double.parseDouble(inputs.get((inputs.size()/2)-1).getResultatFinal());
             resultat = (double)sumaMedios / 2;
@@ -286,6 +287,7 @@ public class Bloc_celes {
                 moda = entry.getKey();
             }
         }
+        if(inputs.size()==0)return 0.0;
         return moda;
     }
 
@@ -309,7 +311,7 @@ public class Bloc_celes {
     }
 
     public double maxim(ArrayList<Numero> inputs){
-        double max=-1;
+        double max=0.0;
         for (Cela c : inputs) {
             double aux=Double.parseDouble(c.getResultatFinal());
             if(aux>max) max=aux;
