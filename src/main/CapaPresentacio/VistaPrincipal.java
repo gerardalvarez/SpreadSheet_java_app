@@ -50,6 +50,9 @@ public class VistaPrincipal extends JFrame {
     private JButton Histograma;
     private JComboBox ListaOps;
     private JButton Operabloc;
+    private JButton Copia;
+    private JButton ordenaBlocButton;
+    private JButton ordenaFullButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -1044,29 +1047,34 @@ public class VistaPrincipal extends JFrame {
             String[] optionsToChoose = {"suma", "resta", "mult", "div", "min","may"};
             ListaOps = new JComboBox<>(optionsToChoose);
             myPanel.add(ListaOps);
+
             myPanel.add(Box.createVerticalStrut(15));
             Col1.add(new JLabel("Columna incial:"));
             Col1.add(colField1);
+
             Col1.add(new JLabel("Columna final:"));
             Col1.add(colField2);
             myPanel.add(Col1);
 
-            Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(Box.createRigidArea(new Dimension(22, 0)));
+            Col2.add(new JLabel("Fila inicial:"));
             Col2.add(rowIniField2);
-            Col2.add(new JLabel("Fila Final:"));
+            Col2.add(Box.createRigidArea(new Dimension(25, 0)));
+            Col2.add(new JLabel("Fila final:"));
             Col2.add(rowFiField2);
             myPanel.add(Col2);
             myPanel.add(Box.createVerticalStrut(15));
-            Col3.add(new JLabel("Columna desti inicial:"));
+            Col3.add(new JLabel("Columna inicial:"));
             Col3.add(colField3);
-            Col3.add(new JLabel("Columna desti final:"));
+            Col3.add(new JLabel("Columna final:"));
             Col3.add(colField33);
             myPanel.add(Col3);
 
-
-            Col4.add(new JLabel("Fila desti Inicial:"));
+            Col4.add(Box.createRigidArea(new Dimension(25, 0)));
+            Col4.add(new JLabel("Fila inicial:"));
             Col4.add(rowIniField4);
-            Col4.add(new JLabel("Fila desti Final:"));
+            Col4.add(Box.createRigidArea(new Dimension(25, 0)));
+            Col4.add(new JLabel("Fila final:"));
             Col4.add(rowFiField4);
             myPanel.add(Col4);
 
@@ -1096,13 +1104,15 @@ public class VistaPrincipal extends JFrame {
                         JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-
-                    try {
-                        Double.parseDouble(cont.getText());
-                        }catch (NumberFormatException ex){
-                        JOptionPane.showMessageDialog(new JFrame(), "El operador no és un numero vàlid", "Dialog", JOptionPane.ERROR_MESSAGE);
-                        return;
-                         }
+                    Double d=0.0;
+                    if ( ! ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString().equals("min") && ! ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString().equals("may")) {
+                        try {
+                            d= Double.parseDouble(cont.getText());
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(new JFrame(), "El operador no és un numero vàlid", "Dialog", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
                     int cols = nomColumnes.length;
                     int fils=nomFiles.length;
                 if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0
@@ -1114,7 +1124,7 @@ public class VistaPrincipal extends JFrame {
                     int a;
                     try {
                         a= cp.Opera_bloc("Doc 1", "Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
-                                ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1), ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString(),Double.parseDouble(cont.getText()));
+                                ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1), ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString(),d);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -1140,36 +1150,119 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+
+        Copia.addActionListener(e -> {
+            JTextField colField1 = new JTextField();
+            JTextField rowIniField2 = new JTextField();
+            JTextField rowFiField2 = new JTextField();
+            JTextField colField2 = new JTextField();
+            JTextField colField3 = new JTextField();
+            JTextField rowIniField4 = new JTextField();
+            JTextField rowFiField4 = new JTextField();
+            JTextField colField33 = new JTextField();
+            JTextField cont = new JTextField();
+            JPanel myPanel = new JPanel();
+            JPanel Text = new JPanel();
+            JPanel Text2 = new JPanel();
+            JPanel Col1 = new JPanel();
+            JPanel Col2 = new JPanel();
+            JPanel Col3 = new JPanel();
+            JPanel Col4 = new JPanel();
+            myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+            Text.add(new JLabel("Bloc a copiar"));
+            myPanel.add(Text);
+            myPanel.add(Box.createVerticalStrut(15));
+            Col1.add(new JLabel("Columna incial:"));
+            Col1.add(colField1);
+
+            Col1.add(new JLabel("Columna final:"));
+            Col1.add(colField2);
+            myPanel.add(Col1);
+
+            Col2.add(Box.createRigidArea(new Dimension(22, 0)));
+            Col2.add(new JLabel("Fila inicial:"));
+            Col2.add(rowIniField2);
+            Col2.add(Box.createRigidArea(new Dimension(25, 0)));
+            Col2.add(new JLabel("Fila final:"));
+            Col2.add(rowFiField2);
+            myPanel.add(Col2);
+            myPanel.add(Box.createVerticalStrut(15));
+            Text2.add(new JLabel("Bloc desti"));
+            myPanel.add(Text2);
+            Col3.add(new JLabel("Columna inicial:"));
+            Col3.add(colField3);
+            Col3.add(new JLabel("Columna final:"));
+            Col3.add(colField33);
+            myPanel.add(Col3);
+
+            Col4.add(Box.createRigidArea(new Dimension(25, 0)));
+            Col4.add(new JLabel("Fila inicial:"));
+            Col4.add(rowIniField4);
+            Col4.add(Box.createRigidArea(new Dimension(25, 0)));
+            Col4.add(new JLabel("Fila final:"));
+            Col4.add(rowFiField4);
+            myPanel.add(Col4);
+
+
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Copia", JOptionPane.OK_CANCEL_OPTION);
+            if (result_2 == JOptionPane.OK_OPTION) {
+                Integer rowF,col,rowI2,col2, Frowin,Frowdest,Fcolin,Fcoldest;
+                try {
+                    col = Integer.parseInt(colField1.getText());
+                    rowI2 = Integer.parseInt(rowIniField2.getText());
+
+                    col2 = Integer.parseInt(colField2.getText());
+                    rowF = Integer.parseInt(rowFiField2.getText());
+
+                    Frowin = Integer.parseInt(rowIniField4.getText());
+                    Frowdest = Integer.parseInt(rowFiField4.getText());
+
+                    Fcolin = Integer.parseInt(colField3.getText());
+                    Fcoldest = Integer.parseInt(colField33.getText());
+
+                    System.out.println(col + " " + rowI2 + " " + col2 + " " + rowF + " " + Frowin + " " + Frowdest + " " + Fcolin + " " + Fcoldest + " ");
+                } catch (NumberFormatException ex){
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int cols = nomColumnes.length;
+                int fils=nomFiles.length;
+                if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0
+                        || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0|| Fcoldest-1 < 0|| Frowdest-1 < 0|| Fcolin-1 < 0||Frowin-1< 0
+                        || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils|| Fcoldest-1 >= cols|| Frowdest-1 >= fils|| Fcolin-1 >= cols||Frowin-1>= fils){
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    int a;
+                    try {
+                        cp.Copiar("Doc 1", "Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
+                                ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1));
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                String[][] temp;
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+            }
+        });
+
     }
-    /*public void showPieChart(){
-
-        //create dataset
-        DefaultPieDataset barDataset = new DefaultPieDataset( );
-        barDataset.setValue( "IPhone 5s" , new Double( 20 ) );
-        barDataset.setValue( "SamSung Grand" , new Double( 20 ) );
-        barDataset.setValue( "MotoG" , new Double( 40 ) );
-        barDataset.setValue( "Nokia Lumia" , new Double( 10 ) );
-
-        //create chart
-        JFreeChart piechart = ChartFactory.createPieChart("mobile sales",barDataset, false,true,false);//explain
-
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-
-        //changing pie chart blocks colors
-        piePlot.setSectionPaint("IPhone 5s", new Color(255,255,102));
-        piePlot.setSectionPaint("SamSung Grand", new Color(102,255,102));
-        piePlot.setSectionPaint("MotoG", new Color(255,102,153));
-        piePlot.setSectionPaint("Nokia Lumia", new Color(0,204,204));
-
-
-        piePlot.setBackgroundPaint(Color.white);
-
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
-        panelBarChart.removeAll();
-        panelBarChart.add(barChartPanel, BorderLayout.CENTER);
-        panelBarChart.validate();
-    }*/
 }
 
 

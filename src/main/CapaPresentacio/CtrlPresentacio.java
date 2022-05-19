@@ -320,4 +320,12 @@ public class CtrlPresentacio {
     public int Opera_bloc (String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2, String operacio, Double oper) throws Exception {
         return Cd.Operar_bloc(doc, full, id1, id2, idfin1, idfin2, operacio, oper);
     }
+    public Boolean comprova_bloc(Integer rowI2,Integer col,Integer rowF,Integer col2, Integer fils, Integer cols){
+
+        if(col>col2 || rowI2 > rowF || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0 || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils){
+            return false;
+        }
+        else return true;
+    }
+
 }

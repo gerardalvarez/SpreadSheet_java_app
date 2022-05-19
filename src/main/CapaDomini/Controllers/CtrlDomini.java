@@ -112,7 +112,8 @@ public class CtrlDomini {
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
         System.out.println("-------"+resultat);
         Full f = Documents.get(doc).get_full(full);
-        String a = PublicFuntions.analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
+        String a="";
+        if (!resultat.equals("")) a = PublicFuntions.analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
         ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
         if (f.Consultar_cela(id) instanceof CelaRefNum && !((CelaRefNum) f.Consultar_cela(id)).getContingut().equals(resultat)){
             l=PublicFuntions.analizaops(((CelaRefNum) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
@@ -143,6 +144,7 @@ public class CtrlDomini {
             if (a.equals("referencia pero #ERROR")){
                 f.Modifica_Cela(id,"#ERROR");
             }
+            else if (resultat.equals("")) f.Modifica_Cela(id,"");
         }
 
         CheckObs(doc, full, id);
@@ -741,11 +743,10 @@ public class CtrlDomini {
        bc.copiar_contingut(mat1, mat2);
         for (int ah=0;ah< mat2.length;ah++){
             for (int jf = 0; jf < mat2[ah].length; jf++){
-                if (mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum){
+                if (mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefText || mat1[ah][jf] instanceof CelaRefData){
                     modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
                 }else {
                     modificarContingutCela(doc,full,mat2[ah][jf].getId(),mat2[ah][jf].getResultatFinal());
-                    f.getCeles().replace(mat2[ah][jf].getId(),mat2[ah][jf]);
                 }
             }
         }
@@ -947,7 +948,7 @@ public class CtrlDomini {
         bc.operar_bloc(mat1, mataux,operacio,oper);
         for (int ah=0;ah< mat2.length;ah++){
             for (int jf = 0; jf < mat2[ah].length; jf++){
-                if (mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefNum){
+                if (mat1[ah][jf] instanceof CelaRefNum || mat1[ah][jf] instanceof CelaRefText || mat1[ah][jf] instanceof CelaRefData){
                     modificarContingutCela(doc,full,mat2[ah][jf].getId(),mataux[ah][jf].getResultatFinal());
                 }else {
                     modificarContingutCela(doc,full,mat2[ah][jf].getId(),mataux[ah][jf].getResultatFinal());

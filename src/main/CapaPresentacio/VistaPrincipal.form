@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="5" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="1013" height="400"/>
+      <xy x="20" y="20" width="1207" height="400"/>
     </constraints>
     <properties>
       <enabled value="false"/>
@@ -250,6 +250,24 @@
             <constraints/>
             <properties>
               <text value="Opera bloc"/>
+            </properties>
+          </component>
+          <component id="91026" class="javax.swing.JButton" binding="Copia">
+            <constraints/>
+            <properties>
+              <text value="Copia"/>
+            </properties>
+          </component>
+          <component id="1c8e0" class="javax.swing.JButton" binding="ordenaBlocButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Ordena Bloc"/>
+            </properties>
+          </component>
+          <component id="f084a" class="javax.swing.JButton" binding="ordenaFullButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Ordena Full"/>
             </properties>
           </component>
         </children>
