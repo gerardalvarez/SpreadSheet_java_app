@@ -145,7 +145,7 @@ public class CtrlDomini {
                 f.Modifica_Cela(id,"#ERROR");
             }
             else if (resultat.equals("")) f.Modifica_Cela(id,"");
-        }
+        }else if (resultat.equals("")) f.Modifica_Cela(id,"");
 
         CheckObs(doc, full, id);
     }
@@ -729,14 +729,14 @@ public class CtrlDomini {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> idsfin = f.GetIdCeles(idfin1, idfin2);
         ArrayList<Cela> celes= new ArrayList<>();
-        for (int i= 0; i < ids.size(); ++i){
+        /*for (int i= 0; i < ids.size(); ++i){
             celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         for (int i= 0; i < idsfin.size(); ++i){
             celes.add((Cela) f.getCeles().get(idsfin.get(i)).clone());
         }
         Accio a= new Accio("copiar", celes);
-        f.Afegir_Accio(a);
+        f.Afegir_Accio(a);*/
         Cela [][] mat1 = GetMatriu(doc, full, id1, id2);
        Cela [][] mat2 = GetMatriu(doc, full, idfin1, idfin2);
        Bloc_celes bc = new Bloc_celes();
