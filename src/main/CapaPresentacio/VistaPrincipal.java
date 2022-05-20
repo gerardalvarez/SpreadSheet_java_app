@@ -1,5 +1,6 @@
 package main.CapaPresentacio;
 
+import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.PublicFuntions;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
@@ -297,6 +298,10 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             else {
                 String[] opt = {"No Reemplaçar", "Reemplaçar"};
                 int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Incrementar", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
@@ -356,142 +361,234 @@ public class VistaPrincipal extends JFrame {
 
 
         dateTextButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            try {
-                if(!cp.transformaText("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
-                else{
-                    String[][] temp = new String[0][];
-                    try {
-                        temp = cp.MostrarLlista("Doc 1", "Full 1");
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+                try {
+                    if (!cp.transformaText("Doc 1", "Full 1", id))
+                        JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    else {
+                        String[][] temp = new String[0][];
+                        try {
+                            temp = cp.MostrarLlista("Doc 1", "Full 1");
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        System.out.println(temp[fila][columna]);
+                        String obj = temp[fila][columna];
+                        String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                        String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                        Tipus.setText(type);
+                        Contingut.setText(content);
+                        Full.setValueAt(obj, fila, columna);
+                        Full.repaint();
                     }
-                    System.out.println(temp[fila][columna]);
-                    String obj = temp[fila][columna];
-                    String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                    String type = cp.GetTipusCela("Doc 1", "Full 1", id);
-                    Tipus.setText(type);
-                    Contingut.setText(content);
-                    Full.setValueAt(obj, fila, columna);
-                    Full.repaint();
+                } catch (CloneNotSupportedException ex) {
+                    ex.printStackTrace();
                 }
-            } catch (CloneNotSupportedException ex) {
-                ex.printStackTrace();
             }
         });
-        textDateButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            try {
-                if(!cp.transformaData("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
-                else{
-                    String[][] temp = new String[0][];
-                    try {
-                        temp = cp.MostrarLlista("Doc 1", "Full 1");
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    System.out.println(temp[fila][columna]);
-                    String obj = temp[fila][columna];
-                    String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                    String type = cp.GetTipusCela("Doc 1", "Full 1", id);
-                    Tipus.setText(type);
-                    Contingut.setText(content);
-                    Full.setValueAt(obj, fila, columna);
-                    Full.repaint();
-                }
-            } catch (CloneNotSupportedException ex) {
-                ex.printStackTrace();
-            }
-        });
-        minusculesButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            try {
-                cp.AllMinus("Doc 1", "Full 1", id);
-            } catch (CloneNotSupportedException ex) {
-                ex.printStackTrace();
-            }
-            String[][] temp = new String[0][];
-            try {
-                temp = cp.MostrarLlista("Doc 1", "Full 1");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            System.out.println(temp[fila][columna]);
-            String obj = temp[fila][columna];
-            String content = cp.ValorTotal("Doc 1", "Full 1", id);
-            String type = cp.GetTipusCela("Doc 1", "Full 1", id);
-            Tipus.setText(type);
-            Contingut.setText(content);Full.setValueAt(obj, fila, columna);
-            Full.repaint();
-        });
-        majusculesButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            try {
-                cp.AllMayus("Doc 1", "Full 1", id);
-            } catch (CloneNotSupportedException ex) {
-                ex.printStackTrace();
-            }
-            String[][] temp = new String[0][];
-            try {
-                temp = cp.MostrarLlista("Doc 1", "Full 1");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            System.out.println(temp[fila][columna]);
-            String obj = temp[fila][columna];
-            String content = cp.ValorTotal("Doc 1", "Full 1", id);
-            String type = cp.GetTipusCela("Doc 1", "Full 1", id);
-            Tipus.setText(type);
-            Contingut.setText(content);Full.setValueAt(obj, fila, columna);
-            Full.repaint();
-        });
-        DDButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            String content = cp.getDia("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
 
-            else{
-                Resultat.setText("Dia "+content);
+        textDateButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+                try {
+                    if (!cp.transformaData("Doc 1", "Full 1", id))
+                        JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    else {
+                        String[][] temp = new String[0][];
+                        try {
+                            temp = cp.MostrarLlista("Doc 1", "Full 1");
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        System.out.println(temp[fila][columna]);
+                        String obj = temp[fila][columna];
+                        String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                        String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                        Tipus.setText(type);
+                        Contingut.setText(content);
+                        Full.setValueAt(obj, fila, columna);
+                        Full.repaint();
+                    }
+                } catch (CloneNotSupportedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        minusculesButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "text")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+                try {
+                    cp.AllMinus("Doc 1", "Full 1", id);
+                } catch (CloneNotSupportedException ex) {
+                    ex.printStackTrace();
+                }
+                String[][] temp = new String[0][];
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println(temp[fila][columna]);
+                String obj = temp[fila][columna];
+                String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                Tipus.setText(type);
+                Contingut.setText(content);
+                Full.setValueAt(obj, fila, columna);
+                Full.repaint();
+            }
+        });
+
+        majusculesButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "text")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
+                try {
+                    cp.AllMayus("Doc 1", "Full 1", id);
+                } catch (CloneNotSupportedException ex) {
+                    ex.printStackTrace();
+                }
+                String[][] temp = new String[0][];
+                try {
+                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println(temp[fila][columna]);
+                String obj = temp[fila][columna];
+                String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                Tipus.setText(type);
+                Contingut.setText(content);
+                Full.setValueAt(obj, fila, columna);
+                Full.repaint();
+            }
+        });
+
+        DDButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String content = cp.getDia("Doc 1", "Full 1", CelaActual);
+                if (Objects.equals(content, "null")) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(new JFrame(), "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    Resultat.setText("Dia " + content);
+                }
             }
         });
 
         MMButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            String content = cp.getMes("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
-
-            else{
-                Resultat.setText("Mes "+content);
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                String content = cp.getMes("Doc 1", "Full 1", CelaActual);
+                if (Objects.equals(content, "null")) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    Resultat.setText("Mes " + content);
+                }
             }
         });
 
         AAAAButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            String content = cp.getAny("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
-
-            else{
-                Resultat.setText("Any "+content);
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                String content = cp.getAny("Doc 1", "Full 1", CelaActual);
+                if (Objects.equals(content, "null")) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    Resultat.setText("Any " + content);
+                }
             }
         });
 
         diaSemanalButton.addActionListener(e -> {
-            System.out.println(fila + " " + columna);
-            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-            String content = cp.getWeekday("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
-
-            else{
-                Resultat.setText("Dia de la setmana "+content);
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                String content = cp.getWeekday("Doc 1", "Full 1", CelaActual);
+                if (Objects.equals(content, "null")) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    Resultat.setText("Dia de la setmana " + content);
+                }
             }
         });
+
         Histograma.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/histogram.png"))));
         Histograma.addActionListener(e -> {
             JTextField colField1 = new JTextField();
@@ -695,6 +792,10 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             else {
                 String[] opt = {"No Reemplaçar", "Reemplaçar"};
                 int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Reduir", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
@@ -755,6 +856,10 @@ public class VistaPrincipal extends JFrame {
             if (CelaActual == null) {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 String[] opt = {"No Reemplaçar", "Reemplaçar"};
@@ -817,6 +922,10 @@ public class VistaPrincipal extends JFrame {
             if (CelaActual == null) {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 String[] opt = {"No Reemplaçar", "Reemplaçar"};
@@ -884,6 +993,10 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             else {
                 String[] opt = {"No Reemplaçar", "Reemplaçar"};
                 int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Arrel", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
@@ -950,6 +1063,10 @@ public class VistaPrincipal extends JFrame {
             if (CelaActual == null) {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 Decimals d = new Decimals(CelaActual, cp, Full);
@@ -1030,105 +1147,108 @@ public class VistaPrincipal extends JFrame {
         afegirFilaButton.addActionListener(e -> {
             String num = JOptionPane.showInputDialog(this, "Escrigui la posicio on vol afegir la nova fila", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
 
-            if (PublicFuntions.isNum(num)) {
-                int colActual = cp.GetColumnes("Doc 1", "Full 1");
-                try {
-                    cp.AfegirFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+            if (!(num == null)) {
+                if (PublicFuntions.isNum(num)) {
+                    int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                    try {
+                        cp.AfegirFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
 
-                dataVector.set(true);
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] dataFilaNova = new String[colActual];
-                Arrays.fill(dataFilaNova, " ");
-                dtm.addRow(dataFilaNova);
+                    dataVector.set(true);
+                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                    String[] dataFilaNova = new String[colActual];
+                    Arrays.fill(dataFilaNova, " ");
+                    dtm.addRow(dataFilaNova);
 
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
+                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                    for (int i = 0; i < nomCol.length; i++) {
+                        nomCol[i] = String.valueOf(i + 1);
+                    }
+                    String[][] dades;
+                    try {
+                        dades = cp.MostrarLlista("Doc 1", "Full 1");
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    dtm.setDataVector(dades, nomCol);
+                    dataVector.set(false);
+                    Full.repaint();
+                } else {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                String[][] dades;
-                try {
-                    dades = cp.MostrarLlista("Doc 1", "Full 1");
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                dtm.setDataVector(dades, nomCol);
-                dataVector.set(false);
-                Full.repaint();
-            }
-            else {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         eliminarColumnaButton.addActionListener(e -> {
             String num = JOptionPane.showInputDialog(this, "Escrigui la posicio de la columna que vols esborrar", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
 
-            if (PublicFuntions.isNum(num)) {
-                int colActual = cp.GetColumnes("Doc 1", "Full 1");
-                try {
-                    cp.EliminarCol("Doc 1", "Full 1", Integer.parseInt(num) - 1);
-                } catch (Exception ex) {
-                    Toolkit.getDefaultToolkit().beep();
-                    JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                String[][] temp;
-                try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+            if (!(num == null)) {
+                if (PublicFuntions.isNum(num)) {
+                    int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                    try {
+                        cp.EliminarCol("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                    } catch (Exception ex) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    String[][] temp;
+                    try {
+                        temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
 
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
+                    for (int i = 0; i < nomCol.length; i++) {
+                        nomCol[i] = String.valueOf(i + 1);
+                    }
+                    dataVector.set(true);
+                    dtm.setDataVector(temp, nomCol);
+                    dataVector.set(false);
+                    Full.repaint();
+                } else {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
-            }
-            else {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         eliminarFilaButton.addActionListener(e -> {
             String num = JOptionPane.showInputDialog(this, "Escrigui la posicio de la fila que vol eliminar", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
 
-            if (PublicFuntions.isNum(num)) {
-                int colActual = cp.GetColumnes("Doc 1", "Full 1");
-                try {
-                    cp.EliminarFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
-                } catch (Exception ex) {
-                    Toolkit.getDefaultToolkit().beep();
-                    JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                String[][] temp;
-                try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+            if (!(num == null)) {
+                if (PublicFuntions.isNum(num)) {
+                    int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                    try {
+                        cp.EliminarFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                    } catch (Exception ex) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    String[][] temp;
+                    try {
+                        temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
 
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
+                    for (int i = 0; i < nomCol.length; i++) {
+                        nomCol[i] = String.valueOf(i + 1);
+                    }
+                    dataVector.set(true);
+                    dtm.setDataVector(temp, nomCol);
+                    dataVector.set(false);
+                    Full.repaint();
+                } else {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
-            }
-            else {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 

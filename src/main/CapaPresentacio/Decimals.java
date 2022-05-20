@@ -1,5 +1,7 @@
 package main.CapaPresentacio;
 
+import main.CapaDomini.Models.PublicFuntions;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -48,13 +50,14 @@ public class Decimals extends JDialog {
     }
 
     private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) throws CloneNotSupportedException {
-        if (textField1.getText().trim().isBlank() || (!arrodonirRadioButton.isSelected() && !truncarRadioButton.isSelected())) {
+        String dec = textField1.getText().trim();
+        if (dec.isBlank() || (!arrodonirRadioButton.isSelected() && !truncarRadioButton.isSelected())) {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "Ompli tots els camps per poder procedir", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        else {
+        else if (PublicFuntions.isNum(dec) && Integer.valueOf(dec) >= 0) {
             try {
-                cp.CanviarDecimals("Doc 1", "Full 1", cela, Integer.valueOf(textField1.getText().trim()));
+                cp.CanviarDecimals("Doc 1", "Full 1", cela, Integer.valueOf(dec));
             } catch (CloneNotSupportedException e) {
                 throw new RuntimeException(e);
             }
@@ -64,8 +67,7 @@ public class Decimals extends JDialog {
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException(e);
                 }
-            }
-            else {
+            } else {
                 try {
                     cp.CanviarArrodonit("Doc 1", "Full 1", cela, true);
                 } catch (CloneNotSupportedException e) {
@@ -75,6 +77,9 @@ public class Decimals extends JDialog {
             String cont = cp.ValorTotal("Doc 1", "Full 1", cela);
             full.setValueAt(cont, cela.getKey(), cela.getValue());
             dispose();
+        } else {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "El decimals han de ser números per sobre el 0", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
