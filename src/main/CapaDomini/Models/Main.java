@@ -73,21 +73,37 @@ public class Main {
         a.afegir_full(f);
         ct.gg().put("a",a);
 
-        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"10");
-        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(4,1),"");
-        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(4,0),"=SUM(A1:D2)");
-        ct.copiar("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(2,1),new AbstractMap.SimpleEntry<>(2,2),new AbstractMap.SimpleEntry<>(4,3));
-        ct.Operar_bloc("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),"suma", 5.0);
-            System.out.println(f.getNom());
-            for (Full ff: a.getFulls()) {
-                for (int i = 0; i < ff.getNum_Files(); ++i) {
-                    for (int j = 0; j < ff.getNum_Columnes(); ++j) {
-                        Cela c = ff.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
-                        System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
-                    }
-                    System.out.println();
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),"bb");
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(1,0),"a");
+        ct.modificarContingutCela("a","Full sense nom",new AbstractMap.SimpleEntry<>(2,0),"1");
+       // ct.copiar("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(2,1),new AbstractMap.SimpleEntry<>(2,2),new AbstractMap.SimpleEntry<>(4,3));
+       // ct.Operar_bloc("a","Full sense nom",new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(0,1),"suma", 5.0);
+
+        System.out.println("------");
+        for (Full ff: a.getFulls()) {
+            for (int i = 0; i < ff.getNum_Files(); ++i) {
+                for (int j = 0; j < ff.getNum_Columnes(); ++j) {
+                    Cela c = ff.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
+                    System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
                 }
+                System.out.println();
             }
+        }
+
+        ArrayList<Integer> arr=new ArrayList<>();
+        arr.add(0);
+        f.ordena_bloc(new AbstractMap.SimpleEntry<>(0,0),new AbstractMap.SimpleEntry<>(2,0),arr,"Major-menor");
+
+            System.out.println("------ord");
+        for (Full ff: a.getFulls()) {
+            for (int i = 0; i < ff.getNum_Files(); ++i) {
+                for (int j = 0; j < ff.getNum_Columnes(); ++j) {
+                    Cela c = ff.Consultar_cela(new AbstractMap.SimpleEntry<>(i, j));
+                    System.out.print("(" + c.getId() + ") " + c.getResultatFinal() + "|");
+                }
+                System.out.println();
+            }
+        }
 
         }
     }

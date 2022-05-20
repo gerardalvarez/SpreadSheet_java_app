@@ -10,41 +10,6 @@
     </properties>
     <border type="none" title=""/>
     <children>
-      <tabbedpane id="d7494" binding="tabbedPane1" default-binding="true">
-        <constraints>
-          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="200" height="200"/>
-          </grid>
-        </constraints>
-        <properties>
-          <tabPlacement value="3"/>
-        </properties>
-        <border type="none"/>
-        <children>
-          <scrollpane id="8acf8">
-            <constraints>
-              <tabbedpane title="Full 1"/>
-            </constraints>
-            <properties>
-              <enabled value="false"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="85165" class="javax.swing.JTable" binding="Full">
-                <constraints/>
-                <properties>
-                  <font name="Arial"/>
-                  <showHorizontalLines value="true"/>
-                  <showVerticalLines value="true"/>
-                </properties>
-                <clientProperties>
-                  <JTable.autoStartsEdit class="java.lang.Boolean" value="true"/>
-                </clientProperties>
-              </component>
-            </children>
-          </scrollpane>
-        </children>
-      </tabbedpane>
       <component id="952e4" class="javax.swing.JLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
@@ -264,12 +229,6 @@
               <text value="Ordena Bloc"/>
             </properties>
           </component>
-          <component id="f084a" class="javax.swing.JButton" binding="ordenaFullButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Ordena Full"/>
-            </properties>
-          </component>
         </children>
       </toolbar>
       <component id="a911f" class="javax.swing.JLabel">
@@ -290,6 +249,51 @@
           <editable value="false"/>
         </properties>
       </component>
+      <grid id="9f42a" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <tabbedpane id="d7494" binding="tabbedPane1" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="200" height="200"/>
+              </grid>
+            </constraints>
+            <properties>
+              <tabPlacement value="3"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <scrollpane id="8acf8">
+                <constraints>
+                  <tabbedpane title="Full 1"/>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="85165" class="javax.swing.JTable" binding="Full">
+                    <constraints/>
+                    <properties>
+                      <font name="Arial"/>
+                      <showHorizontalLines value="true"/>
+                      <showVerticalLines value="true"/>
+                    </properties>
+                    <clientProperties>
+                      <JTable.autoStartsEdit class="java.lang.Boolean" value="true"/>
+                    </clientProperties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </tabbedpane>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

@@ -112,42 +112,7 @@ public class CtrlDomini {
     public void modificarContingutCela(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
         System.out.println("-------"+resultat);
         Full f = Documents.get(doc).get_full(full);
-        String a="";
-        if (!resultat.equals("")) a = PublicFuntions.analiza(resultat,f.getNum_Files(),f.getNum_Columnes());
-        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
-        if (f.Consultar_cela(id) instanceof CelaRefNum && !((CelaRefNum) f.Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefNum) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
-            f.borraref(id,l);
-        } else if (f.Consultar_cela(id) instanceof CelaRefText &&!((CelaRefText) f.Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefText) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
-            f.borraref(id,l);
-        }else if (f.Consultar_cela(id) instanceof CelaRefData && !((CelaRefData) f.Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefData) f.Consultar_cela(id)).getContingut(),f.getNum_Files(),f.getNum_Columnes());
-            f.borraref(id,l);
-        }
-        if (!resultat.equals("")){
-            if (a.equals("text") || a.equals("data") || a.equals("numeric") ){
-                f.Modifica_Cela(id,resultat);
-            } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda") ) {
-                Boolean b= false;
-                l=PublicFuntions.analizaops(resultat,f.getNum_Files(),f.getNum_Columnes());
-                for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
-                    b= f.comprova_bucle(id,id2);
-                    if (b) break;
-                }
-                if (b) a="referencia pero #ERROR";
-                else {
-                    if (!l.contains(id)) f.opera(id, l, resultat);
-                    else a = "referencia pero #ERROR";
-                }
-            }
-            if (a.equals("referencia pero #ERROR")){
-                f.Modifica_Cela(id,"#ERROR");
-            }
-            else if (resultat.equals("")) f.Modifica_Cela(id,"");
-        }else if (resultat.equals("")) f.Modifica_Cela(id,"");
-
-        CheckObs(doc, full, id);
+        f.modificarContingutCela(id,resultat);
     }
 
 
@@ -957,5 +922,12 @@ public class CtrlDomini {
             }
         }
         return 0;
+    }
+
+    public void ordena_bloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, ArrayList<Integer> cols, String cont) throws Exception {
+        Full f = Documents.get(doc).get_full(full);
+        f.ordena_bloc(id1,id2,cols,cont);
+
+
     }
 }

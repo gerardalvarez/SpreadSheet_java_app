@@ -715,27 +715,40 @@ public class Full {
     }
 
 
-    public void ordena_bloc(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, ArrayList<Integer> cols, String criteri){
-
+    public void ordena_bloc(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, ArrayList<Integer> cols, String criteri) throws Exception {
         ArrayList<Cela> C= getBlocCeles(id1,id2);
         Bloc_celes b=new Bloc_celes();
         Integer nf = id2.getKey() - id1.getKey();
         Integer nc = id2.getValue() - id1.getValue();
-        Cela [][] mat = getBlocEnMatriu(C,nf,nc);
+        Cela [][] matt = getBlocEnMatriu(C,nf,nc);
+        for (Cela d:C) System.out.println(d.getId()+"-");
+        System.out.println("2222222");
+        for (int i=0;i< matt.length;++i) {
+            for (int j = 0; j < matt[0].length; ++j) {
+                System.out.print("(" + matt[i][j].getId() + ") " + matt[i][j].getResultatFinal() + "|");
+            }
+            System.out.println();
+        }
         switch (criteri){
             case "Major-menor":
-                b.ordena_Z_A(mat,cols);
+                b.ordena_Z_A(matt,cols);
                 break;
             case "Menor-major":
-                b.ordena_A_Z(mat,cols);
+                b.ordena_A_Z(matt,cols);
                 break;
             default:
                 System.out.println("error");
         }
-        for (int i=0;i< mat.length;++i) {
-            for (int j = 0; j < mat[0].length; ++j) {
-                Cela c= mat[i][j];
-                Celes.replace(c.getId(),c);
+        for (int i=0;i< matt.length;++i) {
+            for (int j = 0; j < matt[0].length; ++j) {
+                Cela c= matt[i][j];
+                if(c instanceof CelaRefNum){
+                    modificarContingutCela(c.getId(),((CelaRefNum) c).getContingut());
+                } else if (c instanceof CelaRefText) {
+                    modificarContingutCela(c.getId(),((CelaRefText) c).getContingut());
+                } else if (c instanceof CelaRefData) {
+                    modificarContingutCela(c.getId(),((CelaRefData) c).getContingut());
+                }else modificarContingutCela(c.getId(),c.getResultatFinal());
             }
         }
 
@@ -894,6 +907,72 @@ public class Full {
        }
         return b;
 
+    }
+
+    public void modificarContingutCela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
+
+        String a="";
+        if (!resultat.equals("")) a = PublicFuntions.analiza(resultat,getNum_Files(),getNum_Columnes());
+        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
+        if (Consultar_cela(id) instanceof CelaRefNum && !((CelaRefNum) Consultar_cela(id)).getContingut().equals(resultat)){
+            l=PublicFuntions.analizaops(((CelaRefNum) Consultar_cela(id)).getContingut(),getNum_Files(),getNum_Columnes());
+            borraref(id,l);
+        } else if (Consultar_cela(id) instanceof CelaRefText &&!((CelaRefText) Consultar_cela(id)).getContingut().equals(resultat)){
+            l=PublicFuntions.analizaops(((CelaRefText) Consultar_cela(id)).getContingut(),getNum_Files(),getNum_Columnes());
+            borraref(id,l);
+        }else if (Consultar_cela(id) instanceof CelaRefData && !((CelaRefData) Consultar_cela(id)).getContingut().equals(resultat)){
+            l=PublicFuntions.analizaops(((CelaRefData) Consultar_cela(id)).getContingut(),getNum_Files(),getNum_Columnes());
+            borraref(id,l);
+        }
+        if (!resultat.equals("")){
+            if (a.equals("text") || a.equals("data") || a.equals("numeric") ){
+                Modifica_Cela(id,resultat);
+            } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda") ) {
+                Boolean b= false;
+                l=PublicFuntions.analizaops(resultat,getNum_Files(),getNum_Columnes());
+                for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
+                    b= comprova_bucle(id,id2);
+                    if (b) break;
+                }
+                if (b) a="referencia pero #ERROR";
+                else {
+                    if (!l.contains(id)) opera(id, l, resultat);
+                    else a = "referencia pero #ERROR";
+                }
+            }
+            if (a.equals("referencia pero #ERROR")){
+                Modifica_Cela(id,"#ERROR");
+            }
+            else if (resultat.equals("")) Modifica_Cela(id,"");
+        }else if (resultat.equals("")) Modifica_Cela(id,"");
+
+        CheckObs(id);
+    }
+
+
+
+
+    public void CheckObs(AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs = getCeles().get(id).getObservadors();
+        System.out.println("check obs V"+obs.size());
+        if(obs.size()!=0){
+            System.out.println("check obs "+obs.size());
+            for(int i = 0; i < obs.size(); i++){
+                if (getCeles().get(obs.get(i)) instanceof CelaRefData) {
+                    CelaRefData c = (CelaRefData) getCeles().get(obs.get(i));
+                    modificarContingutCela( obs.get(i), c.getContingut());
+                } else if (getCeles().get(obs.get(i)) instanceof CelaRefText) {
+                    CelaRefText c = (CelaRefText) getCeles().get(obs.get(i));
+                    modificarContingutCela( obs.get(i), c.getContingut());
+                } else {
+                    System.out.println(obs.get(i).getKey() + " " + obs.get(i).getValue());
+                    CelaRefNum c = (CelaRefNum) getCeles().get(obs.get(i));
+                    modificarContingutCela( obs.get(i), c.getContingut());
+                }
+
+            }
+
+        }
     }
 };
 

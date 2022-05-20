@@ -328,4 +328,7 @@ public class CtrlPresentacio {
         else return true;
     }
 
+    public void ordena_bloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer >id2, ArrayList<Integer> cols, String cont) throws Exception {
+    Cd.ordena_bloc(doc,full,id1,id2,cols,cont);
+    }
 }

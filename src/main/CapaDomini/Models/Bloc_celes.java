@@ -12,7 +12,8 @@ import java.util.*;
 
 public class Bloc_celes {
 
-    public Bloc_celes(){}
+    public Bloc_celes() {
+    }
 
 
     /////////
@@ -23,24 +24,23 @@ public class Bloc_celes {
     public Cela[][] ordena_A_Z_matrix(Cela[][] arr, ArrayList<Integer> cols) {
 
         Cela[][] aux = new Cela[arr.length][arr[0].length];
-        AbstractMap.SimpleEntry<Integer,Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
+        AbstractMap.SimpleEntry<Integer, Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
-                if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
-                }
-                else if(arr[i][j] instanceof TextCela){
-                    aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
+                if (arr[i][j] instanceof Numero) {
+                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(), ((Numero) arr[i][j]).getArrodonit(), ((Numero) arr[i][j]).getNum_Decimals(), ((Numero) arr[i][j]).getTipus());
+                } else if (arr[i][j] instanceof TextCela) {
+                    aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(), ((TextCela) arr[i][j]).getResultatFinal());
                 } else if (arr[i][j] instanceof CelaRefNum) {
-                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j],arr[i][j].getId());
+                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j], arr[i][j].getId());
 
                 } else if (arr[i][j] instanceof CelaRefText) {
-                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j],arr[i][j].getId());
+                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j], arr[i][j].getId());
 
                 } else if (arr[i][j] instanceof CelaRefData) {
-                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j],arr[i][j].getId());
+                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j], arr[i][j].getId());
                 }
-                auxindex[i][j]=arr[i][j].getId();
+                auxindex[i][j] = arr[i][j].getId();
             }
         }
         Arrays.sort(aux, new Comparator<Cela[]>() {
@@ -48,8 +48,8 @@ public class Bloc_celes {
             @Override
             // Compare values according to columns
             public int compare(final Cela[] entry1, final Cela[] entry2) {
-                int i=0;
-                while(i<cols.size()-1){
+                int i = 0;
+                while (i < cols.size() - 1) {
                     if (!entry1[cols.get(i)].getResultatFinal().equals(entry2[cols.get(i)].getResultatFinal())) break;
                     i++;
                 }
@@ -59,10 +59,9 @@ public class Bloc_celes {
 
         for (int i = 0; i < aux.length; i++) {
             for (int j = 0; j < aux[i].length; j++) {
-                if(aux[i][j] instanceof Numero){
+                if (aux[i][j] instanceof Numero) {
                     aux[i][j].setId(auxindex[i][j]);
-                }
-                else if(aux[i][j] instanceof TextCela){
+                } else if (aux[i][j] instanceof TextCela) {
                     aux[i][j].setId(auxindex[i][j]);
                 }
             }
@@ -70,28 +69,27 @@ public class Bloc_celes {
         return aux;
     }
 
-    public Cela[][] ordena_Z_A_matrix(Cela arr[][],ArrayList<Integer> cols) {
+    public Cela[][] ordena_Z_A_matrix(Cela arr[][], ArrayList<Integer> cols) {
 
 
         Cela[][] aux = new Cela[arr.length][arr[0].length];
-        AbstractMap.SimpleEntry<Integer,Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
+        AbstractMap.SimpleEntry<Integer, Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
-                if(arr[i][j] instanceof Numero){
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(),((Numero) arr[i][j]).getArrodonit(),((Numero) arr[i][j]).getNum_Decimals(),((Numero) arr[i][j]).getTipus());
-                }
-                else if(arr[i][j] instanceof TextCela){
-                    aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(),((TextCela) arr[i][j]).getResultatFinal());
-                }  else if (arr[i][j] instanceof CelaRefNum) {
-                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j],arr[i][j].getId());
+                if (arr[i][j] instanceof Numero) {
+                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(), ((Numero) arr[i][j]).getArrodonit(), ((Numero) arr[i][j]).getNum_Decimals(), ((Numero) arr[i][j]).getTipus());
+                } else if (arr[i][j] instanceof TextCela) {
+                    aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(), ((TextCela) arr[i][j]).getResultatFinal());
+                } else if (arr[i][j] instanceof CelaRefNum) {
+                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j], arr[i][j].getId());
 
                 } else if (arr[i][j] instanceof CelaRefText) {
-                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j],arr[i][j].getId());
+                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j], arr[i][j].getId());
 
                 } else if (arr[i][j] instanceof CelaRefData) {
-                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j],arr[i][j].getId());
+                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j], arr[i][j].getId());
                 }
-                auxindex[i][j]=arr[i][j].getId();
+                auxindex[i][j] = arr[i][j].getId();
             }
         }
         Arrays.sort(aux, new Comparator<Cela[]>() {
@@ -99,8 +97,8 @@ public class Bloc_celes {
             @Override
             // Compare values according to columns
             public int compare(final Cela[] entry1, final Cela[] entry2) {
-                int i=0;
-                while(i<cols.size()-1){
+                int i = 0;
+                while (i < cols.size() - 1) {
                     if (!entry2[cols.get(i)].getResultatFinal().equals(entry1[cols.get(i)].getResultatFinal())) break;
                     i++;
                 }
@@ -110,10 +108,9 @@ public class Bloc_celes {
 
         for (int i = 0; i < aux.length; i++) {
             for (int j = 0; j < aux[i].length; j++) {
-                if(aux[i][j] instanceof Numero){
+                if (aux[i][j] instanceof Numero) {
                     aux[i][j].setId(auxindex[i][j]);
-                }
-                else if(aux[i][j] instanceof TextCela){
+                } else if (aux[i][j] instanceof TextCela) {
                     aux[i][j].setId(auxindex[i][j]);
                 }
             }
@@ -126,7 +123,7 @@ public class Bloc_celes {
     //Funciones de ordenar que devuelven una matriz con las celdas antiguas con los id cambiados a ordenado
     /////////
 
-    public void ordena_A_Z(Cela arr[][],ArrayList<Integer> cols) {
+    public void ordena_A_Z(Cela arr[][], ArrayList<Integer> cols) {
 
         AbstractMap.SimpleEntry<Long,Cela>[][] aux = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
         AbstractMap.SimpleEntry<Integer,Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
@@ -160,11 +157,26 @@ public class Bloc_celes {
             // Compare values according to columns
             public int compare(final  AbstractMap.SimpleEntry<Long,Cela>[] entry1, final  AbstractMap.SimpleEntry<Long,Cela>[] entry2) {
                 int i=0;
+                String a1="";
+                String a2="";
                 while(i<cols.size()-1){
-                    if (!entry1[cols.get(i)].getValue().getResultatFinal().equals(entry2[cols.get(i)].getValue().getResultatFinal())) break;
+                    a1=entry1[cols.get(i)].getValue().getResultatFinal();
+                    a2=entry2[cols.get(i)].getValue().getResultatFinal();
+                    if (!a1.equals(a2)) break;
                     i++;
                 }
-                return entry1[cols.get(i)].getValue().getResultatFinal().compareTo(entry2[cols.get(i)].getValue().getResultatFinal());
+                a1=entry1[cols.get(i)].getValue().getResultatFinal();
+                a2=entry2[cols.get(i)].getValue().getResultatFinal();
+                Double aa,ab;
+                try {
+                    aa=Double.parseDouble(a1);
+                    ab=Double.parseDouble(a2);
+                }catch (NumberFormatException e){
+                    System.out.println("a");
+                    return a2.compareTo(a1);
+                }
+                System.out.println(a1+" "+a2+" "+a1.compareTo(a2));
+                return Double.compare(aa,ab);
             }
         });
 
@@ -183,7 +195,7 @@ public class Bloc_celes {
     }
 
 
-    public void ordena_Z_A(Cela arr[][],ArrayList<Integer> cols) {
+    public void ordena_Z_A(Cela arr[][], ArrayList<Integer> cols) {
 
         AbstractMap.SimpleEntry<Long,Cela>[][] aux = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
         AbstractMap.SimpleEntry<Integer,Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
@@ -217,11 +229,27 @@ public class Bloc_celes {
             // Compare values according to columns
             public int compare(final  AbstractMap.SimpleEntry<Long,Cela>[] entry1, final  AbstractMap.SimpleEntry<Long,Cela>[] entry2) {
                 int i=0;
+                String a1="";
+                String a2="";
                 while(i<cols.size()-1){
-                    if (!entry2[cols.get(i)].getValue().getResultatFinal().equals(entry1[cols.get(i)].getValue().getResultatFinal())) break;
+                    a1=entry2[cols.get(i)].getValue().getResultatFinal();
+                    a2=entry1[cols.get(i)].getValue().getResultatFinal();
+                    if (!a1.equals(a2)) break;
                     i++;
                 }
-                return entry2[cols.get(i)].getValue().getResultatFinal().compareTo(entry1[cols.get(i)].getValue().getResultatFinal());
+                a1=entry2[cols.get(i)].getValue().getResultatFinal();
+                a2=entry1[cols.get(i)].getValue().getResultatFinal();
+
+                Double aa,ab;
+                try {
+                    aa=Double.parseDouble(a1);
+                    ab=Double.parseDouble(a2);
+                }catch (NumberFormatException e){
+                    System.out.println("a");
+                    return a2.toLowerCase(Locale.ROOT).compareTo(a1.toLowerCase());
+                }
+                System.out.println(a1+" "+a2+" "+a1.compareTo(a2));
+                return Double.compare(aa,ab);
             }
         });
         for (int i = 0; i < arr.length; i++) {
@@ -237,6 +265,8 @@ public class Bloc_celes {
             }
         }
     }
+
+
 
 
     public double calculaMitjana(ArrayList<Numero> inputs) {
