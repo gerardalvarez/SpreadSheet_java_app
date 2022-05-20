@@ -14,11 +14,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
@@ -356,7 +354,7 @@ public class VistaPrincipal extends JFrame {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
             try {
-                if(!cp.transformaText("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+                if(!cp.transformaText("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Error",JOptionPane.ERROR_MESSAGE);
                 else{
                     String[][] temp = new String[0][];
                     try {
@@ -381,7 +379,7 @@ public class VistaPrincipal extends JFrame {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
             try {
-                if(!cp.transformaData("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+                if(!cp.transformaData("Doc 1", "Full 1", id))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Error",JOptionPane.ERROR_MESSAGE);
                 else{
                     String[][] temp = new String[0][];
                     try {
@@ -408,7 +406,7 @@ public class VistaPrincipal extends JFrame {
             try {
                 cp.AllMinus("Doc 1", "Full 1", id);
             } catch (ClassCastException | CloneNotSupportedException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "La Cela no es un text", "Dialog",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), "La Cela no es un text", "Error",JOptionPane.ERROR_MESSAGE);
             }
             String[][] temp = new String[0][];
             try {
@@ -430,7 +428,7 @@ public class VistaPrincipal extends JFrame {
             try {
                 cp.AllMayus("Doc 1", "Full 1", id);
             } catch (ClassCastException | CloneNotSupportedException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "La Cela no es un text", "Dialog",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), "La Cela no es un text", "Error",JOptionPane.ERROR_MESSAGE);
             }
             String[][] temp = new String[0][];
             try {
@@ -450,7 +448,7 @@ public class VistaPrincipal extends JFrame {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
             String content = cp.getDia("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Error",JOptionPane.ERROR_MESSAGE);
 
             else{
                 Resultat.setText("Dia "+content);
@@ -461,7 +459,7 @@ public class VistaPrincipal extends JFrame {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
             String content = cp.getMes("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Error",JOptionPane.ERROR_MESSAGE);
 
             else{
                 Resultat.setText("Mes "+content);
@@ -472,7 +470,7 @@ public class VistaPrincipal extends JFrame {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
             String content = cp.getAny("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Error",JOptionPane.ERROR_MESSAGE);
 
             else{
                 Resultat.setText("Any "+content);
@@ -483,7 +481,7 @@ public class VistaPrincipal extends JFrame {
             System.out.println(fila + " " + columna);
             AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
             String content = cp.getWeekday("Doc 1", "Full 1", id);
-            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog",JOptionPane.ERROR_MESSAGE);
+            if(Objects.equals(content, "null"))JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Error",JOptionPane.ERROR_MESSAGE);
 
             else{
                 Resultat.setText("Dia de la setmana "+content);
@@ -530,7 +528,7 @@ public class VistaPrincipal extends JFrame {
                     rowF2 = Integer.parseInt(rowFiField2.getText());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if(!col.equals(col2) && rowI < rowF){
@@ -542,14 +540,14 @@ public class VistaPrincipal extends JFrame {
                         ex.printStackTrace();
                     }
                     if (Objects.equals(chart, null))
-                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     else {
                         CategoryChart finalChart = chart;
                         Thread t = new Thread(() -> new SwingWrapper(finalChart).displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
                         t.start();
                     }
                 }
-                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
 
             }
         });
@@ -597,7 +595,7 @@ public class VistaPrincipal extends JFrame {
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
                     System.out.println(1);
-                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if(!col.equals(col2) && rowI < rowF){
@@ -610,14 +608,14 @@ public class VistaPrincipal extends JFrame {
                         ex.printStackTrace();
                     }
                     if (Objects.equals(chart, null))
-                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     else {
                         PieChart finalChart = chart;
                         Thread t = new Thread(() -> new SwingWrapper(finalChart).displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
                         t.start();
                     }
                 }
-                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
 
             }
         });
@@ -664,7 +662,7 @@ public class VistaPrincipal extends JFrame {
                     rowF2 = Integer.parseInt(rowFiField2.getText());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if(col != col2 && rowI < rowF){
@@ -675,7 +673,7 @@ public class VistaPrincipal extends JFrame {
                         ex.printStackTrace();
                     }
                     if (Objects.equals(chart, null))
-                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     else {
                         chart.getStyler().setCursorEnabled(true);
                         XYChart finalChart = chart;
@@ -683,7 +681,7 @@ public class VistaPrincipal extends JFrame {
                         t.start();
                     }
                 }
-                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                else JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
 
             }
         });
@@ -1094,7 +1092,7 @@ public class VistaPrincipal extends JFrame {
 
                     System.out.println(col + " " + rowI2 + " " + col2 + " " + rowF + " " + Frowin + " " + Frowdest + " " + Fcolin + " " + Fcoldest + " ");
                 } catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -1103,7 +1101,7 @@ public class VistaPrincipal extends JFrame {
                 if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0
                         || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0|| Fcoldest-1 < 0|| Frowdest-1 < 0|| Fcolin-1 < 0||Frowin-1< 0
                         || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils|| Fcoldest-1 >= cols|| Frowdest-1 >= fils|| Fcolin-1 >= cols||Frowin-1>= fils){
-                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else {
                     int a;
@@ -1211,7 +1209,7 @@ public class VistaPrincipal extends JFrame {
 
                     System.out.println(col + " " + rowI2 + " " + col2 + " " + rowF + " " + Frowin + " " + Frowdest + " " + Fcolin + " " + Fcoldest + " ");
                 } catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 Double d=0.0;
@@ -1219,7 +1217,7 @@ public class VistaPrincipal extends JFrame {
                     try {
                         d= Double.parseDouble(cont.getText());
                     } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(new JFrame(), "El operador no és un numero vàlid", "Dialog", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(new JFrame(), "El operador no és un numero vàlid", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 }
@@ -1228,7 +1226,7 @@ public class VistaPrincipal extends JFrame {
                 if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0
                         || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0|| Fcoldest-1 < 0|| Frowdest-1 < 0|| Fcolin-1 < 0||Frowin-1< 0
                         || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils|| Fcoldest-1 >= cols|| Frowdest-1 >= fils|| Fcolin-1 >= cols||Frowin-1>= fils){
-                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else {
                     int a;
@@ -1238,7 +1236,7 @@ public class VistaPrincipal extends JFrame {
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    if (a==-1) JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son del tipus correcte", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    if (a==-1) JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son del tipus correcte", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 String[][] temp;
                 try {
@@ -1266,17 +1264,12 @@ public class VistaPrincipal extends JFrame {
             JTextField rowIniField2 = new JTextField();
             JTextField rowFiField2 = new JTextField();
             JTextField colField2 = new JTextField();
-            JTextField colField3 = new JTextField();
-            JTextField rowIniField4 = new JTextField();
-            JTextField rowFiField4 = new JTextField();
-            JTextField colField33 = new JTextField();
             JPanel myPanel = new JPanel();
+            JTextField cont = new JTextField();
             JPanel Text = new JPanel();
             JPanel Text2 = new JPanel();
             JPanel Col1 = new JPanel();
             JPanel Col2 = new JPanel();
-            JPanel Col3 = new JPanel();
-            JPanel Col4 = new JPanel();
             myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
 
             Text.add(new JLabel("Bloc a ordenar"));
@@ -1301,6 +1294,10 @@ public class VistaPrincipal extends JFrame {
             Col2.add(rowFiField2);
             myPanel.add(Col2);
             myPanel.add(Box.createVerticalStrut(15));
+            Text2.add(new JLabel("Ordre de columnes separades per ,"));
+            myPanel.add(Text2);
+            myPanel.add(cont);
+
 
 
             int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Ordena bloc", JOptionPane.OK_CANCEL_OPTION);
@@ -1314,21 +1311,39 @@ public class VistaPrincipal extends JFrame {
                     rowF = Integer.parseInt(rowFiField2.getText());
 
                 } catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(new JFrame(), "El bloc no és vàlid", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "El bloc no és vàlid", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+
+
+                if (cont.getText().equals("")) JOptionPane.showMessageDialog(new JFrame(), "Les columnes no s'han introduit correctament", "Error", JOptionPane.ERROR_MESSAGE);
+
+
                 int cols = nomColumnes.length;
                 int fils=nomFiles.length;
                 if(col>col2 || rowI2 > rowF || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0
                         || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils){
-                    JOptionPane.showMessageDialog(new JFrame(), "El bloc no és vàlid", "Dialog", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "El bloc no és vàlid", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else {
                     int a;
                     try {
-                        ArrayList<Integer> arr=new ArrayList<>();
-                        arr.add(0);
-                        cp.ordena_bloc("Doc 1","Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1),arr,ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString());
+                        Scanner sc =new Scanner(cont.getText());
+                        sc.useDelimiter(Pattern.compile(","));
+                        ArrayList<Integer>columnas=new ArrayList<>();
+                        int c;
+                        while (sc.hasNext()){
+                            try {
+                                c = Integer.parseInt(sc.next());
+                            }catch (NumberFormatException e1){
+                                JOptionPane.showMessageDialog(new JFrame(), "Les columnes no s'han introduit correctament", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                            if (c>=0 && c<=(col2-col) && !columnas.contains(c)){
+                                columnas.add(c);
+                            }else JOptionPane.showMessageDialog(new JFrame(), "Les columnes no s'han introduit correctament", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        cp.ordena_bloc("Doc 1","Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1),columnas,ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString());
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
