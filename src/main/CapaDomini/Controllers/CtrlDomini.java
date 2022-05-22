@@ -6,9 +6,7 @@ import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
-import javax.print.Doc;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 
