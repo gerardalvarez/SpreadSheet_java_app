@@ -1,6 +1,5 @@
 package main.CapaPresentacio;
 
-import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.PublicFuntions;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
@@ -10,8 +9,8 @@ import org.knowm.xchart.XYChart;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,6 +20,7 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
@@ -53,10 +53,11 @@ public class VistaPrincipal extends JFrame {
     private JButton Histograma;
     private JComboBox ListaOps;
     private JButton Operabloc;
-    private JButton colorCelaButton;
     private JButton afegirFilaButton;
     private JButton eliminarColumnaButton;
     private JButton eliminarFilaButton;
+
+    JTextField textBox = new JTextField();
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -1356,19 +1357,6 @@ public class VistaPrincipal extends JFrame {
 
                 System.out.println(ListaOps.getItemAt(ListaOps.getSelectedIndex()));
 
-            }
-        });
-        colorCelaButton.addActionListener(e -> {
-            if (CelaActual == null) {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                Color color = JColorChooser.showDialog(this, "Colors", null);
-                TableCellRenderer cellRenderer = Full.getCellRenderer(CelaActual.getKey(), CelaActual.getValue());
-                Component rendererComponent = cellRenderer.getTableCellRendererComponent(Full, null, false, true, 0, 0);
-                //rendererComponent.se
-                System.out.println(color);
             }
         });
     }

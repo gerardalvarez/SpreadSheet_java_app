@@ -246,12 +246,6 @@
               <text value="Opera bloc"/>
             </properties>
           </component>
-          <component id="95f03" class="javax.swing.JButton" binding="colorCelaButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Color Cela"/>
-            </properties>
-          </component>
         </children>
       </toolbar>
       <component id="a911f" class="javax.swing.JLabel">
