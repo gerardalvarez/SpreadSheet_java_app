@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main.CapaPresentacio.VistaPrincipal">
-  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="5" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="6" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
       <xy x="20" y="20" width="1207" height="400"/>
@@ -144,7 +144,7 @@
       </toolbar>
       <component id="c9496" class="javax.swing.JToolBar$Separator">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
@@ -205,12 +205,6 @@
               <text value="Majuscules"/>
             </properties>
           </component>
-          <component id="79c92" class="javax.swing.JButton" binding="afegirColumnaButton">
-            <constraints/>
-            <properties>
-              <text value="Afegir Columna"/>
-            </properties>
-          </component>
           <component id="1fb6" class="javax.swing.JButton" binding="Operabloc">
             <constraints/>
             <properties>
@@ -252,7 +246,7 @@
       <grid id="9f42a" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="0" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -294,6 +288,41 @@
           </tabbedpane>
         </children>
       </grid>
+      <toolbar id="7f8e3">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="7" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="79c92" class="javax.swing.JButton" binding="afegirColumnaButton">
+            <constraints/>
+            <properties>
+              <text value="Afegir Columna"/>
+            </properties>
+          </component>
+          <component id="efdd4" class="javax.swing.JButton" binding="afegirFilaButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Afegir Fila"/>
+            </properties>
+          </component>
+          <component id="782b7" class="javax.swing.JButton" binding="eliminarColumnaButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Eliminar Columna"/>
+            </properties>
+          </component>
+          <component id="cae98" class="javax.swing.JButton" binding="eliminarFilaButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Eliminar Fila"/>
+            </properties>
+          </component>
+        </children>
+      </toolbar>
     </children>
   </grid>
 </form>

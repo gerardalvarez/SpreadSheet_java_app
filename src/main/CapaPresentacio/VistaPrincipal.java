@@ -9,7 +9,6 @@ import org.knowm.xchart.XYChart;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -19,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
