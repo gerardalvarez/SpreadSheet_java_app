@@ -700,8 +700,8 @@ public class CtrlDomini {
         bc.remplaçar_minuscules(bloc);
     }
 
-    public void BuscaRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) throws Exception {
-        ArrayList<TextCela> bloc = ObtenirBlocText(doc, full, id1, id2);
+    public ArrayList<Cela> BuscaRemp(String doc, String full, String buscar, String remp) throws Exception {
+        /*ArrayList<TextCela> bloc = ObtenirBlocText(doc, full, id1, id2);
         Full f = Documents.get(doc).get_full(full);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
@@ -709,9 +709,16 @@ public class CtrlDomini {
             celes.add((Cela) f.getCeles().get(ids.get(i)).clone());
         }
         Accio a= new Accio("buscaremp", celes);
-        f.Afegir_Accio(a);
+        f.Afegir_Accio(a);*/
+
+        //UNDO
         Bloc_celes bc = new Bloc_celes();
-        bc.buscar_y_remplazar(bloc, buscar, remp);
+        return bc.buscar_y_remplazar(Documents.get(doc).get_full(full).CelesArray(), buscar, remp);
+    }
+
+    public ArrayList<Cela> Busca(String doc, String full, String busc){
+        System.out.println(busc);
+        return Bloc_celes.buscar(Documents.get(doc).get_full(full).CelesArray(), busc);
     }
 
     public boolean ComprovaCelaNoOcupa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {

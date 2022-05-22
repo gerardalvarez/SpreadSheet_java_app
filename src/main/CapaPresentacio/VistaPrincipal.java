@@ -1,5 +1,6 @@
 package main.CapaPresentacio;
 
+import main.CapaDomini.Models.Cela;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.SwingWrapper;
@@ -8,6 +9,7 @@ import org.knowm.xchart.XYChart;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -15,9 +17,11 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
@@ -50,6 +54,11 @@ public class VistaPrincipal extends JFrame {
     private JButton Histograma;
     private JComboBox ListaOps;
     private JButton Operabloc;
+    private JTextField buscador;
+    private JButton buscarButton;
+    private JButton remplaçaButton;
+    private JButton cancelaButton;
+    private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> LastBusca;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -486,7 +495,7 @@ public class VistaPrincipal extends JFrame {
                 Resultat.setText("Dia de la setmana "+content);
             }
         });
-        Histograma.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/histogram.png"))));
+        Histograma.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/histogram.png"))));
         Histograma.addActionListener(e -> {
             JTextField colField1 = new JTextField();
             JTextField rowIniField2 = new JTextField();
@@ -550,7 +559,7 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
-        pie.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/pieChart.png"))));
+        pie.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/pieChart.png"))));
 
         pie.addActionListener(e -> {
             JTextField colField1 = new JTextField();
@@ -619,7 +628,7 @@ public class VistaPrincipal extends JFrame {
             }
         });
 
-        button5.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/chartLinear.png"))));
+        button5.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/chartLinear.png"))));
         button5.addActionListener(e -> {
 
             JTextField colField1 = new JTextField();
@@ -1140,37 +1149,143 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+        AtomicReference<Color> color = new AtomicReference<>(new Color(187,225,229));
+        class PaintTableCellRender extends DefaultTableCellRenderer{
+            @Override
+            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column){
+                AbstractMap.SimpleEntry<Integer,Integer> id = new AbstractMap.SimpleEntry<>(row,column);
+                if (LastBusca.contains(id)) {
+                    System.out.println("CELDA" + id);
+                    setBackground(color.get());
+                    setEnabled(true);
+                    setText(cp.ValorTotal("Doc 1", "Full 1", id));
+                } else {
+                    setBackground(Color.WHITE);
+                    setText(cp.ValorTotal("Doc 1", "Full 1", id));
+                }
+                return this;
+            }
+        }
+
+        buscarButton.addActionListener(e -> {
+            if(buscador.getText().equals("")){
+                JOptionPane.showMessageDialog(new JFrame(), "No s'ha indicat la paraula al buscador", "Dialog", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                //ACTUALITZEM BUSCA
+                ArrayList<Cela> r= cp.Busca("Doc 1", "Full 1", buscador.getText());
+                ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = new ArrayList<>();
+                for(Cela a : r){
+                    ids.add(new AbstractMap.SimpleEntry(a.getId().getKey(),a.getId().getValue()));
+                }
+                LastBusca =  ids;
+
+                for(int i = 0; i < cp.GetColumnes("Doc 1", "Full 1");i++){
+                    TableColumn col = Full.getColumnModel().getColumn(i);
+                    col.setCellRenderer(new PaintTableCellRender());
+                    Full.repaint();
+                }
+                Full.setEnabled(false);
+            }
+        });
+        cancelaButton.addActionListener(e -> {
+                LastBusca =  new ArrayList<>();
+
+            String[][] temp;
+            try {
+                temp = cp.MostrarLlista("Doc 1", "Full 1");
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+            for (int i = 0; i < nomCol.length; i++) {
+                nomCol[i] = String.valueOf(i + 1);
+            }
+            dataVector.set(true);
+            dtm.setDataVector(temp, nomCol);
+            dataVector.set(false);
+            Full.repaint();
+            Full.setEnabled(true);
+
+        });
+
+
+        remplaçaButton.addActionListener(e -> {
+            JTextField colField1 = new JTextField();
+            JTextField colField2 = new JTextField();
+
+            JPanel myPanel = new JPanel();
+            JPanel Text = new JPanel();
+            JPanel Col1 = new JPanel();
+            myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+            Text.add(new JLabel("Els remplaçament només son vàlids a celes de tipus Text"));
+            myPanel.add(Text);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col1.add(new JLabel("Remplaça de:"));
+            Col1.add(colField1);
+            Col1.add(new JLabel("a:"));
+            Col1.add(colField2);
+            myPanel.add(Col1);
+
+
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Remplaçar", JOptionPane.OK_CANCEL_OPTION);
+            if (result_2 == JOptionPane.OK_OPTION) {
+                String busca, rempla;
+                busca = colField1.getText();
+                System.out.println(busca);
+                rempla = colField2.getText();
+                try {
+                    ArrayList<Cela> a = cp.BuscarRemp("Doc 1", "Full 1", busca, rempla);
+                    for (Cela c : a) {
+                        int col = c.getId().getValue();
+                        int row = c.getId().getKey();
+                        AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
+
+                        try {
+                            String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
+                            String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                            String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                            for (int i = 0; i < nomCol.length; i++) {
+                                nomCol[i] = String.valueOf(i + 1);
+                            }
+                            dataVector.set(true);
+                            dtm.setDataVector(temp, nomCol);
+                            dataVector.set(false);
+                            Tipus.setText(type);
+                            Contingut.setText(content);
+                            //Full.setValueAt(obj, row, col);
+                            Full.repaint();
+
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+
+
+        });
     }
-    /*public void showPieChart(){
-
-        //create dataset
-        DefaultPieDataset barDataset = new DefaultPieDataset( );
-        barDataset.setValue( "IPhone 5s" , new Double( 20 ) );
-        barDataset.setValue( "SamSung Grand" , new Double( 20 ) );
-        barDataset.setValue( "MotoG" , new Double( 40 ) );
-        barDataset.setValue( "Nokia Lumia" , new Double( 10 ) );
-
-        //create chart
-        JFreeChart piechart = ChartFactory.createPieChart("mobile sales",barDataset, false,true,false);//explain
-
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-
-        //changing pie chart blocks colors
-        piePlot.setSectionPaint("IPhone 5s", new Color(255,255,102));
-        piePlot.setSectionPaint("SamSung Grand", new Color(102,255,102));
-        piePlot.setSectionPaint("MotoG", new Color(255,102,153));
-        piePlot.setSectionPaint("Nokia Lumia", new Color(0,204,204));
 
 
-        piePlot.setBackgroundPaint(Color.white);
-
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
-        panelBarChart.removeAll();
-        panelBarChart.add(barChartPanel, BorderLayout.CENTER);
-        panelBarChart.validate();
-    }*/
 }
+
+
+
+
+
+
 
 
 

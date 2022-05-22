@@ -109,5 +109,9 @@ public abstract class Cela implements Cloneable{
         }
     }
 
+    public Boolean buscarElement(String element){
+        return resultat_final.contains(element);
+    }
+
 }
 

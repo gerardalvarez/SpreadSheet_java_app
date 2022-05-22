@@ -25,12 +25,13 @@ public class TextCela extends Cela implements Cloneable{
     }
 
     //FUNCIONS PUBLIQUES
-    public Boolean buscarElement(String element){
-        return resultat_final.contains(element);
-    }
 
     public void remplacarElement(String element, String change){
        resultat_final= resultat_final.replaceAll(element,change);
+    }
+
+    public Boolean buscarElement(String element){
+        return resultat_final.contains(element);
     }
 
     public void AllMayus(){

@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="5" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="1013" height="400"/>
+      <xy x="20" y="20" width="1258" height="400"/>
     </constraints>
     <properties>
       <enabled value="false"/>
@@ -111,6 +111,12 @@
               <text value=""/>
             </properties>
           </component>
+          <component id="e190f" class="javax.swing.JButton" binding="numeroDecimalsButton">
+            <constraints/>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
           <component id="bed5f" class="javax.swing.JButton" binding="valorAbsolutButton">
             <constraints/>
             <properties>
@@ -129,12 +135,6 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="e190f" class="javax.swing.JButton" binding="numeroDecimalsButton">
-            <constraints/>
-            <properties>
-              <text value=""/>
-            </properties>
-          </component>
           <component id="5bae3" class="javax.swing.JButton" binding="canviarTipusNumeroButton">
             <constraints/>
             <properties>
@@ -147,7 +147,7 @@
               <text value=""/>
             </properties>
           </component>
-          <hspacer id="c4575">
+          <hspacer id="8a278">
             <constraints/>
           </hspacer>
           <component id="79dda" class="javax.swing.JButton" binding="Histograma">
@@ -162,18 +162,39 @@
               <text value=""/>
             </properties>
           </component>
+          <component id="15f9b" class="javax.swing.JButton" binding="button5">
+            <constraints/>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <hspacer id="c4575">
+            <constraints/>
+          </hspacer>
+          <component id="2ab36" class="javax.swing.JButton" binding="cancelaButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Cancela"/>
+            </properties>
+          </component>
+          <component id="c035e" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Buscar"/>
+            </properties>
+          </component>
+          <component id="ef44d" class="javax.swing.JTextField" binding="buscador">
+            <constraints/>
+            <properties>
+              <maximumSize width="200" height="30"/>
+              <preferredSize width="200" height="30"/>
+            </properties>
+          </component>
           <toolbar id="4f546">
             <constraints/>
             <properties/>
             <border type="none"/>
-            <children>
-              <component id="15f9b" class="javax.swing.JButton" binding="button5">
-                <constraints/>
-                <properties>
-                  <text value=""/>
-                </properties>
-              </component>
-            </children>
+            <children/>
           </toolbar>
         </children>
       </toolbar>
@@ -250,6 +271,15 @@
             <constraints/>
             <properties>
               <text value="Opera bloc"/>
+            </properties>
+          </component>
+          <hspacer id="4ce34">
+            <constraints/>
+          </hspacer>
+          <component id="bedfa" class="javax.swing.JButton" binding="remplaçaButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Remplaça"/>
             </properties>
           </component>
         </children>

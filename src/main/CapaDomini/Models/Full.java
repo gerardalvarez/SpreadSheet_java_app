@@ -352,6 +352,14 @@ public class Full {
         return Celes;
     }
 
+    public ArrayList<Cela> CelesArray(){
+        ArrayList<Cela> a =  new ArrayList<>();
+        for (HashMap.Entry<AbstractMap.SimpleEntry<Integer,Integer>, Cela> entry : Celes.entrySet()) {
+            a.add(entry.getValue());
+        }
+        return a;
+    }
+
     public void Undo() throws Exception {
         if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("modificarcela")) {
             Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);

@@ -2,6 +2,8 @@ package main.CapaPresentacio;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
+import main.CapaDomini.Models.Bloc_celes;
+import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.Document;
 import main.CapaDomini.Models.Numero;
 import org.knowm.xchart.CategoryChart;
@@ -248,8 +250,8 @@ public class CtrlPresentacio {
         Cd.AllMinusBloc(doc, full, id1, id2);
     }
 
-    public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) throws Exception {
-        Cd.BuscaRemp(doc, full, id1, id2, buscar, remp);
+    public ArrayList<Cela> BuscarRemp(String doc, String full, String buscar, String remp) throws Exception {
+        return Cd.BuscaRemp(doc, full, buscar, remp);
     }
 
     public boolean ComprovaCelaNoOcupa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
@@ -319,5 +321,9 @@ public class CtrlPresentacio {
     }
     public int Opera_bloc (String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, AbstractMap.SimpleEntry<Integer, Integer> idfin1, AbstractMap.SimpleEntry<Integer, Integer> idfin2, String operacio, Double oper) throws Exception {
         return Cd.Operar_bloc(doc, full, id1, id2, idfin1, idfin2, operacio, oper);
+    }
+
+    public ArrayList<Cela> Busca(String doc, String full, String busc){
+        return Cd.Busca(doc,full,busc);
     }
 }
