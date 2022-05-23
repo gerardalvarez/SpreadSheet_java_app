@@ -110,7 +110,7 @@
           <hspacer id="c4575">
             <constraints/>
           </hspacer>
-          <component id="15f9b" class="javax.swing.JButton" binding="button5">
+          <component id="15f9b" class="javax.swing.JButton" binding="LinearButton">
             <constraints/>
             <properties>
               <text value=""/>

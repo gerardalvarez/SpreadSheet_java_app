@@ -47,7 +47,7 @@ public class VistaPrincipal extends JFrame {
     private JTextField Resultat;
     private JButton majusculesButton;
     private JButton minusculesButton;
-    private JButton button5;
+    private JButton LinearButton;
     private JButton pie;
     private JButton Histograma;
     private JComboBox ListaOps;
@@ -742,8 +742,8 @@ public class VistaPrincipal extends JFrame {
             }
         });
 
-        button5.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/chartLinear.png"))));
-        button5.addActionListener(e -> {
+        LinearButton.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/chartLinear.png"))));
+        LinearButton.addActionListener(e -> {
 
             JTextField colField1 = new JTextField();
             JTextField rowIniField2 = new JTextField();
