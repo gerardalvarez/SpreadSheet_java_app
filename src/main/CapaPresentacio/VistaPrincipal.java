@@ -1089,7 +1089,7 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                Decimals d = new Decimals(CelaActual, cp, Full);
+                DecimalsDialog d = new DecimalsDialog(CelaActual, cp, Full);
                 d.setLocationRelativeTo(this);
                 d.setVisible(true);
 
@@ -1109,7 +1109,7 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de número \nConsulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                Conversio c = new Conversio(CelaActual, cp, Full);
+                ConversioDialog c = new ConversioDialog(CelaActual, cp, Full);
                 c.setLocationRelativeTo(this);
                 c.setVisible(true);
 

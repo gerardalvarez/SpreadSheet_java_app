@@ -7,7 +7,7 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Conversio extends JDialog {
+public class ConversioDialog extends JDialog {
     private JPanel contentPane;
     private JButton convertirButton;
     private JButton buttonCancel;
@@ -15,7 +15,7 @@ public class Conversio extends JDialog {
     private JTextField tipusText;
     private JComboBox<String> comboBox1;
 
-    public Conversio(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
+    public ConversioDialog(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(convertirButton);

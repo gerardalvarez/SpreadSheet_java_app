@@ -184,10 +184,6 @@ public class CtrlPresentacio {
         return Cd.ComprovarId(full, id);
     }
 
-    public void EliminarCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws CloneNotSupportedException {
-        Cd.EliminarCela(full, id);
-    }
-
     public void AfegirFila(String full, Integer f) throws Exception {
         Cd.AfegirFila(full, f);
     }

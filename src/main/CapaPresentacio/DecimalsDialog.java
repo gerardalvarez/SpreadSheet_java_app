@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.AbstractMap;
 
-public class Decimals extends JDialog {
+public class DecimalsDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -15,7 +15,7 @@ public class Decimals extends JDialog {
     private JRadioButton arrodonirRadioButton;
     private JRadioButton truncarRadioButton;
 
-    public Decimals(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
+    public DecimalsDialog(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
