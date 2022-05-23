@@ -69,16 +69,8 @@ public class CtrlPresentacio {
         Cd.modificarContingutCela(full, id, contingut);
     }
 
-    public Boolean ComprovarTipusCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) throws Exception {
-        return Cd.ComprovarTipus(full, id, tipus);
-    }
-
     public String GetTipusCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.GetTipusCela(full, id);
-    }
-
-    public void CanviarTipus(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) throws CloneNotSupportedException {
-        Cd.CanviarTipusCela(full, id, nou_type);
     }
 
     public String GetTipusNumero(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {

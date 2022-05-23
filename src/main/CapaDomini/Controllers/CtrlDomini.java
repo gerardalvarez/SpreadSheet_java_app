@@ -118,7 +118,7 @@ public class CtrlDomini {
     }
 
 
-    public Boolean ComprovarTipus(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
+    private Boolean ComprovarTipus(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String tipus) {
         String t = GetTipusCela(full, id);
         return (t.equals(tipus));
     }
@@ -135,7 +135,7 @@ public class CtrlDomini {
         else return "text";
     }
 
-    public void CanviarTipusCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) throws CloneNotSupportedException {
+    private void CanviarTipusCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) throws CloneNotSupportedException {
         Full f = docu.get_full(full);
         ArrayList<Cela> celes= new ArrayList<>();
         celes.add((Cela) f.Consultar_cela(id).clone());
