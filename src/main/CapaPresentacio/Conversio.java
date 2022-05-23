@@ -23,7 +23,7 @@ public class Conversio extends JDialog {
         setMinimumSize(new Dimension(500,200));
         setTitle("Conversió");
 
-        String tipus = cp.GetTipusNumero("Doc 1", "Full 1", cela);
+        String tipus = cp.GetTipusNumero("Full 1", cela);
         tipusText.setText(tipus);
         tipusText.setEditable(false);
 
@@ -90,8 +90,8 @@ public class Conversio extends JDialog {
             JOptionPane.showMessageDialog(this, "No pot convertir un numero al mateix tipus", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else {
-            cp.CalculaConversio("Doc 1", "Full 1", cela, selecccio);
-            String valor = cp.ValorTotal("Doc 1", "Full 1", cela);
+            cp.CalculaConversio("Full 1", cela, selecccio);
+            String valor = cp.ValorTotal("Full 1", cela);
             full.setValueAt(valor, cela.getKey(), cela.getValue());
             full.repaint();
             dispose();

@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
-    private JTable FirstCol;
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     private JTextField Contingut;
@@ -67,6 +66,8 @@ public class VistaPrincipal extends JFrame {
     private int columna;
     private int fila;
     private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> LastBusca;
+    
+    private String FullActual;
 
 
     public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
@@ -74,14 +75,14 @@ public class VistaPrincipal extends JFrame {
 
         CelaActual = null;
 
-
-        String[] nomColumnes = new String[cp.GetColumnes("Doc 1", "Full 1")];
-        String[] nomFiles = new String[cp.GetFiles("Doc 1", "Full 1")];
+        FullActual = "Full 1";
+        String[] nomColumnes = new String[cp.GetColumnes(FullActual)];
+        String[] nomFiles = new String[cp.GetFiles( FullActual)];
         for (int i = 0; i < nomColumnes.length; i++) {
             nomColumnes[i] = String.valueOf(i + 1);
         }
 
-        String[][] data = cp.MostrarLlista("Doc 1", "Full 1");
+        String[][] data = cp.MostrarLlista( FullActual);
 
 
         Full.setModel(new DefaultTableModel(data, nomColumnes));
@@ -99,6 +100,10 @@ public class VistaPrincipal extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fitxer = new JMenu("Fitxer");
+        JMenu fulls = new JMenu("Fulls");
+        JMenuItem afegirFull = new JMenuItem("Afegir full");
+        JMenuItem eliminarFull = new JMenuItem("Eliminar full");
+        JMenuItem canvifull = new JMenuItem("Canviar full");
         JMenuItem guardar = new JMenuItem("Guardar");
         JMenuItem obrir = new JMenuItem("Obrir");
         JMenu exportar = new JMenu("Exportar");
@@ -116,6 +121,11 @@ public class VistaPrincipal extends JFrame {
         fitxer.add(exportar);
         fitxer.add(importar);
         menuBar.add(fitxer);
+
+        fulls.add(afegirFull);
+        fulls.add(eliminarFull);
+        fulls.add(canvifull);
+        menuBar.add(fulls);
 
         super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/App_Logo.png"))).getImage());
         IncrementarButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Incrementar.png"))));
@@ -153,6 +163,10 @@ public class VistaPrincipal extends JFrame {
             } else System.out.println("Cancelat");
         });
 
+        guardar.addActionListener(e -> {
+
+        });
+
 
         obrir.addActionListener(e -> {
             JFileChooser openfile = new JFileChooser();
@@ -171,12 +185,12 @@ public class VistaPrincipal extends JFrame {
 
                 String[][] temp;
                 try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    temp = cp.MostrarLlista( FullActual);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
                 DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                 for (int i = 0; i < nomCol.length; i++) {
                     nomCol[i] = String.valueOf(i + 1);
@@ -207,12 +221,12 @@ public class VistaPrincipal extends JFrame {
 
                 String[][] temp;
                 try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    temp = cp.MostrarLlista( FullActual);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
                 DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                 for (int i = 0; i < nomCol.length; i++) {
                     nomCol[i] = String.valueOf(i + 1);
@@ -233,7 +247,7 @@ public class VistaPrincipal extends JFrame {
                 String fileName = savefile.getSelectedFile().getName();
                 File path = savefile.getCurrentDirectory();
                 try {
-                    cp.exportarCSV(fileName, path);
+                    cp.exportarCSV(fileName, path, FullActual);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -252,14 +266,14 @@ public class VistaPrincipal extends JFrame {
 
                 try {
                     //System.out.println(mod);
-                    cp.ModificarContingutCela("Doc 1", "Full 1", id, mod);
-                    String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    cp.ModificarContingutCela( FullActual, id, mod);
+                    String[][] temp = cp.MostrarLlista( FullActual);
                     //System.out.println(temp[row][col]);
                     String obj = temp[row][col];
-                    String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                    String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                    String content = cp.ValorTotal( FullActual, id);
+                    String type = cp.GetTipusCela( FullActual, id);
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                     for (int i = 0; i < nomCol.length; i++) {
                         nomCol[i] = String.valueOf(i + 1);
@@ -289,8 +303,8 @@ public class VistaPrincipal extends JFrame {
                 int col = columna = Full.columnAtPoint(e.getPoint());
                 if (row >= 0 && col >= 0) {
                     CelaActual = new AbstractMap.SimpleEntry<>(row, col);
-                    String content = cp.ValorTotal("Doc 1", "Full 1", CelaActual);
-                    String type = cp.GetTipusCela("Doc 1", "Full 1", CelaActual);
+                    String content = cp.ValorTotal( FullActual, CelaActual);
+                    String type = cp.GetTipusCela( FullActual, CelaActual);
                     Tipus.setText(type);
                     Contingut.setText(content);
                     System.out.println(content);
@@ -304,7 +318,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -331,12 +345,12 @@ public class VistaPrincipal extends JFrame {
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         int codi;
                         try {
-                            codi = cp.CalculaIncrementIReemplaca("Doc 1", "Full 1", CelaActual, CelaRemp);
+                            codi = cp.CalculaIncrementIReemplaca( FullActual, CelaActual, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaRemp);
+                            String temp = cp.ValorTotal( FullActual, CelaRemp);
                             Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
                             Full.repaint();
                         } else {
@@ -347,9 +361,9 @@ public class VistaPrincipal extends JFrame {
 
                 } else if (result == 1) {
                     try {
-                        int codi = cp.CalculaIncrement("Doc 1", "Full 1", CelaActual);
+                        int codi = cp.CalculaIncrement( FullActual, CelaActual);
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaActual);
+                            String temp = cp.ValorTotal( FullActual, CelaActual);
                             Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
                             Full.repaint();
                         }
@@ -371,7 +385,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "data")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -379,19 +393,19 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
-                    if (!cp.transformaText("Doc 1", "Full 1", id))
+                    if (!cp.transformaText( FullActual, id))
                         JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
                     else {
                         String[][] temp = new String[0][];
                         try {
-                            temp = cp.MostrarLlista("Doc 1", "Full 1");
+                            temp = cp.MostrarLlista( FullActual);
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                         System.out.println(temp[fila][columna]);
                         String obj = temp[fila][columna];
-                        String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                        String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                        String content = cp.ValorTotal( FullActual, id);
+                        String type = cp.GetTipusCela( FullActual, id);
                         Tipus.setText(type);
                         Contingut.setText(content);
                         Full.setValueAt(obj, fila, columna);
@@ -408,7 +422,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "data")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -416,19 +430,19 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
-                    if (!cp.transformaData("Doc 1", "Full 1", id))
+                    if (!cp.transformaData( FullActual, id))
                         JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
                     else {
                         String[][] temp = new String[0][];
                         try {
-                            temp = cp.MostrarLlista("Doc 1", "Full 1");
+                            temp = cp.MostrarLlista( FullActual);
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                         System.out.println(temp[fila][columna]);
                         String obj = temp[fila][columna];
-                        String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                        String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                        String content = cp.ValorTotal( FullActual, id);
+                        String type = cp.GetTipusCela( FullActual, id);
                         Tipus.setText(type);
                         Contingut.setText(content);
                         Full.setValueAt(obj, fila, columna);
@@ -445,7 +459,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "text")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "text")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -453,20 +467,20 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
-                    cp.AllMinus("Doc 1", "Full 1", id);
+                    cp.AllMinus( FullActual, id);
                 } catch (CloneNotSupportedException ex) {
                     ex.printStackTrace();
                 }
                 String[][] temp = new String[0][];
                 try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    temp = cp.MostrarLlista( FullActual);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 System.out.println(temp[fila][columna]);
                 String obj = temp[fila][columna];
-                String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                String content = cp.ValorTotal( FullActual, id);
+                String type = cp.GetTipusCela( FullActual, id);
                 Tipus.setText(type);
                 Contingut.setText(content);
                 Full.setValueAt(obj, fila, columna);
@@ -479,7 +493,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "text")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "text")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -487,20 +501,20 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
-                    cp.AllMayus("Doc 1", "Full 1", id);
+                    cp.AllMayus( FullActual, id);
                 } catch (CloneNotSupportedException ex) {
                     ex.printStackTrace();
                 }
                 String[][] temp = new String[0][];
                 try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    temp = cp.MostrarLlista( FullActual);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 System.out.println(temp[fila][columna]);
                 String obj = temp[fila][columna];
-                String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                String content = cp.ValorTotal( FullActual, id);
+                String type = cp.GetTipusCela( FullActual, id);
                 Tipus.setText(type);
                 Contingut.setText(content);
                 Full.setValueAt(obj, fila, columna);
@@ -513,12 +527,12 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "data")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                String content = cp.getDia("Doc 1", "Full 1", CelaActual);
+                String content = cp.getDia( FullActual, CelaActual);
                 if (Objects.equals(content, "null")) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(new JFrame(), "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
@@ -534,13 +548,13 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "data")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 System.out.println(fila + " " + columna);
-                String content = cp.getMes("Doc 1", "Full 1", CelaActual);
+                String content = cp.getMes( FullActual, CelaActual);
                 if (Objects.equals(content, "null")) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
@@ -556,13 +570,13 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "data")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 System.out.println(fila + " " + columna);
-                String content = cp.getAny("Doc 1", "Full 1", CelaActual);
+                String content = cp.getAny( FullActual, CelaActual);
                 if (Objects.equals(content, "null")) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
@@ -578,13 +592,13 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "data")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "data")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 System.out.println(fila + " " + columna);
-                String content = cp.getWeekday("Doc 1", "Full 1", CelaActual);
+                String content = cp.getWeekday( FullActual, CelaActual);
                 if (Objects.equals(content, "null")) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
@@ -643,7 +657,7 @@ public class VistaPrincipal extends JFrame {
                     CategoryChart chart = null;
                     try {
                         System.out.println("hey");
-                        chart = cp.Histograma("Doc 1", "Full 1", col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
+                        chart = cp.Histograma( FullActual, col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -710,7 +724,7 @@ public class VistaPrincipal extends JFrame {
                     PieChart chart = null;
                     try {
                         System.out.println("hey");
-                        chart = cp.PieChart("Doc 1", "Full 1", col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
+                        chart = cp.PieChart( FullActual, col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
                     } catch (Exception ex) {
                         System.out.println(2);
                         ex.printStackTrace();
@@ -776,7 +790,7 @@ public class VistaPrincipal extends JFrame {
                 if(col != col2 && rowI < rowF){
                     XYChart chart = null;
                     try {
-                        chart = cp.LinearChart("Doc 1", "Full 1", col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
+                        chart = cp.LinearChart( FullActual, col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -798,7 +812,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -825,12 +839,12 @@ public class VistaPrincipal extends JFrame {
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         int codi;
                         try {
-                            codi = cp.CalculaReduirIReemplaca("Doc 1", "Full 1", CelaActual, CelaRemp);
+                            codi = cp.CalculaReduirIReemplaca( FullActual, CelaActual, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaRemp);
+                            String temp = cp.ValorTotal( FullActual, CelaRemp);
                             Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
                             Full.repaint();
                         } else {
@@ -841,9 +855,9 @@ public class VistaPrincipal extends JFrame {
 
                 } else if (result == 1) {
                     try {
-                        int codi = cp.CalculaReduir("Doc 1", "Full 1", CelaActual);
+                        int codi = cp.CalculaReduir( FullActual, CelaActual);
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaActual);
+                            String temp = cp.ValorTotal( FullActual, CelaActual);
                             Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
                             Full.repaint();
                         }
@@ -863,7 +877,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -890,12 +904,12 @@ public class VistaPrincipal extends JFrame {
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         int codi;
                         try {
-                            codi = cp.CalculaValorAbsIReemplaca("Doc 1", "Full 1", CelaActual, CelaRemp);
+                            codi = cp.CalculaValorAbsIReemplaca( FullActual, CelaActual, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaRemp);
+                            String temp = cp.ValorTotal( FullActual, CelaRemp);
                             Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
                             Full.repaint();
                         } else {
@@ -906,9 +920,9 @@ public class VistaPrincipal extends JFrame {
 
                 } else if (result == 1) {
                     try {
-                        int codi = cp.CalculaValorAbs("Doc 1", "Full 1", CelaActual);
+                        int codi = cp.CalculaValorAbs( FullActual, CelaActual);
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaActual);
+                            String temp = cp.ValorTotal( FullActual, CelaActual);
                             Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
                             Full.repaint();
                         }
@@ -929,7 +943,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -958,12 +972,12 @@ public class VistaPrincipal extends JFrame {
                         Double exp = Double.valueOf(expo);
                         int codi;
                         try {
-                            codi = cp.CalculaPotenciaIReemplaca("Doc 1", "Full 1", CelaActual, exp, CelaRemp);
+                            codi = cp.CalculaPotenciaIReemplaca( FullActual, CelaActual, exp, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaRemp);
+                            String temp = cp.ValorTotal( FullActual, CelaRemp);
                             Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
                             Full.repaint();
                         } else {
@@ -976,9 +990,9 @@ public class VistaPrincipal extends JFrame {
                     try {
                         String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Potencia", JOptionPane.QUESTION_MESSAGE);
                         Double exp = Double.valueOf(expo);
-                        int codi = cp.CalculaPotencia("Doc 1", "Full 1", CelaActual, exp);
+                        int codi = cp.CalculaPotencia( FullActual, CelaActual, exp);
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaActual);
+                            String temp = cp.ValorTotal( FullActual, CelaActual);
                             Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
                             Full.repaint();
                         }
@@ -999,7 +1013,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1028,12 +1042,12 @@ public class VistaPrincipal extends JFrame {
                         Double exp = Double.valueOf(expo);
                         int codi;
                         try {
-                            codi = cp.CalculaArrelIReemplaca("Doc 1", "Full 1", CelaActual, exp, CelaRemp);
+                            codi = cp.CalculaArrelIReemplaca( FullActual, CelaActual, exp, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
                         if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaRemp);
+                            String temp = cp.ValorTotal( FullActual, CelaRemp);
                             Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
                             Full.repaint();
                         } else {
@@ -1047,13 +1061,13 @@ public class VistaPrincipal extends JFrame {
                         Double exp = Double.valueOf(expo);
                     int codi = 1;
                     try {
-                        codi = cp.CalculaArrel("Doc 1", "Full 1", CelaActual, exp);
+                        codi = cp.CalculaArrel( FullActual, CelaActual, exp);
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(this, "Un error ha ocorregut to", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     if (codi == 0) {
-                            String temp = cp.ValorTotal("Doc 1", "Full 1", CelaActual);
+                            String temp = cp.ValorTotal( FullActual, CelaActual);
                             Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
                             Full.repaint();
                         }
@@ -1070,7 +1084,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1086,11 +1100,11 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (Objects.equals(cp.GetTipusNumero("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (Objects.equals(cp.GetTipusNumero( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de número \nConsulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1106,7 +1120,7 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela("Doc 1", "Full 1", CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1115,7 +1129,7 @@ public class VistaPrincipal extends JFrame {
                 JComboBox comboBox = new JComboBox(tipus);
                 JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
                 try {
-                    cp.CanviarTipusNumero("Doc 1", "Full 1", CelaActual, Objects.requireNonNull(comboBox.getSelectedItem()).toString());
+                    cp.CanviarTipusNumero( FullActual, CelaActual, Objects.requireNonNull(comboBox.getSelectedItem()).toString());
                 } catch (CloneNotSupportedException ex) {
                     ex.printStackTrace();
                 }
@@ -1123,9 +1137,9 @@ public class VistaPrincipal extends JFrame {
         });
 
         afegirColumnaButton.addActionListener(e -> {
-            int colActual = cp.GetColumnes("Doc 1", "Full 1");
+            int colActual = cp.GetColumnes( FullActual);
             try {
-                cp.AfegirCol("Doc 1", "Full 1", 0);
+                cp.AfegirCol( FullActual, 0);
             } catch (Exception ex) {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1134,14 +1148,14 @@ public class VistaPrincipal extends JFrame {
             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
             dataVector.set(true);
             dtm.addColumn(colNova.toString());
-            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+            String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
             for (int i = 0; i < nomCol.length; i++) {
                 nomCol[i] = String.valueOf(i + 1);
             }
             String[][] dades;
             try {
-                dades = cp.MostrarLlista("Doc 1", "Full 1");
+                dades = cp.MostrarLlista( FullActual);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -1155,9 +1169,9 @@ public class VistaPrincipal extends JFrame {
 
             if (!(num == null)) {
                 if (PublicFuntions.isNum(num)) {
-                    int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                    int colActual = cp.GetColumnes( FullActual);
                     try {
-                        cp.AfegirFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                        cp.AfegirFila( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -1168,13 +1182,13 @@ public class VistaPrincipal extends JFrame {
                     Arrays.fill(dataFilaNova, " ");
                     dtm.addRow(dataFilaNova);
 
-                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
                     for (int i = 0; i < nomCol.length; i++) {
                         nomCol[i] = String.valueOf(i + 1);
                     }
                     String[][] dades;
                     try {
-                        dades = cp.MostrarLlista("Doc 1", "Full 1");
+                        dades = cp.MostrarLlista( FullActual);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -1195,21 +1209,21 @@ public class VistaPrincipal extends JFrame {
 
             if (!(num == null)) {
                 if (PublicFuntions.isNum(num)) {
-                    int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                    int colActual = cp.GetColumnes( FullActual);
                     try {
-                        cp.EliminarCol("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                        cp.EliminarCol( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     String[][] temp;
                     try {
-                        temp = cp.MostrarLlista("Doc 1", "Full 1");
+                        temp = cp.MostrarLlista( FullActual);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                     for (int i = 0; i < nomCol.length; i++) {
                         nomCol[i] = String.valueOf(i + 1);
@@ -1230,21 +1244,21 @@ public class VistaPrincipal extends JFrame {
 
             if (!(num == null)) {
                 if (PublicFuntions.isNum(num)) {
-                    int colActual = cp.GetColumnes("Doc 1", "Full 1");
+                    int colActual = cp.GetColumnes( FullActual);
                     try {
-                        cp.EliminarFila("Doc 1", "Full 1", Integer.parseInt(num) - 1);
+                        cp.EliminarFila( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     String[][] temp;
                     try {
-                        temp = cp.MostrarLlista("Doc 1", "Full 1");
+                        temp = cp.MostrarLlista( FullActual);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                    String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                     for (int i = 0; i < nomCol.length; i++) {
                         nomCol[i] = String.valueOf(i + 1);
@@ -1346,7 +1360,7 @@ public class VistaPrincipal extends JFrame {
                 } else {
                     int a;
                     try {
-                        cp.Copiar("Doc 1", "Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
+                        cp.Copiar( FullActual,new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
                                 ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1));
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
@@ -1354,12 +1368,12 @@ public class VistaPrincipal extends JFrame {
                 }
                 String[][] temp;
                 try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    temp = cp.MostrarLlista( FullActual);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
                 DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                 for (int i = 0; i < nomCol.length; i++) {
                     nomCol[i] = String.valueOf(i + 1);
@@ -1471,7 +1485,7 @@ public class VistaPrincipal extends JFrame {
                 } else {
                     int a;
                     try {
-                        a= cp.Opera_bloc("Doc 1", "Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
+                        a= cp.Opera_bloc( FullActual,new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
                                 ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1), ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString(),d);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
@@ -1480,12 +1494,12 @@ public class VistaPrincipal extends JFrame {
                 }
                 String[][] temp;
                 try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    temp = cp.MostrarLlista( FullActual);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
                 DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                 for (int i = 0; i < nomCol.length; i++) {
                     nomCol[i] = String.valueOf(i + 1);
@@ -1583,19 +1597,19 @@ public class VistaPrincipal extends JFrame {
                                 columnas.add(c);
                             }else JOptionPane.showMessageDialog(new JFrame(), "Les columnes no s'han introduit correctament", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                        cp.ordena_bloc("Doc 1","Full 1",new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1),columnas,ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString());
+                        cp.ordena_bloc(FullActual,new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1),columnas,ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString());
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
                 }
                 String[][] temp;
                 try {
-                    temp = cp.MostrarLlista("Doc 1", "Full 1");
+                    temp = cp.MostrarLlista( FullActual);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
                 DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                 for (int i = 0; i < nomCol.length; i++) {
                     nomCol[i] = String.valueOf(i + 1);
@@ -1617,10 +1631,10 @@ public class VistaPrincipal extends JFrame {
                     System.out.println("CELDA" + id);
                     setBackground(color.get());
                     setEnabled(true);
-                    setText(cp.ValorTotal("Doc 1", "Full 1", id));
+                    setText(cp.ValorTotal( FullActual, id));
                 } else {
                     setBackground(Color.WHITE);
-                    setText(cp.ValorTotal("Doc 1", "Full 1", id));
+                    setText(cp.ValorTotal( FullActual, id));
                 }
                 return this;
             }
@@ -1632,14 +1646,14 @@ public class VistaPrincipal extends JFrame {
             }
             else{
                 //ACTUALITZEM BUSCA
-                ArrayList<Cela> r= cp.Busca("Doc 1", "Full 1", buscador.getText());
+                ArrayList<Cela> r= cp.Busca( FullActual, buscador.getText());
                 ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = new ArrayList<>();
                 for(Cela a : r){
                     ids.add(new AbstractMap.SimpleEntry(a.getId().getKey(),a.getId().getValue()));
                 }
                 LastBusca =  ids;
 
-                for(int i = 0; i < cp.GetColumnes("Doc 1", "Full 1");i++){
+                for(int i = 0; i < cp.GetColumnes( FullActual);i++){
                     TableColumn col = Full.getColumnModel().getColumn(i);
                     col.setCellRenderer(new PaintTableCellRender());
                     Full.repaint();
@@ -1652,12 +1666,12 @@ public class VistaPrincipal extends JFrame {
 
             String[][] temp;
             try {
-                temp = cp.MostrarLlista("Doc 1", "Full 1");
+                temp = cp.MostrarLlista( FullActual);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+            String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
             for (int i = 0; i < nomCol.length; i++) {
                 nomCol[i] = String.valueOf(i + 1);
@@ -1705,11 +1719,11 @@ public class VistaPrincipal extends JFrame {
                         AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
 
                         try {
-                            String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
-                            String content = cp.ValorTotal("Doc 1", "Full 1", id);
-                            String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                            String[][] temp = cp.MostrarLlista( FullActual);
+                            String content = cp.ValorTotal( FullActual, id);
+                            String type = cp.GetTipusCela( FullActual, id);
                             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+                            String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
                             for (int i = 0; i < nomCol.length; i++) {
                                 nomCol[i] = String.valueOf(i + 1);

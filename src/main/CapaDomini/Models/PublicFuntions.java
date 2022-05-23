@@ -111,22 +111,7 @@ public class PublicFuntions {
         }
     }
 
-
-
-    public static List<List<String>> readCsv(String fileName, String path) throws FileNotFoundException {
-        List<List<String>> files = new ArrayList<>();
-        int size = 0;
-        Scanner scanner = new Scanner(new File(path + "/" + fileName));
-        while (scanner.hasNextLine()) {
-            List<String> fil = getRecordFromLine(scanner.nextLine());
-            if (fil.size() > size) size = fil.size();
-            files.add(fil);
-        }
-
-        return files;
-    }
-
-    private static List<String> getRecordFromLine(String line) {
+    public static List<String> getRecordFromLine(String line) {
         List<String> values = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)) {
             rowScanner.useDelimiter(",");
@@ -356,25 +341,6 @@ public class PublicFuntions {
             number = number * 26 + (name.charAt(i) - ('A' - 1));
         }
         return number; }
-
-    public static void exportaCsv(String fileName, String path, String[][] contingut) throws IOException {
-        File myObj = new File(path + "/" + fileName + ".csv");
-        if (myObj.createNewFile()) {
-            System.out.println("File created: " + myObj.getName());
-            FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".csv",true);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-
-            for (String[] fila : contingut) {
-                String fila_final = Arrays.toString(fila).replace("[", "").replace("]", ",");
-                printWriter.print(fila_final + "\n");
-            }
-
-            printWriter.flush();
-            printWriter.close();
-        } else {
-            System.out.println("File already exists.");
-        }
-    }
 }
 
 

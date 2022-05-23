@@ -55,26 +55,26 @@ public class Decimals extends JDialog {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "Ompli tots els camps per poder procedir", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        else if (PublicFuntions.isNum(dec) && Integer.valueOf(dec) >= 0) {
+        else if (PublicFuntions.isNum(dec) && Integer.parseInt(dec) >= 0) {
             try {
-                cp.CanviarDecimals("Doc 1", "Full 1", cela, Integer.valueOf(dec));
+                cp.CanviarDecimals("Full 1", cela, Integer.valueOf(dec));
             } catch (CloneNotSupportedException e) {
                 throw new RuntimeException(e);
             }
             if (truncarRadioButton.isSelected()) {
                 try {
-                    cp.CanviarArrodonit("Doc 1", "Full 1", cela, false);
+                    cp.CanviarArrodonit("Full 1", cela, false);
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException(e);
                 }
             } else {
                 try {
-                    cp.CanviarArrodonit("Doc 1", "Full 1", cela, true);
+                    cp.CanviarArrodonit("Full 1", cela, true);
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException(e);
                 }
             }
-            String cont = cp.ValorTotal("Doc 1", "Full 1", cela);
+            String cont = cp.ValorTotal("Full 1", cela);
             full.setValueAt(cont, cela.getKey(), cela.getValue());
             dispose();
         } else {

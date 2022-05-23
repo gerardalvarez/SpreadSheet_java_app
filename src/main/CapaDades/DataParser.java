@@ -2,14 +2,11 @@ package main.CapaDades;
 
 import main.CapaDomini.Models.*;
 
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.annotation.Documented;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -210,6 +207,38 @@ public class DataParser {
         c.setColorLletra(new Color(r,g,b));
         c.setType(tipus);
         return c;
+    }
+
+    public static void exportaCsv(String fileName, String path, String[][] contingut) throws IOException {
+        File myObj = new File(path + "/" + fileName + ".csv");
+        if (myObj.createNewFile()) {
+            System.out.println("File created: " + myObj.getName());
+            FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".csv",true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            for (String[] fila : contingut) {
+                String fila_final = Arrays.toString(fila).replace("[", "").replace("]", ",");
+                printWriter.print(fila_final + "\n");
+            }
+
+            printWriter.flush();
+            printWriter.close();
+        } else {
+            System.out.println("File already exists.");
+        }
+    }
+
+    public static List<List<String>> readCsv(String fileName, String path) throws FileNotFoundException {
+        List<List<String>> files = new ArrayList<>();
+        int size = 0;
+        Scanner scanner = new Scanner(new File(path + "/" + fileName));
+        while (scanner.hasNextLine()) {
+            List<String> fil = PublicFuntions.getRecordFromLine(scanner.nextLine());
+            if (fil.size() > size) size = fil.size();
+            files.add(fil);
+        }
+
+        return files;
     }
 
 
