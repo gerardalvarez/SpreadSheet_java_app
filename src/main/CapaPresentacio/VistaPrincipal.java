@@ -1,5 +1,6 @@
 package main.CapaPresentacio;
 
+import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.PublicFuntions;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
@@ -9,6 +10,7 @@ import org.knowm.xchart.XYChart;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 public class VistaPrincipal extends JFrame {
@@ -55,10 +58,15 @@ public class VistaPrincipal extends JFrame {
     private JButton eliminarFilaButton;
     private JButton Copia;
     private JButton ordenaBlocButton;
+    private JButton cancelButton;
+    private JButton buscarButton;
+    private JTextField buscador;
+    private JButton remplaçaButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
     private int fila;
+    private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> LastBusca;
 
 
     public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
@@ -122,7 +130,7 @@ public class VistaPrincipal extends JFrame {
 
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(800, 600));
+        this.setMinimumSize(new Dimension(1000, 600));
         this.setContentPane(panel1);
         this.pack();
 
@@ -1600,7 +1608,135 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+        AtomicReference<Color> color = new AtomicReference<>(new Color(187,225,229));
+        class PaintTableCellRender extends DefaultTableCellRenderer {
+            @Override
+            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column){
+                AbstractMap.SimpleEntry<Integer,Integer> id = new AbstractMap.SimpleEntry<>(row,column);
+                if (LastBusca.contains(id)) {
+                    System.out.println("CELDA" + id);
+                    setBackground(color.get());
+                    setEnabled(true);
+                    setText(cp.ValorTotal("Doc 1", "Full 1", id));
+                } else {
+                    setBackground(Color.WHITE);
+                    setText(cp.ValorTotal("Doc 1", "Full 1", id));
+                }
+                return this;
+            }
+        }
+
+        buscarButton.addActionListener(e -> {
+            if(buscador.getText().equals("")){
+                JOptionPane.showMessageDialog(new JFrame(), "No s'ha indicat la paraula al buscador", "Dialog", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                //ACTUALITZEM BUSCA
+                ArrayList<Cela> r= cp.Busca("Doc 1", "Full 1", buscador.getText());
+                ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = new ArrayList<>();
+                for(Cela a : r){
+                    ids.add(new AbstractMap.SimpleEntry(a.getId().getKey(),a.getId().getValue()));
+                }
+                LastBusca =  ids;
+
+                for(int i = 0; i < cp.GetColumnes("Doc 1", "Full 1");i++){
+                    TableColumn col = Full.getColumnModel().getColumn(i);
+                    col.setCellRenderer(new PaintTableCellRender());
+                    Full.repaint();
+                }
+                Full.setEnabled(false);
+            }
+        });
+        cancelButton.addActionListener(e -> {
+            LastBusca =  new ArrayList<>();
+
+            String[][] temp;
+            try {
+                temp = cp.MostrarLlista("Doc 1", "Full 1");
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+            for (int i = 0; i < nomCol.length; i++) {
+                nomCol[i] = String.valueOf(i + 1);
+            }
+            dataVector.set(true);
+            dtm.setDataVector(temp, nomCol);
+            dataVector.set(false);
+            Full.repaint();
+            Full.setEnabled(true);
+
+        });
+
+
+        remplaçaButton.addActionListener(e -> {
+            JTextField colField1 = new JTextField();
+            JTextField colField2 = new JTextField();
+
+            JPanel myPanel = new JPanel();
+            JPanel Text = new JPanel();
+            JPanel Col1 = new JPanel();
+            myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+            Text.add(new JLabel("Els remplaçament només son vàlids a celes de tipus Text"));
+            myPanel.add(Text);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col1.add(new JLabel("Remplaça de:"));
+            Col1.add(colField1);
+            Col1.add(new JLabel("a:"));
+            Col1.add(colField2);
+            myPanel.add(Col1);
+
+
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Remplaçar", JOptionPane.OK_CANCEL_OPTION);
+            if (result_2 == JOptionPane.OK_OPTION) {
+                String busca, rempla;
+                busca = colField1.getText();
+                System.out.println(busca);
+                rempla = colField2.getText();
+                try {
+                    ArrayList<Cela> a = new ArrayList<>();
+                    for (Cela c : a) {
+                        int col = c.getId().getValue();
+                        int row = c.getId().getKey();
+                        AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
+
+                        try {
+                            String[][] temp = cp.MostrarLlista("Doc 1", "Full 1");
+                            String content = cp.ValorTotal("Doc 1", "Full 1", id);
+                            String type = cp.GetTipusCela("Doc 1", "Full 1", id);
+                            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                            String[] nomCol = new String[cp.GetColumnes("Doc 1", "Full 1")];
+
+                            for (int i = 0; i < nomCol.length; i++) {
+                                nomCol[i] = String.valueOf(i + 1);
+                            }
+                            dataVector.set(true);
+                            dtm.setDataVector(temp, nomCol);
+                            dataVector.set(false);
+                            Tipus.setText(type);
+                            Contingut.setText(content);
+                            //Full.setValueAt(obj, row, col);
+                            Full.repaint();
+
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+
+
+        });
     }
+
 }
 
 

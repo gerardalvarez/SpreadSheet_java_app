@@ -477,6 +477,30 @@ public class Bloc_celes {
         }
     }
 
+    public static ArrayList<Cela> buscar(ArrayList<Cela> inputs, String b){
+        ArrayList<Cela> a = new ArrayList<>();
+        for (Cela c : inputs) {
+            if(c.buscarElement(b)) a.add(c);
+        }
+        return a;
+    }
+
+    public ArrayList<Cela> buscar_y_remplazar(ArrayList<Cela> inputs,String b,String r ) {
+        ArrayList<Cela> a = buscar(inputs,b);
+        ArrayList<Cela> ret = new ArrayList<>();
+        for (Cela c : a) {
+            if(Objects.equals(c.getType(), "text")) {
+                if (c.buscarElement(b)){
+                    TextCela t =(TextCela) c;
+                    t.remplacarElement(b, r);
+                    ret.add(c);
+                }
+            }
+        }
+        return ret;
+    }
+
+
 
 
     public void remplaçar_majuscules(ArrayList<TextCela> inputs) {
@@ -491,11 +515,6 @@ public class Bloc_celes {
         }
     }
 
-    public void buscar_y_remplazar(ArrayList<TextCela> inputs,String b,String r ) {
-        for (TextCela c : inputs) {
-            if(c.buscarElement(b)) c.remplacarElement(b,r);
-        }
-    }
 
 
             //UTILS UTILIZADOS EN LAS CLASES

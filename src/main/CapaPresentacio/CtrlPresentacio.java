@@ -2,6 +2,7 @@ package main.CapaPresentacio;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import main.CapaDomini.Controllers.CtrlDomini;
+import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.Document;
 import main.CapaDomini.Models.Numero;
 import org.knowm.xchart.CategoryChart;
@@ -248,8 +249,8 @@ public class CtrlPresentacio {
         Cd.AllMinusBloc(doc, full, id1, id2);
     }
 
-    public void BuscarRemp(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, String buscar, String remp) throws Exception {
-        Cd.BuscaRemp(doc, full, id1, id2, buscar, remp);
+    public void BuscarRemp(String doc, String full, String buscar, String remp) throws Exception {
+        Cd.BuscaRemp(doc, full, buscar, remp);
     }
 
     public boolean ComprovaCelaNoOcupa(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
@@ -331,4 +332,9 @@ public class CtrlPresentacio {
     public void ordena_bloc(String doc, String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer >id2, ArrayList<Integer> cols, String cont) throws Exception {
     Cd.ordena_bloc(doc,full,id1,id2,cols,cont);
     }
+    public ArrayList<Cela> Busca(String doc, String full, String busc){
+        return Cd.Busca(doc,full,busc);
+    }
+
+
 }

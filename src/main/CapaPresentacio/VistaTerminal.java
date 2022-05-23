@@ -480,7 +480,8 @@ public class VistaTerminal {
                 if(Cp.ComprovaText(doc, full, id1, id2)) {
                     String buscar = ObtenirBusca();
                     String remp = ObtenirTextRemp();
-                    Cp.BuscarRemp(doc, full, id1, id2, buscar, remp);
+
+                   // Cp.BuscarRemp(doc, full, id1, id2, buscar, remp);
                     ImprimirFull(doc, full);
                 }
                 else {

@@ -653,6 +653,15 @@ public class Full {
         return data;
     }
 
+    public ArrayList<Cela> CelesArray(){
+        ArrayList<Cela> a =  new ArrayList<>();
+        for (HashMap.Entry<AbstractMap.SimpleEntry<Integer,Integer>, Cela> entry : Celes.entrySet()) {
+            a.add(entry.getValue());
+        }
+        return a;
+    }
+
+
     public ArrayList<TextCela> getBlocText(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = GetIdCeles(id1, id2);
         ArrayList<TextCela> text = new ArrayList<>();

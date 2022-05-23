@@ -108,6 +108,10 @@ public abstract class Cela implements Cloneable{
             return validator.isValid(date);
         }
     }
+    public Boolean buscarElement(String element){
+        return resultat_final.contains(element);
+    }
+
 
 }
 
