@@ -11,12 +11,12 @@ import java.time.LocalDate;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class Full {
+public class Full implements Cloneable{
     private String nom;
     private Integer Num_Columnes;
     private Integer Num_Files;
     private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
-    private ArrayList<Accio> Estatsprevis;
+    private ArrayList<Full> Estatsprevis;
 
     //Constructor
     public Full(String n, Integer nc, Integer nf) {
@@ -32,6 +32,14 @@ public class Full {
                 Celes.put(idc, new TextCela(idc, ""));
             }
         }
+    };
+
+    public Full(String n, Integer nc, Integer nf,HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> c, ArrayList<Full> f) {
+        Celes = c;
+        Estatsprevis= f;
+        this.nom = n;
+        this.Num_Columnes = nc;
+        this.Num_Files = nf;
     };
 
     public Full(Integer nc, Integer nf) {
@@ -53,6 +61,9 @@ public class Full {
         this.nom= n;
     };
     public String getNom(){return this.nom;}
+
+    public ArrayList<Full> getEstatsprevis(){ return Estatsprevis;}
+
 
     //Mètodes Públics
     public void Afegir_Fila(Integer nf) {
@@ -352,7 +363,8 @@ public class Full {
         return Celes;
     }
 
-    public void Undo() throws Exception {
+    //public void Undo() throws Exception {
+        /*
         System.out.println("d");
         if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("modificarcela")) {
             Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
@@ -547,14 +559,16 @@ public class Full {
             }
             Estatsprevis.remove(Estatsprevis.size() - 1);
         }
-    }
 
-    public void Afegir_Accio(Accio a){
-        Estatsprevis.add(a);
+         */
+    //}
+
+    public void Afegir_Accio(Full f){
+        Estatsprevis.add(f);
     }
     public void Eliminar_Accio(){ Estatsprevis.remove(Estatsprevis.size() - 1);}
 
-    public ArrayList getAccio(){return Estatsprevis; }
+    public Full getFullprevi(){return Estatsprevis.get(Estatsprevis.size()-1); }
 
     //Métodes Privats
     private void IncrementarIndexFila(Integer nf){
@@ -992,6 +1006,31 @@ public class Full {
 
             }
 
+        }
+    }
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> celes= new HashMap<>();
+        for (int i= 0; i < Num_Files; ++i){
+            for (int j= 0; j < Num_Columnes; ++j) {
+                AbstractMap.SimpleEntry<Integer,Integer> id= new AbstractMap.SimpleEntry<>(i,j);
+                Cela c = (Cela) Celes.get(id).clone();
+                celes.put(c.id, c);
+            }
+        }
+        return new Full(this.nom, this.Num_Files, this.Num_Columnes, celes, this.Estatsprevis);
+    }
+
+    public void replace() {
+        for (int i=0; i < Estatsprevis.get(Estatsprevis.size() - 1).getNum_Files()-1; ++i) {
+            for (int j=0; j < Estatsprevis.get(Estatsprevis.size() - 1).getNum_Columnes()-1; ++j) {
+
+                AbstractMap.SimpleEntry<Integer,Integer> id= new AbstractMap.SimpleEntry<>(i,j);
+                Cela c = Estatsprevis.get(Estatsprevis.size() - 1).getCeles().get(id);
+                System.out.println(c);
+
+                Celes.replace(c.getId(), c);
+            }
         }
     }
 };
