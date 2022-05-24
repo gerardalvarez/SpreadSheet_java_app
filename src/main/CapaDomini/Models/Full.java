@@ -353,11 +353,10 @@ public class Full {
     }
 
     public void Undo() throws Exception {
+        System.out.println("d");
         if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("modificarcela")) {
             Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            System.out.println(c.getResultatFinal());
             Celes.replace(c.getId(), c);
-            System.out.println(c.getResultatFinal());
             Estatsprevis.remove(Estatsprevis.size() - 1);
         }
         else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviartipuscela")){
@@ -371,9 +370,18 @@ public class Full {
             Estatsprevis.remove(Estatsprevis.size() - 1);
         }
         else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaincrement")){
+            System.out.println("e");
             Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
             Celes.replace(c.getId(), c);
             Estatsprevis.remove(Estatsprevis.size() - 1);
+            System.out.println("f");
+        }
+        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaincreemp")){
+            System.out.println("e");
+            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
+            Celes.replace(c.getId(), c);
+            Estatsprevis.remove(Estatsprevis.size() - 1);
+            System.out.println("f");
         }
         else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculareduir")){
             Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
@@ -544,6 +552,9 @@ public class Full {
     public void Afegir_Accio(Accio a){
         Estatsprevis.add(a);
     }
+    public void Eliminar_Accio(){ Estatsprevis.remove(Estatsprevis.size() - 1);}
+
+    public ArrayList getAccio(){return Estatsprevis; }
 
     //Métodes Privats
     private void IncrementarIndexFila(Integer nf){

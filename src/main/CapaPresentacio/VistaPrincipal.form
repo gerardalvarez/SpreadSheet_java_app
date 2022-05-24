@@ -347,6 +347,12 @@
               <text value="Eliminar Fila"/>
             </properties>
           </component>
+          <component id="35c59" class="javax.swing.JButton" binding="undoButton">
+            <constraints/>
+            <properties>
+              <text value="Undo"/>
+            </properties>
+          </component>
         </children>
       </toolbar>
     </children>

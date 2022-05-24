@@ -90,6 +90,10 @@ public class CtrlDomini {
     public void modificarContingutCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
         System.out.println("-------"+resultat);
         Full f = docu.get_full(full);
+        ArrayList<Cela> celes= new ArrayList<>();
+        celes.add((Cela) f.Consultar_cela(id).clone());
+        Accio a= new Accio("modificarcela", celes);
+        f.Afegir_Accio(a);
         f.modificarContingutCela(id,resultat);
     }
 
@@ -169,11 +173,6 @@ public class CtrlDomini {
     }
 
     public int CalculaIncrement(String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
-        Full f = docu.get_full(full);
-        ArrayList<Cela> celes= new ArrayList<>();
-        celes.add((Cela) f.Consultar_cela(id).clone());
-        Accio a= new Accio("calculaincrement", celes);
-        f.Afegir_Accio(a);
         Boolean comp = ComprovarTipus(full, id, "numero");
         if (comp) {
             Numero n = GetNumero(full, id);
@@ -319,8 +318,10 @@ public class CtrlDomini {
 
     private void ReemplacaNum(String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
         Numero n = GetNumero(full, id);
+        Full f = docu.get_full(full);
         String result = n.getResultat().toString();
         modificarContingutCela(full, idRemp, result);
+        System.out.println(f.getAccio());
         if (!ComprovarTipus(full, idRemp, "numero")) {
             CanviarTipusCela(full, idRemp, "numero");
         }
@@ -551,6 +552,7 @@ public class CtrlDomini {
     }
     public void Undo(String full) throws Exception {
         Full f = docu.get_full(full);
+        System.out.println("c");
         f.Undo();
     }
 

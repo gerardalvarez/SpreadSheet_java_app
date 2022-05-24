@@ -35,6 +35,7 @@ public class VistaPrincipal extends JFrame {
     private JButton arrelButton;
     private JButton numeroDecimalsButton;
     private JButton conversioButton;
+    private JButton undoButton;
     private JButton canviarTipusNumeroButton;
     private JButton afegirColumnaButton;
     private JComboBox DataFormat;
@@ -1747,6 +1748,36 @@ public class VistaPrincipal extends JFrame {
 
             }
 
+
+        });
+
+        undoButton.addActionListener(e -> {
+            try {
+                System.out.println("a");
+                cp.Undo(FullActual);
+
+                String[][] temp;
+                try {
+                    temp = cp.MostrarLlista( FullActual);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes( FullActual)];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+                Full.setEnabled(true);
+
+            } catch (Exception ex) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "No s'ha trobat cap acció recuperable", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
         });
     }

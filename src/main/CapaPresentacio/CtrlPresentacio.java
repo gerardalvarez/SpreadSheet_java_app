@@ -201,6 +201,7 @@ public class CtrlPresentacio {
     }
 
     public void Undo(String full) throws Exception {
+        System.out.println("b");
         Cd.Undo(full);
     }
 
