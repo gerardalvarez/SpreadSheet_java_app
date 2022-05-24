@@ -3,6 +3,7 @@ package main.CapaDomini.Models;
 import java.awt.*;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public abstract class Cela implements Cloneable{
     //VARIABLES
@@ -111,6 +112,24 @@ public abstract class Cela implements Cloneable{
     public Boolean buscarElement(String element){
         return resultat_final.contains(element);
     }
+
+    public String countWords(){
+        StringTokenizer st = new StringTokenizer(resultat_final);
+        return ("Nombre de paraules: " + st.countTokens());
+    }
+
+    public String countChars(){
+        return "Nombre de caràcters " + resultat_final.replace(" ", "").length();
+    }
+
+    public String countVowels(){
+        int count = 0;
+        for (char ch : resultat_final.toCharArray()){
+            if(ch == 'a'|| ch == 'e'|| ch == 'i' ||ch == 'o' ||ch == 'u' ||ch == 'A'|| ch == 'E'|| ch == 'I' ||ch == 'O' ||ch == 'U')count ++;
+        }
+        return ("Nombre vocals: "+ count);
+    }
+
 
 
 }

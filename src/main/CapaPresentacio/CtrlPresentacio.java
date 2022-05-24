@@ -245,4 +245,19 @@ public class CtrlPresentacio {
     }
 
 
+    public ArrayList<Cela> BuscarRemp(String full, String buscar, String remp) throws Exception {
+        return Cd.BuscaRemp(full, buscar, remp);
+    }
+    public String countWords(String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        return Cd.countWords(full, id);
+    }
+    public String countChars(String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        return Cd.countChars(full, id);
+    }
+    public String countVowels(String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        return Cd.countVowels(full, id);
+    }
+
+
+
 }

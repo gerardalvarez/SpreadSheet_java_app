@@ -134,13 +134,13 @@
           <component id="52057" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Cancel"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="24166" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Buscar"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="669fb" class="javax.swing.JTextField" binding="buscador">
@@ -240,13 +240,31 @@
               <text value="Ordena Bloc"/>
             </properties>
           </component>
+          <component id="555ad" class="javax.swing.JButton" binding="wordsButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Words"/>
+            </properties>
+          </component>
+          <component id="2ca0b" class="javax.swing.JButton" binding="charsButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Chars"/>
+            </properties>
+          </component>
+          <component id="4154f" class="javax.swing.JButton" binding="vowelsButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Vowels"/>
+            </properties>
+          </component>
           <hspacer id="4e3f9">
             <constraints/>
           </hspacer>
           <component id="e43dd" class="javax.swing.JButton" binding="remplaçaButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Remplaça"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
@@ -326,25 +344,25 @@
           <component id="79c92" class="javax.swing.JButton" binding="afegirColumnaButton">
             <constraints/>
             <properties>
-              <text value="Afegir Columna"/>
-            </properties>
-          </component>
-          <component id="efdd4" class="javax.swing.JButton" binding="afegirFilaButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Afegir Fila"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="782b7" class="javax.swing.JButton" binding="eliminarColumnaButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Eliminar Columna"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="efdd4" class="javax.swing.JButton" binding="afegirFilaButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value=""/>
             </properties>
           </component>
           <component id="cae98" class="javax.swing.JButton" binding="eliminarFilaButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Eliminar Fila"/>
+              <text value=""/>
             </properties>
           </component>
         </children>

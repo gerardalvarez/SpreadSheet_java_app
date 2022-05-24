@@ -1,5 +1,6 @@
 package main.CapaPresentacio;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.PublicFuntions;
 import org.knowm.xchart.CategoryChart;
@@ -61,6 +62,9 @@ public class VistaPrincipal extends JFrame {
     private JButton buscarButton;
     private JTextField buscador;
     private JButton remplaçaButton;
+    private JButton wordsButton;
+    private JButton charsButton;
+    private JButton vowelsButton;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -136,7 +140,16 @@ public class VistaPrincipal extends JFrame {
         numeroDecimalsButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Decimals.png"))));
         canviarTipusNumeroButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Canviar.png"))));
         conversioButton.setIcon(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/Conversio.png"))));
-
+        buscarButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/search.svg",22,22));
+        cancelButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/cancel.svg",22,22));
+        remplaçaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/replace.svg",24,24));
+        pie.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/pieChart.svg",22,22));
+        Histograma.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/barChart.svg",22,22));
+        LinearButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/lineChart.svg",22,22));
+        afegirColumnaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/addCol.svg",28,28));
+        eliminarColumnaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/deleteCol.svg",28,28));
+        afegirFilaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/addRow.svg",28,28));
+        eliminarFilaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/deleteRow.svg",28,28));
 
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -609,7 +622,6 @@ public class VistaPrincipal extends JFrame {
             }
         });
 
-        Histograma.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/histogram.png"))));
         Histograma.addActionListener(e -> {
             JTextField colField1 = new JTextField();
             JTextField rowIniField2 = new JTextField();
@@ -635,7 +647,7 @@ public class VistaPrincipal extends JFrame {
             myPanel.add(Box.createVerticalStrut(15));
             Col2.add(new JLabel("Fila Inicial:"));
             Col2.add(rowIniField2);
-            Col2.add(new JLabel("Fila Final:"));
+            Col2.add(new JLabel("Fila Final :"));
             Col2.add(rowFiField2);
             myPanel.add(Col2);
 
@@ -673,7 +685,6 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
-        pie.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/pieChart.png"))));
 
         pie.addActionListener(e -> {
             JTextField colField1 = new JTextField();
@@ -742,7 +753,6 @@ public class VistaPrincipal extends JFrame {
             }
         });
 
-        LinearButton.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/chartLinear.png"))));
         LinearButton.addActionListener(e -> {
 
             JTextField colField1 = new JTextField();
@@ -1712,18 +1722,18 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(busca);
                 rempla = colField2.getText();
                 try {
-                    ArrayList<Cela> a = new ArrayList<>();
+                    ArrayList<Cela> a = cp.BuscarRemp("Full 1", busca, rempla);
                     for (Cela c : a) {
                         int col = c.getId().getValue();
                         int row = c.getId().getKey();
                         AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
 
                         try {
-                            String[][] temp = cp.MostrarLlista( FullActual);
-                            String content = cp.ValorTotal( FullActual, id);
-                            String type = cp.GetTipusCela( FullActual, id);
+                            String[][] temp = cp.MostrarLlista("Full 1");
+                            String content = cp.ValorTotal("Full 1", id);
+                            String type = cp.GetTipusCela("Full 1", id);
                             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                            String[] nomCol = new String[cp.GetColumnes( FullActual)];
+                            String[] nomCol = new String[cp.GetColumnes("Full 1")];
 
                             for (int i = 0; i < nomCol.length; i++) {
                                 nomCol[i] = String.valueOf(i + 1);
@@ -1746,9 +1756,45 @@ public class VistaPrincipal extends JFrame {
                 }
 
             }
-
-
         });
+        wordsButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                String content = cp.countWords( FullActual, CelaActual);
+                Resultat.setText(content);
+            }
+        });
+
+        vowelsButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                String content = cp.countVowels( FullActual, CelaActual);
+                Resultat.setText(content);
+
+            }
+        });
+
+        charsButton.addActionListener(e -> {
+            if (CelaActual == null) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                System.out.println(fila + " " + columna);
+                String content = cp.countChars( FullActual, CelaActual);
+                Resultat.setText(content);
+
+            }
+        });
+
     }
 
 }

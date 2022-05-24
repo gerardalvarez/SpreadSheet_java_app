@@ -672,7 +672,19 @@ public class CtrlDomini {
     public void ordena_bloc(String full, AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, ArrayList<Integer> cols, String cont) throws Exception {
         Full f = docu.get_full(full);
         f.ordena_bloc(id1,id2,cols,cont);
-
-
     }
+    public ArrayList<Cela> BuscaRemp( String full, String buscar, String remp) throws Exception {
+        Bloc_celes bc = new Bloc_celes();
+        return bc.buscar_y_remplazar(docu.get_full(full).CelesArray(), buscar, remp);
+    }
+    public String countWords(String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        return docu.get_full(full).getCeles().get(id).countWords();
+    }
+    public String countChars(String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        return docu.get_full(full).getCeles().get(id).countChars();
+    }
+    public String countVowels(String full, AbstractMap.SimpleEntry<Integer, Integer> id){
+        return docu.get_full(full).getCeles().get(id).countVowels();
+    }
+
 }
