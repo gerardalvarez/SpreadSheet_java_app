@@ -432,13 +432,13 @@ public class CtrlDomini {
         Full newf= f.getFullprevi();
         f.replace();
         f.Eliminar_Accio();
+        System.out.println("borrado");
     }
 
     public void GuardarEstat(String full) throws CloneNotSupportedException {
         Full f = docu.get_full(full);
         Full n= (Full) f.clone();
         System.out.println("guardado");
-        System.out.println(n);
         f.Afegir_Accio(n);
     }
 

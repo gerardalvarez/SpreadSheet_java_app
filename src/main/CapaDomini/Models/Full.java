@@ -19,6 +19,12 @@ public class Full implements Cloneable{
     private ArrayList<Full> Estatsprevis;
 
     //Constructor
+    /**
+     * Constructora de Full que crea el full a partird del nom, el número de columnes i el número files.
+     * @param n
+     * @param nc
+     * @param nf
+     */
     public Full(String n, Integer nc, Integer nf) {
         Celes = new HashMap<>();
         Estatsprevis= new ArrayList<>();
@@ -34,6 +40,15 @@ public class Full implements Cloneable{
         }
     };
 
+    /**
+     * Constructora de Full que crea el full a partird del nom, el número de columnes, el número files,
+     * les cel·les que el formen i els seus estats previs.
+     * @param n
+     * @param nc
+     * @param nf
+     * @param c
+     * @param f
+     */
     public Full(String n, Integer nc, Integer nf,HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> c, ArrayList<Full> f) {
         Celes = c;
         Estatsprevis= f;
@@ -42,6 +57,11 @@ public class Full implements Cloneable{
         this.Num_Files = nf;
     };
 
+    /**
+     * Constructora de Full que crea el full a partird del número de columnes i el número files.
+     * @param nc
+     * @param nf
+     */
     public Full(Integer nc, Integer nf) {
         this.nom = "Full sense nom";
         this.Num_Columnes = nc;
@@ -66,14 +86,12 @@ public class Full implements Cloneable{
 
 
     //Mètodes Públics
-    public void Afegir_Fila(Integer nf) {
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
-         */
 
+    /**
+     * Funció que afegeix una fila al full a l'índex on s'indica per paràmetre.
+     * @param nf
+     */
+    public void Afegir_Fila(Integer nf) {
         int k= 0;
         //AÑADE AL FINAL
         while (k < this.Num_Columnes) {
@@ -89,25 +107,13 @@ public class Full implements Cloneable{
             this.Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
-        /*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-                System.out.println();
-        }
-         */
     };
 
+    /**
+     * Funció que afegeix una columna al full a l'índex on s'indica per paràmetre.
+     * @param nc
+     */
     public void Afegir_Columna(Integer nc) {
-
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
-
-         */
-
         int k= 0;
         //AÑADE AL FINAL
         while (k < this.Num_Files) {
@@ -124,26 +130,13 @@ public class Full implements Cloneable{
             this.Celes.put(idc, new TextCela(idc, ""));
             ++i;
         }
-
-/*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-            System.out.println();
-        }
-
- */
     };
 
+    /**
+     * Funció que elimina una fila al full a l'índex on s'indica per paràmetre.
+     * @param nf
+     */
     public void Eliminar_Fila(Integer nf) {
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
-
-         */
-
         if (nf < this.Num_Files) DecrementarIndexFila(nf);
         --this.Num_Files;
 
@@ -153,44 +146,28 @@ public class Full implements Cloneable{
             this.Celes.remove(idc);
             ++i;
         }
-/*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-            System.out.println();
-        }
-
- */
     };
 
+    /**
+     * Funció que elimina columna al full a l'índex on s'indica per paràmetre.
+     * @param nc
+     */
     public void Eliminar_Columna(Integer nc) {
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
-
-         */
-
         if (nc < this.Num_Columnes) DecrementarIndexCol(nc);
         --this.Num_Columnes;
 
         Integer i= 0;
         while (i < this.Num_Columnes) {
-            AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,Num_Columnes);
+            AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i, Num_Columnes);
             this.Celes.remove(idc);
             ++i;
         }
-/*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-            System.out.println();
-        }
-
- */
     };
 
+    /**
+     * Funció que esborra les celes que rep per paràmetre.
+     * @param celes
+     */
     public void Esborrar_Celes(ArrayList<Cela> celes) {
         int i= 0;
         while (i < celes.size()){
@@ -201,6 +178,12 @@ public class Full implements Cloneable{
         }
     };
 
+    /**
+     * Funció que modifica la cel·la "id" amb el resultat que es rep per paràmetre, comprovant el tipus de cel·la
+     * i comprovant si té obtervadors.
+     * @param id
+     * @param resultat
+     */
     public void Modifica_Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
         int size = resultat.length();
         String a = PublicFuntions.calculaTipus(resultat);
@@ -284,8 +267,12 @@ public class Full implements Cloneable{
         //EN CUENTA
     }
 
-
-
+    /**
+     *
+     * @param sender
+     * @param oper
+     * @return
+     */
     private BigDecimal avaluar(ArrayList<Numero> sender, String oper){
         if(Objects.equals(oper, "DIV")){
             return sender.get(0).getResultat().divide(sender.get(1).getResultat());
@@ -362,206 +349,6 @@ public class Full implements Cloneable{
     public HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Cela> getCeles() {
         return Celes;
     }
-
-    //public void Undo() throws Exception {
-        /*
-        System.out.println("d");
-        if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("modificarcela")) {
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviartipuscela")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviartipusnum")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaincrement")){
-            System.out.println("e");
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-            System.out.println("f");
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaincreemp")){
-            System.out.println("e");
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-            System.out.println("f");
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculareduir")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculapotencia")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaarrel")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculavalorabs")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculaconversio")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviardecimal")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("canviararrodonit")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("transformatext")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("transformadata")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("mayus")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("minus")){
-            Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0);
-            Celes.replace(c.getId(), c);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularmitjana")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularmediana")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularmoda")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calcularvariança")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("buscamaxim")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("calculardesviació")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("mayusb")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("minusb")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("buscaremp")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("copiar")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("eliminarcela")){
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("afegirfila")){
-            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
-            Integer fila= id.getKey();
-            this.Eliminar_Fila(fila);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("afegircol")){
-            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
-            Integer col= id.getValue();
-            this.Eliminar_Columna(col);
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("eliminarfila")){
-            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
-            Integer fila= id.getKey();
-            this.Afegir_Fila(fila);
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-        else if (Estatsprevis.get(Estatsprevis.size() - 1).accio.equals("eliminarcol")){
-            AbstractMap.SimpleEntry<Integer,Integer> id= Estatsprevis.get(Estatsprevis.size()-1).celes.get(0).getId();
-            Integer col= id.getValue();
-            this.Afegir_Columna(col);
-            for (int i= 0; i< Estatsprevis.size(); ++i){
-                Cela c= Estatsprevis.get(Estatsprevis.size()-1).celes.get(i);
-                Celes.replace(c.getId(), c);
-            }
-            Estatsprevis.remove(Estatsprevis.size() - 1);
-        }
-
-         */
-    //}
 
     public void Afegir_Accio(Full f){
         Estatsprevis.add(f);
@@ -1018,7 +805,7 @@ public class Full implements Cloneable{
                 celes.put(c.id, c);
             }
         }
-        return new Full(this.nom, this.Num_Files, this.Num_Columnes, celes, this.Estatsprevis);
+        return new Full(this.nom, this.Num_Columnes, this.Num_Files, celes, this.Estatsprevis);
     }
 
     public void replace() {
@@ -1027,8 +814,6 @@ public class Full implements Cloneable{
 
                 AbstractMap.SimpleEntry<Integer,Integer> id= new AbstractMap.SimpleEntry<>(i,j);
                 Cela c = Estatsprevis.get(Estatsprevis.size() - 1).getCeles().get(id);
-                System.out.println(c);
-
                 Celes.replace(c.getId(), c);
             }
         }

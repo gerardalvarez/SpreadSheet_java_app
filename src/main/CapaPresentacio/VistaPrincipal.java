@@ -256,7 +256,6 @@ public class VistaPrincipal extends JFrame {
         });
 
         Full.getModel().addTableModelListener(e -> {
-            System.out.println(e.getType());
 
             if (e.getType() == TableModelEvent.UPDATE && !modificat.get() && !dataVector.get()) {
                 int col = e.getColumn();
@@ -264,7 +263,6 @@ public class VistaPrincipal extends JFrame {
                 String mod = Full.getValueAt(row, col).toString().trim();
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                 modificat.set(true);
-
                 try {
                     //System.out.println(mod);
                     cp.ModificarContingutCela( FullActual, id, mod);
@@ -282,6 +280,7 @@ public class VistaPrincipal extends JFrame {
                     dataVector.set(true);
                     dtm.setDataVector(temp, nomCol);
                     dataVector.set(false);
+
                     Tipus.setText(type);
                     Contingut.setText(content);
                     //Full.setValueAt(obj, row, col);
@@ -303,11 +302,6 @@ public class VistaPrincipal extends JFrame {
                 int row = fila = Full.rowAtPoint(e.getPoint());
                 int col = columna = Full.columnAtPoint(e.getPoint());
                 if (row >= 0 && col >= 0) {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     CelaActual = new AbstractMap.SimpleEntry<>(row, col);
                     String content = cp.ValorTotal( FullActual, CelaActual);
                     String type = cp.GetTipusCela( FullActual, CelaActual);
@@ -355,11 +349,6 @@ public class VistaPrincipal extends JFrame {
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         if (codi == 0) {
                             String temp = cp.ValorTotal( FullActual, CelaRemp);
                             Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
@@ -373,11 +362,6 @@ public class VistaPrincipal extends JFrame {
                 } else if (result == 1) {
                     try {
                         int codi = cp.CalculaIncrement( FullActual, CelaActual);
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         if (codi == 0) {
                             String temp = cp.ValorTotal( FullActual, CelaActual);
                             Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
@@ -412,11 +396,6 @@ public class VistaPrincipal extends JFrame {
                     if (!cp.transformaText( FullActual, id))
                         JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
                     else {
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         String[][] temp = new String[0][];
                         try {
                             temp = cp.MostrarLlista( FullActual);
@@ -454,11 +433,7 @@ public class VistaPrincipal extends JFrame {
                     if (!cp.transformaData( FullActual, id))
                         JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
                     else {
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
+
                         String[][] temp = new String[0][];
                         try {
                             temp = cp.MostrarLlista( FullActual);
@@ -490,11 +465,7 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                try {
-                    cp.GuardarEstat(FullActual);
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
+
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
@@ -529,11 +500,7 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                try {
-                    cp.GuardarEstat(FullActual);
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
+
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
@@ -574,11 +541,7 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(new JFrame(), "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
+
                     Resultat.setText("Dia " + content);
                 }
             }
@@ -601,11 +564,7 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
+
                     Resultat.setText("Mes " + content);
                 }
             }
@@ -628,11 +587,7 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
+
                     Resultat.setText("Any " + content);
                 }
             }
@@ -655,11 +610,6 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     Resultat.setText("Dia de la setmana " + content);
                 }
             }
@@ -895,11 +845,6 @@ public class VistaPrincipal extends JFrame {
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         int codi;
                         try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        try {
                             codi = cp.CalculaReduirIReemplaca( FullActual, CelaActual, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
@@ -915,11 +860,6 @@ public class VistaPrincipal extends JFrame {
                     }
 
                 } else if (result == 1) {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     try {
                         int codi = cp.CalculaReduir( FullActual, CelaActual);
                         if (codi == 0) {
@@ -970,11 +910,6 @@ public class VistaPrincipal extends JFrame {
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         int codi;
                         try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        try {
                             codi = cp.CalculaValorAbsIReemplaca( FullActual, CelaActual, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
@@ -990,11 +925,6 @@ public class VistaPrincipal extends JFrame {
                     }
 
                 } else if (result == 1) {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     try {
                         int codi = cp.CalculaValorAbs( FullActual, CelaActual);
                         if (codi == 0) {
@@ -1048,11 +978,6 @@ public class VistaPrincipal extends JFrame {
                         Double exp = Double.valueOf(expo);
                         int codi;
                         try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        try {
                             codi = cp.CalculaPotenciaIReemplaca( FullActual, CelaActual, exp, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
@@ -1068,11 +993,6 @@ public class VistaPrincipal extends JFrame {
                     }
 
                 } else if (result == 1) {
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     try {
                         String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Potencia", JOptionPane.QUESTION_MESSAGE);
                         Double exp = Double.valueOf(expo);
@@ -1128,11 +1048,6 @@ public class VistaPrincipal extends JFrame {
                         Double exp = Double.valueOf(expo);
                         int codi;
                         try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        try {
                             codi = cp.CalculaArrelIReemplaca( FullActual, CelaActual, exp, CelaRemp);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
@@ -1151,11 +1066,6 @@ public class VistaPrincipal extends JFrame {
                         String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Potencia", JOptionPane.QUESTION_MESSAGE);
                         Double exp = Double.valueOf(expo);
                     int codi = 1;
-                    try {
-                        cp.GuardarEstat(FullActual);
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     try {
                         codi = cp.CalculaArrel( FullActual, CelaActual, exp);
                     } catch (Exception ex) {
@@ -1185,11 +1095,6 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                try {
-                    cp.GuardarEstat(FullActual);
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
                 DecimalsDialog d = new DecimalsDialog(CelaActual, cp, Full);
                 d.setLocationRelativeTo(this);
                 d.setVisible(true);
@@ -1210,11 +1115,6 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de número \nConsulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                try {
-                    cp.GuardarEstat(FullActual);
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
                 ConversioDialog c = new ConversioDialog(CelaActual, cp, Full);
                 c.setLocationRelativeTo(this);
                 c.setVisible(true);
@@ -1235,11 +1135,6 @@ public class VistaPrincipal extends JFrame {
                 JComboBox comboBox = new JComboBox(tipus);
                 JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
                 try {
-                    cp.GuardarEstat(FullActual);
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
                     cp.CanviarTipusNumero( FullActual, CelaActual, Objects.requireNonNull(comboBox.getSelectedItem()).toString());
                 } catch (CloneNotSupportedException ex) {
                     ex.printStackTrace();
@@ -1250,11 +1145,6 @@ public class VistaPrincipal extends JFrame {
         afegirColumnaButton.addActionListener(e -> {
             int colActual = cp.GetColumnes( FullActual);
             try {
-                try {
-                    cp.GuardarEstat(FullActual);
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
                 cp.AfegirCol( FullActual, 0);
             } catch (Exception ex) {
                 Toolkit.getDefaultToolkit().beep();
@@ -1287,11 +1177,6 @@ public class VistaPrincipal extends JFrame {
                 if (PublicFuntions.isNum(num)) {
                     int colActual = cp.GetColumnes( FullActual);
                     try {
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         cp.AfegirFila( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
@@ -1332,11 +1217,6 @@ public class VistaPrincipal extends JFrame {
                 if (PublicFuntions.isNum(num)) {
                     int colActual = cp.GetColumnes( FullActual);
                     try {
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         cp.EliminarCol( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
@@ -1372,11 +1252,6 @@ public class VistaPrincipal extends JFrame {
                 if (PublicFuntions.isNum(num)) {
                     int colActual = cp.GetColumnes( FullActual);
                     try {
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         cp.EliminarFila( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
@@ -1492,11 +1367,6 @@ public class VistaPrincipal extends JFrame {
                 } else {
                     int a;
                     try {
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         cp.Copiar( FullActual,new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
                                 ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1));
                     } catch (Exception ex) {
@@ -1622,11 +1492,6 @@ public class VistaPrincipal extends JFrame {
                 } else {
                     int a;
                     try {
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
-                        }
                         a= cp.Opera_bloc( FullActual,new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
                                 ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1), ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString(),d);
                     } catch (Exception ex) {
@@ -1738,11 +1603,6 @@ public class VistaPrincipal extends JFrame {
                             if (c>=0 && c<=(col2-col) && !columnas.contains(c)){
                                 columnas.add(c);
                             }else JOptionPane.showMessageDialog(new JFrame(), "Les columnes no s'han introduit correctament", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        try {
-                            cp.GuardarEstat(FullActual);
-                        } catch (CloneNotSupportedException ex) {
-                            throw new RuntimeException(ex);
                         }
                         cp.ordena_bloc(FullActual,new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1),columnas,ListaOps.getItemAt(ListaOps.getSelectedIndex()).toString());
                     } catch (Exception ex) {
@@ -1898,6 +1758,14 @@ public class VistaPrincipal extends JFrame {
         });
 
         undoButton.addActionListener(e -> {
+            /*
+            try {
+                cp.GuardarEstat(FullActual);
+            } catch (CloneNotSupportedException ex) {
+                throw new RuntimeException(ex);
+            }
+            */
+
             try {
                 System.out.println("a");
                 cp.Undo(FullActual);
