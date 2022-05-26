@@ -194,12 +194,11 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut obrir", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
+                ArrayList<String> llistaFulls = cp.GetFulls();
+                FullActual = llistaFulls.get(0);
+                NomFull.setText(FullActual);
                 String[][] temp;
-                try {
-                    temp = cp.MostrarLlista( FullActual);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+                temp = cp.MostrarLlista( FullActual);
                 DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
                 String[] nomCol = new String[cp.GetColumnes( FullActual)];
 
@@ -416,7 +415,7 @@ public class VistaPrincipal extends JFrame {
                     myPanel.add(Box.createHorizontalStrut(15));
                     myPanel.add(new JLabel("Fila:"));
                     myPanel.add(rowField);
-                    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+                    myPanel.add(Box.createHorizontalStrut(15));
                     myPanel.add(new JLabel("Columna:"));
                     myPanel.add(colField);
 
@@ -425,19 +424,43 @@ public class VistaPrincipal extends JFrame {
                         Integer row = Integer.parseInt(rowField.getText());
                         Integer col = Integer.parseInt(colField.getText());
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                        int codi;
-                        try {
-                            codi = cp.CalculaIncrementIReemplaca( FullActual, CelaActual, CelaRemp);
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
+                        if (cp.ComprovarId(FullActual, CelaRemp)) {
+                            if (cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
+                                int codi;
+                                try {
+                                    codi = cp.CalculaIncrementIReemplaca(FullActual, CelaActual, CelaRemp);
+                                } catch (Exception ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                if (codi == 0) {
+                                    String temp = cp.ValorTotal(FullActual, CelaRemp);
+                                    Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
+                                    Full.repaint();
+                                } else {
+                                    Toolkit.getDefaultToolkit().beep();
+                                    JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Reemplaçar", JOptionPane.YES_NO_OPTION) == 0){
+                                int codi;
+                                try {
+                                    codi = cp.CalculaIncrementIReemplaca(FullActual, CelaActual, CelaRemp);
+                                } catch (Exception ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                if (codi == 0) {
+                                    String temp = cp.ValorTotal(FullActual, CelaRemp);
+                                    Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
+                                    Full.repaint();
+                                } else {
+                                    Toolkit.getDefaultToolkit().beep();
+                                    JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
                         }
-                        if (codi == 0) {
-                            String temp = cp.ValorTotal( FullActual, CelaRemp);
-                            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-                            Full.repaint();
-                        } else {
+                        else {
                             Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no existeix dins del full", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
 

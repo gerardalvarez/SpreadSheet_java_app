@@ -441,7 +441,7 @@ public class CtrlDomini {
     public boolean ComprovaCelaNoOcupa(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = docu.get_full(full);
         Cela c = f.Consultar_cela(id);
-        if(c.getResultatFinal().equals("")) return false;
+        if(c.getResultatFinal().isBlank() || c.getResultatFinal().isEmpty()) return false;
         else return true;
     }
 
