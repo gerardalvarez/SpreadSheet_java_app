@@ -167,10 +167,12 @@ public class PublicFuntions {
                                 Scanner scc=new Scanner(op);
                                 scc.useDelimiter(":");
                                 Boolean err=false;
-                                while (scc.hasNext()){
                                     String[] part = scc.next().split("(?<=\\D)(?=\\d)");
+                                    String[] part2 = scc.next().split("(?<=\\D)(?=\\d)");
                                     if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
-                                            && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
+                                            && part2.length==2 && isNum(part2[1]) && toNumber(part2[0])<y && toNumber(part2[0])>0 && Integer.parseInt(part2[1])<=x && Integer.parseInt(part2[1])>0
+                                            && Integer.parseInt(part[1]) <= Integer.parseInt(part2[1]) && toNumber(part[0])<=toNumber(part2[0])
+                                            && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".") ){
                                         System.out.println("EL BLOQUE ES " +toNumber(part[0])+" " +Integer.parseInt(part[1]));
                                         if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
                                         else tipus="REFNUM";
@@ -180,8 +182,7 @@ public class PublicFuntions {
                                         break;
                                     }
                                 }
-                                if (err) break;
-                            }
+
                         } else {
                             String[] part = op.split("(?<=\\D)(?=\\d)");
                             if (part.length==2 && isNum(part[1]) && toNumber(part[0])<=y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
@@ -252,8 +253,9 @@ public class PublicFuntions {
                                 Boolean err=false;
                                     String[] part = scc.next().split("(?<=\\D)(?=\\d)");
                                     String[] part2 = scc.next().split("(?<=\\D)(?=\\d)");
-                                    if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
-                                        if (part2.length==2 && isNum(part2[1]) && toNumber(part2[0])<y && toNumber(part2[0])>0 && Integer.parseInt(part2[1])<=x && Integer.parseInt(part2[1])>0){
+                                    if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                                    && part2.length==2 && isNum(part2[1]) && toNumber(part2[0])<y && toNumber(part2[0])>0 && Integer.parseInt(part2[1])<=x && Integer.parseInt(part2[1])>0){
+                                        if (Integer.parseInt(part[1]) <= Integer.parseInt(part2[1]) && toNumber(part[0])<=toNumber(part2[0]) ){
                                         for (int i=toNumber(part[0]);i<=toNumber(part2[0]);i++){
                                             for (int j=Integer.parseInt(part[1]);j<=Integer.parseInt(part2[1]);j++){
                                                 l.add(new AbstractMap.SimpleEntry<>(i,j));
@@ -341,6 +343,7 @@ public class PublicFuntions {
             number = number * 26 + (name.charAt(i) - ('A' - 1));
         }
         return number; }
+
 }
 
 

@@ -858,7 +858,63 @@ public class Full {
             Celes.replace(id,new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal().toUpperCase()));
         }else if(resultat.substring(1, 4).equals("MIN") ){
             Celes.replace(id,new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal().toLowerCase()));
+        }else if (resultat.substring(1, 4).equals("COV") || resultat.substring(1, 4).equals("PER")){
+        l.remove(l.size()-1);
+        ArrayList<Numero> a1=new ArrayList<>();
+        ArrayList<Numero> a2= new ArrayList<>();
+        Boolean primera_part=true;
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i).getKey()==-2) {
+                primera_part=false;
+                continue;
+            }
+            if (primera_part) {
+                if (Celes.get(l.get(i)) instanceof Numero) {
+                    a1.add(((Numero) Celes.get(l.get(i))));
+                }
+            } else {
+                if (Celes.get(l.get(i)) instanceof Numero) {
+                    a2.add(((Numero) Celes.get(l.get(i))));
+                }
+            }
+        }
+        Bloc_celes bc=new Bloc_celes();
+        if (resultat.substring(1, 4).equals("PER")){
+            Cela aaux;
+            try {
+                BigDecimal b = BigDecimal.valueOf(bc.coeficient_Pearson(a1,a2));
+                aaux= new CelaRefNum(id,b.toString(),true,2,Tipus_Numero.numero,resultat);
+                System.out.println(b+" ññ");
+            } catch (NumberFormatException e) {
+                aaux= new TextCela(id,"#Invalid calc");
+                Celes.replace(id,aaux);
+                return;
+            }
+            aaux.setObservadors(Celes.get(id).observadors);
+            Celes.replace(id,aaux);
+
         }else {
+            Cela aaux;
+            if (a1.size()!= a2.size()){
+                aaux= new TextCela(id,"#ERROR");
+            }
+            else {
+                try {
+                    BigDecimal b = BigDecimal.valueOf(bc.covariança(a1,a2));
+                    aaux= new CelaRefNum(id,b.toString(),true,2,Tipus_Numero.numero,resultat);
+                } catch (NumberFormatException e) {
+                    aaux= new TextCela(id,"#ERROR");
+                    Celes.replace(id,aaux);
+                    return;
+                }
+            }
+            aaux.setObservadors(Celes.get(id).observadors);
+            Celes.replace(id,aaux);
+        }
+
+        if (l.remove(new AbstractMap.SimpleEntry<>(-2,-2)));
+    }
+else {
             ArrayList<Numero> aux = new ArrayList<>();
             for (int i = 0; i < l.size(); i++) {
                 if (Celes.get(l.get(i)) instanceof Numero) {
@@ -907,45 +963,69 @@ public class Full {
 
     public void modificarContingutCela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
 
-        String a="";
-        if (!resultat.equals("")) a = PublicFuntions.analiza(resultat,this.Num_Files,this.Num_Columnes);
-        ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
-        if (Consultar_cela(id) instanceof CelaRefNum && !((CelaRefNum) Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefNum) Consultar_cela(id)).getContingut(),this.Num_Files,this.Num_Columnes);
-            borraref(id,l);
-        } else if (Consultar_cela(id) instanceof CelaRefText &&!((CelaRefText) Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefText) Consultar_cela(id)).getContingut(),this.Num_Files,this.Num_Columnes);
-            borraref(id,l);
-        }else if (Consultar_cela(id) instanceof CelaRefData && !((CelaRefData) Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefData) Consultar_cela(id)).getContingut(),this.Num_Files,this.Num_Columnes);
-            borraref(id,l);
-        }
-        if (!resultat.equals("")){
-            if (a.equals("text") || a.equals("data") || a.equals("numeric") ){
-                Modifica_Cela(id,resultat);
-            } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda") ) {
-                Boolean b= false;
-                l=PublicFuntions.analizaops(resultat,this.Num_Files,this.Num_Columnes);
-                for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
-                    b= comprova_bucle(id,id2);
+            String a = "";
+            ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l = new ArrayList<>();
+            if (Consultar_cela(id) instanceof CelaRefNum && !((CelaRefNum) Consultar_cela(id)).getContingut().equals(resultat)) {
+                l = PublicFuntions.analizaops(((CelaRefNum) Consultar_cela(id)).getContingut(), this.Num_Files, this.Num_Columnes);
+                borraref(id, l);
+            } else if (Consultar_cela(id) instanceof CelaRefText && !((CelaRefText) Consultar_cela(id)).getContingut().equals(resultat)) {
+                l = PublicFuntions.analizaops(((CelaRefText) Consultar_cela(id)).getContingut(), this.Num_Files, this.Num_Columnes);
+                borraref(id, l);
+            } else if (Consultar_cela(id) instanceof CelaRefData && !((CelaRefData) Consultar_cela(id)).getContingut().equals(resultat)) {
+                l = PublicFuntions.analizaops(((CelaRefData) Consultar_cela(id)).getContingut(), this.Num_Files, this.Num_Columnes);
+                borraref(id, l);
+            }if (resultat.length()>6 && (resultat.substring(0,5).equals("=COV(") || resultat.substring(0,5).equals("=PER(")) ){
+                String ops= resultat.substring(5,resultat.length()-1);
+                Boolean b= analitzablocs(ops, this.Num_Files, this.Num_Columnes);
+                System.out.println(b);
+                if (!b){
+                    Modifica_Cela(id, "#ERROR");
+                    CheckObs(id);
+                    return;
+                }
+                l= analitzablocs_ops(ops, this.Num_Files, this.Num_Columnes);
+                for (AbstractMap.SimpleEntry<Integer, Integer> id2 : l) {
+                    b = comprova_bucle(id, id2);
                     if (b) break;
                 }
-                if (b) a="referencia pero #ERROR";
-                else {
-                    if (!l.contains(id)) opera(id, l, resultat);
-                    else a = "referencia pero #ERROR";
+                if (b){
+                     Modifica_Cela(id, "#ERROR");
+                    CheckObs(id);
+                     return;
                 }
-            }
-            if (a.equals("referencia pero #ERROR")){
-                Modifica_Cela(id,"#ERROR");
-            }
-            else if (resultat.equals("")) Modifica_Cela(id,"");
-        }else if (resultat.equals("")) Modifica_Cela(id,"");
+                if (!l.contains(id)) opera(id, l, resultat);
+                else {
+                    Modifica_Cela(id, "#ERROR");
+                    CheckObs(id);
+                    return;
+                }
+            }else {
+            if (!resultat.equals("")) a = PublicFuntions.analiza(resultat, this.Num_Files, this.Num_Columnes);
+            if (!resultat.equals("")) {
+                if (a.equals("text") || a.equals("data") || a.equals("numeric")) {
+                    Modifica_Cela(id, resultat);
+                } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda")) {
+                    Boolean b = false;
+                    l = PublicFuntions.analizaops(resultat, this.Num_Files, this.Num_Columnes);
+                    for (AbstractMap.SimpleEntry<Integer, Integer> id2 : l) {
+                        b = comprova_bucle(id, id2);
+                        if (b) break;
+                    }
+                    if (b) a = "referencia pero #ERROR";
+                    else {
+                        if (!l.contains(id)) opera(id, l, resultat);
+                        else a = "referencia pero #ERROR";
+                    }
+                }
+                if (a.equals("referencia pero #ERROR")) {
+                    Modifica_Cela(id, "#ERROR");
+                } else if (resultat.equals("")) Modifica_Cela(id, "");
+            } else if (resultat.equals("")) Modifica_Cela(id, "");
 
-        CheckObs(id);
+            CheckObs(id);
+        }
+
     }
-
-
 
 
     public void CheckObs(AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
@@ -960,7 +1040,7 @@ public class Full {
                 } else if (getCeles().get(obs.get(i)) instanceof CelaRefText) {
                     CelaRefText c = (CelaRefText) getCeles().get(obs.get(i));
                     modificarContingutCela( obs.get(i), c.getContingut());
-                } else {
+                } else if (getCeles().get(obs.get(i)) instanceof CelaRefNum){
                     System.out.println(obs.get(i).getKey() + " " + obs.get(i).getValue());
                     CelaRefNum c = (CelaRefNum) getCeles().get(obs.get(i));
                     modificarContingutCela( obs.get(i), c.getContingut());
@@ -970,6 +1050,129 @@ public class Full {
 
         }
     }
+
+
+    public Boolean analitzablocs(String ops, Integer y, Integer x) {
+        String tipus="";
+        Scanner sc=new Scanner(ops);
+        sc.useDelimiter(",");
+        Boolean err=false;
+        int aux=0;
+        while (sc.hasNext()){
+            ++aux;
+            String op =sc.next();
+            System.out.println(op);
+            if (op.contains(":")){                       // es bloque
+                if (op.length()<5) {
+                    tipus = "referencia pero #ERROR";
+                    break;
+                }else {
+                    System.out.println("entra aqui");
+                    Scanner scc=new Scanner(op);
+                    scc.useDelimiter(":");
+
+                    String[] part = scc.next().split("(?<=\\D)(?=\\d)");
+                    String[] part2 = scc.next().split("(?<=\\D)(?=\\d)");
+                    System.out.println(part[0]+part[1]);
+                    if (part.length==2 && PublicFuntions.isNum(part[1]) && PublicFuntions.toNumber(part[0])<y && PublicFuntions.toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                    && part2.length==2 && PublicFuntions.isNum(part2[1]) && PublicFuntions.toNumber(part2[0])<y && PublicFuntions.toNumber(part2[0])>0 && Integer.parseInt(part2[1])<=x && Integer.parseInt(part2[1])>0){
+                        if (Integer.parseInt(part[1]) <= Integer.parseInt(part2[1]) && PublicFuntions.toNumber(part[0])<=PublicFuntions.toNumber(part2[0])){
+                            System.out.println("suuu");
+                            for (int ii=PublicFuntions.toNumber(part[0]);ii<=PublicFuntions.toNumber(part2[0]);ii++){
+                                for (int jj=Integer.parseInt(part[1]);jj<=Integer.parseInt(part2[1]);jj++){
+                                    if (!(Celes.get(new AbstractMap.SimpleEntry<>(ii-1,jj-1)) instanceof Numero)) {
+                                        System.out.println(Celes.get(new AbstractMap.SimpleEntry<>(ii-1,jj-1)).getClass()+" "+ii+" "+jj);
+                                        tipus="referencia pero #ERROR";
+                                        err=true;
+                                        break;
+                                    }
+                                }
+                                if (err) break;
+                            }
+                        }else{
+                            tipus="referencia pero #ERROR";
+                            err=true;
+                        }
+                    }else{
+                        tipus="referencia pero #ERROR";
+                        err=true;
+                        break;
+                    }
+                    if (err) break;
+                }
+            }
+            else {
+                tipus="referencia pero #ERROR";
+                err=true;
+                break;
+            }
+            if (err) break;
+            if (aux>2){
+                tipus="referencia pero #ERROR";
+                break;
+            }
+        }
+        if (tipus.equals("referencia pero #ERROR")) return false;
+        else return true;
+    }
+
+
+    private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> analitzablocs_ops(String ops, Integer y, Integer x) {
+        String tipus="";
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l =new ArrayList<>();
+        Scanner sc=new Scanner(ops);
+        sc.useDelimiter(",");
+        Boolean err=false;
+        int aux=0;
+        while (sc.hasNext()){
+            ++aux;
+            String op =sc.next();
+            if (op.contains(":")){                       // es bloque
+                if (op.length()<5) {
+                    tipus = "referencia pero #ERROR";
+                    break;
+                }else {
+                    Scanner scc=new Scanner(op);
+                    scc.useDelimiter(":");
+
+                    String[] part = scc.next().split("(?<=\\D)(?=\\d)");
+                    String[] part2 = scc.next().split("(?<=\\D)(?=\\d)");
+                    if (part.length==2 && PublicFuntions.isNum(part[1]) && PublicFuntions.toNumber(part[0])<y && PublicFuntions.toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                            && part2.length==2 && PublicFuntions.isNum(part2[1]) && PublicFuntions.toNumber(part2[0])<y && PublicFuntions.toNumber(part2[0])>0 && Integer.parseInt(part2[1])<=x && Integer.parseInt(part2[1])>0){
+                        if (Integer.parseInt(part[1]) <= Integer.parseInt(part2[1]) && PublicFuntions.toNumber(part[0])<=PublicFuntions.toNumber(part2[0])){
+                            for (int i=PublicFuntions.toNumber(part[0]);i<=PublicFuntions.toNumber(part2[0]);i++){
+                                for (int j=Integer.parseInt(part[1]);j<=Integer.parseInt(part2[1]);j++){
+                                    l.add(new AbstractMap.SimpleEntry<>(i-1,j-1));
+                                }
+                                if (err) break;
+                            }
+                        }else{
+                            tipus="referencia pero #ERROR";
+                            err=true;
+                        }
+                    }else{
+                        tipus="referencia pero #ERROR";
+                        break;
+                    }
+                    if (err) break;
+                }
+            }
+            else {
+                tipus="referencia pero #ERROR";
+                break;
+            }
+            if (err) break;
+            l.add(new AbstractMap.SimpleEntry<>(-2,-2));
+            if (aux>2){
+                tipus="referencia pero #ERROR";
+                break;
+            }
+        }
+        return l;
+    }
+
+
+
 };
 
 
