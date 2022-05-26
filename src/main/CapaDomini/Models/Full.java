@@ -55,13 +55,8 @@ public class Full {
     public String getNom(){return this.nom;}
 
     //Mètodes Públics
-    public void Afegir_Fila(Integer nf) {
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
-         */
+    public void Afegir_Fila(Integer nf) throws Exception {
+
 
         int k= 0;
         //AÑADE AL FINAL
@@ -75,27 +70,14 @@ public class Full {
         Integer i= 0;
         while (i < this.Num_Columnes) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(nf,i);
-            this.Celes.put(idc, new TextCela(idc, ""));
+            modificarContingutCela(idc,"");
             ++i;
         }
-        /*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-                System.out.println();
-        }
-         */
+
     };
 
-    public void Afegir_Columna(Integer nc) {
+    public void Afegir_Columna(Integer nc) throws Exception {
 
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
-
-         */
 
         int k= 0;
         //AÑADE AL FINAL
@@ -106,32 +88,18 @@ public class Full {
         }
 
         if (nc <= this.Num_Columnes-1) IncrementarIndexCol(nc);
-        ++this.Num_Columnes;
-        Integer i= 0;
+        this.Num_Columnes= this.Num_Columnes+1;
+        int i =0;
         while (i < this.Num_Files) {
             AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i,nc);
-            this.Celes.put(idc, new TextCela(idc, ""));
+            modificarContingutCela(idc,"");
             ++i;
         }
 
-/*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-            System.out.println();
-        }
-
- */
     };
 
-    public void Eliminar_Fila(Integer nf) {
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
+    public void Eliminar_Fila(Integer nf) throws Exception {
 
-         */
 
         if (nf < this.Num_Files) DecrementarIndexFila(nf);
         --this.Num_Files;
@@ -142,24 +110,10 @@ public class Full {
             this.Celes.remove(idc);
             ++i;
         }
-/*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-            System.out.println();
-        }
-
- */
     };
 
-    public void Eliminar_Columna(Integer nc) {
-        /*
-        for (Integer g=0; g < Num_Files; ++g) { //PRINT
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)) + " ");
-            System.out.println();
-        }
+    public void Eliminar_Columna(Integer nc) throws Exception {
 
-         */
 
         if (nc < this.Num_Columnes) DecrementarIndexCol(nc);
         --this.Num_Columnes;
@@ -170,14 +124,7 @@ public class Full {
             this.Celes.remove(idc);
             ++i;
         }
-/*
-        System.out.println();
-        for (Integer g=0; g < Num_Files; ++g) {
-            for (Integer j = 0; j < Num_Columnes; ++j) System.out.print(Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).getId() + " " + Celes.get(new AbstractMap.SimpleEntry<Integer, Integer>(g,j)).resultat_final + " ");
-            System.out.println();
-        }
 
- */
     };
 
     public void Esborrar_Celes(ArrayList<Cela> celes) {
@@ -546,53 +493,93 @@ public class Full {
     }
 
     //Métodes Privats
-    private void IncrementarIndexFila(Integer nf){
+    private void IncrementarIndexFila(Integer nf) throws Exception {
         int i= Num_Files;
         while (i > nf) {
             for (int j= 0; j < this.Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i-1,j);
                 AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(i,j);
-                Celes.get(idc).setId(idc2);
-                Celes.put(idc2,Celes.get(idc));
+                if (Celes.get(idc) instanceof CelaRefData) {
+                    CelaRefData c = (CelaRefData) Celes.get(idc);
+                    modificarContingutCela(idc2, c.getContingut());
+                } else if (Celes.get(idc) instanceof CelaRefText) {
+                    CelaRefText c = (CelaRefText) Celes.get(idc);
+                    modificarContingutCela(idc2, c.getContingut());
+                } else if(Celes.get(idc) instanceof CelaRefNum){
+                    CelaRefNum c = (CelaRefNum) Celes.get(idc);
+                    modificarContingutCela( idc2, c.getContingut());
+                }else{
+                    modificarContingutCela(idc2, Celes.get(idc).getResultatFinal());
+                }
             }
             --i;
         }
     };
 
-    private void IncrementarIndexCol(Integer nc){
-        int i= nc+1;
-        while (i < Num_Columnes) {
+    private void IncrementarIndexCol(Integer nc) throws Exception {
+        int i= Num_Columnes;
+        while (i > nc) {
             for (int j= 0; j < this.Num_Files; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(j,i-1);
                 AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(j,i);
-                Celes.get(idc).setId(idc2);
-                Celes.put(idc2,Celes.get(idc));
+                if (Celes.get(idc) instanceof CelaRefData) {
+                    CelaRefData c = (CelaRefData) Celes.get(idc);
+                    modificarContingutCela(idc2, c.getContingut());
+                } else if (Celes.get(idc) instanceof CelaRefText) {
+                    CelaRefText c = (CelaRefText) Celes.get(idc);
+                    modificarContingutCela(idc2, c.getContingut());
+                } else if(Celes.get(idc) instanceof CelaRefNum){
+                    CelaRefNum c = (CelaRefNum) Celes.get(idc);
+                    modificarContingutCela( idc2, c.getContingut());
+                }else{
+                    modificarContingutCela(idc2, Celes.get(idc).getResultatFinal());
+                }
             }
-            ++i;
+            --i;
         }
     };
 
-    private void DecrementarIndexFila(Integer nf){
+    private void DecrementarIndexFila(Integer nf) throws Exception {
         int i= nf+1;
         while (i < this.Num_Files) {
             for (int j= 0; j < this.Num_Columnes; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(i-1,j);
                 AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(i,j);
-                Celes.get(idc2).setId(idc);
-                Celes.put(idc,Celes.get(idc2));
+                if (Celes.get(idc2) instanceof CelaRefData) {
+                    CelaRefData c = (CelaRefData) Celes.get(idc2);
+                    modificarContingutCela(idc, c.getContingut());
+                } else if (Celes.get(idc2) instanceof CelaRefText) {
+                    CelaRefText c = (CelaRefText) Celes.get(idc2);
+                    modificarContingutCela(idc, c.getContingut());
+                } else if(Celes.get(idc2) instanceof CelaRefNum){
+                    CelaRefNum c = (CelaRefNum) Celes.get(idc2);
+                    modificarContingutCela( idc, c.getContingut());
+                }else{
+                    modificarContingutCela(idc, Celes.get(idc2).getResultatFinal());
+                }
             }
             ++i;
         }
     };
 
-    private void DecrementarIndexCol(Integer nc){
+    private void DecrementarIndexCol(Integer nc) throws Exception {
         int i= nc+1;
         while (i < this.Num_Columnes) {
             for (int j= 0; j < this.Num_Files; ++j) {
                 AbstractMap.SimpleEntry<Integer, Integer> idc = new AbstractMap.SimpleEntry<Integer, Integer>(j,i-1);
                 AbstractMap.SimpleEntry<Integer, Integer> idc2 = new AbstractMap.SimpleEntry<Integer, Integer>(j,i);
-                Celes.get(idc2).setId(idc);
-                Celes.put(idc,Celes.get(idc2));
+                if (Celes.get(idc2) instanceof CelaRefData) {
+                    CelaRefData c = (CelaRefData) Celes.get(idc2);
+                    modificarContingutCela(idc, c.getContingut());
+                } else if (Celes.get(idc2) instanceof CelaRefText) {
+                    CelaRefText c = (CelaRefText) Celes.get(idc2);
+                    modificarContingutCela(idc, c.getContingut());
+                } else if(Celes.get(idc2) instanceof CelaRefNum){
+                    CelaRefNum c = (CelaRefNum) Celes.get(idc2);
+                    modificarContingutCela( idc, c.getContingut());
+                }else{
+                    modificarContingutCela(idc, Celes.get(idc2).getResultatFinal());
+                }
             }
             ++i;
         }
@@ -908,7 +895,7 @@ public class Full {
         }else if (Celes.get(id1) instanceof CelaRefData) {
             res=((CelaRefData) Celes.get(id1)).getContingut();
         }else return false;
-        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l = PublicFuntions.analizaops(res, getNum_Files(), getNum_Columnes());
+        ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l = PublicFuntions.analizaops(res,this.Num_Files,this.Num_Columnes);
        if (l.contains(id)) return true;
        for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
            b= comprova_bucle(id,id2);
@@ -921,16 +908,16 @@ public class Full {
     public void modificarContingutCela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
 
         String a="";
-        if (!resultat.equals("")) a = PublicFuntions.analiza(resultat,getNum_Files(),getNum_Columnes());
+        if (!resultat.equals("")) a = PublicFuntions.analiza(resultat,this.Num_Files,this.Num_Columnes);
         ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l=new ArrayList<>();
         if (Consultar_cela(id) instanceof CelaRefNum && !((CelaRefNum) Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefNum) Consultar_cela(id)).getContingut(),getNum_Files(),getNum_Columnes());
+            l=PublicFuntions.analizaops(((CelaRefNum) Consultar_cela(id)).getContingut(),this.Num_Files,this.Num_Columnes);
             borraref(id,l);
         } else if (Consultar_cela(id) instanceof CelaRefText &&!((CelaRefText) Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefText) Consultar_cela(id)).getContingut(),getNum_Files(),getNum_Columnes());
+            l=PublicFuntions.analizaops(((CelaRefText) Consultar_cela(id)).getContingut(),this.Num_Files,this.Num_Columnes);
             borraref(id,l);
         }else if (Consultar_cela(id) instanceof CelaRefData && !((CelaRefData) Consultar_cela(id)).getContingut().equals(resultat)){
-            l=PublicFuntions.analizaops(((CelaRefData) Consultar_cela(id)).getContingut(),getNum_Files(),getNum_Columnes());
+            l=PublicFuntions.analizaops(((CelaRefData) Consultar_cela(id)).getContingut(),this.Num_Files,this.Num_Columnes);
             borraref(id,l);
         }
         if (!resultat.equals("")){
@@ -938,7 +925,7 @@ public class Full {
                 Modifica_Cela(id,resultat);
             } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda") ) {
                 Boolean b= false;
-                l=PublicFuntions.analizaops(resultat,getNum_Files(),getNum_Columnes());
+                l=PublicFuntions.analizaops(resultat,this.Num_Files,this.Num_Columnes);
                 for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
                     b= comprova_bucle(id,id2);
                     if (b) break;

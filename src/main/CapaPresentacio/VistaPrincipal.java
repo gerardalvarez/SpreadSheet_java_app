@@ -287,7 +287,6 @@ public class VistaPrincipal extends JFrame {
                     String type = cp.GetTipusCela( FullActual, id);
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
                     String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
                     for (int i = 0; i < nomCol.length; i++) {
                         nomCol[i] = String.valueOf(i + 1);
                     }
@@ -1147,31 +1146,46 @@ public class VistaPrincipal extends JFrame {
         });
 
         afegirColumnaButton.addActionListener(e -> {
-            int colActual = cp.GetColumnes( FullActual);
-            try {
-                cp.AfegirCol( FullActual, 0);
-            } catch (Exception ex) {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            Integer colNova = colActual + 1;
-            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-            dataVector.set(true);
-            dtm.addColumn(colNova.toString());
-            String[] nomCol = new String[cp.GetColumnes( FullActual)];
+            String num = JOptionPane.showInputDialog(this, "Escrigui la posicio on vol afegir la nova columna", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
 
-            for (int i = 0; i < nomCol.length; i++) {
-                nomCol[i] = String.valueOf(i + 1);
+            if (!(num == null)) {
+                if (PublicFuntions.isNum(num)) {
+                    int colActual = cp.GetColumnes( FullActual);
+                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
+                    if (Integer.parseInt(num) <= 0 || Integer.parseInt(num)> nomCol.length+1 ){
+                        JOptionPane.showMessageDialog(this, "La columna no pertany al full. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    try {
+                        cp.AfegirCol( FullActual, Integer.parseInt(num) - 1);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    dataVector.set(true);
+                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                    String[] dataFilaNova = new String[colActual];
+                    Arrays.fill(dataFilaNova, " ");
+                    dtm.addRow(dataFilaNova);
+
+                    nomCol = new String[cp.GetColumnes( FullActual)];
+                    for (int i = 0; i < nomCol.length; i++) {
+                        nomCol[i] = String.valueOf(i + 1);
+                    }
+                    String[][] dades;
+                    try {
+                        dades = cp.MostrarLlista( FullActual);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    dtm.setDataVector(dades, nomCol);
+                    dataVector.set(false);
+                    Full.repaint();
+                } else {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            String[][] dades;
-            try {
-                dades = cp.MostrarLlista( FullActual);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-            dtm.setDataVector(dades, nomCol);
-            dataVector.set(false);
-            Full.repaint();
         });
 
         afegirFilaButton.addActionListener(e -> {
@@ -1179,6 +1193,11 @@ public class VistaPrincipal extends JFrame {
 
             if (!(num == null)) {
                 if (PublicFuntions.isNum(num)) {
+                    String[] nomF = new String[cp.GetFiles( FullActual)];
+                    if (Integer.parseInt(num) <= 0 || Integer.parseInt(num)> nomF.length+1 ){
+                        JOptionPane.showMessageDialog(this, "La fila no pertany al full. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     int colActual = cp.GetColumnes( FullActual);
                     try {
                         cp.AfegirFila( FullActual, Integer.parseInt(num) - 1);
@@ -1219,10 +1238,15 @@ public class VistaPrincipal extends JFrame {
 
             if (!(num == null)) {
                 if (PublicFuntions.isNum(num)) {
-                    int colActual = cp.GetColumnes( FullActual);
+                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
+                    if (Integer.parseInt(num) <= 0 || Integer.parseInt(num)> nomCol.length ){
+                        JOptionPane.showMessageDialog(this, "La columna no pertany al full. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     try {
                         cp.EliminarCol( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
+                        System.out.println(ex);
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -1233,7 +1257,7 @@ public class VistaPrincipal extends JFrame {
                         throw new RuntimeException(ex);
                     }
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
+                     nomCol = new String[cp.GetColumnes( FullActual)];
 
                     for (int i = 0; i < nomCol.length; i++) {
                         nomCol[i] = String.valueOf(i + 1);
@@ -1255,6 +1279,11 @@ public class VistaPrincipal extends JFrame {
             if (!(num == null)) {
                 if (PublicFuntions.isNum(num)) {
                     int colActual = cp.GetColumnes( FullActual);
+                    String[] nomF = new String[cp.GetFiles( FullActual)];
+                    if (Integer.parseInt(num) <= 0 || Integer.parseInt(num)> nomF.length ){
+                        JOptionPane.showMessageDialog(this, "La fila no pertany al full. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     try {
                         cp.EliminarFila( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
@@ -1359,9 +1388,10 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son vàlids", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
-                int cols = nomColumnes.length;
-                int fils=nomFiles.length;
+                String[] nomC = new String[cp.GetColumnes(FullActual)];
+                String[] nomf = new String[cp.GetFiles( FullActual)];
+                int cols = nomC.length;
+                int fils=nomf.length;
                 if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0
                         || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0|| Fcoldest-1 < 0|| Frowdest-1 < 0|| Fcolin-1 < 0||Frowin-1< 0
                         || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils|| Fcoldest-1 >= cols|| Frowdest-1 >= fils|| Fcolin-1 >= cols||Frowin-1>= fils){
@@ -1485,8 +1515,10 @@ public class VistaPrincipal extends JFrame {
                         return;
                     }
                 }
-                int cols = nomColumnes.length;
-                int fils=nomFiles.length;
+                String[] nomC = new String[cp.GetColumnes(FullActual)];
+                String[] nomf = new String[cp.GetFiles( FullActual)];
+                int cols = nomC.length;
+                int fils=nomf.length;
                 if(col>col2 || rowI2 > rowF || Fcolin > Fcoldest || Frowin > Frowdest || ((col2-col)-(Fcoldest-Fcolin))!=0 || ((rowF-rowI2)-(Frowdest-Frowin))!=0
                         || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0|| Fcoldest-1 < 0|| Frowdest-1 < 0|| Fcolin-1 < 0||Frowin-1< 0
                         || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils|| Fcoldest-1 >= cols|| Frowdest-1 >= fils|| Fcolin-1 >= cols||Frowin-1>= fils){
@@ -1583,8 +1615,10 @@ public class VistaPrincipal extends JFrame {
                 if (cont.getText().equals("")) JOptionPane.showMessageDialog(new JFrame(), "Les columnes no s'han introduit correctament", "Error", JOptionPane.ERROR_MESSAGE);
 
 
-                int cols = nomColumnes.length;
-                int fils=nomFiles.length;
+                String[] nomC = new String[cp.GetColumnes(FullActual)];
+                String[] nomf = new String[cp.GetFiles( FullActual)];
+                int cols = nomC.length;
+                int fils=nomf.length;
                 if(col>col2 || rowI2 > rowF || col-1 < 0|| col2 -1 < 0|| rowF-1 < 0 || rowI2-1 < 0
                         || col-1 >= cols|| col2 -1 >= cols|| rowF-1 >= fils || rowI2-1 >= fils){
                     JOptionPane.showMessageDialog(new JFrame(), "El bloc no és vàlid", "Error", JOptionPane.ERROR_MESSAGE);

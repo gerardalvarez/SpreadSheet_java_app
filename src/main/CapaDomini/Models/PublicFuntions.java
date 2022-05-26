@@ -139,7 +139,7 @@ public class PublicFuntions {
         return (num-1 < fila && num-1 >= 0 && num-1 < col);
     }
 
-    public static String analiza(String s, int x, int y) {
+    public static String analiza(String s, int y, int x) {
         String tipus="";
         String oper="";
         ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l= new ArrayList<>();
@@ -221,7 +221,7 @@ public class PublicFuntions {
         return tipus;
     }
 
-    public static ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> analizaops(String s, int x, int y) {
+    public static ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> analizaops(String s, int y, int x) {
         String tipus="";
         String oper="";
         ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> l= new ArrayList<>();

@@ -507,7 +507,11 @@ public class CtrlDomini {
 
     public void AfegirCol(String full, Integer c) {
         Full f = docu.get_full(full);
-        f.Afegir_Columna(c);
+        try {
+            f.Afegir_Columna(c);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         int numfiles= f.getNum_Files();
         AbstractMap.SimpleEntry<Integer,Integer> id1= new AbstractMap.SimpleEntry<>(0,c);
         AbstractMap.SimpleEntry<Integer,Integer> id2= new AbstractMap.SimpleEntry<>(numfiles-1,c);
@@ -538,7 +542,7 @@ public class CtrlDomini {
     public void EliminarCol(String full, Integer co) throws Exception {
         Full f = docu.get_full(full);
         int numfiles= f.getNum_Files();
-        AbstractMap.SimpleEntry<Integer,Integer> id1= new AbstractMap.SimpleEntry<>(0,co);
+       /* AbstractMap.SimpleEntry<Integer,Integer> id1= new AbstractMap.SimpleEntry<>(0,co);
         AbstractMap.SimpleEntry<Integer,Integer> id2= new AbstractMap.SimpleEntry<>(numfiles-1,co);
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = f.GetIdCeles(id1, id2);
         ArrayList<Cela> celes= new ArrayList<>();
@@ -546,7 +550,7 @@ public class CtrlDomini {
             celes.add((Cela) f.getCeles().get(id).clone());
         }
         Accio a= new Accio("eliminarcol", celes);
-        f.Afegir_Accio(a);
+        f.Afegir_Accio(a);*/
         f.Eliminar_Columna(co);
     }
     public void Undo(String full) throws Exception {
