@@ -65,6 +65,7 @@ public class VistaPrincipal extends JFrame {
     private JButton wordsButton;
     private JButton charsButton;
     private JButton vowelsButton;
+    private JLabel NomFull;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -151,6 +152,8 @@ public class VistaPrincipal extends JFrame {
         afegirFilaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/addRow.svg",28,28));
         eliminarFilaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/deleteRow.svg",28,28));
 
+        NomFull.setText(FullActual);
+
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(1000, 600));
@@ -175,11 +178,6 @@ public class VistaPrincipal extends JFrame {
                 }
             } else System.out.println("Cancelat");
         });
-
-        guardar.addActionListener(e -> {
-
-        });
-
 
         obrir.addActionListener(e -> {
             JFileChooser openfile = new JFileChooser();
@@ -265,6 +263,78 @@ public class VistaPrincipal extends JFrame {
                     throw new RuntimeException(ex);
                 }
             } else System.out.println("Cancelat");
+        });
+
+        afegirFull.addActionListener(e -> {
+            String nom = JOptionPane.showInputDialog(this, "Introdueixi el nom del nou full", "Nou Full", JOptionPane.INFORMATION_MESSAGE);
+            ArrayList<String> llistaFulls = cp.GetFulls();
+            if (nom == null || llistaFulls.contains(nom)) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Dos fulls no poden tenir el mateix nom.\nIntrodueixi un altre nom", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                cp.CrearNouFull(nom, 25, 25);
+                FullActual = nom;
+                String [][] temp = cp.MostrarLlista(FullActual);
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes(FullActual)];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+                NomFull.setText(FullActual);
+            }
+        });
+
+        eliminarFull.addActionListener(e -> {
+            int opt = JOptionPane.showConfirmDialog(this, "Estas segur que vols eliminar el full?", "Eliminar Full", JOptionPane.YES_NO_OPTION);
+            if (opt == 0) {
+                cp.EliminarFull(FullActual);
+                ArrayList<String> llistaFulls = cp.GetFulls();
+                FullActual = llistaFulls.get(0);
+                String [][] temp = cp.MostrarLlista(FullActual);
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes(FullActual)];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+                NomFull.setText(FullActual);
+            }
+        });
+
+        canvifull.addActionListener(e -> {
+            ArrayList<String> llistaFulls = cp.GetFulls();
+            if (llistaFulls.size() < 2) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Només tens un full.\nCrea un de nou per poder canviar entre ells.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                llistaFulls.remove(FullActual);
+                String[] lf = llistaFulls.toArray(new String[0]);
+                int opt = JOptionPane.showOptionDialog(this, "Esculli el full mostrar", "Canvi de full", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, lf, null);
+                FullActual = llistaFulls.get(opt);
+                String[][] temp = cp.MostrarLlista(FullActual);
+                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                String[] nomCol = new String[cp.GetColumnes(FullActual)];
+
+                for (int i = 0; i < nomCol.length; i++) {
+                    nomCol[i] = String.valueOf(i + 1);
+                }
+                dataVector.set(true);
+                dtm.setDataVector(temp, nomCol);
+                dataVector.set(false);
+                Full.repaint();
+                NomFull.setText(FullActual);
+            }
         });
 
         Full.getModel().addTableModelListener(e -> {
