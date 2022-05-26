@@ -541,7 +541,7 @@ public class Bloc_celes {
 
         for(int i = 0; i < a1.size(); i++)
             sum += (a1.get(i).getResultat().doubleValue()-x)* (b1.get(i).getResultat().doubleValue()-y);
-
+        if(a1.size()==0 || a1.size()==0) return 0;
         return sum/a1.size();
     }
 

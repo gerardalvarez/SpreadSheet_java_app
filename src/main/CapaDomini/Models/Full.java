@@ -277,7 +277,12 @@ public class Full {
 
     private BigDecimal avaluar(ArrayList<Numero> sender, String oper){
         if(Objects.equals(oper, "DIV")){
-            return sender.get(0).getResultat().divide(sender.get(1).getResultat());
+            BigDecimal b;
+            if (sender.get(1).getResultat().equals(0)) return BigDecimal.valueOf(-999999999);
+            else {
+                b=BigDecimal.valueOf((sender.get(0).getResultat()).doubleValue()/sender.get(1).getResultat().doubleValue());
+            }
+            return b;
         }
         else if(Objects.equals(oper, "AVG")){
             Bloc_celes bc= new Bloc_celes();
@@ -871,6 +876,58 @@ public class Full {
             Celes.replace(id,new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal().toUpperCase()));
         }else if(resultat.substring(1, 4).equals("MIN") ){
             Celes.replace(id,new CelaRefText(id,resultat,Celes.get(l.get(0)).getResultatFinal().toLowerCase()));
+        }else if (resultat.substring(1, 4).equals("COV") || resultat.substring(1, 4).equals("PER")){
+            l.remove(l.size()-1);
+            ArrayList<Numero> a1=new ArrayList<>();
+            ArrayList<Numero> a2= new ArrayList<>();
+            Boolean primera_part=true;
+            for (int i = 0; i < l.size(); i++) {
+                if (l.get(i).getKey()==-2) {
+                    primera_part=false;
+                    continue;
+                }
+                if (primera_part) {
+                    if (Celes.get(l.get(i)) instanceof Numero) {
+                        a1.add(((Numero) Celes.get(l.get(i))));
+                    }
+                } else if (!(primera_part)) {
+                    if (Celes.get(l.get(i)) instanceof Numero) {
+                        a2.add(((Numero) Celes.get(l.get(i))));
+                    }
+                }
+            }
+            Bloc_celes bc=new Bloc_celes();
+            if (resultat.substring(1, 4).equals("PER")){
+                Cela aaux;
+                try {
+                    BigDecimal b = BigDecimal.valueOf(bc.coeficient_Pearson(a1,a2));
+                    aaux= new CelaRefNum(id,b.toString(),true,2,Tipus_Numero.numero,resultat);
+                } catch (NumberFormatException e) {
+                    aaux= new TextCela(id,"#Infinito");
+                    Celes.replace(id,aaux);
+                    return;
+                }
+
+            }else {
+                Cela aaux;
+                if (a1.size()!= a2.size()){
+                    aaux= new TextCela(id,"#ERROR");
+                }
+                else {
+                    try {
+                        BigDecimal b = BigDecimal.valueOf(bc.covariança(a1,a2));
+                        aaux= new CelaRefNum(id,b.toString(),true,2,Tipus_Numero.numero,resultat);
+                    } catch (NumberFormatException e) {
+                        aaux= new TextCela(id,"#ERROR");
+                        Celes.replace(id,aaux);
+                        return;
+                    }
+                }
+                aaux.setObservadors(Celes.get(id).observadors);
+                Celes.replace(id,aaux);
+            }
+
+            if (l.remove(new AbstractMap.SimpleEntry<>(-2,-2)));
         }else {
             ArrayList<Numero> aux = new ArrayList<>();
             for (int i = 0; i < l.size(); i++) {
@@ -894,7 +951,6 @@ public class Full {
         for (AbstractMap.SimpleEntry<Integer, Integer> i:l){
             Celes.get(i).getObservadors().remove(id);
         }
-        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
     }
 
 
@@ -937,18 +993,22 @@ public class Full {
             if (a.equals("text") || a.equals("data") || a.equals("numeric") ){
                 Modifica_Cela(id,resultat);
             } else if (a.equals("REFNUM") || a.equals("REFTEXT") || a.equals("ref a otra celda") ) {
-                Boolean b= false;
-                l=PublicFuntions.analizaops(resultat,getNum_Files(),getNum_Columnes());
-                for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
-                    b= comprova_bucle(id,id2);
-                    if (b) break;
+                    Boolean b= false;
+                    l=PublicFuntions.analizaops(resultat,getNum_Files(),getNum_Columnes());
+                if( resultat.length() >4 && (resultat.substring(1,5).equals("PER(") || resultat.substring(1,5).equals("COV("))){
+                    if(l.size()<3) a="referencia pero #ERROR";
                 }
-                if (b) a="referencia pero #ERROR";
-                else {
-                    if (!l.contains(id)) opera(id, l, resultat);
-                    else a = "referencia pero #ERROR";
+                    for (AbstractMap.SimpleEntry<Integer,Integer> id2 : l ){
+                        if (id2.equals(new AbstractMap.SimpleEntry<>(-1,-1))) continue;
+                        b= comprova_bucle(id,id2);
+                        if (b) break;
+                    }
+                    if (b) a="referencia pero #ERROR";
+                    else {
+                        if (!l.contains(id) && !a.equals("referencia pero #ERROR")) opera(id, l, resultat);
+                        else a = "referencia pero #ERROR";
+                    }
                 }
-            }
             if (a.equals("referencia pero #ERROR")){
                 Modifica_Cela(id,"#ERROR");
             }
@@ -973,7 +1033,7 @@ public class Full {
                 } else if (getCeles().get(obs.get(i)) instanceof CelaRefText) {
                     CelaRefText c = (CelaRefText) getCeles().get(obs.get(i));
                     modificarContingutCela( obs.get(i), c.getContingut());
-                } else {
+                } else if(!(getCeles().get(obs.get(i)) instanceof TextCela)){
                     System.out.println(obs.get(i).getKey() + " " + obs.get(i).getValue());
                     CelaRefNum c = (CelaRefNum) getCeles().get(obs.get(i));
                     modificarContingutCela( obs.get(i), c.getContingut());

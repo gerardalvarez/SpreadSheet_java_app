@@ -160,7 +160,7 @@ public class PublicFuntions {
                     while (sc.hasNext()){
                         String op =sc.next();
                         if (op.contains(":")){ //es bloque
-                            if (op.length()<5) {
+                            if (op.length()<5 || ss.equals("DIV(")) {
                                 tipus = "referencia pero #ERROR";
                                 break;
                             }else {
@@ -195,7 +195,62 @@ public class PublicFuntions {
                             }
                         }
                     }
-                } else tipus="referencia pero #ERROR";
+                }else if (ss.equals("PER(") || ss.equals("COV(")){
+                    String ops= s.substring(5,s.length()-1);
+
+                    Scanner sc=new Scanner(ops);
+                    int aux=0;
+                    sc.useDelimiter("#");
+                    while (sc.hasNext()){
+                        aux=+1;
+                        Scanner sc2 =new Scanner(sc.next());
+                        sc2.useDelimiter(",");
+                        while (sc2.hasNext()){
+                            String op =sc2.next();
+                            if (op.contains(":")){ //es bloque
+                                if (op.length()<5) {
+                                    tipus = "referencia pero #ERROR";
+                                    break;
+                                }else {
+                                    Scanner scc=new Scanner(op);
+                                    scc.useDelimiter(":");
+                                    Boolean err=false;
+                                    while (scc.hasNext()){
+                                        String[] part = scc.next().split("(?<=\\D)(?=\\d)");
+                                        if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                                                && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
+                                            System.out.println("EL BLOQUE ES " +toNumber(part[0])+" " +Integer.parseInt(part[1]));
+                                            if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                            else tipus="REFNUM";
+                                        }else{
+                                            tipus="referencia pero #ERROR";
+                                            err=true;
+                                            break;
+                                        }
+                                    }
+                                    if (err) break;
+                                }
+                            } else {
+                                String[] part = op.split("(?<=\\D)(?=\\d)");
+                                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<=y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                                        && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
+                                    l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
+                                    if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                    else tipus="REFNUM";
+                                }else{
+                                    tipus="referencia pero #ERROR";
+                                    break;
+                                }
+                            }
+
+                        }
+                        if (aux>2){
+                            tipus="referencia pero #ERROR";
+                            break;
+                        }
+                    }
+
+                }else tipus="referencia pero #ERROR";
             } else if(s.length()<=5){ //Referencia a una celda
 
                 String aux= s.replaceFirst("=","");
@@ -217,6 +272,7 @@ public class PublicFuntions {
             for(AbstractMap.SimpleEntry<Integer,Integer> q:l){
                 System.out.print((q.getKey()-1) +" "+(q.getValue()-1)+", ");
             }
+            if (l.size()==1 && s.length()>4 && s.substring(1,5).equals("DIV(")) tipus= "referencia pero #ERROR";
         }
         return tipus;
     }
@@ -243,7 +299,7 @@ public class PublicFuntions {
                     while (sc.hasNext()){
                         String op =sc.next();
                         if (op.contains(":")){                       // es bloque
-                            if (op.length()<5) {
+                            if (op.length()<5 || ss.equals("DIV(")) {
                                 tipus = "referencia pero #ERROR";
                                 break;
                             }else {
@@ -286,7 +342,82 @@ public class PublicFuntions {
                             }
                         }
                     }
-                } else tipus="referencia pero #ERROR";
+                } else if (ss.equals("PER(") || ss.equals("COV(")) {
+                    String ops = s.substring(5, s.length() - 1);
+
+                    Scanner sc = new Scanner(ops);
+                    sc.useDelimiter("#");
+                    int aux=0;
+                    while (sc.hasNext()) {
+                    aux+=1;
+
+                        String xx= sc.next();
+                        if (xx.equals("") ) {
+                            tipus = "referencia pero #ERROR";
+                            break;
+                        }
+                        System.out.println(".----"+xx);
+                        Scanner sc2 = new Scanner(xx);
+                        sc2.useDelimiter(",");
+                        while (sc2.hasNext()){
+                            String op =sc2.next();
+                            System.out.println("ppppp"+op);
+                            if (op.equals("") ) {
+                                tipus = "referencia pero #ERROR";
+                                break;
+                            }
+                            if (op.contains(":")){                       // es bloque
+                                if (op.length()<5 ) {
+                                    tipus = "referencia pero #ERROR";
+                                    break;
+                                }else {
+                                    Scanner scc=new Scanner(op);
+                                    scc.useDelimiter(":");
+                                    Boolean err=false;
+                                    String[] part = scc.next().split("(?<=\\D)(?=\\d)");
+                                    String[] part2 = scc.next().split("(?<=\\D)(?=\\d)");
+                                    if (part.length==2 && isNum(part[1]) && toNumber(part[0])<y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0){
+                                        if (part2.length==2 && isNum(part2[1]) && toNumber(part2[0])<y && toNumber(part2[0])>0 && Integer.parseInt(part2[1])<=x && Integer.parseInt(part2[1])>0){
+                                            for (int i=toNumber(part[0]);i<=toNumber(part2[0]);i++){
+                                                for (int j=Integer.parseInt(part[1]);j<=Integer.parseInt(part2[1]);j++){
+                                                    l.add(new AbstractMap.SimpleEntry<>(i,j));
+                                                }
+                                            }
+                                            if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                            else tipus="REFNUM";
+                                        }else{
+                                            tipus="referencia pero #ERROR";
+                                            err=true;
+                                        }
+                                    }else{
+                                        tipus="referencia pero #ERROR";
+                                        break;
+                                    }
+                                    if (err) break;
+                                }
+                            }
+                            else {            //OPERANDO NORMAL
+                                String[] part = op.split("(?<=\\D)(?=\\d)");
+                                if (part.length==2 && isNum(part[1]) && toNumber(part[0])<=y && toNumber(part[0])>0 && Integer.parseInt(part[1])<=x && Integer.parseInt(part[1])>0
+                                        && !part[0].contains("-") && !part[0].contains("+") && !part[0].contains("*") && !part[0].contains("'") && !part[0].contains(".")){
+                                    l.add(new AbstractMap.SimpleEntry<>(toNumber(part[0]),Integer.parseInt(part[1])));
+
+                                    if (oper.equals("MAY(") || oper.equals("MIN")) tipus="REFTEXT";
+                                    else tipus="REFNUM";
+                                }else{
+                                    tipus="referencia pero #ERROR";
+                                    break;
+                                }
+                            }
+                        }
+                        l.add(new AbstractMap.SimpleEntry<>(-1,-1));
+                        if (aux>2){
+                            tipus="referencia pero #ERROR";
+                            break;
+                        }
+                    }
+
+                }  else tipus="referencia pero #ERROR";
             } else if(s.length()<=5){ //Referencia a una celda
 
                 String aux= s.replaceFirst("=","");
@@ -308,6 +439,7 @@ public class PublicFuntions {
             for(AbstractMap.SimpleEntry<Integer,Integer> q:l){
                 System.out.print((q.getKey()-1) +" "+(q.getValue()-1)+", ");
                 operadores.add(new AbstractMap.SimpleEntry<Integer, Integer>(q.getKey()-1,q.getValue()-1));
+                if (l.size()==1 && s.length()>4 && s.substring(1,5).equals("DIV(")) tipus= "referencia pero #ERROR";
             }
         }
         return operadores;
