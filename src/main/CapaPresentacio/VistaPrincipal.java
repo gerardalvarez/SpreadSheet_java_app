@@ -395,93 +395,7 @@ public class VistaPrincipal extends JFrame {
 
 
         IncrementarButton.addActionListener(e -> {
-            if (CelaActual == null) {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String[] opt = {"No Reemplaçar", "Reemplaçar"};
-                int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Incrementar", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
-                if (result == 0) {
-                    JTextField rowField = new JTextField(5);
-                    JTextField colField = new JTextField(5);
-
-                    JPanel myPanel = new JPanel();
-                    myPanel.add(new JLabel("Introdueixi la Cel·la on vol col·locar el resultat"));
-                    myPanel.add(Box.createHorizontalStrut(15));
-                    myPanel.add(new JLabel("Fila:"));
-                    myPanel.add(rowField);
-                    myPanel.add(Box.createHorizontalStrut(15));
-                    myPanel.add(new JLabel("Columna:"));
-                    myPanel.add(colField);
-
-                    int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Incrementar", JOptionPane.OK_CANCEL_OPTION);
-                    if (result_2 == JOptionPane.OK_OPTION) {
-                        Integer row = Integer.parseInt(rowField.getText());
-                        Integer col = Integer.parseInt(colField.getText());
-                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                        if (cp.ComprovarId(FullActual, CelaRemp)) {
-                            if (cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
-                                int codi;
-                                try {
-                                    codi = cp.CalculaIncrementIReemplaca(FullActual, CelaActual, CelaRemp);
-                                } catch (Exception ex) {
-                                    throw new RuntimeException(ex);
-                                }
-                                if (codi == 0) {
-                                    String temp = cp.ValorTotal(FullActual, CelaRemp);
-                                    Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-                                    Full.repaint();
-                                } else {
-                                    Toolkit.getDefaultToolkit().beep();
-                                    JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
-                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Reemplaçar", JOptionPane.YES_NO_OPTION) == 0){
-                                int codi;
-                                try {
-                                    codi = cp.CalculaIncrementIReemplaca(FullActual, CelaActual, CelaRemp);
-                                } catch (Exception ex) {
-                                    throw new RuntimeException(ex);
-                                }
-                                if (codi == 0) {
-                                    String temp = cp.ValorTotal(FullActual, CelaRemp);
-                                    Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-                                    Full.repaint();
-                                } else {
-                                    Toolkit.getDefaultToolkit().beep();
-                                    JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
-                        }
-                        else {
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no existeix dins del full", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-
-                } else if (result == 1) {
-                    try {
-                        int codi = cp.CalculaIncrement( FullActual, CelaActual);
-                        if (codi == 0) {
-                            String temp = cp.ValorTotal( FullActual, CelaActual);
-                            Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                            Full.repaint();
-                        }
-                        else {
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (Exception ex) {
-                        Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
+            Incrementar(cp);
         });
 
 
@@ -909,135 +823,13 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+
         reduirButton.addActionListener(e -> {
-            if (CelaActual == null) {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String[] opt = {"No Reemplaçar", "Reemplaçar"};
-                int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Reduir", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
-                if (result == 0) {
-                    JTextField rowField = new JTextField(5);
-                    JTextField colField = new JTextField(5);
-
-                    JPanel myPanel = new JPanel();
-                    myPanel.add(new JLabel("Introdueixi la Cel·la on vol col·locar el resultat"));
-                    myPanel.add(Box.createHorizontalStrut(15));
-                    myPanel.add(new JLabel("Fila:"));
-                    myPanel.add(rowField);
-                    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                    myPanel.add(new JLabel("Columna:"));
-                    myPanel.add(colField);
-
-                    int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
-                    if (result_2 == JOptionPane.OK_OPTION) {
-                        Integer row = Integer.parseInt(rowField.getText());
-                        Integer col = Integer.parseInt(colField.getText());
-                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                        int codi;
-                        try {
-                            codi = cp.CalculaReduirIReemplaca( FullActual, CelaActual, CelaRemp);
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        if (codi == 0) {
-                            String temp = cp.ValorTotal( FullActual, CelaRemp);
-                            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-                            Full.repaint();
-                        } else {
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-
-                } else if (result == 1) {
-                    try {
-                        int codi = cp.CalculaReduir( FullActual, CelaActual);
-                        if (codi == 0) {
-                            String temp = cp.ValorTotal( FullActual, CelaActual);
-                            Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                            Full.repaint();
-                        }
-                        else {
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (Exception ex) {
-                        Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
+            Reduir(cp);
         });
+
         valorAbsolutButton.addActionListener(e -> {
-            if (CelaActual == null) {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String[] opt = {"No Reemplaçar", "Reemplaçar"};
-                int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Valor Absolut", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
-                if (result == 0) {
-                    JTextField rowField = new JTextField(5);
-                    JTextField colField = new JTextField(5);
-
-                    JPanel myPanel = new JPanel();
-                    myPanel.add(new JLabel("Introdueixi la Cel·la on vol col·locar el resultat"));
-                    myPanel.add(Box.createHorizontalStrut(15));
-                    myPanel.add(new JLabel("Fila:"));
-                    myPanel.add(rowField);
-                    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                    myPanel.add(new JLabel("Columna:"));
-                    myPanel.add(colField);
-
-                    int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Valor Absolut", JOptionPane.OK_CANCEL_OPTION);
-                    if (result_2 == JOptionPane.OK_OPTION) {
-                        Integer row = Integer.parseInt(rowField.getText());
-                        Integer col = Integer.parseInt(colField.getText());
-                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                        int codi;
-                        try {
-                            codi = cp.CalculaValorAbsIReemplaca( FullActual, CelaActual, CelaRemp);
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        if (codi == 0) {
-                            String temp = cp.ValorTotal( FullActual, CelaRemp);
-                            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-                            Full.repaint();
-                        } else {
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-
-                } else if (result == 1) {
-                    try {
-                        int codi = cp.CalculaValorAbs( FullActual, CelaActual);
-                        if (codi == 0) {
-                            String temp = cp.ValorTotal( FullActual, CelaActual);
-                            Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                            Full.repaint();
-                        }
-                        else {
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (Exception ex) {
-                        Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
+            ValorAbsolut(cp);
         });
 
         potenciaButton.addActionListener(e -> {
@@ -1197,6 +989,7 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+
         conversioButton.addActionListener(e -> {
             if (CelaActual == null) {
                 Toolkit.getDefaultToolkit().beep();
@@ -1922,6 +1715,294 @@ public class VistaPrincipal extends JFrame {
             }
         });
 
+    }
+
+    private void Incrementar(CtrlPresentacio cp) {
+        if (CelaActual == null) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!Objects.equals(cp.GetTipusCela(FullActual, CelaActual), "numero")) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String[] opt = {"No Reemplaçar", "Reemplaçar"};
+            int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Incrementar", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
+            if (result == 0) {
+                JTextField rowField = new JTextField(5);
+                JTextField colField = new JTextField(5);
+
+                int result_2 = PreguntarCela(rowField, colField);
+
+                if (result_2 == JOptionPane.OK_OPTION) {
+                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer col = Integer.parseInt(colField.getText());
+                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                    if (cp.ComprovarId(FullActual, CelaRemp)) {
+                        if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
+                            CalculIncrementRemp(cp, CelaRemp);
+                        } else {
+                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Incrementar", JOptionPane.YES_NO_OPTION) == 0) {
+                                CalculIncrementRemp(cp, CelaRemp);
+                            } else Incrementar(cp);
+                        }
+                    } else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            } else if (result == 1) {
+                try {
+                    int codi = cp.CalculaIncrement(FullActual, CelaActual);
+                    if (codi == 0) {
+                        String temp = cp.ValorTotal(FullActual, CelaActual);
+                        Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
+                        Full.repaint();
+                    } else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void Reduir(CtrlPresentacio cp) {
+        if (CelaActual == null) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if (!Objects.equals(cp.GetTipusCela(FullActual, CelaActual), "numero")){
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String[] opt = {"No Reemplaçar", "Reemplaçar"};
+            int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Reduir", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
+            if (result == 0) {
+                JTextField rowField = new JTextField(5);
+                JTextField colField = new JTextField(5);
+
+                int result_2 = PreguntarCela(rowField, colField);
+
+                if (result_2 == JOptionPane.OK_OPTION) {
+                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer col = Integer.parseInt(colField.getText());
+                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                    if (cp.ComprovarId(FullActual, CelaRemp)) {
+                        if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
+                            CalculReduirRemp(cp, CelaRemp);
+                        }
+                        else {
+                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Reduir", JOptionPane.YES_NO_OPTION) == 0) {
+                                CalculReduirRemp(cp, CelaRemp);
+                            }
+                            else Reduir(cp);
+                        }
+                    }
+                    else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            } else if (result == 1) {
+                try {
+                    int codi = cp.CalculaReduir( FullActual, CelaActual);
+                    if (codi == 0) {
+                        String temp = cp.ValorTotal( FullActual, CelaActual);
+                        Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
+                        Full.repaint();
+                    }
+                    else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void ValorAbsolut(CtrlPresentacio cp) {
+        if (CelaActual == null) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if (!Objects.equals(cp.GetTipusCela(FullActual, CelaActual), "numero")){
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String[] opt = {"No Reemplaçar", "Reemplaçar"};
+            int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Valor Absolut", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
+            if (result == 0) {
+                JTextField rowField = new JTextField(5);
+                JTextField colField = new JTextField(5);
+
+                int result_2 = PreguntarCela(rowField, colField);
+
+                if (result_2 == JOptionPane.OK_OPTION) {
+                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer col = Integer.parseInt(colField.getText());
+                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                    if (cp.ComprovarId(FullActual, CelaRemp)) {
+                        if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
+                            CalculValorAbsRemp(cp, CelaRemp);
+                        }
+                        else {
+                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Valor Absolut", JOptionPane.YES_NO_OPTION) == 0) {
+                                CalculValorAbsRemp(cp, CelaRemp);
+                            }
+                            else ValorAbsolut(cp);
+                        }
+                    }
+                    else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            } else if (result == 1) {
+                try {
+                    int codi = cp.CalculaValorAbs(FullActual, CelaActual);
+                    if (codi == 0) {
+                        String temp = cp.ValorTotal( FullActual, CelaActual);
+                        Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
+                        Full.repaint();
+                    }
+                    else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void Potencia(CtrlPresentacio cp) {
+        if (CelaActual == null) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!Objects.equals(cp.GetTipusCela(FullActual, CelaActual), "numero")) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String[] opt = {"No Reemplaçar", "Reemplaçar"};
+            int result = JOptionPane.showOptionDialog(this, "Vol reemplaçar el contingut o colocar-lo en una altre cela?", "Incrementar", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opt, null);
+            if (result == 0) {
+                JTextField rowField = new JTextField(5);
+                JTextField colField = new JTextField(5);
+
+                int result_2 = PreguntarCela(rowField, colField);
+
+                if (result_2 == JOptionPane.OK_OPTION) {
+                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer col = Integer.parseInt(colField.getText());
+                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                    if (cp.ComprovarId(FullActual, CelaRemp)) {
+                        if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
+                            CalculIncrementRemp(cp, CelaRemp);
+                        } else {
+                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Incrementar", JOptionPane.YES_NO_OPTION) == 0) {
+                                CalculIncrementRemp(cp, CelaRemp);
+                            } else Incrementar(cp);
+                        }
+                    } else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            } else if (result == 1) {
+                try {
+                    int codi = cp.CalculaIncrement(FullActual, CelaActual);
+                    if (codi == 0) {
+                        String temp = cp.ValorTotal(FullActual, CelaActual);
+                        Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
+                        Full.repaint();
+                    } else {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void CalculIncrementRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp) {
+        int codi;
+        try {
+            codi = cp.CalculaIncrementIReemplaca(FullActual, CelaActual, CelaRemp);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        if (codi == 0) {
+            String temp = cp.ValorTotal(FullActual, CelaRemp);
+            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
+            Full.repaint();
+        } else {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void CalculReduirRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp) {
+        int codi;
+        try {
+            codi = cp.CalculaReduirIReemplaca(FullActual, CelaActual, CelaRemp);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        if (codi == 0) {
+            String temp = cp.ValorTotal(FullActual, CelaRemp);
+            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
+            Full.repaint();
+        } else {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void CalculValorAbsRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp) {
+        int codi;
+        try {
+            codi = cp.CalculaValorAbsIReemplaca(FullActual, CelaActual, CelaRemp);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        if (codi == 0) {
+            String temp = cp.ValorTotal(FullActual, CelaRemp);
+            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
+            Full.repaint();
+        } else {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private int PreguntarCela(JTextField rowField, JTextField colField) {
+        JPanel myPanel = new JPanel();
+        myPanel.add(new JLabel("Introdueixi la Cel·la on vol col·locar el resultat"));
+        myPanel.add(Box.createHorizontalStrut(15));
+        myPanel.add(new JLabel("Fila:"));
+        myPanel.add(rowField);
+        myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+        myPanel.add(new JLabel("Columna:"));
+        myPanel.add(colField);
+        int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
+        return result_2;
     }
 
 }
