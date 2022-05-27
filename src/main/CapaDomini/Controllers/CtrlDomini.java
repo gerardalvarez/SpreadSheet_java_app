@@ -412,7 +412,7 @@ public class CtrlDomini {
         f.Afegir_Fila(fila);
     }
 
-    public void AfegirCol(String full, Integer c) {
+    public void AfegirCol(String full, Integer c) throws Exception {
         Full f = docu.get_full(full);
         f.Afegir_Columna(c);
     }

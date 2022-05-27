@@ -981,7 +981,13 @@ else {
         }
     }
 
-
+    /**
+     *
+     * @param ops
+     * @param y
+     * @param x
+     * @return
+     */
     public Boolean analitzablocs(String ops, Integer y, Integer x) {
         String tipus="";
         Scanner sc=new Scanner(ops);
@@ -1046,7 +1052,13 @@ else {
         else return true;
     }
 
-
+    /**
+     *
+     * @param ops
+     * @param y
+     * @param x
+     * @return
+     */
     private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> analitzablocs_ops(String ops, Integer y, Integer x) {
         String tipus="";
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l =new ArrayList<>();
@@ -1100,9 +1112,6 @@ else {
         }
         return l;
     }
-
-
-
 };
 
 
