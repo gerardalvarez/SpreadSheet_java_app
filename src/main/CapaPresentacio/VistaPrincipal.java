@@ -338,7 +338,6 @@ public class VistaPrincipal extends JFrame {
         });
 
         Full.getModel().addTableModelListener(e -> {
-            System.out.println(e.getType());
 
             if (e.getType() == TableModelEvent.UPDATE && !modificat.get() && !dataVector.get()) {
                 int col = e.getColumn();
@@ -346,7 +345,6 @@ public class VistaPrincipal extends JFrame {
                 String mod = Full.getValueAt(row, col).toString().trim();
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                 modificat.set(true);
-
                 try {
                     //System.out.println(mod);
                     cp.ModificarContingutCela( FullActual, id, mod);
@@ -363,6 +361,7 @@ public class VistaPrincipal extends JFrame {
                     dataVector.set(true);
                     dtm.setDataVector(temp, nomCol);
                     dataVector.set(false);
+
                     Tipus.setText(type);
                     Contingut.setText(content);
                     //Full.setValueAt(obj, row, col);
@@ -515,6 +514,7 @@ public class VistaPrincipal extends JFrame {
                     if (!cp.transformaData( FullActual, id))
                         JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
                     else {
+
                         String[][] temp = new String[0][];
                         try {
                             temp = cp.MostrarLlista( FullActual);
@@ -546,6 +546,7 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
+
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
@@ -580,6 +581,7 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Text", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
+
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
                 try {
@@ -620,6 +622,7 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(new JFrame(), "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
+
                     Resultat.setText("Dia " + content);
                 }
             }
@@ -642,6 +645,7 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
+
                     Resultat.setText("Mes " + content);
                 }
             }
@@ -664,6 +668,7 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és una Data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
+
                     Resultat.setText("Any " + content);
                 }
             }
@@ -1441,6 +1446,7 @@ public class VistaPrincipal extends JFrame {
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowF,col,rowI2,col2, Frowin,Frowdest,Fcolin,Fcoldest;
                 try {
+
                     col = Integer.parseInt(colField1.getText());
                     rowI2 = Integer.parseInt(rowIniField2.getText());
 
