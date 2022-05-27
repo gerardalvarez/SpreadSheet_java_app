@@ -213,13 +213,13 @@
           <component id="29450" class="javax.swing.JButton" binding="minusculesButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Minuscules"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="e3ec4" class="javax.swing.JButton" binding="majusculesButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Majuscules"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="1fb6" class="javax.swing.JButton" binding="Operabloc">
