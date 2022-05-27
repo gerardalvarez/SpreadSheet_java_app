@@ -41,23 +41,6 @@ public class Full implements Cloneable{
     };
 
     /**
-     * Constructora de Full que crea el full a partird del nom, el número de columnes, el número files,
-     * les cel·les que el formen i els seus estats previs.
-     * @param n
-     * @param nc
-     * @param nf
-     * @param c
-     * @param f
-     */
-    public Full(String n, Integer nc, Integer nf,HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> c, ArrayList<Full> f) {
-        Celes = c;
-        Estatsprevis= f;
-        this.nom = n;
-        this.Num_Columnes = nc;
-        this.Num_Files = nf;
-    };
-
-    /**
      * Constructora de Full que crea el full a partird del número de columnes i el número files.
      * @param nc
      * @param nf
@@ -81,9 +64,6 @@ public class Full implements Cloneable{
         this.nom= n;
     };
     public String getNom(){return this.nom;}
-
-    public ArrayList<Full> getEstatsprevis(){ return Estatsprevis;}
-
 
     //Mètodes Públics
 
@@ -268,7 +248,8 @@ public class Full implements Cloneable{
     }
 
     /**
-     *
+     *Funció que avalua l'operació a realitzar amb els operadors "sender" i operació "oper",
+     * i retorna el resultat.
      * @param sender
      * @param oper
      * @return
@@ -318,24 +299,39 @@ public class Full implements Cloneable{
         return new BigDecimal(0);
     }
 
+    /**
+     * Modifica el tipus de la cel·la amb id "id" pel tipus numeric.
+     * @param id
+     */
     public void Modifica_Tipus_Numeric(AbstractMap.SimpleEntry<Integer, Integer> id) {
         String resultat = this.Celes.get(id).getResultatFinal();
         this.Celes.replace(id, new Numero(id, new BigDecimal(resultat), true, 2, Tipus_Numero.numero));
         this.Celes.get(id).setType("numeric");
     }
-
+    /**
+     * Modifica el tipus de la cel·la amb id "id" pel tipus text.
+     * @param id
+     */
     public void Modifica_Tipus_Text(AbstractMap.SimpleEntry<Integer, Integer> id) {
         String contingut = this.Celes.get(id).getResultatFinal();
         this.Celes.replace(id, new TextCela(id, contingut));
         this.Celes.get(id).setType("text");
     }
-
+    /**
+     * Modifica el tipus de la cel·la amb id "id" pel tipus data.
+     * @param id
+     */
     public void Modifica_Tipus_Data(AbstractMap.SimpleEntry<Integer, Integer> id) {
         String contingut = this.Celes.get(id).getResultatFinal();
         this.Celes.replace(id, new DataCela(id, contingut));
         this.Celes.get(id).setType("data");
     }
 
+    /**
+     * Modifica el tipus de número de la cel·la amb id "id" pel tipus "type".
+     * @param id
+     * @param Type
+     */
     public void Modifica_Numero_Tipus(AbstractMap.SimpleEntry<Integer, Integer> id, String Type) {
         Cela c = this.Celes.get(id);
         Numero n = (Numero) c;
@@ -350,14 +346,12 @@ public class Full implements Cloneable{
         return Celes;
     }
 
-    public void Afegir_Accio(Full f){
-        Estatsprevis.add(f);
-    }
-    public void Eliminar_Accio(){ Estatsprevis.remove(Estatsprevis.size() - 1);}
-
-    public Full getFullprevi(){return Estatsprevis.get(Estatsprevis.size()-1); }
-
     //Métodes Privats
+
+    /**
+     * Incrementa el índex de les files que tenen un índex superior a "nf".
+     * @param nf
+     */
     private void IncrementarIndexFila(Integer nf){
         int i= Num_Files;
         while (i > nf) {
@@ -371,6 +365,10 @@ public class Full implements Cloneable{
         }
     };
 
+    /**
+     * Incrementa el índex de les columnes que tenen un índex superior a "nc".
+     * @param nc
+     */
     private void IncrementarIndexCol(Integer nc){
         int i= nc+1;
         while (i < Num_Columnes) {
@@ -384,6 +382,10 @@ public class Full implements Cloneable{
         }
     };
 
+    /**
+     * Decrementa el índex de les files que tenen un índex superior a "nf".
+     * @param nf
+     */
     private void DecrementarIndexFila(Integer nf){
         int i= nf+1;
         while (i < this.Num_Files) {
@@ -396,7 +398,10 @@ public class Full implements Cloneable{
             ++i;
         }
     };
-
+    /**
+     * Decrementa el índex de les columnes que tenen un índex superior a "nc".
+     * @param nc
+     */
     private void DecrementarIndexCol(Integer nc){
         int i= nc+1;
         while (i < this.Num_Columnes) {
@@ -418,6 +423,13 @@ public class Full implements Cloneable{
         return Num_Files;
     };
 
+    /**
+     * Retorna una llista de cel·les tipus Numero a partir de "id1" i "id2" que delimiten el bloc
+     * de cel·les a tractar.
+     * @param id1
+     * @param id2
+     * @return
+     */
     public ArrayList<Numero> getBlocNumero(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2) {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> ids = GetIdCeles(id1, id2);
         ArrayList<Numero> num = new ArrayList<>();
@@ -431,6 +443,7 @@ public class Full implements Cloneable{
 
         return num;
     }
+
     public double[] getColNumero(Integer col, Integer fIni, Integer fFi){
         double[] num = new double[fFi-fIni+1];
         for(int i = fIni; i <= fFi; i++){
@@ -522,7 +535,6 @@ public class Full implements Cloneable{
         return ids;
     }
 
-
     public Cela [][] getBlocEnMatriu(ArrayList<Cela> c, Integer nf, Integer nc){
         Cela [][] mat = new Cela[nf+1][nc+1];
         int count=0;
@@ -535,7 +547,14 @@ public class Full implements Cloneable{
         return mat;
     }
 
-
+    /**
+     * Ordena un bloc de cel·les acotat per les ids "id1" i "id2" segons indiqui el "criteri".
+     * @param id1
+     * @param id2
+     * @param cols
+     * @param criteri
+     * @throws Exception
+     */
     public void ordena_bloc(AbstractMap.SimpleEntry<Integer, Integer> id1, AbstractMap.SimpleEntry<Integer, Integer> id2, ArrayList<Integer> cols, String criteri) throws Exception {
         ArrayList<Cela> C= getBlocCeles(id1,id2);
         Bloc_celes b=new Bloc_celes();
@@ -575,8 +594,11 @@ public class Full implements Cloneable{
 
     }
 
-
-
+    /**
+     * Retorna cert si "strNum" és un número, fals si no ho és.
+     * @param strNum
+     * @return
+     */
     private Boolean isNumerical(String strNum){
         if (strNum == null) return false;
 
@@ -588,10 +610,19 @@ public class Full implements Cloneable{
         return true;
     }
 
+    /**
+     * Retorna cert si "id" existeix, fals si no.
+     * @param id
+     * @return
+     */
     public boolean ExisteixId(AbstractMap.SimpleEntry<Integer, Integer> id) {
         return this.Celes.containsKey(id);
     }
 
+    /**
+     * Retorna la informació del full.
+     * @return
+     */
     @Override
     public String toString() {
         return "Full{" +
@@ -602,6 +633,10 @@ public class Full implements Cloneable{
                 '}';
     }
 
+    /**
+     * Mostra el full en forma de matriu de strings, formant-la i retornant-la.
+     * @return
+     */
     public String[][] Mostrar() { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
         String[][] temp = new String[this.Num_Files][this.Num_Columnes];
         for(int i = 0; i < this.Num_Files; i++) {
@@ -632,6 +667,11 @@ public class Full implements Cloneable{
         return temp;
     }
 
+    /**
+     * Retorna el resultat final, en forma de string, de la cel·la indicada.
+     * @param id
+     * @return
+     */
     public String ValorTotal(AbstractMap.SimpleEntry<Integer, Integer> id) {
         Cela c = this.Celes.get(id);
         if (c instanceof Numero) {
@@ -661,7 +701,12 @@ public class Full implements Cloneable{
         }
     }
 
-
+    /**
+     * És la subfunció de modificacel·la que controla les referències de les cel·les.
+     * @param id
+     * @param l
+     * @param resultat
+     */
     public void opera(AbstractMap.SimpleEntry<Integer, Integer> id, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l, String resultat) {
 
         if(resultat.length()<=5){
@@ -701,6 +746,11 @@ public class Full implements Cloneable{
         System.out.println("vamooooooos"+Celes.get(id).getObservadors().size());
     }
 
+    /**
+     * Esborra les referències de la cel·la amb id "id".
+     * @param id
+     * @param l
+     */
     public void borraref(AbstractMap.SimpleEntry<Integer, Integer> id, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> l) {
 
         for (AbstractMap.SimpleEntry<Integer, Integer> i:l){
@@ -709,7 +759,12 @@ public class Full implements Cloneable{
         System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
     }
 
-
+    /**
+     * Funció que comprova si existeix algun bucle dins del bloc de cel·les comprés entre "id" i "id1".
+     * @param id
+     * @param id1
+     * @return
+     */
     public boolean comprova_bucle(AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> id1) {
        Boolean b=false;
        String res="";
@@ -730,6 +785,12 @@ public class Full implements Cloneable{
 
     }
 
+    /**
+     * Funció que modifica el contingut de la cel·la amb id "id", comprovant si no és referència de cap altra cel·la.
+     * @param id
+     * @param resultat
+     * @throws Exception
+     */
     public void modificarContingutCela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) throws Exception {
 
         String a="";
@@ -770,52 +831,31 @@ public class Full implements Cloneable{
         CheckObs(id);
     }
 
-
-
-
+    /**
+     * Funció que comprova els observadors de la cel·la amb id "id".
+     * @param id
+     * @throws Exception
+     */
     public void CheckObs(AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
         ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs = getCeles().get(id).getObservadors();
-        System.out.println("check obs V"+obs.size());
-        if(obs.size()!=0){
-            System.out.println("check obs "+obs.size());
-            for(int i = 0; i < obs.size(); i++){
+        System.out.println("check obs V" + obs.size());
+        if (obs.size() != 0) {
+            System.out.println("check obs " + obs.size());
+            for (int i = 0; i < obs.size(); i++) {
                 if (getCeles().get(obs.get(i)) instanceof CelaRefData) {
                     CelaRefData c = (CelaRefData) getCeles().get(obs.get(i));
-                    modificarContingutCela( obs.get(i), c.getContingut());
+                    modificarContingutCela(obs.get(i), c.getContingut());
                 } else if (getCeles().get(obs.get(i)) instanceof CelaRefText) {
                     CelaRefText c = (CelaRefText) getCeles().get(obs.get(i));
-                    modificarContingutCela( obs.get(i), c.getContingut());
+                    modificarContingutCela(obs.get(i), c.getContingut());
                 } else {
                     System.out.println(obs.get(i).getKey() + " " + obs.get(i).getValue());
                     CelaRefNum c = (CelaRefNum) getCeles().get(obs.get(i));
-                    modificarContingutCela( obs.get(i), c.getContingut());
+                    modificarContingutCela(obs.get(i), c.getContingut());
                 }
 
             }
 
-        }
-    }
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> celes= new HashMap<>();
-        for (int i= 0; i < Num_Files; ++i){
-            for (int j= 0; j < Num_Columnes; ++j) {
-                AbstractMap.SimpleEntry<Integer,Integer> id= new AbstractMap.SimpleEntry<>(i,j);
-                Cela c = (Cela) Celes.get(id).clone();
-                celes.put(c.id, c);
-            }
-        }
-        return new Full(this.nom, this.Num_Columnes, this.Num_Files, celes, this.Estatsprevis);
-    }
-
-    public void replace() {
-        for (int i=0; i < Estatsprevis.get(Estatsprevis.size() - 1).getNum_Files()-1; ++i) {
-            for (int j=0; j < Estatsprevis.get(Estatsprevis.size() - 1).getNum_Columnes()-1; ++j) {
-
-                AbstractMap.SimpleEntry<Integer,Integer> id= new AbstractMap.SimpleEntry<>(i,j);
-                Cela c = Estatsprevis.get(Estatsprevis.size() - 1).getCeles().get(id);
-                Celes.replace(c.getId(), c);
-            }
         }
     }
 };

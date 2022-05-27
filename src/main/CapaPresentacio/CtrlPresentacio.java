@@ -200,14 +200,6 @@ public class CtrlPresentacio {
         Cd.EliminarCol(full, co);
     }
 
-    public void Undo(String full) throws Exception {
-        Cd.Undo(full);
-    }
-
-    public void GuardarEstat(String full) throws CloneNotSupportedException {
-        Cd.GuardarEstat(full);
-    }
-
     public String ValorTotal(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.ValorTotal(full, id);
     }

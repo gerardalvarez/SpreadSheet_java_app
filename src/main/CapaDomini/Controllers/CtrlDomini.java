@@ -426,21 +426,6 @@ public class CtrlDomini {
         Full f = docu.get_full(full);
         f.Eliminar_Columna(co);
     }
-    public void Undo(String full) throws Exception {
-        Full f = docu.get_full(full);
-        System.out.println("c");
-        Full newf= f.getFullprevi();
-        f.replace();
-        f.Eliminar_Accio();
-        System.out.println("borrado");
-    }
-
-    public void GuardarEstat(String full) throws CloneNotSupportedException {
-        Full f = docu.get_full(full);
-        Full n= (Full) f.clone();
-        System.out.println("guardado");
-        f.Afegir_Accio(n);
-    }
 
     public String ValorTotal(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = docu.get_full(full);
