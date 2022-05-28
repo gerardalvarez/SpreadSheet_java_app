@@ -1,3 +1,10 @@
+/**
+ * @file CelaRefText.java
+ * @author Miguel Frias
+ * @date 28/05/2022
+ * @brief Implementació de la classe CelaRefText
+ */
+
 package main.CapaDomini.Models;
 import java.util.AbstractMap;
 

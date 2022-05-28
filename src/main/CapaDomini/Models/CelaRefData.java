@@ -1,3 +1,10 @@
+/**
+ * @file CelaRefData.java
+ * @author Miguel Frias
+ * @date 28/05/2022
+ * @brief Implementació de la classe CelaRefData
+ */
+
 package main.CapaDomini.Models;
 
 import java.util.AbstractMap;
