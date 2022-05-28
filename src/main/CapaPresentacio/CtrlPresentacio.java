@@ -12,6 +12,7 @@ import org.knowm.xchart.XYChart;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
@@ -254,6 +255,11 @@ public class CtrlPresentacio {
         return Cd.countVowels(full, id);
     }
 
+    public int guardarDoc() throws Exception {
+        return Cd.guardarDoc();
+    }
 
-
+    public Boolean ComprovaDocExisteix(String fileName, File path) throws IOException {
+        return Cd.ComprovaDocExisteix(fileName, path);
+    }
 }

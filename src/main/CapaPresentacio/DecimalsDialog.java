@@ -55,31 +55,38 @@ public class DecimalsDialog extends JDialog {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "Ompli tots els camps per poder procedir", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        else if (PublicFuntions.isNum(dec) && Integer.parseInt(dec) >= 0) {
-            try {
-                cp.CanviarDecimals("Full 1", cela, Integer.valueOf(dec));
-            } catch (CloneNotSupportedException e) {
-                throw new RuntimeException(e);
-            }
-            if (truncarRadioButton.isSelected()) {
+        else if (PublicFuntions.isNum(dec)) {
+            Double d = Double.valueOf(dec);
+            if (Integer.parseInt(String.valueOf(d.intValue())) >= 0) {
                 try {
-                    cp.CanviarArrodonit("Full 1", cela, false);
+                    cp.CanviarDecimals("Full 1", cela, d.intValue());
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException(e);
                 }
-            } else {
-                try {
-                    cp.CanviarArrodonit("Full 1", cela, true);
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
+                if (truncarRadioButton.isSelected()) {
+                    try {
+                        cp.CanviarArrodonit("Full 1", cela, false);
+                    } catch (CloneNotSupportedException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        cp.CanviarArrodonit("Full 1", cela, true);
+                    } catch (CloneNotSupportedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+                String cont = cp.ValorTotal("Full 1", cela);
+                full.setValueAt(cont, cela.getKey(), cela.getValue());
+                dispose();
             }
-            String cont = cp.ValorTotal("Full 1", cela);
-            full.setValueAt(cont, cela.getKey(), cela.getValue());
-            dispose();
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "El decimals han de ser números per sobre el 0", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(this, "El decimals han de ser números per sobre el 0", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Introdueixi només números", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

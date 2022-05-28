@@ -1,14 +1,9 @@
 package main.CapaDomini.Models;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Scanner;
 
 public class PublicFuntions {
     public static String monthToText(String monthNumber){

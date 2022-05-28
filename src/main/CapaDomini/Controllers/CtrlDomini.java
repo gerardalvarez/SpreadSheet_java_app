@@ -7,12 +7,15 @@ import org.knowm.xchart.PieChart;
 import org.knowm.xchart.XYChart;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 
 public class CtrlDomini {
 
     private Document docu;
+
+    private String path;
 
     private DataParser dp;
 
@@ -436,6 +439,8 @@ public class CtrlDomini {
         System.out.println(fileName);
         String p = path.toString();
         p = p.replace("\\", "/");
+        this.path = p;
+        CanviarNomDoc(fileName);
         System.out.println(p);
         dp.guarda(docu, p, fileName);
     }
@@ -445,6 +450,7 @@ public class CtrlDomini {
         p = p.replace("\\", "/");
         Document nou = dp.carrega(fileName, p);
         docu = nou;
+        this.path = p;
     }
 
     public XYChart LinearChart(String full, Integer Col1, Integer filI1, Integer filF1,Integer Col2, Integer filI2, Integer filF2) throws Exception {
@@ -482,9 +488,8 @@ public class CtrlDomini {
         p = p.replace("\\", "/");
         List<List<String>> nou = DataParser.readCsv(fileName, p);
 
-        Full f = new Full("Full 1", nou.size(), nou.get(0).size());
+        Full f = new Full("Full CSV", nou.size(), nou.get(0).size());
 
-        docu = new Document(fileName);
         docu.afegir_full(f);
 
         int i = 0;
@@ -559,5 +564,23 @@ public class CtrlDomini {
     public String countVowels(String full, AbstractMap.SimpleEntry<Integer, Integer> id){
         return docu.get_full(full).getCeles().get(id).countVowels();
     }
+
+    public int guardarDoc() throws Exception {
+        if (path == null) return 1;
+        else {
+            String nomDocu = docu.getNom();
+            System.out.println(nomDocu);
+            System.out.println(path);
+            dp.guarda(docu, path, nomDocu);
+            return 0;
+        }
+    }
+
+    public Boolean ComprovaDocExisteix(String fileName, File path) throws IOException {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        return dp.comprovaExisteix(docu, p, fileName);
+    }
+
 
 }

@@ -15,7 +15,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -67,13 +68,14 @@ public class VistaPrincipal extends JFrame {
     private JButton vowelsButton;
     private JLabel NomFull;
     private JTextField idText;
+    private JLabel NomDocument;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
     private int fila;
     private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> LastBusca;
-    
     private String FullActual;
+    private String NomDocu;
 
 
     public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
@@ -82,8 +84,8 @@ public class VistaPrincipal extends JFrame {
         CelaActual = null;
 
         FullActual = "Full 1";
+        NomDocu = "Full de càlcul sense nom";
         String[] nomColumnes = new String[cp.GetColumnes(FullActual)];
-        String[] nomFiles = new String[cp.GetFiles( FullActual)];
         for (int i = 0; i < nomColumnes.length; i++) {
             nomColumnes[i] = String.valueOf(i + 1);
         }
@@ -111,25 +113,30 @@ public class VistaPrincipal extends JFrame {
         JMenuItem eliminarFull = new JMenuItem("Eliminar full");
         JMenuItem canvifull = new JMenuItem("Canviar full");
         JMenuItem guardar = new JMenuItem("Guardar");
+        JMenuItem guardarCom = new JMenuItem("Guardar com");
+        JMenuItem canviarNomDoc = new JMenuItem("Canviar Nom");
         JMenuItem obrir = new JMenuItem("Obrir");
         JMenu exportar = new JMenu("Exportar");
         JMenu importar = new JMenu("Importar");
         JMenuItem CSV_exp = new JMenuItem("CSV");
         JMenuItem CSV_imp = new JMenuItem("CSV");
-        JMenuItem pdf = new JMenuItem("pdf");
+        JMenuItem canviarNomFull = new JMenuItem("Canviar Nom");
 
         importar.add(CSV_imp);
         exportar.add(CSV_exp);
-        exportar.add(pdf);
 
         fitxer.add(guardar);
+        fitxer.add(guardarCom);
+        fitxer.add(canviarNomDoc);
         fitxer.add(obrir);
         fitxer.add(exportar);
         fitxer.add(importar);
         menuBar.add(fitxer);
 
+
         fulls.add(afegirFull);
         fulls.add(eliminarFull);
+        fulls.add(canviarNomFull);
         fulls.add(canvifull);
         menuBar.add(fulls);
 
@@ -156,6 +163,7 @@ public class VistaPrincipal extends JFrame {
         minusculesButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/LowerCase.svg",28,28));
 
         NomFull.setText(FullActual);
+        NomDocument.setText(NomDocu);
 
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -167,19 +175,30 @@ public class VistaPrincipal extends JFrame {
         AtomicBoolean dataVector = new AtomicBoolean(false);
 
         guardar.addActionListener(e -> {
-            JFileChooser savefile = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Full de càlcul", "fdc");
-            savefile.setFileFilter(filter);
-            int status = savefile.showSaveDialog(this);
-            if (status == JFileChooser.APPROVE_OPTION) {
-                String fileName = savefile.getSelectedFile().getName();
-                File path = savefile.getCurrentDirectory();
+            int codi = -1;
+            try {
+                codi = cp.guardarDoc();
+            } catch (Exception ex) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut guardar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            if (codi == 1) {
                 try {
-                    cp.guardarDocument(fileName, path);
+                    guardarCom(cp);
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut guardar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else System.out.println("Cancelat");
+            }
+        });
+
+        guardarCom.addActionListener(e -> {
+            try {
+                guardarCom(cp);
+            } catch (Exception ex) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut guardar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         obrir.addActionListener(e -> {
@@ -197,6 +216,8 @@ public class VistaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut obrir", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
+                NomDocu = fileName.replace(".fdc", "");
+                NomDocument.setText(NomDocu);
                 ArrayList<String> llistaFulls = cp.GetFulls();
                 FullActual = llistaFulls.get(0);
                 NomFull.setText(FullActual);
@@ -267,14 +288,23 @@ public class VistaPrincipal extends JFrame {
             } else System.out.println("Cancelat");
         });
 
+        canviarNomDoc.addActionListener(e -> {
+            String nom = JOptionPane.showInputDialog(this, "Introdueixi el nou nom del Document", "Canvi nom", JOptionPane.INFORMATION_MESSAGE);
+            if (!nom.isBlank()) {
+                cp.NouNomDoc(nom);
+                NomDocu = nom;
+                NomDocument.setText(NomDocu);
+            }
+        });
+
         afegirFull.addActionListener(e -> {
             String nom = JOptionPane.showInputDialog(this, "Introdueixi el nom del nou full", "Nou Full", JOptionPane.INFORMATION_MESSAGE);
             ArrayList<String> llistaFulls = cp.GetFulls();
-            if (nom == null || llistaFulls.contains(nom)) {
+            if (nom != null && !nom.isBlank() && llistaFulls.contains(nom)) {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Dos fulls no poden tenir el mateix nom.\nIntrodueixi un altre nom", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else {
+            else if (nom != null && !nom.isBlank()) {
                 cp.CrearNouFull(nom, 25, 25);
                 FullActual = nom;
                 String [][] temp = cp.MostrarLlista(FullActual);
@@ -290,26 +320,54 @@ public class VistaPrincipal extends JFrame {
                 Full.repaint();
                 NomFull.setText(FullActual);
             }
+            else if (nom != null && nom.isBlank()) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "El nom d'un full no poden ser només espais", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         eliminarFull.addActionListener(e -> {
-            int opt = JOptionPane.showConfirmDialog(this, "Estas segur que vols eliminar el full?", "Eliminar Full", JOptionPane.YES_NO_OPTION);
-            if (opt == 0) {
-                cp.EliminarFull(FullActual);
-                ArrayList<String> llistaFulls = cp.GetFulls();
-                FullActual = llistaFulls.get(0);
-                String [][] temp = cp.MostrarLlista(FullActual);
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes(FullActual)];
+            if(cp.GetFulls().size() > 1) {
+                int opt = JOptionPane.showConfirmDialog(this, "Estas segur que vols eliminar el full?", "Eliminar Full", JOptionPane.YES_NO_OPTION);
+                if (opt == 0) {
+                    cp.EliminarFull(FullActual);
+                    ArrayList<String> llistaFulls = cp.GetFulls();
+                    FullActual = llistaFulls.get(0);
+                    String[][] temp = cp.MostrarLlista(FullActual);
+                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                    String[] nomCol = new String[cp.GetColumnes(FullActual)];
 
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
+                    for (int i = 0; i < nomCol.length; i++) {
+                        nomCol[i] = String.valueOf(i + 1);
+                    }
+                    dataVector.set(true);
+                    dtm.setDataVector(temp, nomCol);
+                    dataVector.set(false);
+                    Full.repaint();
+                    NomFull.setText(FullActual);
                 }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
+            }
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Només tens un full.\n", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        canviarNomFull.addActionListener(e -> {
+            String nom = JOptionPane.showInputDialog(this, "Introdueixi el nou nom del full", "Canvi de Nom", JOptionPane.INFORMATION_MESSAGE);
+            ArrayList<String> llistaFulls = cp.GetFulls();
+            if (nom != null && !nom.isBlank() && llistaFulls.contains(nom)) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Dos fulls no poden tenir el mateix nom.\nIntrodueixi un altre nom", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (nom != null && !nom.isBlank()) {
+                cp.NouNomFull(FullActual, nom);
+                FullActual = nom;
                 NomFull.setText(FullActual);
+            }
+            else if (nom != null && nom.isBlank()) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "El nom d'un full no poden ser només espais", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -876,11 +934,11 @@ public class VistaPrincipal extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "Seleccioni una Cela abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (!Objects.equals(cp.GetTipusCela( FullActual, CelaActual), "numero")){
+            else if (!Objects.equals(cp.GetTipusCela(FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if (Objects.equals(cp.GetTipusNumero( FullActual, CelaActual), "numero")){
+            else if (Objects.equals(cp.GetTipusNumero(FullActual, CelaActual), "numero")){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de número \nConsulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1001,42 +1059,49 @@ public class VistaPrincipal extends JFrame {
 
 
         eliminarColumnaButton.addActionListener(e -> {
-            String num = JOptionPane.showInputDialog(this, "Escrigui la posicio de la columna que vols esborrar", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
+            int num_cols = cp.GetColumnes(FullActual);
+            if (num_cols > 1) {
+                String num = JOptionPane.showInputDialog(this, "Escrigui la posicio de la columna que vols esborrar", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
 
-            if (!(num == null)) {
-                if (PublicFuntions.isNum(num)) {
-                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
-                    if (Integer.parseInt(num) <= 0 || Integer.parseInt(num)> nomCol.length ){
-                        JOptionPane.showMessageDialog(this, "La columna no pertany al full. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    try {
-                        cp.EliminarCol( FullActual, Integer.parseInt(num) - 1);
-                    } catch (Exception ex) {
-                        System.out.println(ex);
+                if (!(num == null)) {
+                    if (PublicFuntions.isNum(num)) {
+                        String[] nomCol = new String[cp.GetColumnes(FullActual)];
+                        if (Integer.parseInt(num) <= 0 || Integer.parseInt(num) > nomCol.length) {
+                            JOptionPane.showMessageDialog(this, "La columna no pertany al full. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        try {
+                            cp.EliminarCol(FullActual, Integer.parseInt(num) - 1);
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                            Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        String[][] temp;
+                        try {
+                            temp = cp.MostrarLlista(FullActual);
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                        nomCol = new String[cp.GetColumnes(FullActual)];
+
+                        for (int i = 0; i < nomCol.length; i++) {
+                            nomCol[i] = String.valueOf(i + 1);
+                        }
+                        dataVector.set(true);
+                        dtm.setDataVector(temp, nomCol);
+                        dataVector.set(false);
+                        Full.repaint();
+                    } else {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    String[][] temp;
-                    try {
-                        temp = cp.MostrarLlista( FullActual);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                     nomCol = new String[cp.GetColumnes( FullActual)];
-
-                    for (int i = 0; i < nomCol.length; i++) {
-                        nomCol[i] = String.valueOf(i + 1);
-                    }
-                    dataVector.set(true);
-                    dtm.setDataVector(temp, nomCol);
-                    dataVector.set(false);
-                    Full.repaint();
-                } else {
-                    Toolkit.getDefaultToolkit().beep();
-                    JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "No pots tenir menys de una columna", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -1473,6 +1538,8 @@ public class VistaPrincipal extends JFrame {
                 Full.setEnabled(false);
             }
         });
+
+
         cancelButton.addActionListener(e -> {
             LastBusca =  new ArrayList<>();
 
@@ -1560,6 +1627,8 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+
+
         wordsButton.addActionListener(e -> {
             if (CelaActual == null) {
                 Toolkit.getDefaultToolkit().beep();
@@ -1597,7 +1666,26 @@ public class VistaPrincipal extends JFrame {
 
             }
         });
+    }
 
+    private void guardarCom(CtrlPresentacio cp) throws Exception {
+        JFileChooser savefile = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Full de càlcul", "fdc");
+        savefile.setFileFilter(filter);
+        int status = savefile.showSaveDialog(this);
+        if (status == JFileChooser.APPROVE_OPTION) {
+            String fileName = savefile.getSelectedFile().getName();
+            File path = savefile.getCurrentDirectory();
+            Boolean existeix = cp.ComprovaDocExisteix(fileName, path);
+            if(existeix){
+                if(JOptionPane.showConfirmDialog(this, "Aquest fitxer ja existeix, els vols reemplaçar?", "Guardar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0){
+                    cp.guardarDocument(fileName, path);
+                }
+            }
+            else {
+                cp.guardarDocument(fileName, path);
+            }
+        } else System.out.println("Cancelat");
     }
 
     private void Incrementar(CtrlPresentacio cp) {
@@ -1617,8 +1705,9 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer row = RowtoNumber(rowField.getText());
                     Integer col = Integer.parseInt(colField.getText());
+
                     AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                     if (cp.ComprovarId(FullActual, CelaRemp)) {
                         if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
@@ -1672,7 +1761,7 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer row = RowtoNumber(rowField.getText());
                     Integer col = Integer.parseInt(colField.getText());
                     AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                     if (cp.ComprovarId(FullActual, CelaRemp)) {
@@ -1731,7 +1820,7 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer row = RowtoNumber(rowField.getText());
                     Integer col = Integer.parseInt(colField.getText());
                     AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                     if (cp.ComprovarId(FullActual, CelaRemp)) {
@@ -1788,7 +1877,7 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer row = RowtoNumber(rowField.getText());
                     Integer col = Integer.parseInt(colField.getText());
                     AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                     if (cp.ComprovarId(FullActual, CelaRemp)) {
@@ -1859,7 +1948,7 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = Integer.parseInt(rowField.getText());
+                    Integer row = RowtoNumber(rowField.getText());
                     Integer col = Integer.parseInt(colField.getText());
                     AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                     if (cp.ComprovarId(FullActual, CelaRemp)) {

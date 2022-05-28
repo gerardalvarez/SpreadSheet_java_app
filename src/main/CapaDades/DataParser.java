@@ -2,6 +2,7 @@ package main.CapaDades;
 
 import main.CapaDomini.Models.*;
 
+import javax.print.Doc;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,9 +19,9 @@ import java.util.regex.Pattern;
 
 public class DataParser {
 
-    public void guarda(Document document, String path, String fileName) throws Exception {
-
+    public Boolean comprovaExisteix(Document document, String path, String fileName) throws IOException {
         File myObj = new File(path + "/" + fileName + ".fdc");
+        System.out.println(path + "/" + fileName + ".fdc");
         if (myObj.createNewFile()) {
             System.out.println("File created: " + myObj.getName());
             FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".fdc",true);
@@ -28,10 +29,14 @@ public class DataParser {
             printWriter.print(document.getNom()+"\n");
             printWriter.flush();
             printWriter.close();
+            return false;
         } else {
             System.out.println("File already exists.");
+            return true;
         }
+    }
 
+    public void guarda(Document document, String path, String fileName) throws Exception {
         FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".fdc");
         PrintWriter printWriter = new PrintWriter(fileWriter);
 

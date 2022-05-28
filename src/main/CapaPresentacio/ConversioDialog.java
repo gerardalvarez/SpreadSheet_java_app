@@ -11,7 +11,6 @@ public class ConversioDialog extends JDialog {
     private JPanel contentPane;
     private JButton convertirButton;
     private JButton buttonCancel;
-    private JButton helpButton;
     private JTextField tipusText;
     private JComboBox<String> comboBox1;
 
