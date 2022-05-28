@@ -343,7 +343,6 @@ public class PublicFuntions {
             number = number * 26 + (name.charAt(i) - ('A' - 1));
         }
         return number; }
-
 }
 
 

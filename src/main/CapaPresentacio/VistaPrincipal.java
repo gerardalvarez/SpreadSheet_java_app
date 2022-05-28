@@ -66,6 +66,7 @@ public class VistaPrincipal extends JFrame {
     private JButton charsButton;
     private JButton vowelsButton;
     private JLabel NomFull;
+    private JTextField idText;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -363,6 +364,7 @@ public class VistaPrincipal extends JFrame {
 
                     Tipus.setText(type);
                     Contingut.setText(content);
+                    idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
                     //Full.setValueAt(obj, row, col);
                     Full.repaint();
 
@@ -387,6 +389,7 @@ public class VistaPrincipal extends JFrame {
                     String type = cp.GetTipusCela( FullActual, CelaActual);
                     Tipus.setText(type);
                     Contingut.setText(content);
+                    idText.setText(RowtoText(row+1)+ (col+1));
                     System.out.println(content);
                 }
             }
@@ -426,6 +429,7 @@ public class VistaPrincipal extends JFrame {
                         String type = cp.GetTipusCela( FullActual, id);
                         Tipus.setText(type);
                         Contingut.setText(content);
+                        idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
                         Full.setValueAt(obj, fila, columna);
                         Full.repaint();
                     }
@@ -464,6 +468,7 @@ public class VistaPrincipal extends JFrame {
                         String type = cp.GetTipusCela( FullActual, id);
                         Tipus.setText(type);
                         Contingut.setText(content);
+                        idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
                         Full.setValueAt(obj, fila, columna);
                         Full.repaint();
                     }
@@ -503,6 +508,7 @@ public class VistaPrincipal extends JFrame {
                 String type = cp.GetTipusCela( FullActual, id);
                 Tipus.setText(type);
                 Contingut.setText(content);
+                idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
                 Full.setValueAt(obj, fila, columna);
                 Full.repaint();
             }
@@ -538,6 +544,7 @@ public class VistaPrincipal extends JFrame {
                 String type = cp.GetTipusCela( FullActual, id);
                 Tipus.setText(type);
                 Contingut.setText(content);
+                idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
                 Full.setValueAt(obj, fila, columna);
                 Full.repaint();
             }
@@ -666,11 +673,11 @@ public class VistaPrincipal extends JFrame {
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI,rowF,col,rowI2,rowF2,col2;
                 try {
-                    rowI = Integer.parseInt(rowIniField2.getText());
-                    rowF = Integer.parseInt(rowFiField2.getText());
+                    rowI = RowtoNumber(rowIniField2.getText());
+                    rowF = RowtoNumber(rowFiField2.getText());
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = Integer.parseInt(rowIniField2.getText());
-                    rowF2 = Integer.parseInt(rowFiField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText());
+                    rowF2 = RowtoNumber(rowFiField2.getText());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
@@ -731,11 +738,11 @@ public class VistaPrincipal extends JFrame {
                 Integer rowI,rowF,col,rowI2,rowF2,col2;
                 try {
                     System.out.println("aaaaaa");
-                    rowI = Integer.parseInt(rowIniField2.getText());
-                    rowF = Integer.parseInt(rowFiField2.getText());
+                    rowI = RowtoNumber(rowIniField2.getText());
+                    rowF = RowtoNumber(rowFiField2.getText());
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = Integer.parseInt(rowIniField2.getText());
-                    rowF2 = Integer.parseInt(rowFiField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText());
+                    rowF2 = RowtoNumber(rowFiField2.getText());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
                     System.out.println(1);
@@ -798,11 +805,11 @@ public class VistaPrincipal extends JFrame {
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI=0,rowF=0,col=0,rowI2=0,rowF2=0,col2=0;
                 try {
-                    rowI = Integer.parseInt(rowIniField2.getText());
-                    rowF = Integer.parseInt(rowFiField2.getText());
+                    rowI = RowtoNumber(rowIniField2.getText());
+                    rowF = RowtoNumber(rowFiField2.getText());
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = Integer.parseInt(rowIniField2.getText());
-                    rowF2 = Integer.parseInt(rowFiField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText());
+                    rowF2 = RowtoNumber(rowFiField2.getText());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1669,6 +1676,7 @@ public class VistaPrincipal extends JFrame {
                             dataVector.set(false);
                             Tipus.setText(type);
                             Contingut.setText(content);
+                            idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
                             //Full.setValueAt(obj, row, col);
                             Full.repaint();
 
@@ -2011,7 +2019,25 @@ public class VistaPrincipal extends JFrame {
         return result_2;
     }
 
+    private static String RowtoText(int number) {
+        final StringBuilder sb = new StringBuilder();
+        int num = number - 1;
+        while (num >= 0) {
+            int numChar = (num % 26) + 65;
+            sb.append((char)numChar);
+            num = (num / 26) - 1;
+        }
+        return sb.reverse().toString();
+    }
+
+    private static int RowtoNumber(String name) {
+        int number = 0;
+        for (int i = 0; i < name.length(); i++) {
+            number = number * 26 + (name.charAt(i) - ('A' - 1));
+        }
+        return number; }
 }
+
 
 
 
