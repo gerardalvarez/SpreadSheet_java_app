@@ -1,3 +1,10 @@
+/**
+ * @file Full.java
+ * @author Miguel Frias
+ * @date 28/05/2022
+ * @brief Implementació de la classe Full
+ */
+
 package main.CapaDomini.Models;
 
 
@@ -15,7 +22,7 @@ public class Full {
 
     //Constructor
     /**
-     * Constructora de Full que crea el full a partird del nom, el número de columnes i el número files.
+     * @brief Constructora de Full que crea el full a partird del nom, el número de columnes i el número files.
      * @param n
      * @param nc
      * @param nf
@@ -36,7 +43,7 @@ public class Full {
     };
 
     /**
-     * Constructora de Full que crea el full a partird del número de columnes i el número files.
+     * @brief Constructora de Full que crea el full a partird del número de columnes i el número files.
      * @param nc
      * @param nf
      */
@@ -63,7 +70,7 @@ public class Full {
     //Mètodes Públics
 
     /**
-     * Funció que afegeix una fila al full a l'índex on s'indica per paràmetre.
+     * @brief Funció que afegeix una fila al full a l'índex on s'indica per paràmetre.
      * @param nf
      */
     public void Afegir_Fila(Integer nf) throws Exception {
@@ -86,7 +93,7 @@ public class Full {
     };
 
     /**
-     * Funció que afegeix una columna al full a l'índex on s'indica per paràmetre.
+     * @brief Funció que afegeix una columna al full a l'índex on s'indica per paràmetre.
      * @param nc
      */
     public void Afegir_Columna(Integer nc) throws Exception {
@@ -110,7 +117,7 @@ public class Full {
     };
 
     /**
-     * Funció que elimina una fila al full a l'índex on s'indica per paràmetre.
+     * @brief Funció que elimina una fila al full a l'índex on s'indica per paràmetre.
      * @param nf
      */
     public void Eliminar_Fila(Integer nf) throws Exception {
@@ -126,7 +133,7 @@ public class Full {
     };
 
     /**
-     * Funció que elimina columna al full a l'índex on s'indica per paràmetre.
+     * @brief Funció que elimina columna al full a l'índex on s'indica per paràmetre.
      * @param nc
      */
     public void Eliminar_Columna(Integer nc) throws Exception{
@@ -142,7 +149,7 @@ public class Full {
     };
 
     /**
-     * Funció que esborra les celes que rep per paràmetre.
+     * @brief Funció que esborra les celes que rep per paràmetre.
      * @param celes
      */
     public void Esborrar_Celes(ArrayList<Cela> celes) {
@@ -156,7 +163,7 @@ public class Full {
     };
 
     /**
-     * Funció que modifica la cel·la "id" amb el resultat que es rep per paràmetre, comprovant el tipus de cel·la
+     * @brief Funció que modifica la cel·la "id" amb el resultat que es rep per paràmetre, comprovant el tipus de cel·la
      * i comprovant si té obtervadors.
      * @param id
      * @param resultat
@@ -245,7 +252,7 @@ public class Full {
     }
 
     /**
-     *Funció que avalua l'operació a realitzar amb els operadors "sender" i operació "oper",
+     * @brief Funció que avalua l'operació a realitzar amb els operadors "sender" i operació "oper",
      * i retorna el resultat.
      * @param sender
      * @param oper
@@ -297,7 +304,7 @@ public class Full {
     }
 
     /**
-     * Modifica el tipus de la cel·la amb id "id" pel tipus numeric.
+     * @brief Modifica el tipus de la cel·la amb id "id" pel tipus numeric.
      * @param id
      */
     public void Modifica_Tipus_Numeric(AbstractMap.SimpleEntry<Integer, Integer> id) {
@@ -306,7 +313,7 @@ public class Full {
         this.Celes.get(id).setType("numeric");
     }
     /**
-     * Modifica el tipus de la cel·la amb id "id" pel tipus text.
+     * @brief Modifica el tipus de la cel·la amb id "id" pel tipus text.
      * @param id
      */
     public void Modifica_Tipus_Text(AbstractMap.SimpleEntry<Integer, Integer> id) {
@@ -315,7 +322,7 @@ public class Full {
         this.Celes.get(id).setType("text");
     }
     /**
-     * Modifica el tipus de la cel·la amb id "id" pel tipus data.
+     * @brief Modifica el tipus de la cel·la amb id "id" pel tipus data.
      * @param id
      */
     public void Modifica_Tipus_Data(AbstractMap.SimpleEntry<Integer, Integer> id) {
@@ -325,7 +332,7 @@ public class Full {
     }
 
     /**
-     * Modifica el tipus de número de la cel·la amb id "id" pel tipus "type".
+     * @brief Modifica el tipus de número de la cel·la amb id "id" pel tipus "type".
      * @param id
      * @param Type
      */
@@ -346,7 +353,7 @@ public class Full {
     //Métodes Privats
 
     /**
-     * Incrementa el índex de les files que tenen un índex superior a "nf".
+     * @brief Incrementa el índex de les files que tenen un índex superior a "nf".
      * @param nf
      */
     private void IncrementarIndexFila(Integer nf) throws Exception{
@@ -372,7 +379,7 @@ public class Full {
         }
     };
     /**
-     * Incrementa el índex de les columnes que tenen un índex superior a "nc".
+     * @brief Incrementa el índex de les columnes que tenen un índex superior a "nc".
      * @param nc
      */
     private void IncrementarIndexCol(Integer nc) throws Exception {
@@ -399,7 +406,7 @@ public class Full {
     };
 
     /**
-     * Decrementa el índex de les files que tenen un índex superior a "nf".
+     * @brief Decrementa el índex de les files que tenen un índex superior a "nf".
      * @param nf
      */
     private void DecrementarIndexFila(Integer nf) throws Exception {
@@ -425,7 +432,7 @@ public class Full {
         }
     };
     /**
-     * Decrementa el índex de les columnes que tenen un índex superior a "nc".
+     * @brief Decrementa el índex de les columnes que tenen un índex superior a "nc".
      * @param nc
      */
     private void DecrementarIndexCol(Integer nc) throws Exception{
@@ -460,7 +467,7 @@ public class Full {
     };
 
     /**
-     * Retorna una llista de cel·les tipus Numero a partir de "id1" i "id2" que delimiten el bloc
+     * @brief Retorna una llista de cel·les tipus Numero a partir de "id1" i "id2" que delimiten el bloc
      * de cel·les a tractar.
      * @param id1
      * @param id2
@@ -584,7 +591,7 @@ public class Full {
     }
 
     /**
-     * Ordena un bloc de cel·les acotat per les ids "id1" i "id2" segons indiqui el "criteri".
+     * @brief Ordena un bloc de cel·les acotat per les ids "id1" i "id2" segons indiqui el "criteri".
      * @param id1
      * @param id2
      * @param cols
@@ -631,7 +638,7 @@ public class Full {
     }
 
     /**
-     * Retorna cert si "strNum" és un número, fals si no ho és.
+     * @brief Retorna cert si "strNum" és un número, fals si no ho és.
      * @param strNum
      * @return
      */
@@ -647,7 +654,7 @@ public class Full {
     }
 
     /**
-     * Retorna cert si "id" existeix, fals si no.
+     * @brief Retorna cert si "id" existeix, fals si no.
      * @param id
      * @return
      */
@@ -656,7 +663,7 @@ public class Full {
     }
 
     /**
-     * Retorna la informació del full.
+     * @brief Retorna la informació del full.
      * @return
      */
     @Override
@@ -670,7 +677,7 @@ public class Full {
     }
 
     /**
-     * Mostra el full en forma de matriu de strings, formant-la i retornant-la.
+     * @brief Mostra el full en forma de matriu de strings, formant-la i retornant-la.
      * @return
      */
     public String[][] Mostrar() { //El full hauria de retornar una ArrayList i així no haver de col·locar tot aixó al controller
@@ -704,7 +711,7 @@ public class Full {
     }
 
     /**
-     * Retorna el resultat final, en forma de string, de la cel·la indicada.
+     * @brief Retorna el resultat final, en forma de string, de la cel·la indicada.
      * @param id
      * @return
      */
@@ -738,7 +745,7 @@ public class Full {
     }
 
     /**
-     * És la subfunció de modificacel·la que controla les referències de les cel·les.
+     * @brief És la subfunció de modificacel·la que controla les referències de les cel·les.
      * @param id
      * @param l
      * @param resultat
@@ -839,7 +846,7 @@ else {
     }
 
     /**
-     * Esborra les referències de la cel·la amb id "id".
+     * @brief Esborra les referències de la cel·la amb id "id".
      * @param id
      * @param l
      */
@@ -852,7 +859,7 @@ else {
     }
 
     /**
-     * Funció que comprova si existeix algun bucle dins del bloc de cel·les comprés entre "id" i "id1".
+     * @brief Funció que comprova si existeix algun bucle dins del bloc de cel·les comprés entre "id" i "id1".
      * @param id
      * @param id1
      * @return
@@ -878,7 +885,7 @@ else {
     }
 
     /**
-     * Funció que modifica el contingut de la cel·la amb id "id", comprovant si no és referència de cap altra cel·la.
+     * @brief Funció que modifica el contingut de la cel·la amb id "id", comprovant si no és referència de cap altra cel·la.
      * @param id
      * @param resultat
      * @throws Exception
@@ -949,7 +956,7 @@ else {
     }
 
     /**
-     * Funció que comprova els observadors de la cel·la amb id "id".
+     * @brief Funció que comprova els observadors de la cel·la amb id "id".
      * @param id
      * @throws Exception
      */
@@ -977,7 +984,7 @@ else {
     }
 
     /**
-     *
+     * @brief Analitza el tipus d'operació de bloc que es vol realitzar.
      * @param ops
      * @param y
      * @param x
@@ -1048,7 +1055,7 @@ else {
     }
 
     /**
-     *
+     * @brief Analitza y retorna el bloc de cel·les a operar.
      * @param ops
      * @param y
      * @param x

@@ -42,7 +42,6 @@ public class CelaRefNum extends Numero{
     public CelaRefNum(AbstractMap.SimpleEntry<Integer, Integer> id, String res,Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus, String contingut) {
         super(id,new BigDecimal(res), arrodonit, num_Decimals, tipus);
         this.contingut= contingut;
-        //Avaluar();
     }
 
     /**
