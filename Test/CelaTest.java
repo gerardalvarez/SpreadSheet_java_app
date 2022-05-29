@@ -1,4 +1,4 @@
-import main.CapaDomini.Models.Cela;
+/*import main.CapaDomini.Models.Cela;
 import main.CapaDomini.Models.CelaAntiga;
 import org.junit.jupiter.api.Test;
 
@@ -52,4 +52,4 @@ public class CelaTest {
 
 
 
-}
+}*/

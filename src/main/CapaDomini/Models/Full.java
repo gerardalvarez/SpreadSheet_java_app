@@ -16,7 +16,7 @@ public class Full {
     private Integer Num_Columnes;
     private Integer Num_Files;
     private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
-    private ArrayList<Accio> Estatsprevis;
+
 
     //Constructor
     /**
@@ -27,7 +27,6 @@ public class Full {
      */
     public Full(String n, Integer nc, Integer nf) {
         Celes = new HashMap<>();
-        Estatsprevis= new ArrayList<>();
         this.nom = n;
         this.Num_Columnes = nc;
         this.Num_Files = nf;
