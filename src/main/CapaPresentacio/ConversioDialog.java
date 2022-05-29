@@ -1,8 +1,3 @@
-/**
- * Aquesta classe mostra un dialog per poder fer la conversió de valors
- * @author Marc Castells
- */
-
 package main.CapaPresentacio;
 
 import javax.swing.*;
@@ -12,6 +7,10 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Aquesta classe mostra un dialog per poder fer la conversió de valors
+ * @author Marc Castells
+ */
 public class ConversioDialog extends JDialog {
     private JPanel contentPane;
     private JButton convertirButton;

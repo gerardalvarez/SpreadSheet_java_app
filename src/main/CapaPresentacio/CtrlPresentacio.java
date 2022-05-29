@@ -1,10 +1,3 @@
-/**
- * Implementacio del Controlador de Domini
- * @file CtrlPresentacio.java
- * @author Gerard Castell, Marc Castells i Gerard Alvarez
- * @date 2022
- */
-
 package main.CapaPresentacio;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -19,6 +12,9 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 /**
  * Ctrl Presentacio es la classe encarregada de comunicar la Capa de Presentacio amb la capa del domini.
+ * @author Marc Castells
+ * @author Gerard Castell
+ * @author Gerard Alvarez
  */
 public class CtrlPresentacio {
 
@@ -27,7 +23,7 @@ public class CtrlPresentacio {
      */
     private final CtrlDomini Cd;
     /**
-     * Intancia de la Vista Principal
+     * Instancia de la Vista Principal
      */
     private final VistaPrincipal vc;
 

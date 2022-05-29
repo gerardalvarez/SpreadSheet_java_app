@@ -1597,24 +1597,29 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = RowtoNumber(rowField.getText());
-                    Integer col = Integer.parseInt(colField.getText());
+                    if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
+                        Integer row = RowtoNumber(rowField.getText());
+                        Integer col = Integer.parseInt(colField.getText());
 
-                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                    if (cp.ComprovarId(FullActual, CelaRemp)) {
-                        if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
-                            CalculIncrementRemp(cp, CelaRemp);
-                        } else {
-                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Incrementar", JOptionPane.YES_NO_OPTION) == 0) {
+                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                        if (cp.ComprovarId(FullActual, CelaRemp)) {
+                            if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
                                 CalculIncrementRemp(cp, CelaRemp);
-                            } else Incrementar(cp);
+                            } else {
+                                if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Incrementar", JOptionPane.YES_NO_OPTION) == 0) {
+                                    CalculIncrementRemp(cp, CelaRemp);
+                                } else Incrementar(cp);
+                            }
+                        } else {
+                            Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else {
+                    }
+                    else {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Ompli tots els camps abans de continuar", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
             } else if (result == 1) {
                 try {
                     int codi = cp.CalculaIncrement(FullActual, CelaActual);
@@ -1656,26 +1661,28 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = RowtoNumber(rowField.getText());
-                    Integer col = Integer.parseInt(colField.getText());
-                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                    if (cp.ComprovarId(FullActual, CelaRemp)) {
-                        if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
-                            CalculReduirRemp(cp, CelaRemp);
-                        }
-                        else {
-                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Reduir", JOptionPane.YES_NO_OPTION) == 0) {
+                    if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
+                        Integer row = RowtoNumber(rowField.getText());
+                        Integer col = Integer.parseInt(colField.getText());
+                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                        if (cp.ComprovarId(FullActual, CelaRemp)) {
+                            if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
                                 CalculReduirRemp(cp, CelaRemp);
+                            } else {
+                                if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Reduir", JOptionPane.YES_NO_OPTION) == 0) {
+                                    CalculReduirRemp(cp, CelaRemp);
+                                } else Reduir(cp);
                             }
-                            else Reduir(cp);
+                        } else {
+                            Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     else {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Ompli tots els camps abans de continuar", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
             } else if (result == 1) {
                 try {
                     int codi = cp.CalculaReduir( FullActual, CelaActual);
@@ -1718,26 +1725,28 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = RowtoNumber(rowField.getText());
-                    Integer col = Integer.parseInt(colField.getText());
-                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                    if (cp.ComprovarId(FullActual, CelaRemp)) {
-                        if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
-                            CalculValorAbsRemp(cp, CelaRemp);
-                        }
-                        else {
-                            if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Valor Absolut", JOptionPane.YES_NO_OPTION) == 0) {
+                    if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
+                        Integer row = RowtoNumber(rowField.getText());
+                        Integer col = Integer.parseInt(colField.getText());
+                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                        if (cp.ComprovarId(FullActual, CelaRemp)) {
+                            if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
                                 CalculValorAbsRemp(cp, CelaRemp);
+                            } else {
+                                if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Valor Absolut", JOptionPane.YES_NO_OPTION) == 0) {
+                                    CalculValorAbsRemp(cp, CelaRemp);
+                                } else ValorAbsolut(cp);
                             }
-                            else ValorAbsolut(cp);
+                        } else {
+                            Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     else {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Ompli tots els camps abans de continuar", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
             } else if (result == 1) {
                 try {
                     int codi = cp.CalculaValorAbs(FullActual, CelaActual);
@@ -1778,32 +1787,36 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = RowtoNumber(rowField.getText());
-                    Integer col = Integer.parseInt(colField.getText());
-                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                    if (cp.ComprovarId(FullActual, CelaRemp)) {
-                        String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Potencia", JOptionPane.QUESTION_MESSAGE);
-                        if (expo != null && !expo.isBlank() && PublicFuntions.isNum(expo)) {
-                            Double exp = Double.valueOf(expo);
-                            if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
-                                CalculPotenciaRemp(cp, CelaRemp, exp);
-                            } else {
-                                if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Incrementar", JOptionPane.YES_NO_OPTION) == 0) {
-                                    CalculPotenciaRemp(cp, CelaRemp,exp);
-                                } else Potencia(cp);
+                    if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
+                        Integer row = RowtoNumber(rowField.getText());
+                        Integer col = Integer.parseInt(colField.getText());
+                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                        if (cp.ComprovarId(FullActual, CelaRemp)) {
+                            String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Potencia", JOptionPane.QUESTION_MESSAGE);
+                            if (expo != null && !expo.isBlank() && PublicFuntions.isNum(expo)) {
+                                Double exp = Double.valueOf(expo);
+                                if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
+                                    CalculPotenciaRemp(cp, CelaRemp, exp);
+                                } else {
+                                    if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Incrementar", JOptionPane.YES_NO_OPTION) == 0) {
+                                        CalculPotenciaRemp(cp, CelaRemp, exp);
+                                    } else Potencia(cp);
+                                }
+                            } else if (expo != null) {
+                                Toolkit.getDefaultToolkit().beep();
+                                JOptionPane.showMessageDialog(this, "Introdueixi només números com a exponent", "Error", JOptionPane.ERROR_MESSAGE);
+                                Potencia(cp);
                             }
-                        }
-                        else if (expo != null){
+                        } else {
                             Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "Introdueixi només números com a exponent", "Error", JOptionPane.ERROR_MESSAGE);
-                            Potencia(cp);
+                            JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else {
+                    }
+                    else {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Ompli tots els camps abans de continuar", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
             } else if (result == 1) {
                 String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Potencia", JOptionPane.QUESTION_MESSAGE);
                 if (expo != null && !expo.isBlank() && PublicFuntions.isNum(expo)) {
@@ -1819,7 +1832,7 @@ public class VistaPrincipal extends JFrame {
                         }
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "No es pot representar un número tant gran o tant petit", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else if (expo != null){
@@ -1852,32 +1865,36 @@ public class VistaPrincipal extends JFrame {
                 int result_2 = PreguntarCela(rowField, colField);
 
                 if (result_2 == JOptionPane.OK_OPTION) {
-                    Integer row = RowtoNumber(rowField.getText());
-                    Integer col = Integer.parseInt(colField.getText());
-                    AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
-                    if (cp.ComprovarId(FullActual, CelaRemp)) {
-                        String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Arrel", JOptionPane.QUESTION_MESSAGE);
-                        if (expo != null && !expo.isBlank() && PublicFuntions.isNum(expo)) {
-                            Double exp = Double.valueOf(expo);
-                            if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
-                                CalculArrelRemp(cp, CelaRemp, exp);
-                            } else {
-                                if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Arrel", JOptionPane.YES_NO_OPTION) == 0) {
-                                    CalculArrelRemp(cp, CelaRemp,exp);
-                                } else Potencia(cp);
+                    if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
+                        Integer row = RowtoNumber(rowField.getText());
+                        Integer col = Integer.parseInt(colField.getText());
+                        AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
+                        if (cp.ComprovarId(FullActual, CelaRemp)) {
+                            String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Arrel", JOptionPane.QUESTION_MESSAGE);
+                            if (expo != null && !expo.isBlank() && PublicFuntions.isNum(expo)) {
+                                Double exp = Double.valueOf(expo);
+                                if (!cp.ComprovaCelaNoOcupa(FullActual, CelaRemp)) {
+                                    CalculArrelRemp(cp, CelaRemp, exp);
+                                } else {
+                                    if (JOptionPane.showConfirmDialog(this, "Aquesta cel·la ja te contingut, vol reemplçar-lo?", "Arrel", JOptionPane.YES_NO_OPTION) == 0) {
+                                        CalculArrelRemp(cp, CelaRemp, exp);
+                                    } else Potencia(cp);
+                                }
+                            } else if (expo != null) {
+                                Toolkit.getDefaultToolkit().beep();
+                                JOptionPane.showMessageDialog(this, "Introdueixi només números com a exponent", "Error", JOptionPane.ERROR_MESSAGE);
+                                Potencia(cp);
                             }
-                        }
-                        else if (expo != null){
+                        } else {
                             Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(this, "Introdueixi només números com a exponent", "Error", JOptionPane.ERROR_MESSAGE);
-                            Potencia(cp);
+                            JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else {
+                    }
+                    else {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "La cel·la introduïda no existeix", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Ompli tots els camps abans de continuar", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
             } else if (result == 1) {
                 String expo = JOptionPane.showInputDialog(this, "Introdueixi el exponent que vol utiltizar", "Arrel", JOptionPane.QUESTION_MESSAGE);
                 if (expo != null && !expo.isBlank() && PublicFuntions.isNum(expo)) {
@@ -1893,7 +1910,7 @@ public class VistaPrincipal extends JFrame {
                         }
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "Seleccioni una Cel·la abans de fer l'operació", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "No es pot representar un número tant gran o tant petit", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else if (expo != null){
@@ -1975,11 +1992,12 @@ public class VistaPrincipal extends JFrame {
      * @param exp Exponent que s'uitlitzara per la potencia
      */
     private void CalculPotenciaRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp, Double exp) {
-        int codi;
+        int codi = -1;
         try {
             codi = cp.CalculaPotenciaIReemplaca(FullActual, CelaActual,- exp, CelaRemp);
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "No es pot representar un número tant gran o tant petit", "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (codi == 0) {
             String [][] temp = cp.MostrarLlista(FullActual);
@@ -1997,11 +2015,12 @@ public class VistaPrincipal extends JFrame {
      * @param exp Exponent que s'uitlitzara per l'arrel
      */
     private void CalculArrelRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp, Double exp) {
-        int codi;
+        int codi = -1;
         try {
             codi = cp.CalculaArrelIReemplaca(FullActual, CelaActual,- exp, CelaRemp);
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "No es pot representar un número tant gran o tant petit", "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (codi == 0) {
             String [][] temp = cp.MostrarLlista(FullActual);

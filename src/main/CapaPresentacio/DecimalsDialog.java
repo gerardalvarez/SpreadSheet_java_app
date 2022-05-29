@@ -1,8 +1,3 @@
-/**
- * Aquesta classe mostra un dialog per poder canviar els decimals i truncor o arrodmir el numero
- * @author Marc Castells
- */
-
 package main.CapaPresentacio;
 
 import main.CapaDomini.Models.PublicFuntions;
@@ -12,6 +7,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.AbstractMap;
 
+/**
+ * Aquesta classe mostra un dialog per poder canviar els decimals i truncor o arrodmir el numero
+ * @author Marc Castells
+ */
 public class DecimalsDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -69,7 +68,8 @@ public class DecimalsDialog extends JDialog {
         }
         else if (PublicFuntions.isNum(dec)) {
             Double d = Double.valueOf(dec);
-            if (Integer.parseInt(String.valueOf(d.intValue())) >= 0) {
+            int num = Integer.parseInt(String.valueOf(d.intValue()));
+            if (num >= 0 && num <= 1000) {
                 cp.CanviarDecimals("Full 1", cela, d.intValue());
                 if (truncarRadioButton.isSelected()) {
                     cp.CanviarArrodonit("Full 1", cela, false);
@@ -78,9 +78,13 @@ public class DecimalsDialog extends JDialog {
                 }
                 dispose();
             }
-            else {
+            else if (num < 0){
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(this, "El decimals han de ser números per sobre el 0", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "No es poden tenir més de 1000 decimals", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             Toolkit.getDefaultToolkit().beep();
