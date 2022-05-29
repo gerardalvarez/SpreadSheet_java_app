@@ -1,13 +1,8 @@
 package main.CapaDomini.Models;
 
 
-import jdk.javadoc.internal.doclets.toolkit.util.Utils;
-import main.CapaDomini.Controllers.CtrlDomini;
-
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.math.RoundingMode;
 import java.util.*;
 
@@ -266,12 +261,12 @@ public class Full {
         }
         else if(Objects.equals(oper, "DEV")){
             Bloc_celes bc= new Bloc_celes();
-            return BigDecimal.valueOf(bc.calculaDesviació(sender));
+            return BigDecimal.valueOf(bc.calculaDesviacio(sender));
         }
         else if(Objects.equals(oper, "VAR")) {
             Bloc_celes bc= new Bloc_celes();
-            System.out.println(bc.calculaVariança(sender));
-            return BigDecimal.valueOf(bc.calculaVariança(sender));
+            System.out.println(bc.calculaVarianca(sender));
+            return BigDecimal.valueOf(bc.calculaVarianca(sender));
         }
         else if(Objects.equals(oper, "MED")){
             Bloc_celes bc= new Bloc_celes();
@@ -811,7 +806,7 @@ public class Full {
             }
             else {
                 try {
-                    BigDecimal b = BigDecimal.valueOf(bc.covariança(a1,a2));
+                    BigDecimal b = BigDecimal.valueOf(bc.coVarianca(a1,a2));
                     aaux= new CelaRefNum(id,b.toString(),true,2,Tipus_Numero.numero,resultat);
                 } catch (NumberFormatException e) {
                     aaux= new TextCela(id,"#ERROR");

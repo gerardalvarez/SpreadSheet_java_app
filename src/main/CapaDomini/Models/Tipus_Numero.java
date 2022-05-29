@@ -1,3 +1,8 @@
+/**
+ * Enumeracio que conté tots els possibles tipus que pot ser un numero
+ * @author Marc Castells
+ */
+
 package main.CapaDomini.Models;
 
 public enum Tipus_Numero {

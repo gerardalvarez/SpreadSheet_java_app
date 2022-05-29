@@ -251,7 +251,7 @@
           <hspacer id="4e3f9">
             <constraints/>
           </hspacer>
-          <component id="e43dd" class="javax.swing.JButton" binding="remplaçaButton" default-binding="true">
+          <component id="e43dd" class="javax.swing.JButton" binding="remplacaButton">
             <constraints/>
             <properties>
               <text value=""/>

@@ -265,12 +265,12 @@ public class CtrlDomini {
         CalculaConversio(full, idRemp, c);
     }
 
-    public void CanviarDecimals(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) throws CloneNotSupportedException {
+    public void CanviarDecimals(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) {
         Numero n = GetNumero(full, id);
         n.setNum_Decimals(dec);
     }
 
-    public void CanviarArrodonit(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) throws CloneNotSupportedException {
+    public void CanviarArrodonit(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) {
         Numero n = GetNumero(full, id);
         n.setArrodonit(arrodonir);
     }

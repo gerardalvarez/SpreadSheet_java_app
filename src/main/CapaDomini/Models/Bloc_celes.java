@@ -322,7 +322,7 @@ public class Bloc_celes {
     }
 
 
-    public double calculaVariança(ArrayList<Numero> inputs) {
+    public double calculaVarianca(ArrayList<Numero> inputs) {
         //double media = this.calculaMitjana(inputs);
         double dVar = 0;
         double acMedia = 0, acMedia2 = 0;
@@ -349,8 +349,8 @@ public class Bloc_celes {
         return max;
     }
 
-    public double calculaDesviació(ArrayList<Numero> inputs) {
-        return Math.sqrt(this.calculaVariança(inputs));
+    public double calculaDesviacio(ArrayList<Numero> inputs) {
+        return Math.sqrt(this.calculaVarianca(inputs));
     }
 
 
@@ -503,13 +503,13 @@ public class Bloc_celes {
 
 
 
-    public void remplaçar_majuscules(ArrayList<TextCela> inputs) {
+    public void remplacar_majuscules(ArrayList<TextCela> inputs) {
         for (TextCela c: inputs){
             c.AllMayus();
         }
     }
 
-    public void remplaçar_minuscules(ArrayList<TextCela> inputs) {
+    public void remplacar_minuscules(ArrayList<TextCela> inputs) {
         for (TextCela c : inputs) {
             c.AllMinus();
         }
@@ -533,7 +533,7 @@ public class Bloc_celes {
         uniqueId += (long) right;
         return uniqueId;
     }
-    public double covariança(ArrayList<Numero> a1, ArrayList<Numero> b1) {
+    public double coVarianca(ArrayList<Numero> a1, ArrayList<Numero> b1) {
         double x = 0, y = 0, sum = 0;
         //SUMATORI
         x = calculaMitjana(a1);
@@ -549,7 +549,7 @@ public class Bloc_celes {
         ArrayList<Numero> union = new ArrayList<Numero>();
         union.addAll(a1);
         union.addAll(b1);
-        double res=calculaVariança(union)/(calculaDesviació(a1)*calculaDesviació(b1));
+        double res=calculaVarianca(union)/(calculaDesviacio(a1)*calculaDesviacio(b1));
         return res;
     }
     public String COUNTIF(String LogicOP , String comparedOP,String IfFalse, String IfTrue, String CellContent){

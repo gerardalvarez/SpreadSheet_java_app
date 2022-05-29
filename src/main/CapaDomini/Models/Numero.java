@@ -1,3 +1,8 @@
+/**
+ * Aquesta classe representa una cel·la de tipus numero i conte totes les operacions propies que es puguin fer en ella
+ * @author Marc Castells
+ */
+
 package main.CapaDomini.Models;
 
 import java.awt.*;
@@ -14,8 +19,15 @@ public class Numero extends Cela implements Cloneable{
     protected Integer num_Decimals;
     protected Tipus_Numero tipus;
 
-    //Constructor
 
+    /**
+     * Creadora de la classe numero
+     * @param id Identificador de la cel·la
+     * @param resultat El valor de la cel·la
+     * @param arrodonit Ens indica si esta arrodonit o no el valor
+     * @param num_Decimals El numero de decimals a mostrar per pantalla
+     * @param tipus Tipus de cela de numero que es
+     */
     public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, BigDecimal resultat, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
         super(id, resultat.toString());
         this.resultat = resultat;
@@ -25,25 +37,11 @@ public class Numero extends Cela implements Cloneable{
         ActualitzarResultatFinal();
     }
 
-    public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, BigDecimal resultat, Color cf, Color cl, CelaEnum dt, String t, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs, Boolean arrodonit, Integer num_Decimals, Tipus_Numero tipus) {
-        super(id, resultat.toString(), cf, cl, dt, t, obs);
-        this.resultat = resultat;
-        this.arrodonit = arrodonit;
-        this.num_Decimals = num_Decimals;
-        this.tipus = tipus;
-        this.colorFons= cf;
-        this.colorLletra= cl;
-        this.designedType= dt;
-        this.type= t;
-        this.observadors= obs;
-        ActualitzarResultatFinal();
-    }
-
 
     public Numero(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
         super(id, String.valueOf(resultat));
         this.resultat = new BigDecimal(resultat);
-        resultat_final=resultat.toString();
+        ActualitzarResultatFinal();
     }
 
     public Numero(Numero dd,AbstractMap.SimpleEntry<Integer,Integer> id) {
@@ -55,24 +53,31 @@ public class Numero extends Cela implements Cloneable{
         this.colorFons=dd.getColorFons();
         this.colorLletra=dd.getColorLletra();
         this.type=dd.getType();
+        ActualitzarResultatFinal();
     }
 
     //Mètodes
 
-    public Object clone() {
-        return new Numero(this.id, this.resultat, this.colorFons, this.colorFons, this.designedType, this.type, this.observadors, this.arrodonit, this.num_Decimals, this.tipus);
-    }
-
+    /**
+     * Funcio que incrementa en 1 el numero
+     */
     public void incrementar () {
         this.resultat = this.resultat.add(new BigDecimal(1));
         ActualitzarResultatFinal();
     }
 
+    /**
+    Funcio que redueix en 1 el numero
+     */
     public void reduir () {
         this.resultat = this.resultat.add(new BigDecimal(-1));
         ActualitzarResultatFinal();
     }
 
+    /**
+     * Funcio que aplica una potencia amb un exponent donat al numero
+     * @param exp exponent de l'operacio
+     */
     public void potencia(Double exp) {
         double b = this.resultat.doubleValue();
         this.resultat = BigDecimal.valueOf(Math.pow(b, exp));
@@ -80,11 +85,18 @@ public class Numero extends Cela implements Cloneable{
         ActualitzarResultatFinal();
     }
 
+    /**
+     * Transforma al numero al seu valor absolut
+     */
     public void valor_absolut() {
         this.resultat = this.resultat.abs();
         ActualitzarResultatFinal();
     }
 
+    /**
+     * Funcio que aplica una arrel amb un exponent donat al numero
+     * @param exp exponent de l'operacio
+     */
     public void arrel (Double exp) {
         double b = this.resultat.doubleValue();
         this.resultat = BigDecimal.valueOf(Math.pow(b, 1/exp));
@@ -92,16 +104,10 @@ public class Numero extends Cela implements Cloneable{
         ActualitzarResultatFinal();
     }
 
-    //funció a descartar un cop estigui fet el controller
-    public void setDecimals() {
-        if(this.arrodonit) {
-            this.resultat = this.resultat.setScale(this.num_Decimals, RoundingMode.HALF_UP);
-        }
-        else {
-            this.resultat = this.resultat.setScale(this.num_Decimals, RoundingMode.DOWN);
-        }
-    }
-
+    /**
+     * Funcio que realitza una conversió de tipus
+     * @param convertit nom del tipus al que s'ha de convertir
+     */
     public void conversio(Tipus_Numero convertit) {
         switch (this.tipus) {
             case celsius:
@@ -543,44 +549,78 @@ public class Numero extends Cela implements Cloneable{
 
     //Setters
 
+    /**
+     * Setter que actualitza el resultat
+     * @param resultat valor del numero el qual s'ha d'actualitzar
+     */
     public void setResultat(BigDecimal resultat) {
         this.resultat = resultat;
         ActualitzarResultatFinal();
     }
 
+    /**
+     * Setter que actulitza el arrodonit
+     * @param arrodonit boolea que indica si arrodonim o no
+     */
     public void setArrodonit(Boolean arrodonit) {
         this.arrodonit = arrodonit;
         ActualitzarResultatFinal();
     }
 
+    /**
+     * Setter que actulitza el numero de decimals
+     * @param num_Decimals numero de decimals
+     */
     public void setNum_Decimals(Integer num_Decimals) {
         this.num_Decimals = num_Decimals;
         ActualitzarResultatFinal();
     }
 
+    /**
+     * Setter que canvia el tipus del numero
+     * @param tipus nom del tipus a canviar
+     */
     public void setTipus(Tipus_Numero tipus) {
         this.tipus = tipus;
     }
 
     //Getters
 
+    /**
+     * Getter per obetenir el valor del numero
+     * @return Un BigDecimal del numero que tenim
+     */
     public BigDecimal getResultat() {
-        //System.out.println("R: " + this.resultat);
         return this.resultat;
     }
 
+    /**
+     * Getter per saber si hem d'arrodnir o no
+     * @return Un boolea que indica si arrodonim o no
+     */
     public Boolean getArrodonit() {
         return arrodonit;
     }
 
+    /**
+     * Getter per obtenir el numero de decimals
+     * @return Un Integer amb el numero de decimals
+     */
     public Integer getNum_Decimals() {
         return num_Decimals;
     }
 
+    /**
+     * Getter per obtenir el tipus
+     * @return Retona un Tipus_Numero
+     */
     public Tipus_Numero getTipus() {
         return tipus;
     }
 
+    /**
+     * Funcio que actulitzar el resultatFinal de la cel·la pare
+     */
     private void ActualitzarResultatFinal() {
         BigDecimal numero = resultat;
         if (arrodonit) {
