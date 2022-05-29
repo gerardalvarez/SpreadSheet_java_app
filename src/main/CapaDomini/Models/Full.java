@@ -14,9 +14,21 @@ import java.math.RoundingMode;
 import java.util.*;
 
 public class Full {
+    /**
+     * Nom del full. Exemple: Full 1
+     */
     private String nom;
+    /**
+     * Numero de columnes del full.
+     */
     private Integer Num_Columnes;
+    /**
+     * Numero de files del full.
+     */
     private Integer Num_Files;
+    /**
+     * Mapa de les cel·les del full.
+     */
     private HashMap<AbstractMap.SimpleEntry<Integer,Integer>, Cela> Celes;
 
     //Constructor
