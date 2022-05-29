@@ -1,3 +1,11 @@
+/**
+ * Implementacio de la classe Cela seguint el nostre UML. Clase que es implementada per totes les cel·les del nostre Full ce Calcul.
+ * @file Cela.java
+ * @author Gerard Castell
+ * @date 2022
+ */
+
+
 package main.CapaDomini.Models;
 
 import java.awt.*;
@@ -5,18 +13,47 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public abstract class Cela implements Cloneable{
-    //VARIABLES
-    protected  AbstractMap.SimpleEntry<Integer , Integer> id;
-    protected  String resultat_final;
-    protected  Color colorFons = new Color(255,255,255);
-    protected  Color colorLletra = new Color(0);
-    protected  CelaEnum designedType; // En un futur fer enum
-    protected  String type;
 
+/**
+ * Classe abstracta Cela. Es abstracta ja que no es pot crear una instancia d'aquesta.
+ * Serveix per englobar els atributs de les classes TextCela, DataCela i Numero.
+ */
+public abstract class Cela{
+
+    //VARIABLES
+    /**
+     * La id serveix per poder referenciar una Cela en una posicio d'un Full.
+     */
+    protected  AbstractMap.SimpleEntry<Integer , Integer> id;
+    /**
+     * Eñ resultat final es l'String on es guarda el resultat que apareixerà mostrat a la Cela
+     */
+    protected  String resultat_final;
+    /**
+     * color de fons d'una Cela
+     */
+    protected  Color colorFons = new Color(255,255,255);
+    /**
+     * color de la lletra d'una Cela
+     */
+    protected  Color colorLletra = new Color(0);
+    protected  CelaEnum designedType;
+    /**
+     * Serveix per guardar de quin tipus es una Cela: Data, Text o Numerica.
+     */
+    protected  String type;
+    /**
+     * Array on es guarda quines celes estan observant (Referencies) a la Cela.
+     */
     protected ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors; //Para avisarles si yo cambio
 
     //CREADORA
+
+    /**
+     * Creadora Simple de Cela
+     * @param id valor que identifica la posicio de una cela al Full
+     * @param resultat resultat que es col·loca a resultat final.
+     */
     public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat) {
         this.id = id;
         this.resultat_final = resultat;
@@ -24,6 +61,16 @@ public abstract class Cela implements Cloneable{
         observadors= new ArrayList<>();
     }
 
+    /**
+     * Creadora Complexe de Cela
+     * @param id valor que identifica la posicio de una cela al Full
+     * @param resultat resultat que es col·loca a resultat final.
+     * @param cf Color de Fons Cela
+     * @param cl Color del Text de una Cela
+     * @param dt designed type
+     * @param t Tipus d'una Cela
+     * @param obs Observadors que té una Cela
+     */
     public Cela(AbstractMap.SimpleEntry<Integer, Integer> id, String resultat, Color cf, Color cl, CelaEnum dt, String t, ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> obs) {
         this.id = id;
         this.resultat_final = resultat;
@@ -35,8 +82,6 @@ public abstract class Cela implements Cloneable{
     }
 
     //GETTERS AND SETTERS
-    public CelaEnum getDesignedType() {return designedType;}
-    public void setDesignedType(CelaEnum designedType) {this.designedType = designedType;}
     public AbstractMap.SimpleEntry<Integer, Integer> getId() {return id;}
     public void setId(AbstractMap.SimpleEntry<Integer, Integer> id) {this.id = id;}
     public String getResultatFinal() {return resultat_final;}
@@ -47,22 +92,16 @@ public abstract class Cela implements Cloneable{
     public void setColorLletra(Color colorLletra) {this.colorLletra = colorLletra;}
     public String getType() {return type;}
     public void setType(String type) {this.type = type;}
-    public void setObservadors(ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors) {
-        this.observadors = observadors;
-    }
-
-    public void newObserver(AbstractMap.SimpleEntry<Integer, Integer> newO){
-        observadors.add(newO);
-    }
-
+    public void setObservadors(ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> observadors) {this.observadors = observadors;}
+    public void newObserver(AbstractMap.SimpleEntry<Integer, Integer> newO){observadors.add(newO);}
     public ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> getObservadors(){ return observadors;}
 
     //PUBLIC FUNCTIONS
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return 1;
-    }
 
+    /**
+     * Classe que calcula de quin tipus es una Cela
+     * @return Retorna si la Cela es Numero, Text o Data
+     */
     public String calculaTipus(){
         String Tipus = "text";
         if(resultat_final == null)return Tipus;
@@ -72,13 +111,51 @@ public abstract class Cela implements Cloneable{
         return Tipus;
     }
 
-    //PRIVATE FUNCTIONS
-    /*
-    private void evaluar_ref(){
-        if (contingut.)
-    }
+    /**
+     * Busca si el resultat Final conte un string en concret
+     * @param element String que es mirara si es conte
+     * @return Retorna True si el resultat final conte l'String, si no fals
      */
+    public Boolean buscarElement(String element){
+        return resultat_final.contains(element);
+    }
 
+    /**
+     * Funcio que conta quantes paraules te el resultat final de la Cela
+     * @return Un string amb el nombre de paraules precedir de "Nombre de paraules: "
+     */
+    public String countWords(){
+        StringTokenizer st = new StringTokenizer(resultat_final);
+        return ("Nombre de paraules: " + st.countTokens());
+    }
+
+    /**
+     * Funcio que conta quants caracters te el resultat final de la Cela
+     * @return Un string amb el nombre de caracters precedir de "Nombre de caracters: "
+     */
+    public String countChars(){
+        return "Nombre de caràcters " + resultat_final.replace(" ", "").length();
+    }
+
+    /**
+     * Funcio que conta quantes vocals te el resultat final de la Cela
+     * @return Un string amb el nombre de vocals precedir de "Nombre de vocals: "
+     */
+    public String countVowels(){
+        int count = 0;
+        for (char ch : resultat_final.toCharArray()){
+            if(ch == 'a'|| ch == 'e'|| ch == 'i' ||ch == 'o' ||ch == 'u' ||ch == 'A'|| ch == 'E'|| ch == 'I' ||ch == 'O' ||ch == 'U')count ++;
+        }
+        return ("Nombre vocals: "+ count);
+    }
+
+    //PRIVATE FUNCTIONS
+
+    /**
+     * La Funcio privada isNumerical retorna un Boolean dient si un string es numeric o no
+     * @param strNum String que s'evaluara si es numeric
+     * @return Retorna true si strNum es numeric, si no fals.
+     */
     private Boolean isNumerical(String strNum){
         if (strNum == null) return false;
 
@@ -90,6 +167,11 @@ public abstract class Cela implements Cloneable{
         return true;
     }
 
+    /**
+     * La Funcio privada isData retorna un Boolean dient si un string es de tipus Data o no
+     * @param strData String que s'evaluara si es data
+     * @return Retorna true si strData es Data, si no fals.
+     */
     private Boolean isData(String strData){
         DataValidator validator = new DateValidator("dd/MM/yyyy");
         if(validator.isValid(strData))return true;
@@ -109,28 +191,6 @@ public abstract class Cela implements Cloneable{
             return validator.isValid(date);
         }
     }
-    public Boolean buscarElement(String element){
-        return resultat_final.contains(element);
-    }
-
-    public String countWords(){
-        StringTokenizer st = new StringTokenizer(resultat_final);
-        return ("Nombre de paraules: " + st.countTokens());
-    }
-
-    public String countChars(){
-        return "Nombre de caràcters " + resultat_final.replace(" ", "").length();
-    }
-
-    public String countVowels(){
-        int count = 0;
-        for (char ch : resultat_final.toCharArray()){
-            if(ch == 'a'|| ch == 'e'|| ch == 'i' ||ch == 'o' ||ch == 'u' ||ch == 'A'|| ch == 'E'|| ch == 'I' ||ch == 'O' ||ch == 'U')count ++;
-        }
-        return ("Nombre vocals: "+ count);
-    }
-
-
 
 }
 
