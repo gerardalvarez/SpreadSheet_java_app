@@ -741,7 +741,7 @@ public class VistaPrincipal extends JFrame {
             Col3.add(rowFiField2);
             myPanel.add(Col3);
 
-            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Bar Chart", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI,rowF,col,rowI2,rowF2,col2;
                 try {
@@ -815,7 +815,7 @@ public class VistaPrincipal extends JFrame {
             Col3.add(rowFiField2);
             myPanel.add(Col3);
 
-            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "PIE Chart", JOptionPane.OK_CANCEL_OPTION);
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Pie Chart", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI,rowF,col,rowI2,rowF2,col2;
                 try {
@@ -892,7 +892,7 @@ public class VistaPrincipal extends JFrame {
             Col3.add(rowFiField2);
             myPanel.add(Col3);
 
-            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
+            int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Linear Chart", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI=0,rowF=0,col=0,rowI2=0,rowF2=0,col2=0;
                 try {
@@ -1046,8 +1046,8 @@ public class VistaPrincipal extends JFrame {
 
         afegirFilaButton.addActionListener(e -> {
             String num = JOptionPane.showInputDialog(this, "Escrigui la posicio on vol afegir la nova fila", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
-
             if (!(num == null)) {
+                num = String.valueOf(RowtoNumber(num.toUpperCase()));
                 if (PublicFuntions.isNum(num)) {
                     String[] nomF = new String[cp.GetFiles( FullActual)];
                     if (Integer.parseInt(num) <= 0 || Integer.parseInt(num)> nomF.length+1 ){
@@ -1140,6 +1140,7 @@ public class VistaPrincipal extends JFrame {
             String num = JOptionPane.showInputDialog(this, "Escrigui la posicio de la fila que vol eliminar", "Afegir Fila", JOptionPane.QUESTION_MESSAGE);
 
             if (!(num == null)) {
+                num = String.valueOf(RowtoNumber(num.toUpperCase()));
                 if (PublicFuntions.isNum(num)) {
                     int colActual = cp.GetColumnes( FullActual);
                     String[] nomF = new String[cp.GetFiles( FullActual)];
@@ -1624,39 +1625,45 @@ public class VistaPrincipal extends JFrame {
                 busca = colField1.getText();
                 System.out.println(busca);
                 rempla = colField2.getText();
-                try {
-                    ArrayList<Cela> a = cp.BuscarRemp(FullActual, busca, rempla);
-                    for (Cela c : a) {
-                        int col = c.getId().getValue();
-                        int row = c.getId().getKey();
-                        AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
+                if(Objects.equals(busca, "") || Objects.equals(rempla, "")){
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Algun dels camps es buit.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    try {
+                        ArrayList<Cela> a = cp.BuscarRemp(FullActual, busca, rempla);
+                        for (Cela c : a) {
+                            int col = c.getId().getValue();
+                            int row = c.getId().getKey();
+                            AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
 
-                        try {
-                            String[][] temp = cp.MostrarLlista(FullActual);
-                            String content = cp.ValorTotal(FullActual, id);
-                            String type = cp.GetTipusCelaComplete(FullActual, id);
-                            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                            String[] nomCol = new String[cp.GetColumnes(FullActual)];
+                            try {
+                                String[][] temp = cp.MostrarLlista(FullActual);
+                                String content = cp.ValorTotal(FullActual, id);
+                                String type = cp.GetTipusCelaComplete(FullActual, id);
+                                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+                                String[] nomCol = new String[cp.GetColumnes(FullActual)];
 
-                            for (int i = 0; i < nomCol.length; i++) {
-                                nomCol[i] = String.valueOf(i + 1);
+                                for (int i = 0; i < nomCol.length; i++) {
+                                    nomCol[i] = String.valueOf(i + 1);
+                                }
+                                dataVector.set(true);
+                                dtm.setDataVector(temp, nomCol);
+                                dataVector.set(false);
+                                Tipus.setText(type);
+                                Contingut.setText(content);
+                                idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
+                                //Full.setValueAt(obj, row, col);
+                                Full.repaint();
+
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
                             }
-                            dataVector.set(true);
-                            dtm.setDataVector(temp, nomCol);
-                            dataVector.set(false);
-                            Tipus.setText(type);
-                            Contingut.setText(content);
-                            idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
-                            //Full.setValueAt(obj, row, col);
-                            Full.repaint();
-
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
                         }
-                    }
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
 
             }
