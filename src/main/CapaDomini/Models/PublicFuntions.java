@@ -1,3 +1,9 @@
+/**
+ * Implementacio de la PublicFunctions
+ * @file PublicFuntions.java
+ * @author Gerard Castell i Gerard Alvarez
+ * @date 2022
+ */
 package main.CapaDomini.Models;
 
 import java.util.AbstractMap;
@@ -5,7 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Public Funtions es la classe on trobem les diferents operacions que no engloben un model i que poden ser usades per qualsevol altre classe
+ */
 public class PublicFuntions {
+
+    /**
+     * Funcio que passat un string amb un mes del any retorna el mes en el format de text que ens interessa retornarlo
+     * @param monthNumber String amb el numero del mes corresponent
+     * @return un string amb el mes en el format text que ens interessa
+     */
     public static String monthToText(String monthNumber){
         switch (monthNumber) {
             case "01":
@@ -36,6 +51,11 @@ public class PublicFuntions {
         return "null";
     }
 
+    /**
+     * Funcio que passat un string en el format text definit del Full calcul, es retorna el mes en format numeric
+     * @param monthText String del mes en format Text
+     * @return retorna el mes en format numeric
+     */
     public static String monthToData(String monthText){
         switch (monthText) {
             case " de gener del ":
@@ -66,6 +86,11 @@ public class PublicFuntions {
         return "null";
     }
 
+    /**
+     * Funcio que retorna el tipus de una Cela
+     * @param contingut els contingut que té la cela
+     * @return retorna si es tipus text, data o numeric
+     */
     public static String calculaTipus(String contingut){
         String Tipus = "text";
         if(contingut == null)return Tipus;
@@ -74,37 +99,6 @@ public class PublicFuntions {
         return Tipus;
     }
 
-    //PRIVATE FUNCTIONS
-    private static Boolean isNumerical(String strNum){
-        if (strNum == null) return false;
-
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    private static Boolean isData(String strData){
-        DataValidator validator = new DateValidator("dd/MM/yyyy");
-        if(validator.isValid(strData))return true;
-        else{
-            int size = strData.length();
-            if(size < 19)return false;
-
-            String dd = strData.substring(0,2);
-            String monthText = strData.substring(2,size-4);
-
-            String MM = PublicFuntions.monthToData(monthText);
-            if(MM.equals("null"))return false;
-
-            String yyyy = strData.substring(size-4);
-
-            String date = dd+"/"+ MM + "/" + yyyy;
-            return validator.isValid(date);
-        }
-    }
 
     public static List<String> getRecordFromLine(String line) {
         List<String> values = new ArrayList<>();
@@ -115,23 +109,6 @@ public class PublicFuntions {
             }
         }
         return values;
-    }
-
-
-    public static Boolean esRef(String result, Integer fila, Integer col){
-        Integer size = result.length();
-        if(size < 5)return false;
-        if(result.charAt(0) != '=')return false;
-        if(result.charAt(1) != '#')return false;
-        if(!result.contains("_") || result.charAt(size-1) == '_')return false;
-        if(!isNumerical(result.substring(2, result.indexOf('_'))) || !isNumerical(result.substring(result.indexOf('_')+1)))return false;
-        if(!refValida(Integer.parseInt(result.substring(2,result.indexOf('_'))),fila,col) || !refValida(Integer.parseInt(result.substring(result.indexOf('_')+1)),fila,col))return false;
-        return true;
-    }
-
-
-    public static boolean refValida(Integer num, Integer fila, Integer col){
-        return (num-1 < fila && num-1 >= 0 && num-1 < col);
     }
 
     public static String analiza(String s, int y, int x) {
@@ -310,6 +287,11 @@ public class PublicFuntions {
         return operadores;
     }
 
+    /**
+     * Functio que retorna si un string es de tipus numeric
+     * @param s String amb a comprovar
+     * @return true si es numeric, fals si no
+     */
     public static boolean isNum(String s) {
         try {
             Double.parseDouble(s);
@@ -318,26 +300,50 @@ public class PublicFuntions {
             return false;
         }
     }
-    // Pasar de numeros a letras para las columnas:
 
-    public static String getExcelColumnName(int number) {
-        final StringBuilder sb = new StringBuilder();
-        int num = number - 1;
-        while (num >= 0) {
-            int numChar = (num % 26) + 65;
-            sb.append((char)numChar);
-            num = (num / 26) - 1;
-        }
-        return sb.reverse().toString();
-    }
-
-    //Pasar de letras a numeros:
+    /**
+     * Funcio que passa una lletra en el seu equivalent numeric
+     * @param name Conjunt de lletres a canviar
+     * @return el seu numero equivalent
+     */
     public static int toNumber(String name) {
         int number = 0;
         for (int i = 0; i < name.length(); i++) {
             number = number * 26 + (name.charAt(i) - ('A' - 1));
         }
         return number; }
+
+  //PRIVATE FUNCTIONS
+    private static Boolean isNumerical(String strNum){
+        if (strNum == null) return false;
+
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private static Boolean isData(String strData){
+        DataValidator validator = new DateValidator("dd/MM/yyyy");
+        if(validator.isValid(strData))return true;
+        else{
+            int size = strData.length();
+            if(size < 19)return false;
+
+            String dd = strData.substring(0,2);
+            String monthText = strData.substring(2,size-4);
+
+            String MM = PublicFuntions.monthToData(monthText);
+            if(MM.equals("null"))return false;
+
+            String yyyy = strData.substring(size-4);
+
+            String date = dd+"/"+ MM + "/" + yyyy;
+            return validator.isValid(date);
+        }
+    }
 }
 
 
