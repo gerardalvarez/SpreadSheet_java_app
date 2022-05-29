@@ -130,11 +130,11 @@ public class CtrlPresentacio {
         Cd.CalculaConversioIReemplaca(full, id, c, idRemp);
     }
 
-    public void CanviarDecimals(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) throws CloneNotSupportedException {
+    public void CanviarDecimals(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Integer dec) {
         Cd.CanviarDecimals(full, id, dec);
     }
 
-    public void CanviarArrodonit(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) throws CloneNotSupportedException {
+    public void CanviarArrodonit(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Boolean arrodonir) {
         Cd.CanviarArrodonit(full, id, arrodonir);
     }
 

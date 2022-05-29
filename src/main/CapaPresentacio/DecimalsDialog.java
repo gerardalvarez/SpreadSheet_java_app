@@ -1,3 +1,8 @@
+/**
+ * Aquesta classe mostra un dialog per poder canviar els decimals i truncor o arrodmir el numero
+ * @author Marc Castells
+ */
+
 package main.CapaPresentacio;
 
 import main.CapaDomini.Models.PublicFuntions;
@@ -15,7 +20,13 @@ public class DecimalsDialog extends JDialog {
     private JRadioButton arrodonirRadioButton;
     private JRadioButton truncarRadioButton;
 
-    public DecimalsDialog(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
+
+    /**
+     * Creadora de la classe la qual es l'encarregada de mostrar el dialeg i tractar els possibles errors
+     * @param cela Identificador de la cela amb la qual volem treballar
+     * @param cp Instancia del controlador de presetenacio per poder fer les crides al domini
+     */
+    public DecimalsDialog(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -28,11 +39,7 @@ public class DecimalsDialog extends JDialog {
         group.add(truncarRadioButton);
 
         buttonOK.addActionListener(e -> {
-            try {
-                onOK(cela, cp, full);
-            } catch (CloneNotSupportedException ex) {
-                ex.printStackTrace();
-            }
+            onOK(cela, cp);
         });
 
         buttonCancel.addActionListener(e -> onCancel());
@@ -49,7 +56,12 @@ public class DecimalsDialog extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) throws CloneNotSupportedException {
+    /**
+     * Aquesta funcio dictamina el que s'ha de fer si l'usuari clica al boto OK, en aquest col·loca el numeros de decimals indicats i trunca o arrodoneix
+     * @param cela Identificador de la cela amb la qual volem treballar
+     * @param cp Instancia del controlador de presetenacio per poder fer les crides al domini
+     */
+    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp) {
         String dec = textField1.getText().trim();
         if (dec.isBlank() || (!arrodonirRadioButton.isSelected() && !truncarRadioButton.isSelected())) {
             Toolkit.getDefaultToolkit().beep();
@@ -58,26 +70,12 @@ public class DecimalsDialog extends JDialog {
         else if (PublicFuntions.isNum(dec)) {
             Double d = Double.valueOf(dec);
             if (Integer.parseInt(String.valueOf(d.intValue())) >= 0) {
-                try {
-                    cp.CanviarDecimals("Full 1", cela, d.intValue());
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                cp.CanviarDecimals("Full 1", cela, d.intValue());
                 if (truncarRadioButton.isSelected()) {
-                    try {
-                        cp.CanviarArrodonit("Full 1", cela, false);
-                    } catch (CloneNotSupportedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    cp.CanviarArrodonit("Full 1", cela, false);
                 } else {
-                    try {
-                        cp.CanviarArrodonit("Full 1", cela, true);
-                    } catch (CloneNotSupportedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    cp.CanviarArrodonit("Full 1", cela, true);
                 }
-                String cont = cp.ValorTotal("Full 1", cela);
-                full.setValueAt(cont, cela.getKey(), cela.getValue());
                 dispose();
             }
             else {
@@ -90,6 +88,9 @@ public class DecimalsDialog extends JDialog {
         }
     }
 
+    /**
+     * Funcio que tanca el dialeg quan l'usuari prem el boto Cancel
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

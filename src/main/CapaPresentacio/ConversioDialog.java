@@ -1,3 +1,8 @@
+/**
+ * Aquesta classe mostra un dialog per poder fer la conversió de valors
+ * @author Marc Castells
+ */
+
 package main.CapaPresentacio;
 
 import javax.swing.*;
@@ -14,7 +19,12 @@ public class ConversioDialog extends JDialog {
     private JTextField tipusText;
     private JComboBox<String> comboBox1;
 
-    public ConversioDialog(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full) {
+    /**
+     * Creadora de la classe la qual es l'encarregada de mostrar el dialeg i tractar els possibles errors
+     * @param cela Identificador de la cela amb la qual volem treballar
+     * @param cp Instancia del controlador de presetenacio per poder fer les crides al domini
+     */
+    public ConversioDialog(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(convertirButton);
@@ -46,21 +56,16 @@ public class ConversioDialog extends JDialog {
             }
         }
 
-        convertirButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    onOK(cela, cp, full, tipus);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+        convertirButton.addActionListener(e -> {
+            try {
+                onOK(cela, cp, tipus);
+            } catch (Exception ex) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, "Ha ocorregut un error en la conversió", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -71,14 +76,17 @@ public class ConversioDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, JTable full, String tipus) throws Exception {
+    /**
+     * Aquesta funcio dictamina el que s'ha de fer si l'usuari clica al boto OK, en aquest cas fa la conversio
+     * @param cela Identificador de la cela amb la qual volem treballar
+     * @param cp Instancia del controlador de presetenacio per poder fer les crides al domini
+     * @param tipus El nom del tipus al qual volem convertir
+     * @throws Exception Si hi ha algun error durant la conversio es llença una execpcio
+     */
+    private void onOK(AbstractMap.SimpleEntry<Integer, Integer> cela, CtrlPresentacio cp, String tipus) throws Exception {
         String selecccio = comboBox1.getSelectedItem().toString();
         if (selecccio == null) {
             Toolkit.getDefaultToolkit().beep();
@@ -90,13 +98,13 @@ public class ConversioDialog extends JDialog {
         }
         else {
             cp.CalculaConversio("Full 1", cela, selecccio);
-            String valor = cp.ValorTotal("Full 1", cela);
-            full.setValueAt(valor, cela.getKey(), cela.getValue());
-            full.repaint();
             dispose();
         }
     }
 
+    /**
+     * Funcio que tanca el dialeg quan l'usuari prem el boto Cancel
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

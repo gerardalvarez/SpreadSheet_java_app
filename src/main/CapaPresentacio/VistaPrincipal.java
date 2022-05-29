@@ -1,3 +1,9 @@
+/**
+ * Classe de la vista principal del nostre sistema
+ * @author Marc Castells
+ * @author Gerard Castell
+ */
+
 package main.CapaPresentacio;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -23,6 +29,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
+
 
 public class VistaPrincipal extends JFrame {
     private JTable Full;
@@ -62,7 +69,7 @@ public class VistaPrincipal extends JFrame {
     private JButton cancelButton;
     private JButton buscarButton;
     private JTextField buscador;
-    private JButton remplaçaButton;
+    private JButton remplacaButton;
     private JButton wordsButton;
     private JButton charsButton;
     private JButton vowelsButton;
@@ -77,8 +84,15 @@ public class VistaPrincipal extends JFrame {
     private String FullActual;
     private String NomDocu;
 
+    private Boolean dataVector;
 
-    public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
+
+    /**
+     * Creadora de la Vista Principal la qual conté tots els listeners de tots els components
+     * @param title Aquest és el títol que tindrà la vista quan s'obri
+     * @param cp Aquest es el control presentació amb el qual podrem fer les crides de les operacions que tenim al domini
+     */
+    public VistaPrincipal(String title, CtrlPresentacio cp) {
         super(title);
 
         CelaActual = null;
@@ -151,7 +165,7 @@ public class VistaPrincipal extends JFrame {
         conversioButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Conversio.svg",22,22));
         buscarButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/search.svg",22,22));
         cancelButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/cancel.svg",22,22));
-        remplaçaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/replace.svg",24,24));
+        remplacaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/replace.svg",24,24));
         pie.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/pieChart.svg",22,22));
         Histograma.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/barChart.svg",22,22));
         LinearButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/lineChart.svg",22,22));
@@ -172,7 +186,7 @@ public class VistaPrincipal extends JFrame {
         this.pack();
 
         AtomicBoolean modificat = new AtomicBoolean(false);
-        AtomicBoolean dataVector = new AtomicBoolean(false);
+        dataVector = false;
 
         guardar.addActionListener(e -> {
             int codi = -1;
@@ -211,28 +225,17 @@ public class VistaPrincipal extends JFrame {
                 File path = openfile.getCurrentDirectory();
                 try {
                     cp.obrirDocument(fileName, path);
+                    NomDocu = fileName.replace(".fdc", "");
+                    NomDocument.setText(NomDocu);
+                    ArrayList<String> llistaFulls = cp.GetFulls();
+                    FullActual = llistaFulls.get(0);
+                    NomFull.setText(FullActual);
+                    String[][] temp = cp.MostrarLlista( FullActual);
+                    RepintarFull(cp, temp);
                 } catch (Exception ex) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut obrir", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-                NomDocu = fileName.replace(".fdc", "");
-                NomDocument.setText(NomDocu);
-                ArrayList<String> llistaFulls = cp.GetFulls();
-                FullActual = llistaFulls.get(0);
-                NomFull.setText(FullActual);
-                String[][] temp;
-                temp = cp.MostrarLlista( FullActual);
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
-                }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
             } else System.out.println("Cancelat");
         });
 
@@ -246,29 +249,18 @@ public class VistaPrincipal extends JFrame {
                 File path = openfile.getCurrentDirectory();
                 try {
                     cp.ImportarCSV(fileName, path);
+                    ArrayList<String> Fulls = cp.GetFulls();
+                    FullActual = Fulls.get(Fulls.size()-1);
+                    NomFull.setText(FullActual);
+                    String[][] temp = cp.MostrarLlista(FullActual);
+                    RepintarFull(cp, temp);
                 } catch (FileNotFoundException ex) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "El fitxer no s'ha trobat", "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "El fitxer no s'ha pogut obrir", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-                String[][] temp;
-                try {
-                    temp = cp.MostrarLlista( FullActual);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
-                }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
             } else System.out.println("Cancelat");
         });
 
@@ -307,18 +299,9 @@ public class VistaPrincipal extends JFrame {
             else if (nom != null && !nom.isBlank()) {
                 cp.CrearNouFull(nom, 25, 25);
                 FullActual = nom;
-                String [][] temp = cp.MostrarLlista(FullActual);
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes(FullActual)];
-
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
-                }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
                 NomFull.setText(FullActual);
+                String [][] temp = cp.MostrarLlista(FullActual);
+                RepintarFull(cp, temp);
             }
             else if (nom != null && nom.isBlank()) {
                 Toolkit.getDefaultToolkit().beep();
@@ -333,18 +316,9 @@ public class VistaPrincipal extends JFrame {
                     cp.EliminarFull(FullActual);
                     ArrayList<String> llistaFulls = cp.GetFulls();
                     FullActual = llistaFulls.get(0);
-                    String[][] temp = cp.MostrarLlista(FullActual);
-                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                    String[] nomCol = new String[cp.GetColumnes(FullActual)];
-
-                    for (int i = 0; i < nomCol.length; i++) {
-                        nomCol[i] = String.valueOf(i + 1);
-                    }
-                    dataVector.set(true);
-                    dtm.setDataVector(temp, nomCol);
-                    dataVector.set(false);
-                    Full.repaint();
                     NomFull.setText(FullActual);
+                    String [][] temp = cp.MostrarLlista(FullActual);
+                    RepintarFull(cp, temp);
                 }
             }
             else {
@@ -382,51 +356,32 @@ public class VistaPrincipal extends JFrame {
                 String[] lf = llistaFulls.toArray(new String[0]);
                 int opt = JOptionPane.showOptionDialog(this, "Esculli el full mostrar", "Canvi de full", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, lf, null);
                 FullActual = llistaFulls.get(opt);
-                String[][] temp = cp.MostrarLlista(FullActual);
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes(FullActual)];
 
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
-                }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
+                String[][] temp = cp.MostrarLlista(FullActual);
+                RepintarFull(cp, temp);
                 NomFull.setText(FullActual);
             }
         });
 
         Full.getModel().addTableModelListener(e -> {
 
-            if (e.getType() == TableModelEvent.UPDATE && !modificat.get() && !dataVector.get()) {
+            if (e.getType() == TableModelEvent.UPDATE && !modificat.get() && !dataVector) {
                 int col = e.getColumn();
                 int row = e.getFirstRow();
                 String mod = Full.getValueAt(row, col).toString().trim();
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
                 modificat.set(true);
                 try {
-                    //System.out.println(mod);
                     cp.ModificarContingutCela( FullActual, id, mod);
+
                     String[][] temp = cp.MostrarLlista( FullActual);
-                    //System.out.println(temp[row][col]);
-                    String obj = temp[row][col];
+                    RepintarFull(cp, temp);
+
                     String content = cp.ValorTotal( FullActual, id);
                     String type = cp.GetTipusCela( FullActual, id);
-                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
-                    for (int i = 0; i < nomCol.length; i++) {
-                        nomCol[i] = String.valueOf(i + 1);
-                    }
-                    dataVector.set(true);
-                    dtm.setDataVector(temp, nomCol);
-                    dataVector.set(false);
-
                     Tipus.setText(type);
                     Contingut.setText(content);
                     idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
-                    //Full.setValueAt(obj, row, col);
-                    Full.repaint();
 
                     System.out.println(Arrays.deepToString(temp));
                 } catch (Exception ex) {
@@ -922,10 +877,11 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                DecimalsDialog d = new DecimalsDialog(CelaActual, cp, Full);
+                DecimalsDialog d = new DecimalsDialog(CelaActual, cp);
                 d.setLocationRelativeTo(this);
                 d.setVisible(true);
-
+                String[][] temp = cp.MostrarLlista(FullActual);
+                RepintarFull(cp, temp);
             }
         });
 
@@ -943,10 +899,11 @@ public class VistaPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "La cel·la seleccionada ha de ser d'un altre tipus de número \nConsulti el manual per més informació", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                ConversioDialog c = new ConversioDialog(CelaActual, cp, Full);
+                ConversioDialog c = new ConversioDialog(CelaActual, cp);
                 c.setLocationRelativeTo(this);
                 c.setVisible(true);
-
+                String[][] temp = cp.MostrarLlista(FullActual);
+                RepintarFull(cp, temp);
             }
         });
         canviarTipusNumeroButton.addActionListener(e -> {
@@ -987,25 +944,13 @@ public class VistaPrincipal extends JFrame {
                         throw new RuntimeException(ex);
                     }
 
-                    dataVector.set(true);
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
                     String[] dataFilaNova = new String[colActual];
                     Arrays.fill(dataFilaNova, " ");
                     dtm.addRow(dataFilaNova);
 
-                    nomCol = new String[cp.GetColumnes( FullActual)];
-                    for (int i = 0; i < nomCol.length; i++) {
-                        nomCol[i] = String.valueOf(i + 1);
-                    }
-                    String[][] dades;
-                    try {
-                        dades = cp.MostrarLlista( FullActual);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    dtm.setDataVector(dades, nomCol);
-                    dataVector.set(false);
-                    Full.repaint();
+                    String [][] temp = cp.MostrarLlista(FullActual);
+                    RepintarFull(cp, temp);
                 } else {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1030,25 +975,14 @@ public class VistaPrincipal extends JFrame {
                         throw new RuntimeException(ex);
                     }
 
-                    dataVector.set(true);
+                    dataVector = true;
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
                     String[] dataFilaNova = new String[colActual];
                     Arrays.fill(dataFilaNova, " ");
                     dtm.addRow(dataFilaNova);
 
-                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
-                    for (int i = 0; i < nomCol.length; i++) {
-                        nomCol[i] = String.valueOf(i + 1);
-                    }
-                    String[][] dades;
-                    try {
-                        dades = cp.MostrarLlista( FullActual);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    dtm.setDataVector(dades, nomCol);
-                    dataVector.set(false);
-                    Full.repaint();
+                    String [][] temp = cp.MostrarLlista(FullActual);
+                    RepintarFull(cp, temp);
                 } else {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1077,22 +1011,8 @@ public class VistaPrincipal extends JFrame {
                             Toolkit.getDefaultToolkit().beep();
                             JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                        String[][] temp;
-                        try {
-                            temp = cp.MostrarLlista(FullActual);
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                        nomCol = new String[cp.GetColumnes(FullActual)];
-
-                        for (int i = 0; i < nomCol.length; i++) {
-                            nomCol[i] = String.valueOf(i + 1);
-                        }
-                        dataVector.set(true);
-                        dtm.setDataVector(temp, nomCol);
-                        dataVector.set(false);
-                        Full.repaint();
+                        String [][] temp = cp.MostrarLlista(FullActual);
+                        RepintarFull(cp, temp);
                     } else {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1120,24 +1040,11 @@ public class VistaPrincipal extends JFrame {
                         cp.EliminarFila( FullActual, Integer.parseInt(num) - 1);
                     } catch (Exception ex) {
                         Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(this, "Ha sorgit un error en afegir una Columna. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Ha sorgit un error en eliminar la Fila. \n Torni a intentar-ho", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    String[][] temp;
-                    try {
-                        temp = cp.MostrarLlista( FullActual);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                    String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
-                    for (int i = 0; i < nomCol.length; i++) {
-                        nomCol[i] = String.valueOf(i + 1);
-                    }
-                    dataVector.set(true);
-                    dtm.setDataVector(temp, nomCol);
-                    dataVector.set(false);
-                    Full.repaint();
+                    NomFull.setText(FullActual);
+                    String [][] temp = cp.MostrarLlista(FullActual);
+                    RepintarFull(cp, temp);
                 } else {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(this, "Escrigui un número", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1233,28 +1140,14 @@ public class VistaPrincipal extends JFrame {
                 } else {
                     int a;
                     try {
-                        cp.Copiar( FullActual,new AbstractMap.SimpleEntry<Integer,Integer>(rowI2-1,col-1),new AbstractMap.SimpleEntry<Integer,Integer>(rowF-1,col2-1)
-                                ,new AbstractMap.SimpleEntry<Integer,Integer>(Frowin-1,Fcolin-1),new AbstractMap.SimpleEntry<Integer,Integer>(Frowdest-1,Fcoldest-1));
+                        cp.Copiar( FullActual, new AbstractMap.SimpleEntry<>(rowI2 - 1, col - 1), new AbstractMap.SimpleEntry<>(rowF - 1, col2 - 1)
+                                , new AbstractMap.SimpleEntry<>(Frowin - 1, Fcolin - 1), new AbstractMap.SimpleEntry<>(Frowdest - 1, Fcoldest - 1));
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
                 }
-                String[][] temp;
-                try {
-                    temp = cp.MostrarLlista( FullActual);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
-                }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
+                String [][] temp = cp.MostrarLlista(FullActual);
+                RepintarFull(cp, temp);
             }
         });
 
@@ -1367,24 +1260,8 @@ public class VistaPrincipal extends JFrame {
                     }
                     if (a==-1) JOptionPane.showMessageDialog(new JFrame(), "Els blocs no son del tipus correcte", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                String[][] temp;
-                try {
-                    temp = cp.MostrarLlista( FullActual);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
-                }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
-                System.out.println(ListaOps.getItemAt(ListaOps.getSelectedIndex()));
-
+                String [][] temp = cp.MostrarLlista(FullActual);
+                RepintarFull(cp, temp);
             }
         });
 
@@ -1479,24 +1356,8 @@ public class VistaPrincipal extends JFrame {
                         throw new RuntimeException(ex);
                     }
                 }
-                String[][] temp;
-                try {
-                    temp = cp.MostrarLlista( FullActual);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
-                for (int i = 0; i < nomCol.length; i++) {
-                    nomCol[i] = String.valueOf(i + 1);
-                }
-                dataVector.set(true);
-                dtm.setDataVector(temp, nomCol);
-                dataVector.set(false);
-                Full.repaint();
-                System.out.println(ListaOps.getItemAt(ListaOps.getSelectedIndex()));
-
+                String [][] temp = cp.MostrarLlista(FullActual);
+                RepintarFull(cp, temp);
             }
         });
         AtomicReference<Color> color = new AtomicReference<>(new Color(187,225,229));
@@ -1542,29 +1403,13 @@ public class VistaPrincipal extends JFrame {
 
         cancelButton.addActionListener(e -> {
             LastBusca =  new ArrayList<>();
-
-            String[][] temp;
-            try {
-                temp = cp.MostrarLlista( FullActual);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-            String[] nomCol = new String[cp.GetColumnes( FullActual)];
-
-            for (int i = 0; i < nomCol.length; i++) {
-                nomCol[i] = String.valueOf(i + 1);
-            }
-            dataVector.set(true);
-            dtm.setDataVector(temp, nomCol);
-            dataVector.set(false);
-            Full.repaint();
+            String [][] temp = cp.MostrarLlista(FullActual);
+            RepintarFull(cp, temp);
             Full.setEnabled(true);
-
         });
 
 
-        remplaçaButton.addActionListener(e -> {
+        remplacaButton.addActionListener(e -> {
             JTextField colField1 = new JTextField();
             JTextField colField2 = new JTextField();
 
@@ -1598,23 +1443,13 @@ public class VistaPrincipal extends JFrame {
                         AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
 
                         try {
-                            String[][] temp = cp.MostrarLlista("Full 1");
                             String content = cp.ValorTotal("Full 1", id);
                             String type = cp.GetTipusCela("Full 1", id);
-                            DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                            String[] nomCol = new String[cp.GetColumnes("Full 1")];
+                            String [][] temp = cp.MostrarLlista(FullActual);
+                            RepintarFull(cp, temp);
 
-                            for (int i = 0; i < nomCol.length; i++) {
-                                nomCol[i] = String.valueOf(i + 1);
-                            }
-                            dataVector.set(true);
-                            dtm.setDataVector(temp, nomCol);
-                            dataVector.set(false);
                             Tipus.setText(type);
                             Contingut.setText(content);
-                            idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
-                            //Full.setValueAt(obj, row, col);
-                            Full.repaint();
 
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
@@ -1668,6 +1503,28 @@ public class VistaPrincipal extends JFrame {
         });
     }
 
+    /**
+     * Funcio que s'encarrega de repintar el full sencer i per tant mostrar tota l'informacio actualitzada
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     * @param temp Matriu que conte les dades a mostrar
+     */
+    private void RepintarFull(CtrlPresentacio cp, String[][] temp) {
+        DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
+        String[] nomCol = new String[cp.GetColumnes( FullActual)];
+        for (int i = 0; i < nomCol.length; i++) {
+            nomCol[i] = String.valueOf(i + 1);
+        }
+        dataVector = true;
+        dtm.setDataVector(temp, nomCol);
+        dataVector = false;
+        Full.repaint();
+    }
+
+    /**
+     * Funcio que s'encarrega de fer el "Guardar Como".
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     * @throws Exception
+     */
     private void guardarCom(CtrlPresentacio cp) throws Exception {
         JFileChooser savefile = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Full de càlcul", "fdc");
@@ -1675,6 +1532,8 @@ public class VistaPrincipal extends JFrame {
         int status = savefile.showSaveDialog(this);
         if (status == JFileChooser.APPROVE_OPTION) {
             String fileName = savefile.getSelectedFile().getName();
+            NomDocu = fileName;
+            NomDocument.setText(NomDocu);
             File path = savefile.getCurrentDirectory();
             Boolean existeix = cp.ComprovaDocExisteix(fileName, path);
             if(existeix){
@@ -1688,6 +1547,10 @@ public class VistaPrincipal extends JFrame {
         } else System.out.println("Cancelat");
     }
 
+    /**
+     * Funcio que fa l'operacio d'incrementar d'un numero.
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     */
     private void Incrementar(CtrlPresentacio cp) {
         if (CelaActual == null) {
             Toolkit.getDefaultToolkit().beep();
@@ -1727,9 +1590,8 @@ public class VistaPrincipal extends JFrame {
                 try {
                     int codi = cp.CalculaIncrement(FullActual, CelaActual);
                     if (codi == 0) {
-                        String temp = cp.ValorTotal(FullActual, CelaActual);
-                        Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                        Full.repaint();
+                        String [][] temp = cp.MostrarLlista(FullActual);
+                        RepintarFull(cp, temp);
                     } else {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1742,6 +1604,10 @@ public class VistaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Funcio que fa l'operacio de reduir d'un numero.
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     */
     private void Reduir(CtrlPresentacio cp) {
         if (CelaActual == null) {
             Toolkit.getDefaultToolkit().beep();
@@ -1785,9 +1651,8 @@ public class VistaPrincipal extends JFrame {
                 try {
                     int codi = cp.CalculaReduir( FullActual, CelaActual);
                     if (codi == 0) {
-                        String temp = cp.ValorTotal( FullActual, CelaActual);
-                        Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                        Full.repaint();
+                        String [][] temp = cp.MostrarLlista(FullActual);
+                        RepintarFull(cp, temp);
                     }
                     else {
                         Toolkit.getDefaultToolkit().beep();
@@ -1801,6 +1666,10 @@ public class VistaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Funcio que obte el valor absolut d'un numero.
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     */
     private void ValorAbsolut(CtrlPresentacio cp) {
         if (CelaActual == null) {
             Toolkit.getDefaultToolkit().beep();
@@ -1844,9 +1713,8 @@ public class VistaPrincipal extends JFrame {
                 try {
                     int codi = cp.CalculaValorAbs(FullActual, CelaActual);
                     if (codi == 0) {
-                        String temp = cp.ValorTotal( FullActual, CelaActual);
-                        Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                        Full.repaint();
+                        String [][] temp = cp.MostrarLlista(FullActual);
+                        RepintarFull(cp, temp);
                     }
                     else {
                         Toolkit.getDefaultToolkit().beep();
@@ -1860,6 +1728,10 @@ public class VistaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Funcio que calcula la potencia d'un numero.
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     */
     private void Potencia(CtrlPresentacio cp) {
         if (CelaActual == null) {
             Toolkit.getDefaultToolkit().beep();
@@ -1910,9 +1782,8 @@ public class VistaPrincipal extends JFrame {
                     try {
                         int codi = cp.CalculaPotencia(FullActual, CelaActual, exp);
                         if (codi == 0) {
-                            String temp = cp.ValorTotal(FullActual, CelaActual);
-                            Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                            Full.repaint();
+                            String [][] temp = cp.MostrarLlista(FullActual);
+                            RepintarFull(cp, temp);
                         } else {
                             Toolkit.getDefaultToolkit().beep();
                             JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1931,6 +1802,10 @@ public class VistaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Funcio que calcula l'arrel d'un Numero.
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     */
     private void Arrel(CtrlPresentacio cp) {
         if (CelaActual == null) {
             Toolkit.getDefaultToolkit().beep();
@@ -1981,9 +1856,8 @@ public class VistaPrincipal extends JFrame {
                     try {
                         int codi = cp.CalculaArrel(FullActual, CelaActual, exp);
                         if (codi == 0) {
-                            String temp = cp.ValorTotal(FullActual, CelaActual);
-                            Full.setValueAt(temp, CelaActual.getKey(), CelaActual.getValue());
-                            Full.repaint();
+                            String [][] temp = cp.MostrarLlista(FullActual);
+                            RepintarFull(cp, temp);
                         } else {
                             Toolkit.getDefaultToolkit().beep();
                             JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
@@ -2002,6 +1876,11 @@ public class VistaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Funcio que calcula l'increment d'un numero i coloca el resultat a una altre cel·la
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     * @param CelaRemp ID de cela on volem colocar el resultat
+     */
     private void CalculIncrementRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp) {
         int codi;
         try {
@@ -2010,15 +1889,19 @@ public class VistaPrincipal extends JFrame {
             throw new RuntimeException(ex);
         }
         if (codi == 0) {
-            String temp = cp.ValorTotal(FullActual, CelaRemp);
-            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-            Full.repaint();
+            String [][] temp = cp.MostrarLlista(FullActual);
+            RepintarFull(cp, temp);
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Funcio que fa la reduccio d'un numero i coloca el resultat a una altre cel·la
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     * @param CelaRemp ID de cela on volem colocar el resultat
+     */
     private void CalculReduirRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp) {
         int codi;
         try {
@@ -2027,15 +1910,19 @@ public class VistaPrincipal extends JFrame {
             throw new RuntimeException(ex);
         }
         if (codi == 0) {
-            String temp = cp.ValorTotal(FullActual, CelaRemp);
-            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-            Full.repaint();
+            String [][] temp = cp.MostrarLlista(FullActual);
+            RepintarFull(cp, temp);
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Funcio que calcula el valor absolut d'un numero i coloca el resultat a una altre cel·la
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     * @param CelaRemp ID de cela on volem colocar el resultat
+     */
     private void CalculValorAbsRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp) {
         int codi;
         try {
@@ -2044,15 +1931,20 @@ public class VistaPrincipal extends JFrame {
             throw new RuntimeException(ex);
         }
         if (codi == 0) {
-            String temp = cp.ValorTotal(FullActual, CelaRemp);
-            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-            Full.repaint();
+            String [][] temp = cp.MostrarLlista(FullActual);
+            RepintarFull(cp, temp);
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Funcio que calcula la potencia d'un numero i coloca el resultat a una altre cel·la
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     * @param CelaRemp ID de cela on volem colocar el resultat
+     * @param exp Exponent que s'uitlitzara per la potencia
+     */
     private void CalculPotenciaRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp, Double exp) {
         int codi;
         try {
@@ -2061,15 +1953,20 @@ public class VistaPrincipal extends JFrame {
             throw new RuntimeException(ex);
         }
         if (codi == 0) {
-            String temp = cp.ValorTotal(FullActual, CelaRemp);
-            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-            Full.repaint();
+            String [][] temp = cp.MostrarLlista(FullActual);
+            RepintarFull(cp, temp);
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Funcio que calcula l'arrel d'un numero i coloca el resultat a una altre cel·la
+     * @param cp Instancia del control de presentacio per poder fer les crides pertinents al domini
+     * @param CelaRemp ID de cela on volem colocar el resultat
+     * @param exp Exponent que s'uitlitzara per l'arrel
+     */
     private void CalculArrelRemp(CtrlPresentacio cp, AbstractMap.SimpleEntry<Integer, Integer> CelaRemp, Double exp) {
         int codi;
         try {
@@ -2078,15 +1975,20 @@ public class VistaPrincipal extends JFrame {
             throw new RuntimeException(ex);
         }
         if (codi == 0) {
-            String temp = cp.ValorTotal(FullActual, CelaRemp);
-            Full.setValueAt(temp, CelaRemp.getKey(), CelaRemp.getValue());
-            Full.repaint();
+            String [][] temp = cp.MostrarLlista(FullActual);
+            RepintarFull(cp, temp);
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "La cel·la seleccionada no és un Numero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Funcio que obre un dialeg que pregunta els id d'una cela
+     * @param rowField TextField on s'escriu la fila que vol l'usuari
+     * @param colField TextField on s'escriu la columna que vol l'usuari
+     * @return Retorna un codi que indica si s'ha seleccioant el ok o el cancel
+     */
     private int PreguntarCela(JTextField rowField, JTextField colField) {
         JPanel myPanel = new JPanel();
         myPanel.add(new JLabel("Introdueixi la Cel·la on vol col·locar el resultat"));
@@ -2096,10 +1998,14 @@ public class VistaPrincipal extends JFrame {
         myPanel.add(Box.createHorizontalStrut(15)); // a spacer
         myPanel.add(new JLabel("Columna:"));
         myPanel.add(colField);
-        int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
-        return result_2;
+        return JOptionPane.showConfirmDialog(this, myPanel, "Cel·la resultat", JOptionPane.OK_CANCEL_OPTION);
     }
 
+    /**
+     * Funcio que transforma un numero de fila a lletra
+     * @param number El numero a transformar
+     * @return Retorna el numero transformat a String
+     */
     private static String RowtoText(int number) {
         final StringBuilder sb = new StringBuilder();
         int num = number - 1;
@@ -2111,6 +2017,11 @@ public class VistaPrincipal extends JFrame {
         return sb.reverse().toString();
     }
 
+    /**
+     * Funcio que transforma una lletra a un numero de fila
+     * @param name La lletra o conjunt de lletres a transformar a numero
+     * @return Retorna la/les lletres tranformades a numero
+     */
     private static int RowtoNumber(String name) {
         int number = 0;
         for (int i = 0; i < name.length(); i++) {
