@@ -2,13 +2,13 @@ package main.CapaPresentacio;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import main.CapaDomini.Models.Cela;
-import main.CapaDomini.Models.PublicFuntions;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import javax.swing.*;
+import main.CapaDomini.Models.PublicFuntions;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -69,6 +69,7 @@ public class VistaPrincipal extends JFrame {
     private JLabel NomFull;
     private JTextField idText;
     private JLabel NomDocument;
+    private JLabel warning;
 
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
@@ -412,7 +413,7 @@ public class VistaPrincipal extends JFrame {
                     //System.out.println(temp[row][col]);
                     String obj = temp[row][col];
                     String content = cp.ValorTotal( FullActual, id);
-                    String type = cp.GetTipusCela( FullActual, id);
+                    String type = cp.GetTipusCelaComplete( FullActual, id);
                     DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
                     String[] nomCol = new String[cp.GetColumnes( FullActual)];
                     for (int i = 0; i < nomCol.length; i++) {
@@ -446,7 +447,7 @@ public class VistaPrincipal extends JFrame {
                 if (row >= 0 && col >= 0) {
                     CelaActual = new AbstractMap.SimpleEntry<>(row, col);
                     String content = cp.ValorTotal( FullActual, CelaActual);
-                    String type = cp.GetTipusCela( FullActual, CelaActual);
+                    String type = cp.GetTipusCelaComplete( FullActual, CelaActual);
                     Tipus.setText(type);
                     Contingut.setText(content);
                     idText.setText(RowtoText(row+1)+ (col+1));
@@ -486,7 +487,7 @@ public class VistaPrincipal extends JFrame {
                         System.out.println(temp[fila][columna]);
                         String obj = temp[fila][columna];
                         String content = cp.ValorTotal( FullActual, id);
-                        String type = cp.GetTipusCela( FullActual, id);
+                        String type = cp.GetTipusCelaComplete( FullActual, id);
                         Tipus.setText(type);
                         Contingut.setText(content);
                         idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
@@ -525,7 +526,7 @@ public class VistaPrincipal extends JFrame {
                         System.out.println(temp[fila][columna]);
                         String obj = temp[fila][columna];
                         String content = cp.ValorTotal( FullActual, id);
-                        String type = cp.GetTipusCela( FullActual, id);
+                        String type = cp.GetTipusCelaComplete( FullActual, id);
                         Tipus.setText(type);
                         Contingut.setText(content);
                         idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
@@ -565,7 +566,7 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(temp[fila][columna]);
                 String obj = temp[fila][columna];
                 String content = cp.ValorTotal( FullActual, id);
-                String type = cp.GetTipusCela( FullActual, id);
+                String type = cp.GetTipusCelaComplete( FullActual, id);
                 Tipus.setText(type);
                 Contingut.setText(content);
                 idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
@@ -601,7 +602,7 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(temp[fila][columna]);
                 String obj = temp[fila][columna];
                 String content = cp.ValorTotal( FullActual, id);
-                String type = cp.GetTipusCela( FullActual, id);
+                String type = cp.GetTipusCelaComplete( FullActual, id);
                 Tipus.setText(type);
                 Contingut.setText(content);
                 idText.setText(RowtoText(id.getKey()+1)+ (id.getValue()+1));
@@ -705,11 +706,14 @@ public class VistaPrincipal extends JFrame {
             JTextField rowIniField2 = new JTextField();
             JTextField rowFiField2 = new JTextField();
             JTextField colField2 = new JTextField();
+            JTextField rowIniField1 = new JTextField();
+            JTextField rowFiField1 = new JTextField();
 
             JPanel myPanel = new JPanel();
             JPanel Text = new JPanel();
             JPanel Col1 = new JPanel();
-            JPanel Col2 = new JPanel();
+            JPanel Col2 = new JPanel();JPanel Col3 = new JPanel();
+
             myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
 
             Text.add(new JLabel("Introduiex la Columna amb les dades Numeriques"));
@@ -724,26 +728,33 @@ public class VistaPrincipal extends JFrame {
 
             myPanel.add(Box.createVerticalStrut(15));
             Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(rowIniField1);
+            Col2.add(new JLabel("Fila Inicial:"));
             Col2.add(rowIniField2);
-            Col2.add(new JLabel("Fila Final :"));
-            Col2.add(rowFiField2);
             myPanel.add(Col2);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col3.add(new JLabel("Fila Final:"));
+            Col3.add(rowFiField1);
+            Col3.add(new JLabel("Fila Final:"));
+            Col3.add(rowFiField2);
+            myPanel.add(Col3);
 
             int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI,rowF,col,rowI2,rowF2,col2;
                 try {
-                    rowI = RowtoNumber(rowIniField2.getText());
-                    rowF = RowtoNumber(rowFiField2.getText());
+                    rowI = RowtoNumber(rowIniField1.getText().toUpperCase());
+                    rowF = RowtoNumber(rowFiField1.getText().toUpperCase());
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = RowtoNumber(rowIniField2.getText());
-                    rowF2 = RowtoNumber(rowFiField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText().toUpperCase());
+                    rowF2 = RowtoNumber(rowFiField2.getText().toUpperCase());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if(!col.equals(col2) && rowI < rowF){
+                if(!col.equals(col2) && rowI < rowF && rowI2 < rowF2 && (rowF-rowI)==(rowF2-rowI2)){
                     CategoryChart chart = null;
                     try {
                         System.out.println("hey");
@@ -768,12 +779,15 @@ public class VistaPrincipal extends JFrame {
             JTextField colField1 = new JTextField();
             JTextField rowIniField2 = new JTextField();
             JTextField rowFiField2 = new JTextField();
+            JTextField rowIniField1 = new JTextField();
+            JTextField rowFiField1 = new JTextField();
             JTextField colField2 = new JTextField();
 
             JPanel myPanel = new JPanel();
             JPanel Text = new JPanel();
             JPanel Col1 = new JPanel();
             JPanel Col2 = new JPanel();
+            JPanel Col3 = new JPanel();
             myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
 
             Text.add(new JLabel("Introduiex la Columna amb les dades Numeriques"));
@@ -788,28 +802,35 @@ public class VistaPrincipal extends JFrame {
 
             myPanel.add(Box.createVerticalStrut(15));
             Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(rowIniField1);
+            Col2.add(new JLabel("Fila Inicial:"));
             Col2.add(rowIniField2);
-            Col2.add(new JLabel("Fila Final:"));
-            Col2.add(rowFiField2);
             myPanel.add(Col2);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col3.add(new JLabel("Fila Final:"));
+            Col3.add(rowFiField1);
+            Col3.add(new JLabel("Fila Final:"));
+            Col3.add(rowFiField2);
+            myPanel.add(Col3);
 
             int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "PIE Chart", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI,rowF,col,rowI2,rowF2,col2;
                 try {
                     System.out.println("aaaaaa");
-                    rowI = RowtoNumber(rowIniField2.getText());
-                    rowF = RowtoNumber(rowFiField2.getText());
+                    rowI = RowtoNumber(rowIniField1.getText().toUpperCase());
+                    rowF = RowtoNumber(rowFiField1.getText().toUpperCase());
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = RowtoNumber(rowIniField2.getText());
-                    rowF2 = RowtoNumber(rowFiField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText().toUpperCase());
+                    rowF2 = RowtoNumber(rowFiField2.getText().toUpperCase());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
                     System.out.println(1);
                     JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if(!col.equals(col2) && rowI < rowF){
+                if(!col.equals(col2) && rowI < rowF && rowI2 < rowF2 && (rowF-rowI)==(rowF2-rowI2)){
                     PieChart chart = null;
                     try {
                         System.out.println("hey");
@@ -837,11 +858,13 @@ public class VistaPrincipal extends JFrame {
             JTextField rowIniField2 = new JTextField();
             JTextField rowFiField2 = new JTextField();
             JTextField colField2 = new JTextField();
+            JTextField rowIniField1 = new JTextField();
+            JTextField rowFiField1 = new JTextField();
 
             JPanel myPanel = new JPanel();
             JPanel Text = new JPanel();
             JPanel Col1 = new JPanel();
-            JPanel Col2 = new JPanel();
+            JPanel Col2 = new JPanel();JPanel Col3 = new JPanel();
             myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
 
             Text.add(new JLabel("Introduiex la Columna amb les dades Numeriques"));
@@ -856,26 +879,33 @@ public class VistaPrincipal extends JFrame {
 
             myPanel.add(Box.createVerticalStrut(15));
             Col2.add(new JLabel("Fila Inicial:"));
+            Col2.add(rowIniField1);
+            Col2.add(new JLabel("Fila Inicial:"));
             Col2.add(rowIniField2);
-            Col2.add(new JLabel("Fila Final:"));
-            Col2.add(rowFiField2);
             myPanel.add(Col2);
+
+            myPanel.add(Box.createVerticalStrut(15));
+            Col3.add(new JLabel("Fila Final:"));
+            Col3.add(rowFiField1);
+            Col3.add(new JLabel("Fila Final:"));
+            Col3.add(rowFiField2);
+            myPanel.add(Col3);
 
             int result_2 = JOptionPane.showConfirmDialog(this, myPanel, "Reduir", JOptionPane.OK_CANCEL_OPTION);
             if (result_2 == JOptionPane.OK_OPTION) {
                 Integer rowI=0,rowF=0,col=0,rowI2=0,rowF2=0,col2=0;
                 try {
-                    rowI = RowtoNumber(rowIniField2.getText());
-                    rowF = RowtoNumber(rowFiField2.getText());
+                    rowI = RowtoNumber(rowIniField1.getText().toUpperCase());
+                    rowF = RowtoNumber(rowFiField1.getText().toUpperCase());
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = RowtoNumber(rowIniField2.getText());
-                    rowF2 = RowtoNumber(rowFiField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText().toUpperCase());
+                    rowF2 = RowtoNumber(rowFiField2.getText().toUpperCase());
                     col2 = Integer.parseInt(colField2.getText());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "El Format de les cel·les no es correcte", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if(col != col2 && rowI < rowF){
+                if(col != col2 && rowI < rowF && rowI2 < rowF2 && (rowF-rowI)==(rowF2-rowI2)){
                     XYChart chart = null;
                     try {
                         chart = cp.LinearChart( FullActual, col-1,rowI-1,rowF-1,col2-1,rowI2-1,rowF2-1);
@@ -1508,10 +1538,10 @@ public class VistaPrincipal extends JFrame {
                     System.out.println("CELDA" + id);
                     setBackground(color.get());
                     setEnabled(true);
-                    setText(cp.ValorTotal( FullActual, id));
+                    setText(cp.resultatfinal( FullActual, id));
                 } else {
                     setBackground(Color.WHITE);
-                    setText(cp.ValorTotal( FullActual, id));
+                    setText(cp.resultatfinal( FullActual, id));
                 }
                 return this;
             }
@@ -1535,6 +1565,7 @@ public class VistaPrincipal extends JFrame {
                     col.setCellRenderer(new PaintTableCellRender());
                     Full.repaint();
                 }
+                warning.setVisible(true);
                 Full.setEnabled(false);
             }
         });
@@ -1560,6 +1591,7 @@ public class VistaPrincipal extends JFrame {
             dataVector.set(false);
             Full.repaint();
             Full.setEnabled(true);
+            warning.setVisible(false);
 
         });
 
@@ -1591,18 +1623,18 @@ public class VistaPrincipal extends JFrame {
                 System.out.println(busca);
                 rempla = colField2.getText();
                 try {
-                    ArrayList<Cela> a = cp.BuscarRemp("Full 1", busca, rempla);
+                    ArrayList<Cela> a = cp.BuscarRemp(FullActual, busca, rempla);
                     for (Cela c : a) {
                         int col = c.getId().getValue();
                         int row = c.getId().getKey();
                         AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(row, col);
 
                         try {
-                            String[][] temp = cp.MostrarLlista("Full 1");
-                            String content = cp.ValorTotal("Full 1", id);
-                            String type = cp.GetTipusCela("Full 1", id);
+                            String[][] temp = cp.MostrarLlista(FullActual);
+                            String content = cp.ValorTotal(FullActual, id);
+                            String type = cp.GetTipusCelaComplete(FullActual, id);
                             DefaultTableModel dtm = (DefaultTableModel) Full.getModel();
-                            String[] nomCol = new String[cp.GetColumnes("Full 1")];
+                            String[] nomCol = new String[cp.GetColumnes(FullActual)];
 
                             for (int i = 0; i < nomCol.length; i++) {
                                 nomCol[i] = String.valueOf(i + 1);
