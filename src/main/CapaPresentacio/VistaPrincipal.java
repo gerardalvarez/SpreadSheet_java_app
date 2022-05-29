@@ -77,6 +77,7 @@ public class VistaPrincipal extends JFrame {
     private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> LastBusca;
     private String FullActual;
     private String NomDocu;
+    private Boolean busqueda = false;
 
 
     public VistaPrincipal(String title, CtrlPresentacio cp) throws Exception {
@@ -1567,13 +1568,14 @@ public class VistaPrincipal extends JFrame {
                 }
                 warning.setVisible(true);
                 Full.setEnabled(false);
+                busqueda = true;
             }
         });
 
 
         cancelButton.addActionListener(e -> {
+            if(busqueda){
             LastBusca =  new ArrayList<>();
-
             String[][] temp;
             try {
                 temp = cp.MostrarLlista( FullActual);
@@ -1592,7 +1594,7 @@ public class VistaPrincipal extends JFrame {
             Full.repaint();
             Full.setEnabled(true);
             warning.setVisible(false);
-
+            }
         });
 
 
