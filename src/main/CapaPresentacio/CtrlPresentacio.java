@@ -74,6 +74,10 @@ public class CtrlPresentacio {
         return Cd.GetTipusCela(full, id);
     }
 
+    public String GetTipusCelaComplete(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        return Cd.GetTipusCelaComplete(full, id);
+    }
+
     public String GetTipusNumero(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.GetTipusNumero(full, id);
     }
@@ -203,6 +207,9 @@ public class CtrlPresentacio {
 
     public String ValorTotal(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         return Cd.ValorTotal(full, id);
+    }
+    public String resultatfinal(String full,AbstractMap.SimpleEntry<Integer, Integer> id){
+        return Cd.resultatfinal(full,id);
     }
 
     public void guardarDocument(String fileName, File path) throws Exception {

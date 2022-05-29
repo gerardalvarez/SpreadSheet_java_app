@@ -129,13 +129,23 @@ public class CtrlDomini {
     public String GetTipusCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
         Full f = docu.get_full(full);
         Cela c = f.Consultar_cela(id);
-        if(c instanceof Numero) {
+        if (c instanceof Numero) {
             return "numero";
-        }
-        else if (c instanceof DataCela) {
+        } else if (c instanceof DataCela) {
             return "data";
-        }
-        else return "text";
+        } else return "text";
+    }
+
+    public String GetTipusCelaComplete(String full, AbstractMap.SimpleEntry<Integer, Integer> id) {
+        Full f = docu.get_full(full);
+        Cela c = f.Consultar_cela(id);
+        if (c instanceof Numero) {
+            System.out.println("HOLA:"+GetTipusNumero(full,id));
+            if(Objects.equals(GetTipusNumero(full, id), "numero")) return "numero";
+            else return "numero: " + GetTipusNumero(full,id);
+        } else if (c instanceof DataCela) {
+            return "data";
+        } else return "text";
     }
 
     private void CanviarTipusCela(String full, AbstractMap.SimpleEntry<Integer, Integer> id, String nou_type) throws CloneNotSupportedException {
@@ -371,6 +381,10 @@ public class CtrlDomini {
         Cela c = f.Consultar_cela(id);
         if(c.getResultatFinal().isBlank() || c.getResultatFinal().isEmpty()) return false;
         else return true;
+    }
+
+    public String resultatfinal(String full,AbstractMap.SimpleEntry<Integer, Integer> id){
+        return docu.get_full(full).Consultar_cela(id).getResultatFinal();
     }
 
 
