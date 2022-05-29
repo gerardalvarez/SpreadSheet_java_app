@@ -430,7 +430,6 @@ public class VistaPrincipal extends JFrame {
             else {
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-                try {
                     if (!cp.transformaText( FullActual, id))
                         JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
                     else {
@@ -450,9 +449,6 @@ public class VistaPrincipal extends JFrame {
                         Full.setValueAt(obj, fila, columna);
                         Full.repaint();
                     }
-                } catch (CloneNotSupportedException ex) {
-                    ex.printStackTrace();
-                }
             }
         });
 
@@ -468,7 +464,6 @@ public class VistaPrincipal extends JFrame {
             else {
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-                try {
                     if (!cp.transformaData( FullActual, id))
                         JOptionPane.showMessageDialog(new JFrame(), "La Cela no es de tipus Data", "Dialog", JOptionPane.ERROR_MESSAGE);
                     else {
@@ -489,9 +484,7 @@ public class VistaPrincipal extends JFrame {
                         Full.setValueAt(obj, fila, columna);
                         Full.repaint();
                     }
-                } catch (CloneNotSupportedException ex) {
-                    ex.printStackTrace();
-                }
+
             }
         });
 
@@ -508,11 +501,9 @@ public class VistaPrincipal extends JFrame {
 
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-                try {
-                    cp.AllMinus( FullActual, id);
-                } catch (CloneNotSupportedException ex) {
-                    ex.printStackTrace();
-                }
+
+                cp.AllMinus( FullActual, id);
+
                 String[][] temp = new String[0][];
                 try {
                     temp = cp.MostrarLlista( FullActual);
@@ -544,11 +535,9 @@ public class VistaPrincipal extends JFrame {
 
                 System.out.println(fila + " " + columna);
                 AbstractMap.SimpleEntry<Integer, Integer> id = new AbstractMap.SimpleEntry<>(fila, columna);
-                try {
-                    cp.AllMayus( FullActual, id);
-                } catch (CloneNotSupportedException ex) {
-                    ex.printStackTrace();
-                }
+
+                cp.AllMayus( FullActual, id);
+
                 String[][] temp = new String[0][];
                 try {
                     temp = cp.MostrarLlista( FullActual);
@@ -950,11 +939,8 @@ public class VistaPrincipal extends JFrame {
                 Object[] tipus = {"numero", "celsius", "fahrenheit", "kelvin", "km", "m", "cm", "mm", "miles", "yards", "feet", "inches", "graus", "radiants"};
                 JComboBox comboBox = new JComboBox(tipus);
                 JOptionPane.showMessageDialog(this, comboBox, "Tipus Numero", JOptionPane.QUESTION_MESSAGE);
-                try {
-                    cp.CanviarTipusNumero( FullActual, CelaActual, Objects.requireNonNull(comboBox.getSelectedItem()).toString());
-                } catch (CloneNotSupportedException ex) {
-                    ex.printStackTrace();
-                }
+                cp.CanviarTipusNumero( FullActual, CelaActual, Objects.requireNonNull(comboBox.getSelectedItem()).toString());
+
             }
         });
 
