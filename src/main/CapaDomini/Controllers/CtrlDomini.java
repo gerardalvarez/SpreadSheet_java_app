@@ -1121,6 +1121,6 @@ public class CtrlDomini {
     }
 
     public int getnumfulls() {
-        return docu.getNumfulls();
+        return docu.getFulls().size();
     }
 }
