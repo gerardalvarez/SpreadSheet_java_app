@@ -77,6 +77,8 @@ public class VistaPrincipal extends JFrame {
     private JLabel NomDocument;
     private JLabel warning;
 
+    private JButton infoButton;
+
     private AbstractMap.SimpleEntry<Integer, Integer> CelaActual;
     private int columna;
     private int fila;
@@ -148,11 +150,17 @@ public class VistaPrincipal extends JFrame {
         menuBar.add(fitxer);
 
 
+
         fulls.add(afegirFull);
         fulls.add(eliminarFull);
         fulls.add(canviarNomFull);
         fulls.add(canvifull);
         menuBar.add(fulls);
+        infoButton=new JButton("Informació");
+        infoButton.setBorderPainted(false);
+        //infoButton.setFocusPainted(false);
+        //infoButton.setContentAreaFilled(false);
+        menuBar.add(infoButton);
 
         super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/App_Logo.png"))).getImage());
         IncrementarButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Incrementar.svg",15,22));
@@ -187,6 +195,14 @@ public class VistaPrincipal extends JFrame {
 
         AtomicBoolean modificat = new AtomicBoolean(false);
         dataVector = false;
+
+
+        infoButton.addActionListener(e -> {
+
+            JOptionPane.showMessageDialog(this, "Nom:   "+NomDocu+"\n\nData creació:   "+cp.get_data_doc()+"\n\nData última modificació:   "+cp.get_data_mod_doc()+"\n\nNumero de fulls:   "+cp.get_num_fulls(), "Informació del document", JOptionPane.INFORMATION_MESSAGE);
+
+        });
+
 
         guardar.addActionListener(e -> {
             int codi = -1;

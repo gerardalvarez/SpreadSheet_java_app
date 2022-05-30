@@ -702,4 +702,15 @@ public class CtrlPresentacio {
     public Boolean ComprovaDocExisteix(String fileName, File path) throws IOException {
         return Cd.ComprovaDocExisteix(fileName, path);
     }
+
+    public String get_data_doc(){
+        return Cd.getdataDoc();
+    }
+    public String get_data_mod_doc(){
+        return Cd.getdatamodDoc();
+    }
+
+    public int get_num_fulls(){
+        return Cd.get_num_fulls();
+    }
 }

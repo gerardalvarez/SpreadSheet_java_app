@@ -1103,4 +1103,8 @@ public class CtrlDomini {
         p = p.replace("\\", "/");
         return dp.comprovaExisteix(docu, p, fileName);
     }
+
+    public int get_num_fulls() {
+        return docu.getNumfulls();
+    }
 }
