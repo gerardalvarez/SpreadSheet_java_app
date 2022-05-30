@@ -9,120 +9,20 @@ import java.util.AbstractMap;
 import java.util.Map;
 import java.util.*;
 
-
+/**
+ * Implementació de la classe Bloc de cel·les que fa les operacions amb blocs
+ * @author Gerard Alvarez
+ */
 public class Bloc_celes {
 
     public Bloc_celes() {
     }
 
-
-    /////////
-    //Funciones de ordenar que devuelven una matriz con nuevas celdas creadas (diferentes ref a las pasadas) ordenadas
-    //
-    /////////
-
-    public Cela[][] ordena_A_Z_matrix(Cela[][] arr, ArrayList<Integer> cols) {
-
-        Cela[][] aux = new Cela[arr.length][arr[0].length];
-        AbstractMap.SimpleEntry<Integer, Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                if (arr[i][j] instanceof Numero) {
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(), ((Numero) arr[i][j]).getArrodonit(), ((Numero) arr[i][j]).getNum_Decimals(), ((Numero) arr[i][j]).getTipus());
-                } else if (arr[i][j] instanceof TextCela) {
-                    aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(), ((TextCela) arr[i][j]).getResultatFinal());
-                } else if (arr[i][j] instanceof CelaRefNum) {
-                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j], arr[i][j].getId());
-
-                } else if (arr[i][j] instanceof CelaRefText) {
-                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j], arr[i][j].getId());
-
-                } else if (arr[i][j] instanceof CelaRefData) {
-                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j], arr[i][j].getId());
-                }
-                auxindex[i][j] = arr[i][j].getId();
-            }
-        }
-        Arrays.sort(aux, new Comparator<Cela[]>() {
-
-            @Override
-            // Compare values according to columns
-            public int compare(final Cela[] entry1, final Cela[] entry2) {
-                int i = 0;
-                while (i < cols.size() - 1) {
-                    if (!entry1[cols.get(i)].getResultatFinal().equals(entry2[cols.get(i)].getResultatFinal())) break;
-                    i++;
-                }
-                return entry1[cols.get(i)].getResultatFinal().compareTo(entry2[cols.get(i)].getResultatFinal());
-            }
-        });
-
-        for (int i = 0; i < aux.length; i++) {
-            for (int j = 0; j < aux[i].length; j++) {
-                if (aux[i][j] instanceof Numero) {
-                    aux[i][j].setId(auxindex[i][j]);
-                } else if (aux[i][j] instanceof TextCela) {
-                    aux[i][j].setId(auxindex[i][j]);
-                }
-            }
-        }
-        return aux;
-    }
-
-    public Cela[][] ordena_Z_A_matrix(Cela arr[][], ArrayList<Integer> cols) {
-
-
-        Cela[][] aux = new Cela[arr.length][arr[0].length];
-        AbstractMap.SimpleEntry<Integer, Integer>[][] auxindex = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                if (arr[i][j] instanceof Numero) {
-                    aux[i][j] = new Numero(((Numero) arr[i][j]).getId(), ((Numero) arr[i][j]).getResultat(), ((Numero) arr[i][j]).getArrodonit(), ((Numero) arr[i][j]).getNum_Decimals(), ((Numero) arr[i][j]).getTipus());
-                } else if (arr[i][j] instanceof TextCela) {
-                    aux[i][j] = new TextCela(((TextCela) arr[i][j]).getId(), ((TextCela) arr[i][j]).getResultatFinal());
-                } else if (arr[i][j] instanceof CelaRefNum) {
-                    aux[i][j] = new CelaRefNum((CelaRefNum) arr[i][j], arr[i][j].getId());
-
-                } else if (arr[i][j] instanceof CelaRefText) {
-                    aux[i][j] = new CelaRefText((CelaRefText) arr[i][j], arr[i][j].getId());
-
-                } else if (arr[i][j] instanceof CelaRefData) {
-                    aux[i][j] = new CelaRefData((CelaRefData) arr[i][j], arr[i][j].getId());
-                }
-                auxindex[i][j] = arr[i][j].getId();
-            }
-        }
-        Arrays.sort(aux, new Comparator<Cela[]>() {
-
-            @Override
-            // Compare values according to columns
-            public int compare(final Cela[] entry1, final Cela[] entry2) {
-                int i = 0;
-                while (i < cols.size() - 1) {
-                    if (!entry2[cols.get(i)].getResultatFinal().equals(entry1[cols.get(i)].getResultatFinal())) break;
-                    i++;
-                }
-                return entry2[cols.get(i)].getResultatFinal().compareTo(entry1[cols.get(i)].getResultatFinal());
-            }
-        });
-
-        for (int i = 0; i < aux.length; i++) {
-            for (int j = 0; j < aux[i].length; j++) {
-                if (aux[i][j] instanceof Numero) {
-                    aux[i][j].setId(auxindex[i][j]);
-                } else if (aux[i][j] instanceof TextCela) {
-                    aux[i][j].setId(auxindex[i][j]);
-                }
-            }
-        }
-        return aux;
-    }
-
-
-    /////////
-    //Funciones de ordenar que devuelven una matriz con las celdas antiguas con los id cambiados a ordenado
-    /////////
-
+    /**
+     * Funcio que ordena un bloc de celes arr amb el criteri Major a menor per les columnes del paràmetre.
+     * @param arr Matriu amb les cel·les del bloc
+     * @param cols LLista de les columnes per les quals es vol ordenar
+     */
     public void ordena_A_Z(Cela arr[][], ArrayList<Integer> cols) {
 
         AbstractMap.SimpleEntry<Long,Cela>[][] aux = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
@@ -194,7 +94,11 @@ public class Bloc_celes {
         }
     }
 
-
+    /**
+     * Funcio que ordena un bloc de celes arr amb el criteri Menor a major per les columnes del paràmetre.
+     * @param arr Matriu amb les cel·les del bloc
+     * @param cols LLista de les columnes per les quals es vol ordenar
+     */
     public void ordena_Z_A(Cela arr[][], ArrayList<Integer> cols) {
 
         AbstractMap.SimpleEntry<Long,Cela>[][] aux = new AbstractMap.SimpleEntry[arr.length][arr[0].length];
@@ -268,7 +172,11 @@ public class Bloc_celes {
 
 
 
-
+    /**
+     * Funcio que calcula la mitjana entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat de la mitjana
+     */
     public double calculaMitjana(ArrayList<Numero> inputs) {
         double res=0;
         for(Cela c : inputs){
@@ -277,7 +185,11 @@ public class Bloc_celes {
         if(inputs.size()==0)return res;
         return res/ inputs.size();
     }
-
+    /**
+     * Funcio que calcula la Mediana entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat de la Mediana
+     */
     public double calculaMediana(ArrayList<Numero> inputs) {
         //sort array
         Collections.sort(inputs, new Comparator<Cela>() {
@@ -298,7 +210,11 @@ public class Bloc_celes {
     }
 
 
-
+    /**
+     * Funcio que calcula la Moda entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat de la Moda
+     */
     public double calculaModa(ArrayList<Numero> inputs) {
 
         HashMap<Double, Double> mapa = new HashMap<>();
@@ -321,7 +237,11 @@ public class Bloc_celes {
         return moda;
     }
 
-
+    /**
+     * Funcio que calcula la Varianca entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat de la Varianca
+     */
     public double calculaVarianca(ArrayList<Numero> inputs) {
         //double media = this.calculaMitjana(inputs);
         double dVar = 0;
@@ -340,6 +260,11 @@ public class Bloc_celes {
 
     }
 
+    /**
+     * Funcio que calcula el maxim entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat del maxim
+     */
     public double maxim(ArrayList<Numero> inputs){
         double max=0.0;
         for (Cela c : inputs) {
@@ -349,13 +274,22 @@ public class Bloc_celes {
         return max;
     }
 
+    /**
+     * Funcio que calcula la Desviacio entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat de la Desviacio
+     */
     public double calculaDesviacio(ArrayList<Numero> inputs) {
         return Math.sqrt(this.calculaVarianca(inputs));
     }
 
 
 
-
+    /**
+     * Funcio que copia les celes del parametre ors al parametre dest
+     * @param org cel·les a copiar
+     * @param dest cel·les copiades
+     */
     public void copiar_contingut(Cela[][] org, Cela[][] dest) {
         for (int i = 0; i < org.length; i++) {
             for (int j = 0; j < org[i].length; j++) {
@@ -383,37 +317,13 @@ public class Bloc_celes {
         }
     }
 
-    public void moure_contingut(Cela org[][], Cela dest[][]) {
-        for (int i = 0; i < org.length; i++) {
-            for (int j = 0; j < org[i].length; j++){
-                Cela cd=dest[i][j];
-                Cela dd=org[i][j];
-                if(org[i][j] instanceof Numero){
-                    cd = new Numero((Numero) dd,cd.getId());
-                    dd= new TextCela(dd.getId(),"");
-                }
-                else if(org[i][j] instanceof TextCela){
-                    cd= new TextCela((TextCela)dd,cd.getId());
-                    dd=new TextCela(dd.getId(),"");
-                }
-                else if(org[i][j] instanceof DataCela){
-                    cd= new DataCela((DataCela)dd,cd.getId());
-                    dd=new TextCela(dd.getId(),"");
-
-                }else if (org[i][j] instanceof CelaRefNum) {
-                    cd = new DataCela((DataCela) dd, cd.getId());
-                    dd=new TextCela(dd.getId(),"");
-                } else if (org[i][j] instanceof CelaRefText) {
-                    cd = new DataCela((DataCela) dd, cd.getId());
-                    dd=new TextCela(dd.getId(),"");
-                } else if (org[i][j] instanceof CelaRefData) {
-                    cd = new DataCela((DataCela) dd, cd.getId());
-                    dd=new TextCela(dd.getId(),"");
-                }
-            }
-        }
-    }
-
+    /**
+     * Funcio que fa una operacio sobre un bloc de cel·les i el guarda en altre
+     * @param org bloc a operar
+     * @param dest bloc operat
+     * @param operacio Nom de la operacio
+     * @param oper Si es numerica el operant de la operació
+     */
     public void operar_bloc(Cela[][] org, Cela[][] dest, String operacio, Double oper) {
         switch (operacio){
             case "suma":
@@ -477,6 +387,12 @@ public class Bloc_celes {
         }
     }
 
+    /**
+     * Funcio que busca un text en un conjunt de cel·les
+     * @param inputs cel·les per fer la busqueda
+     * @param b text a buscar
+     * @return cel·les que contenen el text
+     */
     public static ArrayList<Cela> buscar(ArrayList<Cela> inputs, String b){
         ArrayList<Cela> a = new ArrayList<>();
         for (Cela c : inputs) {
@@ -485,6 +401,13 @@ public class Bloc_celes {
         return a;
     }
 
+    /**
+     * Funcio que busca un text en un conjunt de cel·les i reemplaça aquest per un nou
+     * @param inputs cel·les per fer el calcul
+     * @param b text a buscar i reemplaçar
+     * @param r text pel que s'ha de reemplaçar
+     * @return cel·les que s'han canviat
+     */
     public ArrayList<Cela> buscar_y_remplazar(ArrayList<Cela> inputs,String b,String r ) {
         ArrayList<Cela> a = buscar(inputs,b);
         ArrayList<Cela> ret = new ArrayList<>();
@@ -501,38 +424,24 @@ public class Bloc_celes {
     }
 
 
-
-
-    public void remplacar_majuscules(ArrayList<TextCela> inputs) {
-        for (TextCela c: inputs){
-            c.AllMayus();
-        }
-    }
-
-    public void remplacar_minuscules(ArrayList<TextCela> inputs) {
-        for (TextCela c : inputs) {
-            c.AllMinus();
-        }
-    }
-
-
-
-            //UTILS UTILIZADOS EN LAS CLASES
-
-    class Pair
-    {
-        // Return a map entry (key-value pair) from the specified values
-        public <T, U> Map.Entry<T, U> of(T first, U second) {
-            return new AbstractMap.SimpleEntry<>(first, second);
-        }
-    }
-
+    /**
+     * Funcio auxiliar per ordenar que retorna un nombre unic a partir de dos l'id de la cel·la)
+     * @param left numero
+     * @param right numero
+     * @return numero unic a partir dels parametres
+     */
     private long uniqueId(int left, int right) {
         long uniqueId = (long) left;
         uniqueId = uniqueId << 32 << 16;
         uniqueId += (long) right;
         return uniqueId;
     }
+    /**
+     * Funcio que calcula la covarianza entre dos blocs de cel·les
+     * @param a1 bloc 1
+     * @param b1 bloc 2
+     * @return resultat de la covarianza
+     */
     public double coVarianca(ArrayList<Numero> a1, ArrayList<Numero> b1) {
         double x = 0, y = 0, sum = 0;
         //SUMATORI
@@ -545,6 +454,12 @@ public class Bloc_celes {
         return sum/a1.size();
     }
 
+    /**
+     * Funcio que calcula el coeficient de Pearson entre dos blocs de cel·les
+     * @param a1 bloc 1
+     * @param b1 bloc 2
+     * @return resultat del coeficient de Pearson
+     */
     public double coeficient_Pearson(ArrayList<Numero> a1, ArrayList<Numero> b1) {
         ArrayList<Numero> union = new ArrayList<Numero>();
         union.addAll(a1);
@@ -552,6 +467,9 @@ public class Bloc_celes {
         double res=calculaVarianca(union)/(calculaDesviacio(a1)*calculaDesviacio(b1));
         return res;
     }
+
+
+
     public String COUNTIF(String LogicOP , String comparedOP,String IfFalse, String IfTrue, String CellContent){
         switch(LogicOP){
             case "==":
@@ -583,6 +501,11 @@ public class Bloc_celes {
         return res;
     }
 
+    /**
+     * Funcio que calcula la suma entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat de la suma
+     */
     public double suma(ArrayList<Numero> inputs){
         double suma = 0;
         for (Cela c : inputs) {
@@ -591,6 +514,11 @@ public class Bloc_celes {
         return suma;
     }
 
+    /**
+     * Funcio que calcula la resta entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat de la resta
+     */
     public double resta(ArrayList<Numero> inputs){
         double resta = 0;
         for (Cela c : inputs) {
@@ -598,6 +526,12 @@ public class Bloc_celes {
         }
         return resta;
     }
+
+    /**
+     * Funcio que calcula el producte entre les cel·les del parametre
+     * @param inputs cel·les per fer el calcul
+     * @return resultat del producte
+     */
     public double mult(ArrayList<Numero> inputs){
         double mult = 1;
         for (Cela c : inputs) {

@@ -3,21 +3,48 @@ package main.CapaDomini.Models;
 import java.util.Date;
 import java.util.*;
 
+
+/**
+ * Implementació de la classe Document
+ * @author Gerard Alvarez
+ */
 public class Document {
 
+    /**
+     * Nom del document
+     */
     private String nom;
+    /**
+     * Data de creació
+     */
     private  Date Data_creacio;
+    /**
+     * Data ultima modificacio
+     */
     private Date Data_ultima_mod;
+    /**
+     * Numero de fulls
+     */
     private Integer numfulls =0;
+    /**
+     * Estructura on es guarden els fulls
+     */
     private final ArrayList<Full> fulls;
 
+
+    /**
+     * Constructora per defecte de Document, se li assigna el nom Untiled doc
+     */
     public Document(){
         this.nom = "Untiled_doc";
         Data_creacio= new Date();
         Data_ultima_mod =new Date();
         fulls=new ArrayList<>();
     }
-
+    /**
+     * Constructora de Document que li assigna el nom del parametre
+     * @param nom del full
+     */
     public Document(String nom) {
         this.nom = nom;
         Data_creacio= new Date();
@@ -33,13 +60,20 @@ public class Document {
         this.nom = nom;
     }
 
-
+    /**
+     * Funcio que afegeix el full del parametre al document
+     * @param full full a afegir
+     */
     public void afegir_full(Full full) {
 
         fulls.add(full);
         ++numfulls;
     }
 
+    /**
+     * Funcio que elimina el full del parametre del document
+     * @param Nomfull nom del full a eliminar
+     */
     public void elimina_full(String Nomfull) {
         boolean f=false;
         for (Full full : fulls ) {

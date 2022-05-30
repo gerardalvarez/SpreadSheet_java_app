@@ -17,8 +17,22 @@ import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
+
+/**
+ * Implementació de la classe Data Parser que transforma les instancies en el nostre propi format
+ * @author Gerard Alvarez
+ */
 public class DataParser {
 
+
+
+    /**
+     * Funcio que comprova si existeix algun document en el path amb el mateix nom, si no existeix el crea i guarda el nom al document parsejat.
+     * @param document Document a guardar
+     * @param path Path on es vol guardar
+     * @param fileName Nom del nou document
+     * @return si existeix o no
+     */
     public Boolean comprovaExisteix(Document document, String path, String fileName) throws IOException {
         File myObj = new File(path + "/" + fileName + ".fdc");
         System.out.println(path + "/" + fileName + ".fdc");
@@ -36,37 +50,15 @@ public class DataParser {
         }
     }
 
+    /**
+     * Funcio que sobreescriu el document del path amb el nom filename per les dades del document del paràmetre
+     * @param document Document a guardar
+     * @param path Path on es vol guardar
+     * @param fileName Nom del nou document
+     */
     public void guarda(Document document, String path, String fileName) throws Exception {
         FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".fdc");
         PrintWriter printWriter = new PrintWriter(fileWriter);
-
-
-        //ESto son hojas creadas para hacer pruebas ya que el doc que uso en el main está vacío
-
-        /*full extra para pruebas*//*
-        Full f=new Full(2,3);
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "1");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 0), "1");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "c");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "a");
-        f.SetNom("Hoja 1");
-        document.afegir_full(f);
-        *//*full extra para pruebas 2*//*
-        f=new Full(3,3);
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 0), "2");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 0), "2");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 0), "1");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(0, 1), "b");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(1, 1), "cc");
-        f.Modifica_Cela(new AbstractMap.SimpleEntry<>(2, 1), "2.02");
-        Cela aa= f.Consultar_cela(new AbstractMap.SimpleEntry<>(2, 0));
-        aa.getObservadors().add(new AbstractMap.SimpleEntry<>(2, 1));
-        f.SetNom("Hoja 2");
-        document.afegir_full(f);
-        */
-
 
         DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
         printWriter.print(document.getNom()+";"+dateFormat.format(document.getData_creacio())+";"+dateFormat.format(new Date())+"\n"+document.getFulls().size()+"\n");
@@ -117,6 +109,13 @@ public class DataParser {
             printWriter.close();
     }
 
+
+    /**
+     * Funcio que llegeix un document en el format propi i el passa a instància
+     * @param nom nom del document
+     * @param path Path d'on es vol carregar
+     * @return Instancia de document
+     */
     public Document carrega(String nom, String path) throws Exception {
 
         List<String> content = Files.readAllLines(Paths.get(path + "/" + nom));
@@ -152,7 +151,11 @@ public class DataParser {
 
         return d;
     }
-
+    /**
+     * Funcio auxiliar que crida carrega() per llegir una linea y passarla a instancia de cel·la
+     * @param x String que conte tota la informació d'una cel·la
+     * @return Instancia de cela
+     */
     public Cela leecela( String x){
         Cela c=null;
         Scanner scan = new Scanner(x);
@@ -214,6 +217,12 @@ public class DataParser {
         return c;
     }
 
+    /**
+     * Funcio que crea un document csv al path amb el nom filename amb les dades del parametre contigut
+     * @param contingut Matriu amb tots els texts de les cel·les
+     * @param path Path on es vol guardar
+     * @param fileName Nom del nou document
+     */
     public static void exportaCsv(String fileName, String path, String[][] contingut) throws IOException {
         File myObj = new File(path + "/" + fileName + ".csv");
         if (myObj.createNewFile()) {
@@ -233,6 +242,12 @@ public class DataParser {
         }
     }
 
+    /**
+     * Funcio que llegeix un document en el format csv i el passa a instància
+     * @param fileName nom del document
+     * @param path Path d'on es vol carregar
+     * @return
+     */
     public static List<List<String>> readCsv(String fileName, String path) throws FileNotFoundException {
         List<List<String>> files = new ArrayList<>();
         int size = 0;
@@ -246,13 +261,6 @@ public class DataParser {
         return files;
     }
 
-
-    public List<String> getdocs() throws IOException {
-
-
-        List<String> content = Files.readAllLines(Paths.get("src/main/CapaDades/DatabaseDocs"));
-        return content;
-    }
 
 
 

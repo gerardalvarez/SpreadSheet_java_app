@@ -99,7 +99,11 @@ public class PublicFuntions {
         return Tipus;
     }
 
-
+    /**
+     * Funcio que agafa les paraules separades entre "," i les guarda en una llista
+     * @param line Linia a analitzar
+     * @return retorna una llista de les paraules
+     */
     public static List<String> getRecordFromLine(String line) {
         List<String> values = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)) {
@@ -111,6 +115,13 @@ public class PublicFuntions {
         return values;
     }
 
+    /**
+     * Funcio que analitza si la sintaxis de l'operacio que es vol realitzar es correcta
+     * @param s contingut a analitzar
+     * @param y numero de files del full
+     * @param x numero de columnes del full
+     * @return String que indica si es una cel·la normal, referencia o error
+     */
     public static String analiza(String s, int y, int x) {
         String tipus="";
         String oper="";
@@ -194,6 +205,14 @@ public class PublicFuntions {
         return tipus;
     }
 
+
+    /**
+     * Funcio que analitza si la sintaxis de l'operacio que es vol realitzar es correcta
+     * @param s contingut a analitzar
+     * @param y numero de files del full
+     * @param x numero de columnes del full
+     * @return @return retorna la llista de cel·les que operen
+     */
     public static ArrayList<AbstractMap.SimpleEntry<Integer,Integer>> analizaops(String s, int y, int x) {
         String tipus="";
         String oper="";
@@ -313,7 +332,11 @@ public class PublicFuntions {
         }
         return number; }
 
-  //PRIVATE FUNCTIONS
+    /**
+     * Funcio que indica si un string es un numero
+     * @param strNum String a analitzar
+     * @return Bolea si es numero o no
+     */
     private static Boolean isNumerical(String strNum){
         if (strNum == null) return false;
 
@@ -325,6 +348,11 @@ public class PublicFuntions {
         return true;
     }
 
+    /**
+     * Funcio que indica si un string es una data
+     * @param strData String a analitzar
+     * @return Bolea si es data o no
+     */
     private static Boolean isData(String strData){
         DataValidator validator = new DateValidator("dd/MM/yyyy");
         if(validator.isValid(strData))return true;

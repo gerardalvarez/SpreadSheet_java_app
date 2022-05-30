@@ -843,7 +843,6 @@ public class Full {
         for (int i = 0; i < l.size(); i++) {
             if (!Celes.get(l.get(i)).getObservadors().contains(id)) Celes.get(l.get(i)).newObserver(id);
         }
-        System.out.println("vamooooooos"+Celes.get(id).getObservadors().size());
     }
 
     /**
@@ -856,7 +855,6 @@ public class Full {
         for (AbstractMap.SimpleEntry<Integer, Integer> i:l){
             Celes.get(i).getObservadors().remove(id);
         }
-        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
     }
 
     /**
@@ -957,7 +955,7 @@ public class Full {
     }
 
     /**
-     * Funcio que comprova els observadors de la cel·la amb id "id".
+     * Funcio que comprova els observadors de la cel·la amb id "id" i els actualitza.
      * @param id identificador de la cel·la
      * @throws Exception sino s'ha pogut accedir a les seves observadores
      */
@@ -987,8 +985,8 @@ public class Full {
     /**
      * Funcio que analitza si la sintaxis de l'operacio que es vol realitzar es correcta
      * @param ops contingut a analitzar
-     * @param y identificador de columna
-     * @param x identificador de fila
+     * @param y numero de files del full
+     * @param x numero de columnes del full
      * @return si es correcta la sintaxis o no
      */
     public Boolean analitzablocs(String ops, Integer y, Integer x) {
@@ -1056,11 +1054,11 @@ public class Full {
     }
 
     /**
-     * Funcio que analitza si la sintaxis de l'operacio que es vol realitzar i retorna la llista de cel·les que operen.
+     * Funcio que analitza si la sintaxis de l'operacio que es vol amb blocs i retorna la llista de cel·les que operen.
      * @param ops contingut que analitza
-     * @param y index de les columnes
-     * @param x index de les files
-     * @return retorna la
+     * @param y numero de files del full
+     * @param x numero de columnes del full
+     * @return retorna la llista de cel·les que operen amb dos blocs separats per un id -2, -2
      */
     private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> analitzablocs_ops(String ops, Integer y, Integer x) {
         String tipus="";

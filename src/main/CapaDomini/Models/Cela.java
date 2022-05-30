@@ -26,7 +26,7 @@ public abstract class Cela{
      */
     protected  AbstractMap.SimpleEntry<Integer , Integer> id;
     /**
-     * Eñ resultat final es l'String on es guarda el resultat que apareixerà mostrat a la Cela
+     * El resultat final es l'String on es guarda el resultat que apareixerà mostrat a la Cela
      */
     protected  String resultat_final;
     /**
