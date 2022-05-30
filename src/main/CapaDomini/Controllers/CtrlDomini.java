@@ -90,6 +90,20 @@ public class CtrlDomini {
         docu.setNom(nom);
     }
 
+
+
+    public String getnomDoc(){
+        return docu.getNom();
+    }
+
+    public String getdataDoc(){
+        return docu.getData_creacio().toString();
+    }
+
+    public String getdatamodDoc(){
+        return docu.getData_ultima_mod().toString();
+    }
+
     //FULLS
 
     /**
