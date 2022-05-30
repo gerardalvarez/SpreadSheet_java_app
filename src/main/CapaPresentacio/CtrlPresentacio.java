@@ -713,4 +713,16 @@ public class CtrlPresentacio {
     public Boolean ComprovaExisteixCSV(String fileName, File path) throws IOException {
         return Cd.ComprovaExisteixCSV(fileName, path);
     }
+
+    public String get_data_doc() {
+        return Cd.getdataDoc();
+    }
+
+    public String get_data_mod_doc() {
+        return Cd.getdatamodDoc();
+    }
+
+    public int get_num_fulls() {
+        return Cd.getnumfulls();
+    }
 }

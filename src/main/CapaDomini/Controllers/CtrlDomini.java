@@ -1125,4 +1125,8 @@ public class CtrlDomini {
         p = p.replace("\\", "/");
         return dp.comprovaExisteixCSV(docu, p, fileName);
     }
+
+    public int getnumfulls() {
+        return docu.getNumfulls();
+    }
 }
