@@ -1103,4 +1103,17 @@ public class CtrlDomini {
         p = p.replace("\\", "/");
         return dp.comprovaExisteix(docu, p, fileName);
     }
+
+    /**
+     * Funcio que comprova si un CSV en path ja ha estat guardat
+     * @param fileName nom del document
+     * @param path path on podria ser guardat
+     * @return true si ja existeix, si no fals
+     * @throws IOException Exepcio en cas d'error
+     */
+    public Boolean ComprovaExisteixCSV(String fileName, File path) throws IOException {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        return dp.comprovaExisteixCSV(docu, p, fileName);
+    }
 }

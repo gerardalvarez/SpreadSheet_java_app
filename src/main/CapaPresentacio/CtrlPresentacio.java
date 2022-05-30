@@ -702,4 +702,15 @@ public class CtrlPresentacio {
     public Boolean ComprovaDocExisteix(String fileName, File path) throws IOException {
         return Cd.ComprovaDocExisteix(fileName, path);
     }
+
+    /**
+     * Funcio que crida ctrl domini que comprova si un csv en path ja ha estat guardat
+     * @param fileName nom del document
+     * @param path path on podria ser guardat
+     * @return true si ja existeix, si no fals
+     * @throws IOException Exepcio en cas d'error
+     */
+    public Boolean ComprovaExisteixCSV(String fileName, File path) throws IOException {
+        return Cd.ComprovaExisteixCSV(fileName, path);
+    }
 }

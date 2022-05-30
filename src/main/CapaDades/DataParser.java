@@ -51,6 +51,30 @@ public class DataParser {
     }
 
     /**
+     * Funcio que comprova si existeix algun document CSV en el path amb el mateix nom, si no existeix el crea i guarda el nom al document parsejat.
+     * @param document Document a guardar
+     * @param path Path on es vol guardar
+     * @param fileName Nom del nou document
+     * @return si existeix o no
+     */
+    public Boolean comprovaExisteixCSV(Document document, String path, String fileName) throws IOException {
+        File myObj = new File(path + "/" + fileName + ".csv");
+        System.out.println(path + "/" + fileName + ".csv");
+        if (myObj.createNewFile()) {
+            System.out.println("File created: " + myObj.getName());
+            FileWriter fileWriter = new FileWriter(path + "/" + fileName + ".csv",true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(document.getNom()+"\n");
+            printWriter.flush();
+            printWriter.close();
+            return false;
+        } else {
+            System.out.println("File already exists.");
+            return true;
+        }
+    }
+
+    /**
      * Funcio que sobreescriu el document del path amb el nom filename per les dades del document del paràmetre
      * @param document Document a guardar
      * @param path Path on es vol guardar
