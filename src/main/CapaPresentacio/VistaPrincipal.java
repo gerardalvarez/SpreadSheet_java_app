@@ -3,19 +3,18 @@ package main.CapaPresentacio;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import main.CapaDomini.Models.Cela;
+import main.CapaDomini.Models.PublicFuntions;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import javax.swing.*;
-import main.CapaDomini.Models.PublicFuntions;
 import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -132,7 +131,6 @@ public class VistaPrincipal extends JFrame {
         JMenuItem canvifull = new JMenuItem("Canviar full");
         JMenuItem guardar = new JMenuItem("Guardar");
         JMenuItem guardarCom = new JMenuItem("Guardar com");
-        JMenuItem canviarNomDoc = new JMenuItem("Canviar Nom");
         JMenuItem obrir = new JMenuItem("Obrir");
         JMenu exportar = new JMenu("Exportar");
         JMenu importar = new JMenu("Importar");
@@ -145,7 +143,6 @@ public class VistaPrincipal extends JFrame {
 
         fitxer.add(guardar);
         fitxer.add(guardarCom);
-        fitxer.add(canviarNomDoc);
         fitxer.add(obrir);
         fitxer.add(exportar);
         fitxer.add(importar);
@@ -315,15 +312,6 @@ public class VistaPrincipal extends JFrame {
                         JOptionPane.showMessageDialog(this, "El fitxer no s'ha exportat correctament", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            }
-        });
-
-        canviarNomDoc.addActionListener(e -> {
-            String nom = JOptionPane.showInputDialog(this, "Introdueixi el nou nom del Document", "Canvi nom", JOptionPane.INFORMATION_MESSAGE);
-            if (!nom.isBlank()) {
-                cp.NouNomDoc(nom);
-                NomDocu = nom;
-                NomDocument.setText(NomDocu);
             }
         });
 
@@ -1168,13 +1156,13 @@ public class VistaPrincipal extends JFrame {
                 try {
 
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = Integer.parseInt(rowIniField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText().toUpperCase());
 
                     col2 = Integer.parseInt(colField2.getText());
-                    rowF = Integer.parseInt(rowFiField2.getText());
+                    rowF = RowtoNumber(rowFiField2.getText().toUpperCase());
 
-                    Frowin = Integer.parseInt(rowIniField4.getText());
-                    Frowdest = Integer.parseInt(rowFiField4.getText());
+                    Frowin = RowtoNumber(rowIniField4.getText().toUpperCase());
+                    Frowdest = RowtoNumber(rowFiField4.getText().toUpperCase());
 
                     Fcolin = Integer.parseInt(colField3.getText());
                     Fcoldest = Integer.parseInt(colField33.getText());
@@ -1272,13 +1260,13 @@ public class VistaPrincipal extends JFrame {
                 Integer rowF,col,rowI2,col2, Frowin,Frowdest,Fcolin,Fcoldest;
                 try {
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = Integer.parseInt(rowIniField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText().toUpperCase());
 
                     col2 = Integer.parseInt(colField2.getText());
-                    rowF = Integer.parseInt(rowFiField2.getText());
+                    rowF = RowtoNumber(rowFiField2.getText().toUpperCase());
 
-                    Frowin = Integer.parseInt(rowIniField4.getText());
-                    Frowdest = Integer.parseInt(rowFiField4.getText());
+                    Frowin = RowtoNumber(rowIniField4.getText().toUpperCase());
+                    Frowdest = RowtoNumber(rowFiField4.getText().toUpperCase());
 
                     Fcolin = Integer.parseInt(colField3.getText());
                     Fcoldest = Integer.parseInt(colField33.getText());
@@ -1367,10 +1355,10 @@ public class VistaPrincipal extends JFrame {
                 Integer rowF,col,rowI2,col2;
                 try {
                     col = Integer.parseInt(colField1.getText());
-                    rowI2 = Integer.parseInt(rowIniField2.getText());
+                    rowI2 = RowtoNumber(rowIniField2.getText().trim());
 
                     col2 = Integer.parseInt(colField2.getText());
-                    rowF = Integer.parseInt(rowFiField2.getText());
+                    rowF = RowtoNumber(rowFiField2.getText().toUpperCase());
 
                 } catch (NumberFormatException ex){
                     JOptionPane.showMessageDialog(new JFrame(), "El bloc no és vàlid", "Error", JOptionPane.ERROR_MESSAGE);

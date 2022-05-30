@@ -1,9 +1,3 @@
-/**
- * Implementacio de la classe DataCela seguint el nostre UML. Classe que implementaran les Celes Data
- * @file DataCela.java
- * @author Gerard Castell
- * @date 2022
- */
 package main.CapaDomini.Models;
 
 import java.time.LocalDate;
@@ -14,6 +8,7 @@ import static main.CapaDomini.Models.PublicFuntions.monthToData;
 /**
  * Classe de DataCela. Classe que extend de la classe Cela.
  * Aquesta esta feta per guardar totes les caracteristiques propies de les dates
+ * @author Gerard Castell
  */
 public class DataCela extends Cela {
 

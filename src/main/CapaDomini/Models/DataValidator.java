@@ -9,6 +9,7 @@ package main.CapaDomini.Models;
 /**
  * Interficie DataValidator amb funcio isValid.
  * Validar Dates
+ * @author Gerard Castell
  */
 public interface DataValidator {
     boolean isValid(String dateStr);

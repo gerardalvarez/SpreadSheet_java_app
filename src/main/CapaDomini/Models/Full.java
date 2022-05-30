@@ -1,10 +1,3 @@
-/**
- * @file Full.java
- * @author Miguel Frias
- * @date 28/05/2022
- * @brief Implementació de la classe Full
- */
-
 package main.CapaDomini.Models;
 
 
@@ -13,6 +6,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+/**
+ * Implementacio de la classe full
+ * @author Miguel Frias, Marc Castells, Gerard Castell
+ */
 public class Full {
     /**
      * Nom del full. Exemple: Full 1

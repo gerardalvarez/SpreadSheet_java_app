@@ -1,9 +1,3 @@
-/**
- * Implementacio de la classe DateValidator
- * @file DateValidator.java
- * @author Gerard Castell
- * @date 2022
- */
 package main.CapaDomini.Models;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -11,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * Classe que permet validar si una data compleix el format correcte o no
+ * @author Gerard Castell
  */
 public class DateValidator implements DataValidator {
     /**

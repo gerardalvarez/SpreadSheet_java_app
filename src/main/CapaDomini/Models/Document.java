@@ -5,7 +5,7 @@ import java.util.*;
 
 
 /**
- * Implementació de la classe Document
+ * Implementacio de la classe Document
  * @author Gerard Alvarez
  */
 public class Document {
@@ -15,7 +15,7 @@ public class Document {
      */
     private String nom;
     /**
-     * Data de creació
+     * Data de creacio
      */
     private  Date Data_creacio;
     /**

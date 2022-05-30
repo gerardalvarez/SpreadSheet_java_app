@@ -1,15 +1,10 @@
-/**
- * Implementacio de la classe TextCela seguint el nostre UML. Classe que implementaran les Celes Text
- * @file Text.java
- * @author Gerard Castell
- * @date 2022
- */
 package main.CapaDomini.Models;
 import java.util.AbstractMap;
 
 /**
  * Classe de TextCela. Classe que extend de la classe Cela.
  * Aquesta esta feta per guardar totes les caracteristiques propies de Text
+ * @author Gerard Castell
  */
 public class TextCela extends Cela{
 

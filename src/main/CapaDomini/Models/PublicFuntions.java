@@ -1,9 +1,3 @@
-/**
- * Implementacio de la PublicFunctions
- * @file PublicFuntions.java
- * @author Gerard Castell i Gerard Alvarez
- * @date 2022
- */
 package main.CapaDomini.Models;
 
 import java.util.AbstractMap;
@@ -13,6 +7,7 @@ import java.util.Scanner;
 
 /**
  * Public Funtions es la classe on trobem les diferents operacions que no engloben un model i que poden ser usades per qualsevol altre classe
+ * @author Gerard Castell i Gerard Alvarez
  */
 public class PublicFuntions {
 

@@ -1,9 +1,3 @@
-/**
- * Implementacio de la classe CelaRefNum seguint el nostre UML. Classe que implementaran les Celes Ref de Numero
- * @file CelaRefNum.java
- * @author Gerard Castell
- * @date 2022
- */
 package main.CapaDomini.Models;
 
 import java.math.BigDecimal;
@@ -11,6 +5,7 @@ import java.util.AbstractMap;
 /**
  * Classe de CelaRefNum. Classe que extend de la classe Numero.
  * Aquesta esta feta per les referencies ja que guarda a contingut la referencia
+ * @author Gerard Castell
  */
 public class CelaRefNum extends Numero{
     //VARIABLE

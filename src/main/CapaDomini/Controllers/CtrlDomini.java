@@ -1,10 +1,3 @@
-/**
- * Implementacio del Controlador de Domini
- * @file CtrlDomini.java
- * @author Gerard Castell, Marc Castells i Gerard Alvarez
- * @date 2022
- */
-
 package main.CapaDomini.Controllers;
 
 import main.CapaDades.DataParser;
@@ -19,6 +12,7 @@ import java.util.*;
 
 /**
  * Ctrl Domini es la classe encarregada de comunicar la Capa de Domini amb les altres capes, la d ePresentacio i la de Dades.
+ * @author Gerard Castell, Marc Castells i Gerard Alvarez
  */
 public class CtrlDomini {
     /**

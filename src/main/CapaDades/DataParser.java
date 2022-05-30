@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 /**
  * Implementació de la classe Data Parser que transforma les instancies en el nostre propi format
  * @author Gerard Alvarez
+ * @author Marc Castells
  */
 public class DataParser {
 

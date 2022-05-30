@@ -37,26 +37,10 @@ public class CtrlPresentacio {
     public CtrlPresentacio() throws Exception {
         Cd = new CtrlDomini();
         FlatIntelliJLaf.setup();
-        vc = new VistaPrincipal("Excel", this);
+        vc = new VistaPrincipal("Full de Càlcul", this);
         vc.setVisible(true);
     }
     //DOCUMENTS
-
-    /**
-     * Funcio que crida ctrl domini per crea un document
-     * @param doc  nom que li volem possar al document
-     */
-    public void crearDoc(String doc){
-        Cd.CrearDocument(doc);
-    }
-
-    /**
-     * Funcio que crida ctrl domini per canviar el nom d'un document
-     * @param doc nou nom del doc
-     */
-    public void NouNomDoc(String doc){
-        Cd.CanviarNomDoc(doc);
-    }
 
     /**
      * Funcio que crida ctrl domini per agafar els fulls de un document

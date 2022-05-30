@@ -1,16 +1,10 @@
-/**
- * Implementacio de la classe CelaRefText seguint el nostre UML. Classe que implementaran les Celes Ref de Text
- * @file CelaRefText.java
- * @author Gerard Castell
- * @date 2022
- */
-
 package main.CapaDomini.Models;
 import java.util.AbstractMap;
 
 /**
  * Classe de CelaRefText. Classe que extend de la classe TextCela.
  * Aquesta esta feta per les referencies ja que guarda a contingut la referencia
+ * @author Gerard Castell
  */
 public class CelaRefText extends TextCela{
     //VARIABLE

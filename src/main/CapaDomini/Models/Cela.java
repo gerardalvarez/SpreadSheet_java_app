@@ -1,11 +1,3 @@
-/**
- * Implementacio de la classe Cela seguint el nostre UML. Clase que es implementada per totes les cel·les del nostre Full ce Calcul.
- * @file Cela.java
- * @author Gerard Castell
- * @date 2022
- */
-
-
 package main.CapaDomini.Models;
 
 import java.awt.*;
@@ -17,6 +9,7 @@ import java.util.StringTokenizer;
 /**
  * Classe abstracta Cela. Es abstracta ja que no es pot crear una instancia d'aquesta.
  * Serveix per englobar els atributs de les classes TextCela, DataCela i Numero.
+ * @author Gerard Castell
  */
 public abstract class Cela{
 

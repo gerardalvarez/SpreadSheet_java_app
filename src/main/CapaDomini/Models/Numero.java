@@ -1,22 +1,32 @@
+package main.CapaDomini.Models;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.AbstractMap;
+
+import static java.lang.Math.PI;
+
 /**
  * Aquesta classe representa una cel·la de tipus numero i conte totes les operacions propies que es puguin fer en ella
  * @author Marc Castells
  */
 
-package main.CapaDomini.Models;
-
-import java.awt.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-
-import static java.lang.Math.PI;
-
 public class Numero extends Cela implements Cloneable{
+    /**
+     * Resultat del Numero
+     */
     protected BigDecimal resultat;
+    /**
+     * Boolea que indica si arrodonim o trunquem
+     */
     protected Boolean arrodonit;
+    /**
+     * Numero de decimals a mostrar
+     */
     protected Integer num_Decimals;
+    /**
+     * Tipus de cel·la numero
+     */
     protected Tipus_Numero tipus;
 
 
