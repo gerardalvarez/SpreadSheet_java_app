@@ -90,22 +90,31 @@ public class CtrlDomini {
         docu.setNom(nom);
     }
 
-
-
+    /**
+     * Funcio que retorna nom del document
+     * @return nom del doc
+     */
     public String getnomDoc(){
         return docu.getNom();
     }
 
+    /**
+     * Funcio que retorna data creacio del doc
+     * @return data
+     */
     public String getdataDoc(){
         return docu.getData_creacio().toString();
     }
 
+    /**
+     * Funcio que retorna data de modificacio
+     * @return data modificacio
+     */
     public String getdatamodDoc(){
         return docu.getData_ultima_mod().toString();
     }
 
     //FULLS
-
     /**
      * Funcio que permet canviar el nom a un full
      * @param antic el nom actual del full al qual volem canviar el nom
@@ -316,7 +325,7 @@ public class CtrlDomini {
      * Funcio que calcula el increment de una Cela numerica: ++Cela
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaIncrement(String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
@@ -335,7 +344,7 @@ public class CtrlDomini {
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
      * @param idRemp  identificador de la cela on colocarem el nou valor
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaIncrementIReemplaca(String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -347,7 +356,7 @@ public class CtrlDomini {
      * Funcio que calcula la reduccio de una cela numerica: --Cela.
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
-     * @return el nou valor de la cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'error
      */
     public int CalculaReduir(String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
@@ -366,7 +375,7 @@ public class CtrlDomini {
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
      * @param idRemp  identificador de la cela on colocarem el nou valor
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaReduirIReemplaca(String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -379,7 +388,7 @@ public class CtrlDomini {
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
      * @param exp exponent de la potencia
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaPotencia(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
@@ -399,7 +408,7 @@ public class CtrlDomini {
      * @param id identificador cela
      * @param idRemp  identificador de la cela on colocarem el nou valor
      * @param exp  exponent de la potencia
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaPotenciaIReemplaca(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -412,7 +421,7 @@ public class CtrlDomini {
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
      * @param exp radical de l'arrel
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaArrel(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp) throws Exception {
@@ -432,7 +441,7 @@ public class CtrlDomini {
      * @param id identificador cela
      * @param idRemp  identificador de la cela on colocarem el nou valor
      * @param exp  radical de l'arrel
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaArrelIReemplaca(String full, AbstractMap.SimpleEntry<Integer, Integer> id, Double exp, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -444,7 +453,7 @@ public class CtrlDomini {
      * Funcio que calcula valor absolut de una Cela numerica
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaValorAbs(String full, AbstractMap.SimpleEntry<Integer, Integer> id) throws Exception {
@@ -463,7 +472,7 @@ public class CtrlDomini {
      * @param full full de la Cela que volem comprovar
      * @param id identificador cela
      * @param idRemp  identificador de la cela on colocarem el nou valor
-     * @return retorna el nou valor de la Cela
+     * @return nombre segons l'estat
      * @throws Exception Exepcio en cas d'Error
      */
     public int CalculaValorAbsIReemplaca(String full, AbstractMap.SimpleEntry<Integer, Integer> id, AbstractMap.SimpleEntry<Integer, Integer> idRemp) throws Exception {
@@ -1104,7 +1113,16 @@ public class CtrlDomini {
         return dp.comprovaExisteix(docu, p, fileName);
     }
 
-    public int get_num_fulls() {
-        return docu.getNumfulls();
+    /**
+     * Funcio que comprova si un CSV en path ja ha estat guardat
+     * @param fileName nom del document
+     * @param path path on podria ser guardat
+     * @return true si ja existeix, si no fals
+     * @throws IOException Exepcio en cas d'error
+     */
+    public Boolean ComprovaExisteixCSV(String fileName, File path) throws IOException {
+        String p = path.toString();
+        p = p.replace("\\", "/");
+        return dp.comprovaExisteixCSV(docu, p, fileName);
     }
 }

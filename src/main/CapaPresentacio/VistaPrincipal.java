@@ -20,11 +20,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -288,12 +290,31 @@ public class VistaPrincipal extends JFrame {
             if (status == JFileChooser.APPROVE_OPTION) {
                 String fileName = savefile.getSelectedFile().getName();
                 File path = savefile.getCurrentDirectory();
+                Boolean existeix = false;
                 try {
-                    cp.exportarCSV(fileName, path, FullActual);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    existeix = cp.ComprovaExisteixCSV(fileName, path);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "El fitxer no s'ha exportat correctament", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else System.out.println("Cancelat");
+                if (existeix) {
+                    if(JOptionPane.showConfirmDialog(this, "Aquest fitxer ja existeix, els vols reemplaçar?", "Exportar CSV", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0){
+                        try {
+                            cp.exportarCSV(fileName, path, FullActual);
+                        } catch (Exception ex) {
+                            Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(this, "El fitxer no s'ha exportat correctament", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+                else {
+                    try {
+                        cp.exportarCSV(fileName, path, FullActual);
+                    } catch (Exception ex) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(this, "El fitxer no s'ha exportat correctament", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
         });
 
         canviarNomDoc.addActionListener(e -> {
@@ -1577,17 +1598,19 @@ public class VistaPrincipal extends JFrame {
         int status = savefile.showSaveDialog(this);
         if (status == JFileChooser.APPROVE_OPTION) {
             String fileName = savefile.getSelectedFile().getName();
-            NomDocu = fileName;
-            NomDocument.setText(NomDocu);
             File path = savefile.getCurrentDirectory();
             Boolean existeix = cp.ComprovaDocExisteix(fileName, path);
             if(existeix){
                 if(JOptionPane.showConfirmDialog(this, "Aquest fitxer ja existeix, els vols reemplaçar?", "Guardar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0){
                     cp.guardarDocument(fileName, path);
+                    NomDocu = fileName;
+                    NomDocument.setText(NomDocu);
                 }
             }
             else {
                 cp.guardarDocument(fileName, path);
+                NomDocu = fileName;
+                NomDocument.setText(NomDocu);
             }
         } else System.out.println("Cancelat");
     }

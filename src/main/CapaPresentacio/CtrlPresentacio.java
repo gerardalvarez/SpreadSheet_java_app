@@ -703,14 +703,14 @@ public class CtrlPresentacio {
         return Cd.ComprovaDocExisteix(fileName, path);
     }
 
-    public String get_data_doc(){
-        return Cd.getdataDoc();
-    }
-    public String get_data_mod_doc(){
-        return Cd.getdatamodDoc();
-    }
-
-    public int get_num_fulls(){
-        return Cd.get_num_fulls();
+    /**
+     * Funcio que crida ctrl domini que comprova si un csv en path ja ha estat guardat
+     * @param fileName nom del document
+     * @param path path on podria ser guardat
+     * @return true si ja existeix, si no fals
+     * @throws IOException Exepcio en cas d'error
+     */
+    public Boolean ComprovaExisteixCSV(String fileName, File path) throws IOException {
+        return Cd.ComprovaExisteixCSV(fileName, path);
     }
 }
