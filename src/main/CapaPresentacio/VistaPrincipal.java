@@ -191,6 +191,7 @@ public class VistaPrincipal extends JFrame {
         vowelsButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Vocals.svg",55,40));
         wordsButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Word.svg",55,40));
         charsButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Char.svg",55,40));
+        diaSemanalButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/DiaSetmana.svg",32,32));
 
         NomFull.setText(FullActual);
         NomDocument.setText(NomDocu);
