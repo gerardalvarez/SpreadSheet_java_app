@@ -1,8 +1,3 @@
-/**
- * Classe de la vista principal del nostre sistema
- * @author Marc Castells
- * @author Gerard Castell
- */
 
 package main.CapaPresentacio;
 
@@ -32,6 +27,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
+/**
+ * Classe de la vista principal del nostre sistema
+ * @author Marc Castells
+ * @author Gerard Castell
+ */
 public class VistaPrincipal extends JFrame {
     private JTable Full;
     private JPanel panel1;
@@ -158,11 +158,6 @@ public class VistaPrincipal extends JFrame {
         fulls.add(canviarNomFull);
         fulls.add(canvifull);
         menuBar.add(fulls);
-        infoButton=new JButton("Informació");
-        infoButton.setBorderPainted(false);
-        //infoButton.setFocusPainted(false);
-        //infoButton.setContentAreaFilled(false);
-        menuBar.add(infoButton);
 
         super.setIconImage(new ImageIcon (Objects.requireNonNull(getClass().getClassLoader().getResource("main/CapaPresentacio/Icons/App_Logo.png"))).getImage());
         IncrementarButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Incrementar.svg",15,22));
@@ -185,6 +180,17 @@ public class VistaPrincipal extends JFrame {
         eliminarFilaButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/deleteRow.svg",28,28));
         majusculesButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/UpperCase.svg",28,28));
         minusculesButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/LowerCase.svg",28,28));
+        DDButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/day.svg", 96, 28));
+        MMButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/month.svg", 96, 28));
+        AAAAButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/year.svg", 96, 28));
+        dateTextButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/DataText.svg",28,28));
+        textDateButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/TextData.svg",28,28));
+        ordenaBlocButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/OrdenaBloc.svg",22,22));
+        Copia.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Copia.svg",22,22));
+        Operabloc.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Bloc.svg",22,22));
+        vowelsButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Vocals.svg",55,40));
+        wordsButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Word.svg",55,40));
+        charsButton.setIcon(new FlatSVGIcon("main/CapaPresentacio/Icons/Char.svg",55,40));
 
         NomFull.setText(FullActual);
         NomDocument.setText(NomDocu);
@@ -198,12 +204,6 @@ public class VistaPrincipal extends JFrame {
         AtomicBoolean modificat = new AtomicBoolean(false);
         dataVector = false;
 
-
-        infoButton.addActionListener(e -> {
-
-            JOptionPane.showMessageDialog(this, "Nom:   "+NomDocu+"\n\nData creació:   "+cp.get_data_doc()+"\n\nData última modificació:   "+cp.get_data_mod_doc()+"\n\nNumero de fulls:   "+cp.get_num_fulls(), "Informació del document", JOptionPane.INFORMATION_MESSAGE);
-
-        });
 
 
         guardar.addActionListener(e -> {
@@ -1637,7 +1637,7 @@ public class VistaPrincipal extends JFrame {
 
                 if (result_2 == JOptionPane.OK_OPTION) {
                     if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
-                        Integer row = RowtoNumber(rowField.getText());
+                        Integer row = RowtoNumber(rowField.getText().toUpperCase());
                         Integer col = Integer.parseInt(colField.getText());
 
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
@@ -1701,7 +1701,7 @@ public class VistaPrincipal extends JFrame {
 
                 if (result_2 == JOptionPane.OK_OPTION) {
                     if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
-                        Integer row = RowtoNumber(rowField.getText());
+                        Integer row = RowtoNumber(rowField.getText().toUpperCase());
                         Integer col = Integer.parseInt(colField.getText());
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         if (cp.ComprovarId(FullActual, CelaRemp)) {
@@ -1765,7 +1765,7 @@ public class VistaPrincipal extends JFrame {
 
                 if (result_2 == JOptionPane.OK_OPTION) {
                     if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
-                        Integer row = RowtoNumber(rowField.getText());
+                        Integer row = RowtoNumber(rowField.getText().toUpperCase());
                         Integer col = Integer.parseInt(colField.getText());
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         if (cp.ComprovarId(FullActual, CelaRemp)) {
@@ -1827,7 +1827,7 @@ public class VistaPrincipal extends JFrame {
 
                 if (result_2 == JOptionPane.OK_OPTION) {
                     if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
-                        Integer row = RowtoNumber(rowField.getText());
+                        Integer row = RowtoNumber(rowField.getText().toUpperCase());
                         Integer col = Integer.parseInt(colField.getText());
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         if (cp.ComprovarId(FullActual, CelaRemp)) {
@@ -1905,7 +1905,7 @@ public class VistaPrincipal extends JFrame {
 
                 if (result_2 == JOptionPane.OK_OPTION) {
                     if (!rowField.getText().isBlank() && !colField.getText().isBlank()) {
-                        Integer row = RowtoNumber(rowField.getText());
+                        Integer row = RowtoNumber(rowField.getText().toUpperCase());
                         Integer col = Integer.parseInt(colField.getText());
                         AbstractMap.SimpleEntry<Integer, Integer> CelaRemp = new AbstractMap.SimpleEntry<>(row - 1, col - 1);
                         if (cp.ComprovarId(FullActual, CelaRemp)) {

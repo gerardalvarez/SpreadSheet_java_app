@@ -300,19 +300,19 @@
           <component id="212ed" class="javax.swing.JButton" binding="dateTextButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Data a Text"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="adce5" class="javax.swing.JButton" binding="DDButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Dia"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="7f217" class="javax.swing.JButton" binding="MMButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Mes"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
@@ -329,19 +329,19 @@
           <component id="16d57" class="javax.swing.JButton" binding="textDateButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Text a Data"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="2b257" class="javax.swing.JButton" binding="AAAAButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Any"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="1239a" class="javax.swing.JButton" binding="diaSemanalButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Dia semanal"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
@@ -404,19 +404,19 @@
           <component id="555ad" class="javax.swing.JButton" binding="wordsButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Words"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="2ca0b" class="javax.swing.JButton" binding="charsButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Chars"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="4154f" class="javax.swing.JButton" binding="vowelsButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Vowels"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
@@ -481,19 +481,19 @@
           <component id="1fb6" class="javax.swing.JButton" binding="Operabloc">
             <constraints/>
             <properties>
-              <text value="Opera bloc"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="91026" class="javax.swing.JButton" binding="Copia">
             <constraints/>
             <properties>
-              <text value="Copia"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="1c8e0" class="javax.swing.JButton" binding="ordenaBlocButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Ordena Bloc"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
